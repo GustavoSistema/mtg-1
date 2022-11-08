@@ -1,4 +1,4 @@
-<div wire:init="loadExpedientes">
+<div wire:init="loadExpedientes" wire:loading.attr="disabled" wire:target="delete,save">
 
 
     <div class="container mx-auto py-12">
@@ -229,22 +229,6 @@
             Galeria:
         </h1>
         <hr />
-
-
-        {{--              
-            <section class="h-full overflow-auto p-8 w-full h-full flex flex-col">
-                <ul id="gallery-{{$identificador}}" class="flex flex-1 flex-wrap -m-1">
-                    @foreach ($files as $fil)
-                        <li id="gallery-data" class="mx-2 text-center flex flex-col items-center justify-center items-center mb-4 hover:bg-gray-300">
-                            <img src="{{Storage::url($fil->ruta)}}" class="object-fill w-3/6 mb-4"/> 
-                            <a>                                    
-                                <i class="fas fa-trash hover:text-indigo-400"></i>
-                            </a>
-                        </li> 
-                    @endforeach 
-                  </ul>
-            </section> 
-            --}}
         @if (count($files) || count($otros))
             <section class="mt-4 overflow-hidden border-dotted border-2 text-gray-700 "
                 id="{{ 'section-' . $identificador }}">
@@ -297,7 +281,7 @@
         <x-jet-secondary-button wire:click="$set('editando',false)" class="mx-2">
             Cancelar
         </x-jet-secondary-button>
-        <x-jet-button wire:click="actualizar()" wire:loading.attr="disabled" wire:target="update,otros">
+        <x-jet-button wire:click="actualizar" wire:loading.attr="disabled" wire:target="update,otros">
             Actualizar
         </x-jet-button>
 

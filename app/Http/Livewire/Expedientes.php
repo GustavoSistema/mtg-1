@@ -86,7 +86,7 @@ class Expedientes extends Component
     public function edit(Expediente $expediente){        
         if($expediente->id!=null){
             $this->expediente=$expediente;           
-            $this->files=Imagen::where('Expediente_idExpediente','=',$this->expediente->id)->get();
+            $this->files=Imagen::where('Expediente_idExpediente','=',$expediente->id)->get();
             $this->identificador=rand();
             $this->editando=true;
 
@@ -128,19 +128,22 @@ class Expedientes extends Component
     }
 
     public function delete(Expediente $expediente){
-        $imgs=Imagen::where('Expediente_idExpediente','=',$this->expediente->id)->get();
+        $imgs=Imagen::where('Expediente_idExpediente','=',$expediente->id)->get();
         foreach($imgs as $img ){
-            Storage::delete([$img]);
+            Storage::delete($img->ruta);
         }
         $expediente->delete();        
         $this->emitTo('expedientes','render');
         $this->identificador=rand();
+        $this->resetPage();
     }
+
     public function deleteFile(Imagen $file){
-        Storage::delete([$file]);
+        Storage::delete([$file->ruta]);
         $file->delete();        
         $this->emitTo('expedientes','render');
         $this->identificador=rand();
+        $this->resetPage();
     }
 
     public function deleteFileUpload($id){
