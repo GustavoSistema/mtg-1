@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Livewire\Expedientes;
+use App\Http\Livewire\RevisionExpedientes;
+use App\Http\Livewire\Servicios;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,11 +19,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('phpmyinfo', function () {
+    phpinfo(); 
+})->name('phpmyinfo');
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
 ->group(function () {
     Route::get('/Expedientes',Expedientes::class)->name('expedientes');
-    Route::get('/dashboard', function () {
+    Route::get('/RevisionExpedientes',RevisionExpedientes::class)->name('revisionExpedientes');  
+    Route::get('/dashboard', function (){
         return view('dashboard');
     })->name('dashboard');
 });

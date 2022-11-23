@@ -12,6 +12,7 @@ class CreateNewUser implements CreatesNewUsers
 {
     use PasswordValidationRules;
 
+    
     /**
      * Validate and create a newly registered user.
      *
@@ -20,17 +21,21 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input)
     {
+        
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
+            'taller_idtaller'=>['required'],
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
-
+        
+        
         return User::create([
             'name' => $input['name'],
-            'email' => $input['email'],
+            'email' => $input['email'],            
             'password' => Hash::make($input['password']),
+            'taller_idtaller'=>$input['taller_idtaller'],
         ]);
     }
 }

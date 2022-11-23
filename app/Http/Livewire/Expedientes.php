@@ -5,9 +5,13 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\Expediente;
 use App\Models\Imagen;
+use App\Models\User;
+use Hamcrest\Core\HasToString;
 use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class Expedientes extends Component
 {
@@ -16,7 +20,8 @@ class Expedientes extends Component
 
     public $otros=[];
     public $files=[];
-    public $expediente,$identificador;
+    public $servicios=[];
+    public $idus,$expediente,$identificador;
     public $search="";
     public $cant="";
     public $sort="created_at";
@@ -28,7 +33,7 @@ class Expedientes extends Component
 
     protected $queryString=[
         'cant'=>['except'=>'10'],
-        'sort'=>['except'=>'placa'],
+        'sort'=>['except'=>'created_at'],
         'direction'=>['except'=>'desc'],
         'search'=>['except'=>'']
    ];
@@ -45,9 +50,17 @@ class Expedientes extends Component
     }
 
     public function mount(){
+        $this->idus=Auth::id();
         $this->identitifcador=rand();        
         $this->expediente= new Expediente();
         $this->cant="10";
+        $user=User::find($this->idus);
+                
+        $this->servicios= json_decode(DB::table('servicio')
+        ->select('servicio.*','tiposervicio.descripcion')
+        ->join('tiposervicio','servicio.tipoServicio_idtipoServicio','=','tiposervicio.id')
+        ->where('taller_idtaller',$user->taller_idtaller)
+        ->get(),true);  
     }
 
 
@@ -55,11 +68,21 @@ class Expedientes extends Component
 
     public function render()
     {
-        if($this->readyToLoad){
-            $expedientes=Expediente::where('placa','like','%'.$this->search.'%')
-                        ->orWhere('certificado','like','%'.$this->search.'%')
-                        ->orderBy($this->sort,$this->direction)
-                        ->paginate($this->cant);
+        if($this->readyToLoad){            
+            $expedientes= DB::table('expedientes') 
+            ->select('expedientes.*', 'tiposervicio.descripcion')             
+            ->join('servicio', 'expedientes.servicio_idservicio', '=', 'servicio.id')
+            ->join('tiposervicio', 'tiposervicio.id', '=', 'servicio.tipoServicio_idtipoServicio')           
+            ->where([
+                ['expedientes.placa','like','%'.$this->search.'%'],
+                ['expedientes.usuario_idusuario', '=', Auth::id()],                
+            ])
+            ->orWhere([
+                ['expedientes.certificado','like','%'.$this->search.'%'],
+                ['expedientes.usuario_idusuario', '=', Auth::id()],                
+            ])           
+            ->orderBy($this->sort,$this->direction)
+            ->paginate($this->cant);                 
         }else{
             $expedientes=[];
         }
@@ -89,7 +112,6 @@ class Expedientes extends Component
             $this->files=Imagen::where('Expediente_idExpediente','=',$expediente->id)->get();
             $this->identificador=rand();
             $this->editando=true;
-
         }
     }
 
@@ -103,14 +125,13 @@ class Expedientes extends Component
             $file_save->nombre=$this->expediente->placa;
             $file_save->ruta = $file->store('public/expedientes');
             $file_save->Expediente_idExpediente=$this->expediente->id;
-
             Imagen::create([
                 'nombre'=>$file_save->nombre,
                 'ruta'=>$file_save->ruta,
                 'Expediente_idExpediente'=>$file_save->Expediente_idExpediente,
             ]);
         }
-
+        $this->expediente->estado=1;
         $this->expediente->save();
 
         

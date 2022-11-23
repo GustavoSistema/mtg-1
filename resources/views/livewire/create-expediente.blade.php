@@ -5,21 +5,21 @@
 
     <x-jet-dialog-modal wire:model="open">
         <x-slot name="title">
-            Crear nuevo Expediente
-                      
+            Crear nuevo Expediente                      
         </x-slot>
         
-        <x-slot name="content">           
+        <x-slot name="content">             
             <div class="mb-4">
                 <select wire:model="servicio" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full ">
                     <option value="">Seleccione</option>
-                    <option value="1">Conversión a GNV</option>
-                    <option value="2">Revisión anual GNV</option>
-                    <option value="3">Conversión a GLP</option>
-                    <option value="4">Revisión anual GLP</option>                    
+                    @foreach ($servicios as $serv)
+                        <option value="{{ $serv['id']}}">{{ $serv['descripcion']}}</option> 
+                    @endforeach                             
                 </select>
                 <x-jet-input-error for="servicio"/>
             </div>
+            
+            
             <div class="mb-4">
                 <x-jet-label value="Placa:"/>
                 <x-jet-input type="text" class="w-full" wire:model="placa" />
@@ -31,12 +31,20 @@
                 <x-jet-input-error for="certificado"/>
             </div>            
             <div class="mb-4">
-                <x-jet-label value="Archivos:"/>
-                <x-jet-input type="file" id="{{$identificador}}" multiple class="w-full" wire:model="files" />
+                <x-jet-label value="fotos:"/>
+                <x-jet-input type="file" id="{{ $identificador }}" class="w-full" wire:model="files" accept=".jpg,.png,.jpeg,.gif,.bmp,.tif,.tiff" multiple/>
                 <x-jet-input-error for="files"/>
+            </div>
+            <div class="mb-4">
+                <x-jet-label value="Archivos:"/>
+                <x-jet-input type="file" id="{{ $identificador }}-docs"  class="w-full" wire:model="documentos" accept=".pdf,.xls,.docx" multiple/>
+                <x-jet-input-error for="documentos"/>
             </div>
             <div wire:loading wire:target="files"  class="my-4 w-full px-6 py-4 text-center font-bold bg-indigo-200 rounded-md">
                 Espere un momento mientras se carga la imagen.
+            </div> 
+            <div wire:loading wire:target="documentos"  class="my-4 w-full px-6 py-4 text-center font-bold bg-indigo-200 rounded-md">
+                Espere un momento mientras se cargan los documentos.
             </div> 
 
             <h1 class="pt-8  font-semibold sm:text-lg text-gray-900">
@@ -84,6 +92,47 @@
                       </ul>
                 </section>
             @endif 
+            @if ($documentos)
+            <h1>{{ $documentos[0]->extension()}}</h1>
+            <section class="mt-4 overflow-hidden border-dotted border-2 text-gray-700 " id="{{'section-'.$identificador}}">
+                <div class="container px-5 py-2 mx-auto lg:pt-12 lg:px-32">
+                    <div class="flex flex-wrap -m-1 md:-m-2">
+                        @foreach ($documentos as $key=>$fil)                        
+                         @switch($fil->extension())
+                             @case('pdf')
+                                <div class="flex flex-wrap w-1/5 ">
+                                    <div class="w-full p-1 md:p-2 items-center justify-center text-center">
+                                        <img alt="gallery" class="mx-auto flex object-cover object-center w-15 h-15 rounded-lg" src="/images/pdf.png">
+                                        <p class="truncate text-sm" > {{ $fil->hashName() }}</p>
+                                        <a class="flex" wire:click="deleteFileUpload({{ $key }})" ><i class="fas fa-trash mt-1 mx-auto hover:text-indigo-400"></i></a>
+                                    </div>
+                                </div>
+                            @break
+                             @case('xls')
+                             <div class="flex flex-wrap w-1/5 ">
+                                <div class="w-full p-1 md:p-2 items-center justify-center text-center">
+                                    <img alt="gallery" class="mx-auto flex object-cover object-center w-15 h-15 rounded-lg" src="/images/xls.png">
+                                    <p class="truncate text-sm" > {{$fil->hashName()}}</p>
+                                    <a class="flex" wire:click="deleteFileUpload({{ $key }})" ><i class="fas fa-trash mt-1 mx-auto hover:text-indigo-400"></i></a>
+                                </div>
+                            </div>
+                            @break
+                            @case('docx')
+                            <div class="flex flex-wrap w-1/5 ">
+                                 <div class="w-full p-1 md:p-2 items-center justify-center text-center">
+                                     <img alt="gallery" class="mx-auto flex object-cover object-center w-15 h-15 rounded-lg" src="/images/docx.png">
+                                     <p class="truncate text-sm" > {{$fil->hashName()}}</p>
+                                     <a class="flex" wire:click="deleteFileUpload({{ $key }})" ><i class="fas fa-trash mt-1 mx-auto hover:text-indigo-400"></i></a>
+                                 </div>
+                            </div>
+                            @break
+                            @default                                                             
+                         @endswitch   
+                        @endforeach
+                    </div>
+                </div>
+            </section>  
+            @endif
 
             
             {{--
@@ -109,7 +158,7 @@
             <x-jet-secondary-button wire:click="$set('open',false)" class="mx-2">
                 Cancelar
             </x-jet-secondary-button>
-            <x-jet-button wire:click="save" wire:loading.attr="disabled" wire:target="save">
+            <x-jet-button wire:click="save" wire:loading.attr="disabled" wire:target="save,files">
                 Guardar
             </x-jet-button>            
         </x-slot>
