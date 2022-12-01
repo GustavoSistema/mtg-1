@@ -271,16 +271,14 @@
         </h1>
         <hr />
         @if (count($files))
-            <section class="my-4 pb-4 overflow-hidden border-dotted border-2 text-gray-700 "
-                id="{{ 'section-' . $identificador }}">
+            <section class="my-4 pb-4 overflow-hidden border-dotted border-2 text-gray-700 ">
                 <div class="container px-5 py-2 mx-auto lg:pt-12 lg:px-32">
                     <div class="flex flex-wrap -m-1 md:-m-2">
                         @foreach ($files as $fil)
                             <div class="flex flex-wrap p-1 ">
                                 <div class="w-full items-center justify-center">
                                     <img alt="gallery"
-                                        class="mx-auto flex object-cover object-center w-full rounded-lg"
-                                        src="{{ Storage::url($fil->ruta) }}">
+                                        class="mx-auto flex object-cover object-center w-full rounded-lg" src="{{ Storage::url($fil->ruta) }}">
                                 </div>
                             </div>
                         @endforeach                        
@@ -289,7 +287,7 @@
             </section>
         @else
             <section class="h-full overflow-auto p-8 w-full h-full flex flex-col">
-                <ul id="gallery-{{ $identificador }}" class="flex flex-1 flex-wrap -m-1">
+                <ul id="gall-{{ $identificador }}" class="flex flex-1 flex-wrap -m-1">
                     <li id="empty"
                         class="h-full w-full text-center flex flex-col items-center justify-center items-center">
                         <img class="mx-auto w-32"
@@ -300,7 +298,41 @@
                 </ul>
             </section>
         @endif
+        <h1 class="pt-2  font-semibold sm:text-lg text-gray-900">
+            Documentos:
+        </h1>
         <hr />
+
+        @if (count($documentos))
+            <section class="mt-4  overflow-hidden border-dotted border-2 text-gray-700 "
+                id="{{ 'sections-' . $identificador }}">
+                <div class="container px-5 py-2 mx-auto lg:px-32">
+                    <div class="flex flex-wrap -m-1 md:-m-2">
+                        @foreach ($documentos as $fil)                            
+                            <div class="flex flex-wrap w-1/5 ">
+                                <div class="w-full p-1 md:p-2 items-center justify-center text-center">
+                                    <img alt="gallery" class="mx-auto flex object-cover object-center w-15 h-15 rounded-lg" src="/images/{{$fil->extension}}.png">
+                                    <p class="truncate text-sm" >{{ $fil->nombre }}</p>
+                                    <a class="flex" wire:click="download('{{$fil->ruta}}')"><i class="fas fa-download mt-1 mx-auto hover:text-indigo-400"></i></a>
+                                </div>
+                           </div>
+                        @endforeach
+                    </div>
+                </div>
+            </section>
+        @else
+            <section class="h-full overflow-auto p-8 w-full h-full flex flex-col">
+                <ul class="flex flex-1 flex-wrap -m-1">
+                    <li id="empty"
+                        class="h-full w-full text-center flex flex-col items-center justify-center items-center">
+                        <img class="mx-auto w-32"
+                            src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png"
+                            alt="no data" />
+                        <span class="text-small text-gray-500">Aun no seleccionaste ningún archivo</span>
+                    </li>
+                </ul>
+            </section>
+        @endif
         <div class="my-4">
             <x-jet-label value="Estado:" for="estado" />
             <select wire:model="expediente.estado"
@@ -353,6 +385,11 @@
                     )
                 }
             })
+        });
+    </script>
+    <script> 
+        window.livewire.on('startDownload', (ruta) => {            
+            window.open('download/'+ruta,'_blank');
         });
     </script>
 @endpush

@@ -5,17 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Imagen extends Model
+class Roles extends Model
 {
     use HasFactory;
-
-    protected $table = 'imagenes';
+    protected $table = 'roles';
 
     protected $fillable=
-    ['nombre',
-    'ruta',
-    'extension',
-    'estado',
-    'Expediente_idExpediente'    
+    ['id',
+    'name',       
     ];
 }

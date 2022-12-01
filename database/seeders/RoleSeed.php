@@ -20,8 +20,8 @@ class RoleSeed extends Seeder
         $admin=Role::create(['name'=>'administrador']);
         $inspector=Role::create(['name'=>'inspector']);
 
-        Permission::create(['name'=>'expedientes'])->syncRoles($admin);
-        Permission::create(['name'=>'expedientes'])->syncRoles($inspector);
+        Permission::create(['name'=>'expedientes'])->syncRoles([$admin,$inspector]);
+        Permission::create(['name'=>'revisionExpedientes'])->syncRoles([$admin]);                
 
     }
 }

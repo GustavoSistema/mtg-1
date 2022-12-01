@@ -19,7 +19,7 @@ class RevisionExpedientes extends Component
     use WithFileUploads;
     use WithPagination;
 
-   
+    public $documentos=[];
     public $files=[];    
     public $idus,$expediente,$identificador,$tipoServicio;
     public $search="";
@@ -100,7 +100,8 @@ class RevisionExpedientes extends Component
             $s=Servicio::find($expediente->servicio_idservicio);
             $ts=TipoServicio::find($s->tipoServicio_idtipoServicio);
             $this->tipoServicio=$ts->descripcion;               
-            $this->files=Imagen::where('Expediente_idExpediente','=',$expediente->id)->get();
+            $this->files=Imagen::where('Expediente_idExpediente','=',$expediente->id)->whereIn('extension',['jpg','jpeg','png','gif','tif','tiff','bmp'])->get();
+            $this->documentos=Imagen::where('Expediente_idExpediente','=',$expediente->id)->whereIn('extension',['pdf','xlsx','xls','docx','doc'])->get();
             $this->identificador=rand();
             $this->editando=true;
         }
@@ -114,6 +115,11 @@ class RevisionExpedientes extends Component
         $this->emit('alert','El expediente se actualizo correctamente');
         //$this->reset(['expediente']);   
         $this->identificador=rand();
+    }
+
+    public function download($ruta){   
+        // emit an event with the path        
+        $this->emit('startDownload',$ruta);
     }
 
     public function updated($propertyName)

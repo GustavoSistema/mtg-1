@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('login');
 });
 Route::get('phpmyinfo', function () {
     phpinfo(); 
@@ -25,9 +25,8 @@ Route::get('phpmyinfo', function () {
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
 ->group(function () {
-    Route::get('/Expedientes',Expedientes::class)->name('expedientes');
-    Route::get('/RevisionExpedientes',RevisionExpedientes::class)->name('revisionExpedientes');  
-    Route::get('/dashboard', function (){
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/Expedientes',Expedientes::class)->middleware('can:expedientes')->name('expedientes');
+    Route::get('/RevisionExpedientes',RevisionExpedientes::class)->middleware('can:revisionExpedientes')->name('revisionExpedientes');  
+    Route::get('/dashboard', function (){return view('dashboard');})->name('dashboard');
+    Route::get('download/{path}', function($path) { return Illuminate\Support\Facades\Storage::download($path);})->where('path','.*');
 });

@@ -215,15 +215,35 @@
 
     <x-slot name="content">
         <div class="mb-4">
-            <select wire:model="expediente.servicio_idservicio"
-                class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full ">
-                <option value="">Seleccione</option>
-                @foreach ($servicios as $serv)
-                        <option value="{{ $serv['id']}}">{{ $serv['descripcion']}}</option> 
-                @endforeach    
+            <x-jet-label value="Taller:" for="taller"/>
+            <select wire:model="tallerSeleccionado" wire:click="listaServicios" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full ">
+                <option value="0">Seleccione</option>
+                @foreach ($talleres as $taller)
+                    <option value="{{ $taller->id }}">{{ $taller->nombre }}</option> 
+                @endforeach                             
             </select>
-            <x-jet-input-error for="expediente.servicio_idservicio" />
-        </div>
+            <x-jet-input-error for="tallerSeleccionado"/>
+        </div>  
+        @if($servicios!=null)         
+            <div class="mb-4">
+                <x-jet-label value="Servicio:" for="servicio"/>
+                <select wire:model="servicioSeleccionado" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full ">
+                    <option value="">Seleccione</option>
+                    @foreach ($servicios as $serv)
+                        <option value="{{ $serv['id']}}">{{ $serv['descripcion']}}</option> 
+                    @endforeach                             
+                </select>
+                <x-jet-input-error for="servicioSeleccionado"/>
+            </div> 
+        @else
+            <div class="mb-4">
+                <x-jet-label value="Servicio:" for="servicio"/>
+                <select wire:model="servicioSeleccionado" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full ">
+                    <option value="">Seleccione un taller</option>                                              
+                </select>
+                <x-jet-input-error for="servicioSeleccionado"/>
+            </div>                 
+        @endif  
         <div class="mb-4">
             <x-jet-label value="Placa:" />
             <x-jet-input type="text" class="w-full" wire:model="expediente.placa" />
@@ -235,27 +255,28 @@
             <x-jet-input-error for="expediente.certificado" />
         </div>
         <div class="mb-4">
-            <x-jet-label value="Archivos:" />
-            <x-jet-input wire:model="otros" type="file" accept=".jpg,.png,.jpeg,.gif,.bmp,.tif,.tiff" multiple
-                id="{{ $identificador }}" class="w-full" />
-            <x-jet-input-error for="otros" />
+            <x-jet-label value="Fotos:" />
+            <x-jet-input wire:model="fotosnuevas" type="file" accept=".jpg,.png,.jpeg,.gif,.bmp,.tif,.tiff" multiple
+                id="fotos-{{ $identificador }}" class="w-full" />
+            <x-jet-input-error for="fotosnuevas" />
+            <x-jet-input-error for="fotosnuevas.*" />
         </div>
-        <div wire:loading wire:target="otros"
+        <div wire:loading wire:target="fotosnuevas"
             class="my-4 w-full px-6 py-4 text-center font-bold bg-indigo-200 rounded-md">
-            Espere un momento mientras se carga la imagen.
+            Procesando sus archivos, espere un momento...
         </div>
-        <h1 class="pt-8  font-semibold sm:text-lg text-gray-900">
-            Galeria:
+        <h1 class="pt-2  font-semibold sm:text-lg text-gray-900">
+            Galeria de fotos:
         </h1>
         <hr />
-        @if (count($files) || count($otros))
+        @if (count($files) || count($fotosnuevas))
             <section class="mt-4 overflow-hidden border-dotted border-2 text-gray-700 "
                 id="{{ 'section-' . $identificador }}">
-                <div class="container px-5 py-2 mx-auto lg:pt-12 lg:px-32">
+                <div class="container px-5 py-2 mx-auto lg:px-32">
                     <div class="flex flex-wrap -m-1 md:-m-2">
                         @foreach ($files as $fil)
                             <div class="flex flex-wrap w-1/3 ">
-                                <div class="w-full p-1 md:p-2 items-center justify-center">
+                                <div class="w-full p-1 items-center justify-center">
                                     <img alt="gallery"
                                         class="mx-auto flex object-cover object-center w-36 h-36 rounded-lg"
                                         src="{{ Storage::url($fil->ruta) }}">
@@ -264,10 +285,10 @@
                                 </div>
                             </div>
                         @endforeach
-                        @if (count($otros))
-                            @foreach ($otros as $key => $otro)
+                        @if (count($fotosnuevas))
+                            @foreach ($fotosnuevas as $key => $otro)
                                 <div class="flex flex-wrap w-1/3 ">
-                                    <div class="w-full p-1 md:p-2 items-center justify-center">
+                                    <div class="w-full p-1 items-center justify-center">
                                         <img alt="gallery"
                                             class="mx-auto flex object-cover object-center w-36 h-36 rounded-lg shadow-lg border-2 border-lime-500 hover:shadow-lime-500/50 "
                                             src="{{ $otro->temporaryUrl() }}">
@@ -277,6 +298,103 @@
                                 </div>
                             @endforeach
                         @endif
+                    </div>
+                </div>
+            </section>
+        @else
+            <section class="h-full overflow-auto p-8 w-full h-full flex flex-col">
+                <ul id="gallerys-{{ $identificador }}" class="flex flex-1 flex-wrap -m-1">
+                    <li id="empty"
+                        class="h-full w-full text-center flex flex-col items-center justify-center items-center">
+                        <img class="mx-auto w-32"
+                            src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png"
+                            alt="no data" />
+                        <span class="text-small text-gray-500">Aun no seleccionaste ningún archivo</span>
+                    </li>
+                </ul>
+            </section>
+        @endif
+        <div class="mt-6 mb-4">
+            <x-jet-label value="Documentos:" />
+            <x-jet-input wire:model="documentosnuevos" type="file" accept=".pdf,.xls,.xlsx,.doc,.docx,.txt" multiple
+                id="documentos-{{ $identificador }}" class="w-full" />
+            <x-jet-input-error for="documentosnuevos" />
+            <x-jet-input-error for="documentosnuevos.*" />
+        </div>
+        <div wire:loading wire:target="documentosnuevos"
+            class="my-4 w-full px-6 py-4 text-center font-bold bg-indigo-200 rounded-md">
+            Procesando sus archivos, espere un momento...
+        </div>
+        <h1 class="pt-1  font-semibold sm:text-lg text-gray-900">
+            Galeria de documentos:
+        </h1>
+        <hr/>
+        @if (count($documentos)|| count($documentosnuevos))
+            <section class="mt-4  overflow-hidden border-dotted border-2 text-gray-700 "
+                id="{{ 'sections-' . $identificador }}">
+                <div class="container px-5 py-2 mx-auto lg:px-32">
+                    <div class="flex flex-wrap -m-1 md:-m-2">
+                        @foreach ($documentos as $fil)
+                            {{--
+                            <div class="flex flex-wrap w-1/3 ">
+                                <div class="w-full p-1 md:p-1 items-center justify-center text-center">                                    
+                                    <img alt="gallery" class="mx-auto flex object-cover object-center w-15 h-15 rounded-lg" src="/images/{{$fil->extension}}.png">
+                                    <p class="truncate text-sm" >{{ $fil->nombre }}</p>
+                                    <a class="flex" wire:click="deleteFile({{ $fil->id }})"><i class="fas fa-trash mt-1 mx-auto hover:text-indigo-400"></i></a>
+                                </div>
+                            </div>
+                            --}}
+                            <div class="flex flex-wrap w-1/5 ">
+                                <div class="w-full p-1 md:p-2 items-center justify-center text-center">
+                                    <img alt="gallery" class="mx-auto flex object-cover object-center w-15 h-15 rounded-lg" src="/images/{{$fil->extension}}.png">
+                                    <p class="truncate text-sm" >{{ $fil->nombre }}</p>
+                                    <a class="flex" wire:click="deleteFile({{ $fil->id }})" ><i class="fas fa-trash mt-1 mx-auto hover:text-indigo-400"></i></a>
+                                </div>
+                           </div>
+                        @endforeach
+                        @if (count($documentosnuevos))
+                        @foreach ($documentosnuevos as $key=>$fil)                        
+                         @switch($fil->extension())
+                             @case('pdf')
+                                <div class="flex flex-wrap w-1/5 ">
+                                    <div class="w-full p-1 md:p-2 items-center justify-center text-center">
+                                        <img alt="gallery" class="mx-auto flex object-cover object-center w-15 h-15 rounded-lg" src="/images/pdf.png">
+                                        <p class="truncate text-sm" > {{ $fil->getClientOriginalName() }}</p>
+                                        <a class="flex" wire:click="deleteDocumentUpload({{ $key }})" ><i class="fas fa-trash mt-1 mx-auto hover:text-indigo-400"></i></a>
+                                    </div>
+                                </div>
+                            @break
+                             @case('xls')
+                             <div class="flex flex-wrap w-1/5 ">
+                                <div class="w-full p-1 md:p-2 items-center justify-center text-center">
+                                    <img alt="gallery" class="mx-auto flex object-cover object-center w-15 h-15 rounded-lg" src="/images/xls.png">
+                                    <p class="truncate text-sm" > {{ $fil->getClientOriginalName()}}</p>
+                                    <a class="flex" wire:click="deleteDocumentUpload({{ $key }})" ><i class="fas fa-trash mt-1 mx-auto hover:text-indigo-400"></i></a>
+                                </div>
+                            </div>
+                            @break
+                            @case('xlsx')
+                            <div class="flex flex-wrap w-1/5 ">
+                                 <div class="w-full p-1 md:p-2 items-center justify-center text-center">
+                                     <img alt="gallery" class="mx-auto flex object-cover object-center w-15 h-15 rounded-lg" src="/images/xlsx.png">
+                                     <p class="truncate text-sm" > {{ $fil->getClientOriginalName() }}</p>
+                                     <a class="flex" wire:click="deleteDocumentUpload({{ $key }})" ><i class="fas fa-trash mt-1 mx-auto hover:text-indigo-400"></i></a>
+                                 </div>
+                            </div>
+                            @break
+                            @case('docx')
+                            <div class="flex flex-wrap w-1/5 ">
+                                 <div class="w-full p-1 md:p-2 items-center justify-center text-center">
+                                     <img alt="gallery" class="mx-auto flex object-cover object-center w-15 h-15 rounded-lg" src="/images/docx.png">
+                                     <p class="truncate text-sm" > {{ $fil->getClientOriginalName() }}</p>
+                                     <a class="flex" wire:click="deleteDocumentUpload({{ $key }})" ><i class="fas fa-trash mt-1 mx-auto hover:text-indigo-400"></i></a>
+                                 </div>
+                            </div>
+                            @break
+                            @default                                                             
+                         @endswitch   
+                        @endforeach
+                    @endif                        
                     </div>
                 </div>
             </section>
@@ -300,7 +418,7 @@
         <x-jet-secondary-button wire:click="$set('editando',false)" class="mx-2">
             Cancelar
         </x-jet-secondary-button>
-        <x-jet-button wire:click="actualizar" wire:loading.attr="disabled" wire:target="update,otros">
+        <x-jet-button wire:click="actualizar" wire:loading.attr="disabled" wire:target="update,documentosnuevos,fotosnuevas">
             Actualizar
         </x-jet-button>
 

@@ -13,6 +13,8 @@ class Expediente extends Model
     'certificado',
     'fecha',
     'estado',
+    'idTaller',
+    'idObservacion',
     'usuario_idusuario',
     'servicio_idservicio'
     ];

@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\Expediente;
 use App\Models\Imagen;
+use App\Models\Taller;
 use App\Models\User;
 use Hamcrest\Core\HasToString;
 use Illuminate\Support\Facades\Storage;
@@ -18,10 +19,13 @@ class Expedientes extends Component
     use WithFileUploads;
     use WithPagination;
 
-    public $otros=[];
+    public $talleres=[];
+    public $fotosnuevas=[];
+    public $documentosnuevos=[];
     public $files=[];
+    public $documentos=[];
     public $servicios=[];
-    public $idus,$expediente,$identificador;
+    public $idus,$expediente,$identificador,$tallerSeleccionado,$servicioSeleccionado;
     public $search="";
     public $cant="";
     public $sort="created_at";
@@ -40,13 +44,25 @@ class Expedientes extends Component
 
    protected $rules=[
         'expediente.placa'=>'required|min:6|max:6',
-        'expediente.certificado'=>'required|min:1|max:7',
-        'expediente.servicio_idservicio'=>'required',
-        'otros'=>'max:5120',         
+        'expediente.certificado'=>'required|min:1|max:7',       
+        'fotosnuevas'=>'array|max:10',
+        'documentosnuevos'=>'array|max:10',
+        'tallerSeleccionado'=>'required',
+        'servicioSeleccionado'=>'required',        
     ];
 
    public function loadExpedientes(){
     $this->readyToLoad=true;
+    }
+
+    public function listaServicios(){
+        if($this->tallerSeleccionado != null){
+            $this->servicios=json_decode(DB::table('servicio')
+            ->select('servicio.*','tiposervicio.descripcion')
+            ->join('tiposervicio','servicio.tipoServicio_idtipoServicio','=','tiposervicio.id')
+            ->where('taller_idtaller',$this->tallerSeleccionado)
+            ->get(),true);             
+        }
     }
 
     public function mount(){
@@ -54,13 +70,15 @@ class Expedientes extends Component
         $this->identitifcador=rand();        
         $this->expediente= new Expediente();
         $this->cant="10";
+        $this->talleres=Taller::all(); 
         $user=User::find($this->idus);
-                
+        /*                
         $this->servicios= json_decode(DB::table('servicio')
         ->select('servicio.*','tiposervicio.descripcion')
         ->join('tiposervicio','servicio.tipoServicio_idtipoServicio','=','tiposervicio.id')
         ->where('taller_idtaller',$user->taller_idtaller)
-        ->get(),true);  
+        ->get(),true); 
+        */
     }
 
 
@@ -101,42 +119,63 @@ class Expedientes extends Component
         }else{
             $this->sort=$sort;
             $this->direction='asc';
-        }
-        
+        }        
     }
    
 
     public function edit(Expediente $expediente){        
         if($expediente->id!=null){
             $this->expediente=$expediente;           
-            $this->files=Imagen::where('Expediente_idExpediente','=',$expediente->id)->get();
+            $this->files=Imagen::where('Expediente_idExpediente','=',$expediente->id)->whereIn('extension',['jpg','jpeg','png','gif','tif','tiff','bmp'])->get();
+            $this->documentos=Imagen::where('Expediente_idExpediente','=',$expediente->id)->whereIn('extension',['pdf','xlsx','xls','docx','doc'])->get();
             $this->identificador=rand();
+            $this->tallerSeleccionado=$expediente->idTaller;
+            $this->listaServicios();
+            $this->servicioSeleccionado=$expediente->servicio_idservicio;            
             $this->editando=true;
         }
     }
 
-    public function actualizar(){
-        
+    public function actualizar(){       
         
         $this->validate();        
 
-        foreach($this->otros as $file){
+        foreach($this->fotosnuevas as $file){
             $file_save= new imagen();
             $file_save->nombre=$this->expediente->placa;
+            $file_save->extension=$file->extension();
             $file_save->ruta = $file->store('public/expedientes');
             $file_save->Expediente_idExpediente=$this->expediente->id;
             Imagen::create([
                 'nombre'=>$file_save->nombre,
                 'ruta'=>$file_save->ruta,
+                'extension'=>$file_save->extension,
                 'Expediente_idExpediente'=>$file_save->Expediente_idExpediente,
             ]);
         }
-        $this->expediente->estado=1;
-        $this->expediente->save();
 
+        foreach($this->documentosnuevos as $file){
+            $file_save= new imagen();
+            $file_save->nombre=$this->expediente->placa;
+            $file_save->extension=$file->extension();
+            $file_save->ruta = $file->store('public/expedientes');
+            $file_save->Expediente_idExpediente=$this->expediente->id;
+            Imagen::create([
+                'nombre'=>$file_save->nombre,
+                'ruta'=>$file_save->ruta,
+                'extension'=>$file_save->extension,
+                'Expediente_idExpediente'=>$file_save->Expediente_idExpediente,
+            ]);
+        }
+        $this->expediente->idTaller=$this->tallerSeleccionado;
+
+        $this->expediente->estado=1;
+
+        $this->expediente->servicio_idservicio=$this->servicioSeleccionado;
+
+        $this->expediente->save();        
         
-        
-        $this->reset(['editando','expediente','otros']);        
+        $this->reset(['editando','expediente','documentosnuevos','fotosnuevas']);        
         
         $this->emit('alert','El expediente se actualizo correctamente');
 
@@ -177,6 +216,6 @@ class Expedientes extends Component
     
     public function updatingEditando(){
         //$this->identificador=rand(); 
-        $this->reset(['otros']);       
+        $this->reset(['documentosnuevos','fotosnuevas']);       
     }
 }
