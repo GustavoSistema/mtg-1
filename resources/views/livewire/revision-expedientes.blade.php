@@ -345,18 +345,31 @@
             </select>
             <x-jet-input-error for="expediente.estado" />
         </div>
+        @if($expediente->estado==2)  
+            <div class="m-2">
+                <x-jet-input-error for="observacionesSel" />
+                @foreach ($observaciones as $obs)
+                <div class="form-check">
+                    <input wire:click="agregaObservacion({{$obs['id']}});" class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white outline-transparent checked:bg-indigo-600 checked:border-indigo-600 outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="{{$obs['nombre']}}">
+                    <label class="form-check-label inline-block text-gray-800" for="{{$obs['nombre']}}" wire:click="agregaObservacion({{$obs['id']}});" >
+                        {{$obs['descripcion']}} - {{$obs['estado']}} 
+                    </label>
+                </div>  
+                @endforeach
+            </div>        
+         @endif
+        
+         
     </x-slot>
 
-    <x-slot name="footer">
 
+    <x-slot name="footer">
         <x-jet-secondary-button wire:click="$set('editando',false)" class="mx-2">
             Cancelar
         </x-jet-secondary-button>
         <x-jet-button wire:click="actualizar" wire:loading.attr="disabled" wire:target="update">
             Guardar
         </x-jet-button>
-
-
     </x-slot>
 
 </x-jet-dialog-modal>

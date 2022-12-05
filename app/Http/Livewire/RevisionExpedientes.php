@@ -3,7 +3,9 @@
 namespace App\Http\Livewire;
 
 use App\Models\Expediente;
+use App\Models\ExpedienteObservacion;
 use App\Models\Imagen;
+use App\Models\Observacion;
 use App\Models\Servicio;
 use App\Models\TipoServicio;
 use App\Models\User;
@@ -20,6 +22,26 @@ class RevisionExpedientes extends Component
     use WithPagination;
 
     public $documentos=[];
+    public $observaciones=[
+        array("id"=>1,
+              "nombre"=>"obs1",
+              "descripcion" => "Fotografias faltantes.",
+              "estado" => 0),
+        array("id"=>2,
+              "nombre"=>"obs2",
+              "descripcion" => "Serie de reductor no corresponde o no es visible.",
+              "estado" => 0),
+        array("id"=>3,
+              "nombre"=>"obs3",
+              "descripcion" => "Serie de tanque no corresponde o no es visible.",
+              "estado" => 0),  
+        array("id"=>4,
+              "nombre"=>"obs4",
+              "descripcion" => "Documentos faltantes o erroneos.",
+              "estado" => 0),  
+    ];
+
+    public $observacionesSel=[];
     public $files=[];    
     public $idus,$expediente,$identificador,$tipoServicio;
     public $search="";
@@ -40,7 +62,8 @@ class RevisionExpedientes extends Component
 
    protected $rules=[
         
-        'expediente.estado'=>'required',         
+        'expediente.estado'=>'required',   
+        'observacionesSel'=>'array|min:1',    
     ];
 
    public function loadExpedientes(){
@@ -53,8 +76,40 @@ class RevisionExpedientes extends Component
         $this->expediente= new Expediente();
         $this->cant="10";                       
         
+       
     }
 
+    public function eligeObservaciones(){
+        foreach($this->observaciones as $obs){
+            if($obs['estado']==1){
+                array_push($this->observacionesSel,$obs);
+                //$this->observacionesSel[]=$obs;
+            }            
+        }
+    }
+
+    public function agregaObservacion($id){
+        if($this->observaciones[$id-1]['estado']==0){
+            $this->observaciones[$id-1]['estado']=1;
+        }else{
+            $this->observaciones[$id-1]['estado']=0;
+        }
+        
+    }
+    public function creaGuardaObservaciones(){
+        foreach($this->observacionesSel as $obs){
+            $obs=Observacion::create([
+                'detalle'=>$obs['descripcion'],
+                'tipo'=>1,
+                'estado'=>1,
+            ]);
+
+            ExpedienteObservacion::create([
+                'idExpediente'=>$this->expediente->id,
+                'idObservacion'=>$obs->id,
+            ]);
+        }
+    }
 
 
 
@@ -108,7 +163,8 @@ class RevisionExpedientes extends Component
     }
 
     public function actualizar(){        
-        
+        $this->eligeObservaciones();
+        $this->creaGuardaObservaciones();
         $this->validate();    
         $this->expediente->save();       
         $this->editando=false;        

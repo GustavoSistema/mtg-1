@@ -35,7 +35,7 @@ class CreateExpediente extends Component
         'files'=>'required',
         //'files.*'=>'mimes:jpg,jpeg,png,tif|size:5010',
         //'documentos.*'=>'required|mimes:pdf,xls,xlsx,doc,docx|size:5120',
-        'documentos'=>'required',
+        'documentos'=>'array|max:10',
         'tallerSeleccionado'=>'required'
         //'documentos.*'=>'file|mimes:pdf,xls,xlsx,doc,docx|max:10024',
     ];

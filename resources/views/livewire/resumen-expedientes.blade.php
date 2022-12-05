@@ -8,7 +8,7 @@
         <div class="mt-2 text-sm text-gray-500">  
             <div class="flex flex-row justify-between">
                 <h1>Total de Expedientes: </h1>
-                @if(count($expedientes))
+                @if($expedientes)
                     <span class="relative inline-block px-3 py-1 font-semibold text-indigo-900 leading-tight">
                         <span aria-hidden class="absolute inset-0 bg-indigo-400 opacity-20 rounded-full"></span>
                         <span class="relative">{{ count($expedientes) }}</span>
