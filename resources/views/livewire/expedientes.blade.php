@@ -210,10 +210,26 @@
 
 <x-jet-dialog-modal wire:model="editando" wire:loading.attr="disabled" wire:target="deleteFile">
     <x-slot name="title" class="font-bold">
-        Editar Expediente
+        <h1>Editar Expediente</h1>
     </x-slot>
 
     <x-slot name="content">
+        @if($expediente)
+        @if($expediente->estado==2)
+            @if($observaciones)
+            <h1>Observaciones: </h1>
+            <div class="mb-4 border-2 rounded-lg border-red-700 p-2">
+                @foreach ($observaciones as $obs)
+                <div class="flex flex-row bg-red-200 my-2 rounded-xl p-2 justify-between">
+                    <p class="text-red-900">{{$obs['detalle']}}</p>
+                </div>               
+                @endforeach
+            </div> 
+            <hr class="my-4">
+            @endif       
+        @endif
+        @endif
+
         <div class="mb-4">
             <x-jet-label value="Taller:" for="taller"/>
             <select wire:model="tallerSeleccionado" wire:click="listaServicios" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full ">

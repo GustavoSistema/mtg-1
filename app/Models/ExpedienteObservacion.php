@@ -12,7 +12,9 @@ class ExpedienteObservacion extends Model
     protected $table = 'expedienteobservacion';
 
     protected $fillable=
-    ['idExpediente',
+    [
+    'id',
+    'idExpediente',
     'idObservacion'      
     ];
 }

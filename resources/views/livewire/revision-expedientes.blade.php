@@ -344,19 +344,37 @@
                 <option value="4">Desaprobado</option>                  
             </select>
             <x-jet-input-error for="expediente.estado" />
-        </div>
+        </div>        
         @if($expediente->estado==2)  
             <div class="m-2">
-                <x-jet-input-error for="observacionesSel" />
+                <x-jet-input-error for="conteo" />
                 @foreach ($observaciones as $obs)
+                @if($obs['tipo']==1)
                 <div class="form-check">
-                    <input wire:click="agregaObservacion({{$obs['id']}});" class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white outline-transparent checked:bg-indigo-600 checked:border-indigo-600 outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="{{$obs['nombre']}}">
-                    <label class="form-check-label inline-block text-gray-800" for="{{$obs['nombre']}}" wire:click="agregaObservacion({{$obs['id']}});" >
-                        {{$obs['descripcion']}} - {{$obs['estado']}} 
+                    <input wire:click="agregaObservacion({{$obs['id']}});" class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white outline-transparent checked:bg-indigo-600 checked:border-indigo-600 outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="{{$obs['id']}}">
+                    <label class="form-check-label inline-block text-gray-800">
+                        {{$obs['detalle']}}
                     </label>
+                </div>
+                @endif  
+                @endforeach
+            </div> 
+            
+           
+            
+            @if($observacionesEx)
+            <h1 class="mt-4">Listado de observaciones:</h1>
+            <hr>           
+            <div class="m-2" > 
+
+                @foreach ($observacionesEx as $obs)
+                <div class="flex flex-row bg-red-200 my-2 rounded-xl p-2 justify-between">
+                    <p>{{$obs['detalle']}}</p><a wire:click="deleteObservacion({{$obs['id']}})" class="cursor-pointer mr-2"><i class="fas fa-times"></i></a>
                 </div>  
                 @endforeach
-            </div>        
+            </div> 
+            @endif
+
          @endif
         
          
@@ -377,27 +395,11 @@
 
 @push('js')
     <script>
-        Livewire.on('deleteExpediente', expedienteId => {
-            Swal.fire({
-                title: '¿Seguro que quieres eliminar este registro?',
-                text: "Luego de eliminar no podras recuperarlo.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si, eliminar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-
-                    Livewire.emitTo('expedientes', 'delete', expedienteId);
-
-                    Swal.fire(
-                        'Listo!',
-                        'Expediente eliminado corrrectamente.',
-                        'success'
-                    )
-                }
-            })
+        Livewire.on('quitaCheck', ()=> {
+            var textinputs = document.querySelectorAll('input[type=checkbox]');
+            for (var i = 0; i < textinputs.length; ++i) { 
+                textinputs[i].checked = false;
+            }
         });
     </script>
     <script> 

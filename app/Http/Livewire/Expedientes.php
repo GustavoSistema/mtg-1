@@ -4,7 +4,9 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Expediente;
+use App\Models\ExpedienteObservacion;
 use App\Models\Imagen;
+use App\Models\Observacion;
 use App\Models\Taller;
 use App\Models\User;
 use Hamcrest\Core\HasToString;
@@ -18,7 +20,7 @@ class Expedientes extends Component
 {
     use WithFileUploads;
     use WithPagination;
-
+    public $observaciones=[];
     public $talleres=[];
     public $fotosnuevas=[];
     public $documentosnuevos=[];
@@ -121,6 +123,21 @@ class Expedientes extends Component
             $this->direction='asc';
         }        
     }
+
+    public function cargaObservaciones(Expediente $expediente){
+        $nobs=ExpedienteObservacion::where('idExpediente',$expediente->id)->get();
+        if($nobs){
+            $this->reset(['observaciones']);  
+            foreach($nobs as $n){
+                $ob=Observacion::find($n->idObservacion);
+                array_push($this->observaciones,$ob);
+            } 
+        }else{
+            $this->reset(['observaciones']);   
+            
+        }                
+    }
+
    
 
     public function edit(Expediente $expediente){        
@@ -131,7 +148,8 @@ class Expedientes extends Component
             $this->identificador=rand();
             $this->tallerSeleccionado=$expediente->idTaller;
             $this->listaServicios();
-            $this->servicioSeleccionado=$expediente->servicio_idservicio;            
+            $this->servicioSeleccionado=$expediente->servicio_idservicio;   
+            $this->cargaObservaciones($expediente);       
             $this->editando=true;
         }
     }
