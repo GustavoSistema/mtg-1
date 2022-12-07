@@ -23,11 +23,40 @@
                 <x-jet-label value="Ruc:"/>
                 <x-jet-input type="text" class="w-full" wire:model="ruc"/>
                 <x-jet-input-error for="ruc" />                
-            </div>  
+            </div>
+             
+            <h1 class="font-bold">Servicios: </h1>
+            <hr class="py-2"> 
+            
+            <div class="mb-4">
+                                  
+                
+                @foreach ($servicios as $key=>$item)
+                <div class="flex flex-row justify-between bg-indigo-100 my-2 items-center rounded-lg p-2">
+                    <div class="">
+                        <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white outline-transparent checked:bg-indigo-600 checked:border-indigo-600 outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" wire:model="tipos.{{$key}}" value="{{$item->id}}" type="checkbox">
+                        <label class="form-check-label inline-block text-gray-800">
+                            {{ $item->descripcion }}
+                        </label>                        
+                    </div>
+                    <div class="flex flex-row items-center">
+                        <x-jet-label value="precio:"/>
+                        <x-jet-input type="text" class="w-6px" wire:model="precios.{{$key}}" />                        
+                    </div>                    
+                </div>
+                <x-jet-input-error for="tipos.{{$key}}" />                   
+                <x-jet-input-error for="precios.{{$key}}" />        
+                @endforeach    
+                <hr>   
+                <x-jet-input-error for="tipos" />   
+                <x-jet-input-error for="precios" />   
+                       
+            </div>
             
 
+            {{--
             <div class="flex justify-center mb-4">
-                <x-jet-secondary-button class="mx-2 bg-lime-300" wire:click="agregaServicio">
+                <x-jet-secondary-button class="mx-2 bg-lime-200" wire:click="agregaServicio">
                     Agregar servicio  <i class="fas fa-plus ml-1"></i>
                 </x-jet-secondary-button>                
             </div> 
@@ -35,7 +64,7 @@
             @if ($serv)
                 @for ($i = 0; $i < $serv; $i++)
                 <div class="mb-4 p-2 bg-gray-300 rounded-sm flex flex-row items-center">
-                    <select wire:model="tiposervicio" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full ">
+                    <select class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full ">
                         <option value="">Seleccione</option>
                         @foreach ($servicios as $item)
                         <option value="{{ $item->id }}">{{ $item->descripcion }}</option>
@@ -58,7 +87,7 @@
                 </div>  
                 @endfor
             @endif
-                   
+                --}}   
             
         </x-slot>
         

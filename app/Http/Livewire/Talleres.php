@@ -8,14 +8,17 @@ use Livewire\Component;
 class Talleres extends Component
 {
 
-    public $talleres,$sort;
+    public $sort;
 
     public function mount(){
-        $this->talleres=Taller::all();
+        
     }
 
     public function render()
     {
-        return view('livewire.talleres');
+        $talleres=Taller::all();
+        return view('livewire.talleres',compact('talleres'));
     }
+
+    protected $listeners=['render'];
 }

@@ -87,6 +87,8 @@ class CreateExpediente extends Component
         return view('livewire.create-expediente');
         
     }
+
+    
     public function updatedFiles()
     {
         $this->validate( [
@@ -150,7 +152,7 @@ class CreateExpediente extends Component
         $this->reset(['open','placa','certificado','servicio','files','documentos']);
         $this->identificador=rand();
         $this->emitTo('expedientes','render');
-        $this->emit('alert','El Expediente se registro correctamente!');
+        $this->emit('alert','El expediente se registro correctamente!');
     }
 
     public function deleteFileUpload($id){

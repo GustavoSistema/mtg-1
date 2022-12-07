@@ -10,4 +10,9 @@ class Taller extends Model
     use HasFactory;
 
     protected $table = 'taller';
+    protected $fillable=
+    ['nombre',
+    'direccion',
+    'ruc',
+    ];
 }
