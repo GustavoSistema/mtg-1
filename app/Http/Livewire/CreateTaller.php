@@ -15,20 +15,20 @@ class CreateTaller extends Component
     public $nombre,$direccion,$ruc;
     public $open=false; 
 
-
+    
     protected $rules=[
         'nombre'=>'required|min:5|max:110',      
         'direccion'=>'required|min:5|max:110',
         'ruc'=>'required|min:11|max:11',   
         //'servicios'=>'array|required',  
         //'servicios.precio'=>'numeric|required',     
-        /*
-        'tipos'=>'array|min:1|required',
-        'tipos.*'=>'numeric|min:1',
-        'precios'=>'array|min:1|required',
-        'precios.*'=>'numeric|required|min:1',
-        */
+        
+        //'tipos'=>'array|min:1|required',
+        //'tipos.*'=>'numeric|min:1',
+        //'precios'=>'array|min:1|required',
+        //'precios.*'=>'numeric|required|min:1',        
     ]; 
+    
     
     public function mount(){
         $this->cargaTipoServicios();
@@ -41,14 +41,18 @@ class CreateTaller extends Component
     }
 
     public function save(){
+        $rules=[];
         foreach($this->tipos as $key=>$item){
-            if($item!=0){
-                $this->validate([
-                    'precios.'.$key=>'required|numeric|min:1',  
-                ]); 
+            if($item!=0){                             
+                $rules+=[('precios.'.$key)=>'required|numeric|min:1',];                 
             }
         }
-        $this->validate(); 
+        if(count($rules)>0){
+            $this->validate($rules); 
+        }else{
+            $this->validate();
+        }
+        //$this->validate(); 
         
         $taller=Taller::create([
             'nombre'=>$this->nombre,
