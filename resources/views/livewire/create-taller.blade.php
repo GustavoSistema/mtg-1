@@ -45,7 +45,8 @@
                     </div>                    
                 </div>
                 <x-jet-input-error for="tipos.{{$key}}" />                   
-                <x-jet-input-error for="precios.{{$key}}" />        
+                <x-jet-input-error for="precios.{{$key}}" />    
+                     
                 @endforeach    
                 <hr>   
                 <x-jet-input-error for="tipos" />   

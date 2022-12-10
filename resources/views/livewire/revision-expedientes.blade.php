@@ -240,7 +240,7 @@
                 No se encontro ningun registro.
             </div>
         @endif   
-        </x-tablerev>       
+    </x-tablerev>       
         
        
     </div>
