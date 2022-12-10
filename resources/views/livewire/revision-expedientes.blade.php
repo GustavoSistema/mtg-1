@@ -250,20 +250,19 @@
         <h1 class="text-xl font-bold">Revision de Expediente</h1>        
     </x-slot>
     <x-slot name="content"> 
-        <div class="mb-4 flex justify-between flex-row justify-content-center">
-            
-                <h3 class="text-sm font-bold ">Servicio : </h3>                
-                <span class="relative inline-block px-3  font-semibold text-black-900 leading-tight">
-                    <span aria-hidden class="absolute inset-0 bg-lime-300 opacity-50 rounded-full"></span>
-                    <span class="relative">{{ $tipoServicio }}</span>
-                </span> 
-            
+        <div class="mb-4  justify-between md:flex md:flex-row justify-content-center sm:block">
+            <h3 class="text-sm font-bold ">Servicio : </h3>                
+            <span class="relative inline-block px-3  font-semibold text-black-900 leading-tight">
+                <span aria-hidden class="absolute inset-0 bg-lime-300 opacity-50 rounded-full"></span>
+                <span class="relative">{{ $tipoServicio }}</span>
+            </span> 
             <h3 class="text-sm font-bold ">Placa : </h3>           
             <span class="relative inline-block px-3  font-semibold text-black-900 leading-tight">
                 <span aria-hidden class="absolute inset-0 bg-blue-300 opacity-50 rounded-full"></span>
                 <span class="relative">{{ $expediente->placa }}</span>
             </span> 
-            <h3 class="text-sm font-bold ">Certificado : </h3><p class="text-sm font-bold text-red-500">{{ $expediente->certificado }}</p>
+            <h3 class="text-sm font-bold ">Certificado : </h3>
+            <p class="text-sm font-bold text-red-500">{{ $expediente->certificado }}</p>
         </div>    
         
         <h1 class="pt-2  font-semibold sm:text-lg text-gray-900">
@@ -352,7 +351,7 @@
                 @if($obs['tipo']==1)
                 <div class="form-check">
                     <input wire:click="agregaObservacion({{$obs['id']}});" class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white outline-transparent checked:bg-indigo-600 checked:border-indigo-600 outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="{{$obs['id']}}">
-                    <label class="form-check-label inline-block text-gray-800">
+                    <label class="form-check-label inline-block text-gray-800 text-sm">
                         {{$obs['detalle']}}
                     </label>
                 </div>
@@ -364,14 +363,13 @@
             
             @if($observacionesEx)
             <h1 class="mt-4">Listado de observaciones:</h1>
-            <hr>           
-            <div class="m-2" > 
-
-                @foreach ($observacionesEx as $obs)
+            <hr class="my-2">           
+            <div class="m-2" >
+            @foreach ($observacionesEx as $obs)
                 <div class="flex flex-row bg-red-200 my-2 rounded-xl p-2 justify-between">
                     <p>{{$obs['detalle']}}</p><a wire:click="deleteObservacion({{$obs['id']}})" class="cursor-pointer mr-2"><i class="fas fa-times"></i></a>
                 </div>  
-                @endforeach
+            @endforeach
             </div> 
             @endif
 
