@@ -41,8 +41,9 @@ class RevisionExpedientes extends Component
               "estado" => 0),  
     ];    
     public $observacionesEx=[];
-    public $files=[];    
-    public $idus,$expediente,$identificador,$tipoServicio;
+    public $files=[]; 
+       
+    public $idus,$expediente,$identificador,$tipoServicio,$ta,$es;
     public $conteo;
     public $search="";
     public $cant="";
@@ -51,13 +52,15 @@ class RevisionExpedientes extends Component
     public $readyToLoad=false;
     public $editando=false;
 
-    protected $listeners=['render','delete','deleteFile'];
+    protected $listeners=['render','delete','deleteFile','tallerSel'];
 
     protected $queryString=[
         'cant'=>['except'=>'10'],
         'sort'=>['except'=>'created_at'],
         'direction'=>['except'=>'desc'],
-        'search'=>['except'=>'']
+        'search'=>['except'=>''],
+        'es'=>['except'=>''],
+        'page'=>['except'=>1],
    ];
 
    protected $rules=[
@@ -77,8 +80,8 @@ class RevisionExpedientes extends Component
         $this->identitifcador=rand();        
         $this->expediente= new Expediente();
         $this->cant="10";  
-        $this->conteo=0;                    
-    }   
+        $this->conteo=0;
+     }   
 
     public function agregaObservacion($id){
         if($this->observaciones[$id-1]['estado']==0){
@@ -106,19 +109,35 @@ class RevisionExpedientes extends Component
         }
     }
 
-
+    public function tallerSel($tall){
+        $this->ta=$tall;
+    }
 
     public function render()
     {
+        $filtros1=[array('expedientes.placa','like','%'.$this->search.'%')];  
+        $filtros2=[array('expedientes.certificado','like','%'.$this->search.'%')];  
+        if($this->es!=null){
+           array_push($filtros1,['expedientes.estado','like','%'.$this->es.'%']);
+           array_push($filtros2,['expedientes.estado','like','%'.$this->es.'%']);
+        }else{            
+            $filtros1=[['expedientes.placa','like','%'.$this->search.'%']];            
+            $filtros2=[['expedientes.certificado','like','%'.$this->search.'%']];            
+        }
+        if($this->ta!=null){
+            array_push($filtros1,['taller.id','like','%'.$this->ta.'%']);
+            array_push($filtros2,['taller.id','like','%'.$this->ta.'%']);
+         }
+        
         if($this->readyToLoad){            
             $expedientes= DB::table('expedientes') 
-            ->select('expedientes.*', 'tiposervicio.descripcion','users.name','taller.nombre')             
+            ->select('expedientes.*', 'tiposervicio.descripcion','users.name','taller.nombre','taller.id as tallerid')             
             ->join('servicio', 'expedientes.servicio_idservicio', '=', 'servicio.id')
             ->join('tiposervicio', 'tiposervicio.id', '=', 'servicio.tipoServicio_idtipoServicio')
             ->join('users','users.id','=','expedientes.usuario_idusuario')
             ->join('taller','taller.id','=','servicio.taller_idtaller')          
-            ->where('expedientes.placa','like','%'.$this->search.'%')
-            ->orWhere('expedientes.certificado','like','%'.$this->search.'%')              
+            ->where($filtros1)
+            ->orWhere($filtros2)             
             ->orderBy($this->sort,$this->direction)
             ->paginate($this->cant);                            
         }else{
@@ -127,6 +146,9 @@ class RevisionExpedientes extends Component
 
         return view('livewire.revision-expedientes',compact('expedientes'));
     }
+
+
+   
 
     public function order($sort)
     {
@@ -152,8 +174,7 @@ class RevisionExpedientes extends Component
                 $this->conteo++;              
             } 
         }else{
-            $this->reset(['observacionesEx']);   
-            
+            $this->reset(['observacionesEx']);  
         }                
     }
 

@@ -7,14 +7,23 @@ use Livewire\Component;
 
 class ListaTalleres extends Component
 {
-    public $talleres;
+    public $talleres,$seleccion;
 
     public function mount(){
         $this->talleres=Taller::all();
     }
 
+    protected $rules=[        
+        'seleccion'=>'required|numeric|min:1',  
+    ];
+
     public function render()
     {
         return view('livewire.lista-talleres');
     }
+
+    public function updatingSeleccion(){
+        $this->emitTo('revision-expedientes','tallerSel',$this->seleccion);
+    }
+    
 }

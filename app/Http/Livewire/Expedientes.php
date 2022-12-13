@@ -27,7 +27,7 @@ class Expedientes extends Component
     public $files=[];
     public $documentos=[];
     public $servicios=[];
-    public $idus,$expediente,$identificador,$tallerSeleccionado,$servicioSeleccionado;
+    public $idus,$expediente,$identificador,$tallerSeleccionado,$servicioSeleccionado,$es;
     public $search="";
     public $cant="";
     public $sort="created_at";
@@ -41,7 +41,8 @@ class Expedientes extends Component
         'cant'=>['except'=>'10'],
         'sort'=>['except'=>'created_at'],
         'direction'=>['except'=>'desc'],
-        'search'=>['except'=>'']
+        'search'=>['except'=>''],
+        'es'=>['except'=>''],
    ];
 
    protected $rules=[
@@ -88,19 +89,20 @@ class Expedientes extends Component
 
     public function render()
     {
+        $filtros1=[['expedientes.placa','like','%'.$this->search.'%'],['expedientes.usuario_idusuario', '=', Auth::id()]];  
+        $filtros2=[['expedientes.certificado','like','%'.$this->search.'%'],['expedientes.usuario_idusuario', '=', Auth::id()],];  
+        if($this->es!=null){
+           array_push($filtros1,['expedientes.estado','like','%'.$this->es.'%']);
+           array_push($filtros2,['expedientes.estado','like','%'.$this->es.'%']);
+        }
+
         if($this->readyToLoad){            
             $expedientes= DB::table('expedientes') 
             ->select('expedientes.*', 'tiposervicio.descripcion')             
             ->join('servicio', 'expedientes.servicio_idservicio', '=', 'servicio.id')
             ->join('tiposervicio', 'tiposervicio.id', '=', 'servicio.tipoServicio_idtipoServicio')           
-            ->where([
-                ['expedientes.placa','like','%'.$this->search.'%'],
-                ['expedientes.usuario_idusuario', '=', Auth::id()],                
-            ])
-            ->orWhere([
-                ['expedientes.certificado','like','%'.$this->search.'%'],
-                ['expedientes.usuario_idusuario', '=', Auth::id()],                
-            ])           
+            ->where($filtros1)
+            ->orWhere($filtros2)           
             ->orderBy($this->sort,$this->direction)
             ->paginate($this->cant);                 
         }else{
