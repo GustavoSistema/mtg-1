@@ -7,6 +7,7 @@ use App\Models\ExpedienteObservacion;
 use App\Models\Imagen;
 use App\Models\Observacion;
 use App\Models\Servicio;
+use App\Models\Taller;
 use App\Models\TipoServicio;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,8 @@ class RevisionExpedientes extends Component
     use WithFileUploads;
     use WithPagination;
 
+
+    
     public $documentos=[];
     public $observaciones=[
         array("id"=>1,              
@@ -43,7 +46,7 @@ class RevisionExpedientes extends Component
     public $observacionesEx=[];
     public $files=[]; 
        
-    public $idus,$expediente,$identificador,$tipoServicio,$ta,$es;
+    public $idus,$expediente,$identificador,$tipoServicio,$ta,$es,$ins,$inspectores,$talleres;
     public $conteo;
     public $search="";
     public $cant="";
@@ -76,6 +79,8 @@ class RevisionExpedientes extends Component
     }
 
     public function mount(){
+        $this->talleres=Taller::all();
+        $this->inspectores=User::all()->where('id','!=',Auth::id());
         $this->idus=Auth::id();
         $this->identitifcador=rand();        
         $this->expediente= new Expediente();
@@ -115,19 +120,20 @@ class RevisionExpedientes extends Component
 
     public function render()
     {
-        $filtros1=[array('expedientes.placa','like','%'.$this->search.'%')];  
-        $filtros2=[array('expedientes.certificado','like','%'.$this->search.'%')];  
+        $filtros1=[array('expedientes.placa','like','%'.$this->search.'%'),['expedientes.usuario_idusuario', '!=', Auth::id()]];  
+        $filtros2=[array('expedientes.certificado','like','%'.$this->search.'%'),['expedientes.usuario_idusuario', '!=', Auth::id()]];  
         if($this->es!=null){
            array_push($filtros1,['expedientes.estado','like','%'.$this->es.'%']);
            array_push($filtros2,['expedientes.estado','like','%'.$this->es.'%']);
-        }else{            
-            $filtros1=[['expedientes.placa','like','%'.$this->search.'%']];            
-            $filtros2=[['expedientes.certificado','like','%'.$this->search.'%']];            
+        }
+        if($this->ins!=null){
+            array_push($filtros1,['users.id','like','%'.$this->ins.'%']);
+            array_push($filtros2,['users.id','like','%'.$this->ins.'%']);
         }
         if($this->ta!=null){
             array_push($filtros1,['taller.id','like','%'.$this->ta.'%']);
             array_push($filtros2,['taller.id','like','%'.$this->ta.'%']);
-         }
+        }
         
         if($this->readyToLoad){            
             $expedientes= DB::table('expedientes') 

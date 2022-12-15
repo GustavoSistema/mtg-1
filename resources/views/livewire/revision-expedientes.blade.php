@@ -1,8 +1,34 @@
 <div wire:init="loadExpedientes" wire:loading.attr="disabled" wire:target="delete,save">
 
 
-    <div class="container mx-auto py-12">
+    <div class="container mx-auto py-12" id="todo">
     <x-tablerev>
+        <x-slot name="inspectores">
+            <div class="flex bg-gray-50 items-center p-2 rounded-md mb-4 ">
+                <span>Inspector: </span>
+                <select wire:model="ins" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full truncate">
+                    <option value="">SELECCIONE</option>
+                    @isset($inspectores)
+                    @foreach($inspectores as $inspector)
+                        <option class="" value="{{$inspector->id}}">{{$inspector->name}}</option>
+                    @endforeach
+                    @endisset
+                </select>                
+            </div>
+        </x-slot>
+        <x-slot name="talleres">
+            <div class="flex bg-gray-50 items-center p-2 rounded-md mb-4 ">
+                <span>Taller: </span>
+                <select wire:model="ta" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full truncate">
+                    <option value="">SELECCIONE</option>
+                    @isset($talleres)
+                    @foreach($talleres as $taller)
+                        <option class="" value="{{$taller->id}}">{{$taller->nombre}}</option>
+                    @endforeach
+                    @endisset
+                </select>                
+            </div>
+        </x-slot>
             @if (count($expedientes))
                 <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
@@ -269,7 +295,8 @@
             Fotografias:
         </h1>
         <hr />
-        @if (count($files))
+        @if (count($files))            
+           
             <section class="my-4 pb-4 overflow-hidden border-dotted border-2 text-gray-700 ">
                 <div class="container px-5 py-2 mx-auto lg:pt-12 lg:px-32">
                     <div class="flex flex-wrap -m-1 md:-m-2">
@@ -283,7 +310,7 @@
                         @endforeach                        
                     </div>
                 </div>
-            </section>
+            </section>                     
         @else
             <section class="h-full overflow-auto p-8 w-full h-full flex flex-col">
                 <ul id="gall-{{ $identificador }}" class="flex flex-1 flex-wrap -m-1">
@@ -357,28 +384,21 @@
                 </div>
                 @endif  
                 @endforeach
-            </div> 
-            
-           
-            
+            </div>
+
             @if($observacionesEx)
             <h1 class="mt-4">Listado de observaciones:</h1>
             <hr class="my-2">           
             <div class="m-2" >
             @foreach ($observacionesEx as $obs)
-                <div class="flex flex-row bg-red-200 my-2 rounded-xl p-2 justify-between">
+                <div class="flex flex-row bg-red-200 my-3 rounded-xl p-2 justify-between">
                     <p>{{$obs['detalle']}}</p><a wire:click="deleteObservacion({{$obs['id']}})" class="cursor-pointer mr-2"><i class="fas fa-times"></i></a>
                 </div>  
             @endforeach
             </div> 
             @endif
-
-         @endif
-        
-         
+         @endif       
     </x-slot>
-
-
     <x-slot name="footer">
         <x-jet-secondary-button wire:click="$set('editando',false)" class="mx-2">
             Cancelar
@@ -389,7 +409,6 @@
     </x-slot>
 
 </x-jet-dialog-modal>
-
 
 @push('js')
     <script>
@@ -404,7 +423,7 @@
         window.livewire.on('startDownload', (ruta) => {            
             window.open('download/'+ruta,'_blank');
         });
-    </script>
+    </script>       
 @endpush
 
 </div>

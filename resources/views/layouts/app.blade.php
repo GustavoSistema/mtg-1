@@ -9,16 +9,17 @@
 
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         @livewireStyles
-    
+        
+       
         <!-- Scripts
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.0.1/dist/chart.umd.min.js"></script>
 
          -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite(['resources/css/app.css','resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
         <x-jet-banner />
@@ -44,6 +45,7 @@
         @stack('modals')
 
         @livewireScripts
+        
         @stack('js')
         
         <script src="https://kit.fontawesome.com/2e81971293.js" crossorigin="anonymous"></script>
@@ -57,5 +59,6 @@
                 )
             });
         </script>
+        
     </body>
 </html>

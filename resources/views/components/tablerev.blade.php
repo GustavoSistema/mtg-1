@@ -7,7 +7,7 @@
         <div class="w-full items-center md:flex  md:justify-between">
             <div class="flex bg-gray-50 items-center p-2 rounded-md mb-4">
                 <span>Mostrar</span>
-                <select wire:model="cant" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block ">
+                <select wire:model="cant" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 w-full items-center md:flex  md:justify-center">
                     <option value="10">10</option>
                     <option value="20">20</option>
                     <option value="50">50</option>
@@ -15,19 +15,22 @@
                 </select>
                 <span>Entradas</span>
             </div>
-           
             <div class="flex bg-gray-50 items-center p-2 rounded-md mb-4">
                 <span>Estado: </span>
-                <select wire:model="es" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block ">
-                    <option value="">seleccione</option>
+                <select wire:model="es" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 w-full items-center md:flex  md:justify-center">
+                    <option value="">SELECCIONE</option>
                     <option value="1">Por revisar</option>
                     <option value="2">Observado</option>
                     <option value="3">Aprobado</option>
                     <option value="4">Desaprobado</option>
                 </select>                
-            </div>            
-           
-            
+            </div>
+            {{ $talleres }}     
+            {{ $inspectores }}  
+                   
+        </div>
+
+        <div class="w-full items-center md:flex  md:justify-center">
             <div class="flex bg-gray-50 items-center lg:w-3/6 p-2 rounded-md mb-4">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20"
                     fill="currentColor">
@@ -37,7 +40,7 @@
                 </svg>
                 <input class="bg-gray-50 outline-none block rounded-md border-indigo-500 w-full" type="text" wire:model="search"
                     placeholder="buscar...">
-            </div>          
+            </div> 
         </div>
     </div>
     {{$slot}}

@@ -90,7 +90,7 @@ class Expedientes extends Component
     public function render()
     {
         $filtros1=[['expedientes.placa','like','%'.$this->search.'%'],['expedientes.usuario_idusuario', '=', Auth::id()]];  
-        $filtros2=[['expedientes.certificado','like','%'.$this->search.'%'],['expedientes.usuario_idusuario', '=', Auth::id()],];  
+        $filtros2=[['expedientes.certificado','like','%'.$this->search.'%'],['expedientes.usuario_idusuario', '=', Auth::id()]];  
         if($this->es!=null){
            array_push($filtros1,['expedientes.estado','like','%'.$this->es.'%']);
            array_push($filtros2,['expedientes.estado','like','%'.$this->es.'%']);

@@ -2,22 +2,26 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Imagen;
 use App\Models\Taller;
 use Livewire\Component;
 
 class Talleres extends Component
 {
 
-    public $sort;
+    //public $sort;
+    //public $files=[];
+    public $index;
 
     public function mount(){
-        
+      $this->index=355;   
     }
 
     public function render()
     {
-        $talleres=Taller::all();
-        return view('livewire.talleres',compact('talleres'));
+        $files=Imagen::where('Expediente_idExpediente','=',355)->whereIn('extension',['jpg','jpeg','png','gif','tif','tiff','bmp'])->get();
+        //$talleres=Taller::all();
+        return view('livewire.talleres',compact('files'));
     }
 
     protected $listeners=['render'];

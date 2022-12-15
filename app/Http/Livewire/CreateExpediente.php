@@ -120,9 +120,9 @@ class CreateExpediente extends Component
 
         foreach($this->files as $key=>$file){
             $file_save= new imagen();
-            $file_save->nombre=$expe->certificado.'-foto'.$key.'-'.$expe->placa;
+            $file_save->nombre=$expe->placa.'-foto'.$key.'-'.$expe->certificado;
             $file_save->extension=$file->extension();
-            $file_save->ruta = $file->store('public/expedientes');
+            $file_save->ruta = $file->storeAs('public/expedientes',$file_save->nombre.'.'.$file->extension());
             $file_save->Expediente_idExpediente=$expe->id;
 
             Imagen::create([
@@ -136,9 +136,9 @@ class CreateExpediente extends Component
 
         foreach($this->documentos as $key=>$file){
             $file_save= new imagen();
-            $file_save->nombre=$expe->certificado.'-doc'.$key.'-'.$expe->placa;
+            $file_save->nombre=$expe->placa.'-doc'.$key.'-'.$expe->certificado;
             $file_save->extension=$file->extension();
-            $file_save->ruta = $file->store('public/expedientes');
+            $file_save->ruta = $file->storeAs('public/expedientes',$file_save->nombre.'.'.$file->extension());
             $file_save->Expediente_idExpediente=$expe->id;
 
             Imagen::create([
