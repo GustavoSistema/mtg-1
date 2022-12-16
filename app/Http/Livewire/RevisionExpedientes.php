@@ -63,6 +63,8 @@ class RevisionExpedientes extends Component
         'direction'=>['except'=>'desc'],
         'search'=>['except'=>''],
         'es'=>['except'=>''],
+        'ta'=>['except'=>''],
+        'ins'=>['except'=>''],
         'page'=>['except'=>1],
    ];
 
