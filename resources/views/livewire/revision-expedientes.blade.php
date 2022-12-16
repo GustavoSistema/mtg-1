@@ -29,7 +29,10 @@
                 </select>                
             </div>
         </x-slot>
-            @if (count($expedientes))
+        <div wire:loading wire:target="ta,ins,es"  class="my-4 w-full px-6 py-4 text-center font-bold bg-indigo-200 rounded-md">
+            cargando expedientes...
+        </div> 
+        @if (count($expedientes))
                 <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
                         <div class="overflow-x-auto">
@@ -250,21 +253,21 @@
                     </div>
                 </div>
 
-            @if ($expedientes->hasPages())
-                <div>
-                    <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-2 overflow-x-auto">
-                        <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
-                            <div class="px-5 py-5 bg-white border-t">
-                                {{ $expedientes->links() }}
+                    @if ($expedientes->hasPages())
+                        <div>
+                            <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-2 overflow-x-auto">
+                                <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+                                    <div class="px-5 py-5 bg-white border-t">
+                                        {{ $expedientes->links() }}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </div>                        
-            @endif
-        @else
-            <div class="px-6 py-4 text-center font-bold bg-indigo-200 rounded-md">
+                        </div>                        
+                    @endif                
+         @else 
+            <div wire:loading.remove wire:target="ta,ins,es" class="px-6 py-4 text-center font-bold bg-indigo-200 rounded-md">
                 No se encontro ningun registro.
-            </div>
+            </div>              
         @endif   
     </x-tablerev>       
         
