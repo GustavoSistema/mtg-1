@@ -252,18 +252,17 @@
                         </div>
                     </div>
                 </div>
-
-                    @if ($expedientes->hasPages())
-                        <div>
-                            <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-2 overflow-x-auto">
-                                <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
-                                    <div class="px-5 py-5 bg-white border-t">
-                                        {{ $expedientes->links() }}
-                                    </div>
-                                </div>
+                @if ($expedientes->hasPages())
+                <div wire:loading.remove wire:target="ta,ins,es">
+                    <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-2 overflow-x-auto">
+                        <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+                            <div class="px-5 py-5 bg-white border-t">
+                                {{ $expedientes->links() }}
                             </div>
-                        </div>                        
-                    @endif                
+                        </div>
+                    </div>
+                </div>                        
+                @endif                
          @else 
             <div wire:loading.remove wire:target="ta,ins,es" class="px-6 py-4 text-center font-bold bg-indigo-200 rounded-md">
                 No se encontro ningun registro.
