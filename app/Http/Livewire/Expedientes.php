@@ -27,7 +27,7 @@ class Expedientes extends Component
     public $files=[];
     public $documentos=[];
     public $servicios=[];
-    public $idus,$expediente,$identificador,$tallerSeleccionado,$servicioSeleccionado,$es;
+    public $idus,$expediente,$identificador,$tallerSeleccionado,$servicioSeleccionado,$es,$comentario;
     public $search="";
     public $cant="";
     public $sort="created_at";
@@ -132,7 +132,11 @@ class Expedientes extends Component
             $this->reset(['observaciones']);  
             foreach($nobs as $n){
                 $ob=Observacion::find($n->idObservacion);
+                if($ob->tipo==1)
                 array_push($this->observaciones,$ob);
+                else{
+                    $this->comentario=$ob->detalle;
+                }
             } 
         }else{
             $this->reset(['observaciones']);   

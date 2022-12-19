@@ -14,12 +14,12 @@ class Talleres extends Component
     public $index;
 
     public function mount(){
-      $this->index=355;   
+      $this->index=359;   
     }
 
     public function render()
     {
-        $files=Imagen::where('Expediente_idExpediente','=',355)->whereIn('extension',['jpg','jpeg','png','gif','tif','tiff','bmp'])->get();
+        $files=Imagen::where('Expediente_idExpediente','=',359)->whereIn('extension',['jpg','jpeg','png','gif','tif','tiff','bmp'])->get();
         //$talleres=Taller::all();
         return view('livewire.talleres',compact('files'));
     }

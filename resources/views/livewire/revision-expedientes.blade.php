@@ -28,6 +28,19 @@
                     @endisset
                 </select>                
             </div>
+        </x-slot>        
+        <x-slot name="services">
+            <div class="flex bg-gray-50 items-center p-2 rounded-md mb-4 ">
+                <span>Servicio: </span>
+                <select wire:model="tipoSer" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full truncate">
+                    <option value="">SELECCIONE</option>
+                    @isset($tipos)
+                    @foreach($tipos as $tipo)
+                        <option class="" value="{{$tipo->descripcion}}">{{$tipo->descripcion}}</option>
+                    @endforeach
+                    @endisset
+                </select>                
+            </div>
         </x-slot>
         <div wire:loading wire:target="ta,ins,es"  class="my-4 w-full px-6 py-4 text-center font-bold bg-indigo-200 rounded-md">
             cargando expedientes...
@@ -242,7 +255,6 @@
                                                         <i class="fas fa-eye"></i>
                                                     </a>                                                    
                                                 </div>
-
                                             </td>
                                         </tr>
                                     
@@ -264,13 +276,11 @@
                 </div>                        
                 @endif                
          @else 
-            <div wire:loading.remove wire:target="ta,ins,es" class="px-6 py-4 text-center font-bold bg-indigo-200 rounded-md">
+            <div wire:loading.remove wire:target="ta,ins,es" class="px-6 py-4 text-center font-bold bg-indigo-200 rounded-md border border-indigo shadow-lg shadow-indigo-400/50">
                 No se encontro ningun registro.
             </div>              
         @endif   
     </x-tablerev>       
-        
-       
     </div>
 
 <x-jet-dialog-modal wire:model="editando" wire:loading.attr="disabled" wire:target="deleteFile">
@@ -384,20 +394,39 @@
                         {{$obs['detalle']}}
                     </label>
                 </div>
+                
                 @endif  
                 @endforeach
             </div>
+            
 
             @if($observacionesEx)
-            <h1 class="mt-4">Listado de observaciones:</h1>
-            <hr class="my-2">           
-            <div class="m-2" >
-            @foreach ($observacionesEx as $obs)
-                <div class="flex flex-row bg-red-200 my-3 rounded-xl p-2 justify-between">
-                    <p>{{$obs['detalle']}}</p><a wire:click="deleteObservacion({{$obs['id']}})" class="cursor-pointer mr-2"><i class="fas fa-times"></i></a>
-                </div>  
-            @endforeach
-            </div> 
+                <h1 class="mt-4">Listado de observaciones:</h1>
+                <hr class="my-2">           
+                <div class="m-2" >
+                @foreach ($observacionesEx as $obse)
+                    @if($obse['tipo']==1)
+                    <div class="flex flex-row bg-red-200 my-3 rounded-xl p-2 items-center justify-between">
+                        <p>{{$obse['detalle']}}</p><a wire:click="deleteObservacion({{$obse['id']}})" class="cursor-pointer mx-2"><i class="fas fa-times"></i></a>
+                    </div>                      
+                    @endif
+                @endforeach 
+                </div>                
+            @endif
+            
+            <hr class="my-2">
+            <div class="flex items-center justify-center w-full">               
+               <label for="activo" class="hover:text-indigo-500 hover:cursor-pointer">
+                    <input type="checkbox" class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white outline-transparent checked:bg-indigo-600 checked:border-indigo-600 outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" name="activo" id="activo" wire:model="activo"> Agregar Comentario              
+               </label>
+            </div>
+            
+            @if($activo)
+                <div class="m-2">
+                    <x-jet-label value="Comentario:" for="comentario" />
+                    <textarea class="w-full" wire:model="comentario" cols="30" rows="4"></textarea>
+                    <x-jet-input-error for="comentario" />
+                </div>            
             @endif
          @endif       
     </x-slot>
@@ -427,6 +456,5 @@
         });
     </script>       
 @endpush
-
 </div>
 

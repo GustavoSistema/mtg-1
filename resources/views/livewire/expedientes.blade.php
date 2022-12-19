@@ -224,7 +224,14 @@
                     <p class="text-red-900">{{$obs['detalle']}}</p>
                 </div>               
                 @endforeach
+                
             </div> 
+            @if($comentario)
+            <h1>Comentario: </h1>
+                <div class="flex flex-column  bg-amber-200 my-2 rounded-xl p-2 justify-between">                    
+                    <p class="text-black-900 font-bold">{{$comentario}}</p>
+                </div> 
+            @endif
             <hr class="my-4">
             @endif       
         @endif

@@ -30,7 +30,8 @@
                    
         </div>
 
-        <div class="w-full items-center md:flex  md:justify-center">
+        <div class="w-full items-center md:flex  md:justify-between">
+            {{$services}}
             <div class="flex bg-gray-50 items-center lg:w-3/6 p-2 rounded-md mb-4">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20"
                     fill="currentColor">

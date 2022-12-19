@@ -46,7 +46,7 @@ class RevisionExpedientes extends Component
     public $observacionesEx=[];
     public $files=[]; 
        
-    public $idus,$expediente,$identificador,$tipoServicio,$ta,$es,$ins,$inspectores,$talleres;
+    public $idus,$expediente,$identificador,$tipoServicio,$ta,$es,$ins,$tipoSer,$inspectores,$talleres,$tipos,$comentario,$activo,$index;
     public $conteo;
     public $search="";
     public $cant="";
@@ -70,8 +70,9 @@ class RevisionExpedientes extends Component
 
    protected $rules=[
         
-        'expediente.estado'=>'required',   
-        'conteo'=>'numeric|required|min:1',    
+    'expediente.estado'=>'required',   
+    'conteo'=>'numeric|required|min:1',  
+    'comentario'=>'required|max:500',  
     ];
 
 
@@ -82,12 +83,14 @@ class RevisionExpedientes extends Component
 
     public function mount(){
         $this->talleres=Taller::all();
+        $this->tipos=TipoServicio::all();
         $this->inspectores=User::all()->where('id','!=',Auth::id());
         $this->idus=Auth::id();
         $this->identitifcador=rand();        
         $this->expediente= new Expediente();
         $this->cant="10";  
         $this->conteo=0;
+        $this->activo=false;
      }   
 
     public function agregaObservacion($id){
@@ -107,13 +110,27 @@ class RevisionExpedientes extends Component
                     'detalle'=>$obs['detalle'],
                     'tipo'=>1,
                     'estado'=>1,
-                ]);    
+                ]);  
+                 
                 ExpedienteObservacion::create([
                     'idExpediente'=>$this->expediente->id,
                     'idObservacion'=>$ob->id,
                 ]);                            
             }
+            
         }
+        if($this->activo){
+            $obser=Observacion::create([
+                'detalle'=>$this->comentario,
+                'tipo'=>2,
+                'estado'=>1,
+            ]);
+            ExpedienteObservacion::create([
+                'idExpediente'=>$this->expediente->id,
+                'idObservacion'=>$obser->id,
+            ]); 
+        }           
+        
     }
 
     public function tallerSel($tall){
@@ -135,6 +152,10 @@ class RevisionExpedientes extends Component
         if($this->ta!=null){
             array_push($filtros1,['taller.id','like','%'.$this->ta.'%']);
             array_push($filtros2,['taller.id','like','%'.$this->ta.'%']);
+        }
+        if($this->tipoSer!=null){
+            array_push($filtros1,['tiposervicio.descripcion','like','%'.$this->tipoSer.'%']);
+            array_push($filtros2,['tiposervicio.descripcion','like','%'.$this->tipoSer.'%']);
         }
         
         if($this->readyToLoad){            
@@ -177,9 +198,17 @@ class RevisionExpedientes extends Component
         if($nobs){
             $this->reset(['observacionesEx']);  
             foreach($nobs as $n){
-                $ob=Observacion::find($n->idObservacion);
-                array_push($this->observacionesEx,$ob);  
-                $this->conteo++;              
+                    $ob=Observacion::find($n->idObservacion);
+                    if($ob->tipo==1){
+                        array_push($this->observacionesEx,$ob);  
+                        $this->conteo++; 
+                    }else{       
+                        $this->comentario=$ob->detalle;                        
+                        $this->index=$ob->id;
+                        $this->activo=true;
+                    }
+                      
+                
             } 
         }else{
             $this->reset(['observacionesEx']);  
@@ -197,8 +226,6 @@ class RevisionExpedientes extends Component
             }
         }
     }
-
-
    
     public function pasaDatosExpediente(Expediente $expediente){
             $this->expediente=$expediente;  
@@ -226,20 +253,30 @@ class RevisionExpedientes extends Component
     }
 
     public function actualizar(){        
-        //$this->eligeObservaciones();
-        $this->creaGuardaObservaciones();
+        //$this->eligeObservaciones();        
         if($this->expediente->estado!=2){
             $this->conteo=1;
-        } 
-        
-        $validatedData = $this->validate([
+        }  
+        $reglas=[
             'expediente.estado'=>'required',   
-            'conteo'=>'numeric|required|min:1',
-        ]);         
+            'conteo'=>'numeric|required|min:1'
+            
+        ];
+        if($this->activo){
+            $reglas+=['comentario'=>'required|max:500'];
+        }else{
+            $coment=Observacion::find($this->index);
+            if($coment){
+                $coment->delete();
+            }
+            
+        }       
+        $this->validate($reglas); 
+        $this->creaGuardaObservaciones();        
         $this->expediente->save();       
         $this->editando=false;        
         $this->emit('alert','El expediente se actualizo correctamente');
-        $this->reset(['observaciones','observacionesEx','conteo']);   
+        $this->reset(['observaciones','observacionesEx','conteo','comentario','activo','index']);   
         $this->conteo=0;
         $this->resetCheck();
     }
@@ -250,6 +287,7 @@ class RevisionExpedientes extends Component
         $this->conteo--;
         $this->cargaObservaciones($this->expediente);
         $this->reset(['observaciones']);  
+        //$this->cargaObservaciones($this->expediente);
         $this->observacioneDisponibles();
     }
 
@@ -280,11 +318,12 @@ class RevisionExpedientes extends Component
     public function updatingEditando(){        
          $this->conteo=0;    
          $this->resetCheck();
+         $this->reset(['observaciones','observacionesEx','conteo','comentario','activo','index']);  
+         //$this->resetPage();
     }
 
     protected $messages = [
-        'conteo.min' => 'Debe seleccionar por lo menos una observación',
-        
+        'conteo.min' => 'Debe seleccionar por lo menos una observación',        
     ];
     
 }
