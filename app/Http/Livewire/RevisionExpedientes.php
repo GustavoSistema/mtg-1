@@ -84,7 +84,7 @@ class RevisionExpedientes extends Component
     public function mount(){
         $this->talleres=Taller::all()->sortBy('nombre');
         $this->tipos=TipoServicio::all();
-        $this->inspectores=User::all()->where('id','!=',Auth::id())->sortBy('name');
+        $this->inspectores=User::role(['inspector','supervisor'])->where('id','!=',Auth::id())->orderBy('name')->get();
         $this->idus=Auth::id();
         $this->identitifcador=rand();        
         $this->expediente= new Expediente();
