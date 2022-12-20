@@ -42,7 +42,7 @@
                 </select>                
             </div>
         </x-slot>
-        <div wire:loading wire:target="ta,ins,es"  class="my-4 w-full px-6 py-4 text-center font-bold bg-indigo-200 rounded-md">
+        <div wire:loading wire:target="ta,ins,es,tipoSer"  class="my-4 w-full px-6 py-4 text-center font-bold bg-indigo-200 rounded-md">
             cargando expedientes...
         </div> 
         @if (count($expedientes))
@@ -276,7 +276,7 @@
                 </div>                        
                 @endif                
          @else 
-            <div wire:loading.remove wire:target="ta,ins,es" class="px-6 py-4 text-center font-bold bg-indigo-200 rounded-md border border-indigo shadow-lg shadow-indigo-400/50">
+            <div wire:loading.remove wire:target="ta,ins,es,tipoSer" class="px-6 py-4 text-center font-bold bg-indigo-200 rounded-md border border-indigo shadow-lg shadow-indigo-400/50">
                 No se encontro ningun registro.
             </div>              
         @endif   
