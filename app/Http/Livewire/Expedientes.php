@@ -164,11 +164,11 @@ class Expedientes extends Component
         
         $this->validate();        
 
-        foreach($this->fotosnuevas as $file){
+        foreach($this->fotosnuevas as $key=>$file){
             $file_save= new imagen();
-            $file_save->nombre=$this->expediente->placa;
+            $file_save->nombre=$this->expediente->placa.'-foto'.($key+1).'-'.$this->expediente->certificado;
             $file_save->extension=$file->extension();
-            $file_save->ruta = $file->store('public/expedientes');
+            $file_save->ruta = $file->storeAs('public/expedientes',$file_save->nombre.'.'.$file->extension());
             $file_save->Expediente_idExpediente=$this->expediente->id;
             Imagen::create([
                 'nombre'=>$file_save->nombre,
@@ -178,11 +178,11 @@ class Expedientes extends Component
             ]);
         }
 
-        foreach($this->documentosnuevos as $file){
+        foreach($this->documentosnuevos as $key=>$file){
             $file_save= new imagen();
-            $file_save->nombre=$this->expediente->placa;
+            $file_save->nombre=$this->expediente->placa.'-doc'.($key+1).'-'.$this->expediente->certificado;
             $file_save->extension=$file->extension();
-            $file_save->ruta = $file->store('public/expedientes');
+            $file_save->ruta = $file->storeAs('public/expedientes',$file_save->nombre.'.'.$file->extension());
             $file_save->Expediente_idExpediente=$this->expediente->id;
             Imagen::create([
                 'nombre'=>$file_save->nombre,
