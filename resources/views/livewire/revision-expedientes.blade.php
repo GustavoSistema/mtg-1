@@ -410,14 +410,14 @@
                         <p>{{$obse['detalle']}}</p><a wire:click="deleteObservacion({{$obse['id']}})" class="cursor-pointer mx-2"><i class="fas fa-times"></i></a>
                     </div>                      
                     @endif
-                @endforeach 
+                @endforeach                 
                 </div>                
             @endif
             
             <hr class="my-2">
             <div class="flex items-center justify-center w-full">               
-               <label for="activo" class="hover:text-indigo-500 hover:cursor-pointer">
-                    <input type="checkbox" class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white outline-transparent checked:bg-indigo-600 checked:border-indigo-600 outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" name="activo" id="activo" wire:model="activo"> Agregar Comentario              
+               <label for="activo" class="hover:text-indigo-500 hover:cursor-pointer">                    
+                    <input wire:model="activo" id="activo" type="checkbox" class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white outline-transparent checked:bg-indigo-600 checked:border-indigo-600 outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" > Agregar Comentario              
                </label>
             </div>
             
@@ -448,6 +448,13 @@
             for (var i = 0; i < textinputs.length; ++i) { 
                 textinputs[i].checked = false;
             }
+        });
+    </script>
+    <script>
+        Livewire.on('activaCheck', ()=> {
+            var check = document.querySelector('#activo');                
+                check.checked = true;
+            
         });
     </script>
     <script> 

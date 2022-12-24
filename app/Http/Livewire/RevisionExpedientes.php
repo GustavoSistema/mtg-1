@@ -64,8 +64,7 @@ class RevisionExpedientes extends Component
         'search'=>['except'=>''],
         'es'=>['except'=>''],
         'ta'=>['except'=>''],
-        'ins'=>['except'=>''],
-        'page'=>['except'=>1],
+        'ins'=>['except'=>''],        
    ];
 
    protected $rules=[
@@ -206,6 +205,7 @@ class RevisionExpedientes extends Component
                         $this->comentario=$ob->detalle;                        
                         $this->index=$ob->id;
                         $this->activo=true;
+                        $this->activaCheck();
                     }
                       
                 
@@ -259,8 +259,7 @@ class RevisionExpedientes extends Component
         }  
         $reglas=[
             'expediente.estado'=>'required',   
-            'conteo'=>'numeric|required|min:1'
-            
+            'conteo'=>'numeric|required|min:1'            
         ];
         if($this->activo){
             $reglas+=['comentario'=>'required|max:500'];
@@ -268,8 +267,7 @@ class RevisionExpedientes extends Component
             $coment=Observacion::find($this->index);
             if($coment){
                 $coment->delete();
-            }
-            
+            }            
         }       
         $this->validate($reglas); 
         $this->creaGuardaObservaciones();        
@@ -292,10 +290,13 @@ class RevisionExpedientes extends Component
     }
 
     public function download($ruta){   
-        // emit an event with the path        
+        //emit an event with the path        
         $this->emit('startDownload',$ruta);
     }
 
+    public function activaCheck(){
+        $this->emit('activaCheck');
+    }
 
     public function validaObservaciones(){
         
@@ -307,6 +308,7 @@ class RevisionExpedientes extends Component
 
     public function updated($propertyName)
     {
+        $this->resetPage();
         $this->validateOnly($propertyName);
     }  
 

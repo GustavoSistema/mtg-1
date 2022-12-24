@@ -19,7 +19,7 @@ class Talleres extends Component
 
     public function render()
     {
-        $files=Imagen::where('Expediente_idExpediente','=',359)->whereIn('extension',['jpg','jpeg','png','gif','tif','tiff','bmp'])->get();
+        $files=Imagen::where('Expediente_idExpediente','=',367)->whereIn('extension',['jpg','jpeg','png','gif','tif','tiff','bmp'])->get();
         //$talleres=Taller::all();
         return view('livewire.talleres',compact('files'));
     }

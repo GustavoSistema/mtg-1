@@ -47,7 +47,7 @@ class Expedientes extends Component
 
    protected $rules=[
         'expediente.placa'=>'required|min:6|max:6',
-        'expediente.certificado'=>'required|min:1|max:7',       
+        'expediente.certificado'=>'required|min:7|max:7',       
         'fotosnuevas'=>'array|max:10',
         'documentosnuevos'=>'array|max:10',
         'tallerSeleccionado'=>'required',
@@ -231,7 +231,7 @@ class Expedientes extends Component
     }
 
     public function deleteFileUpload($id){
-        unset($this->otros[$id]);
+        unset($this->fotosnuevas[$id]);
     }
 
     public function updatingSearch(){

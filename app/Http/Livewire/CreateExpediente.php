@@ -26,18 +26,14 @@ class CreateExpediente extends Component
     public $servicios=[];
     public $open=false;   
     public $estado=1;    
-    public $idus,$placa,$certificado,$servicio,$identificador,$tallerSeleccionado;
+    public $idus,$placa,$certificado,$servicio,$identificador,$tallerSeleccionado,$regla;
     
     protected $rules=[
-        'placa'=>'required|min:6|max:6',
-        'certificado'=>'required|min:7|max:7|unique:expedientes,certificado',
+        'placa'=>'required|min:6|max:6',        
         'servicio'=>'required',
-        'files'=>'required',
-        //'files.*'=>'mimes:jpg,jpeg,png,tif|size:5010',
-        //'documentos.*'=>'required|mimes:pdf,xls,xlsx,doc,docx|size:5120',
+        'files'=>'required',       
         'documentos'=>'array|max:10',
-        'tallerSeleccionado'=>'required'
-        //'documentos.*'=>'file|mimes:pdf,xls,xlsx,doc,docx|max:10024',
+        'tallerSeleccionado'=>'required',                
     ];
 
     
@@ -47,7 +43,7 @@ class CreateExpediente extends Component
         $this->idus=Auth::id();
         $this->identificador=rand();
         $this->placa=strtoupper($this->placa);
-        $user=User::find($this->idus);
+        $user=User::find($this->idus);        
         /*        
         $this->servicios= json_decode(DB::table('servicio')
         ->select('servicio.*','tiposervicio.descripcion')
@@ -106,8 +102,9 @@ class CreateExpediente extends Component
     }
 
     public function save(){
-
-        $this->validate();        
+        //$serv=Servicio::find($this->servicio);        
+        $this->validate();
+        //$this->validate(['certificado'=>'unique:expedientes,certificado']);        
 
         $expe=Expediente::create([
             'placa'=> strtoupper($this->placa),
@@ -164,7 +161,18 @@ class CreateExpediente extends Component
     }
 
     public function updated($propertyName)
-    {
+    {   
+        if($this->servicio){
+            $serv=Servicio::find($this->servicio);
+            if($serv->tipoServicio_idtipoServicio!=7){
+                $this->reset(['rules']);
+                $this->rules+=['certificado'=>'required|min:7|max:7|unique:expedientes,certificado'];
+            }else{
+                $this->reset(['rules']);
+                $this->rules+=['certificado'=>'required|min:7|max:7'];
+            }
+        }
+            
         $this->validateOnly($propertyName);
     }
 

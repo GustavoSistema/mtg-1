@@ -27,6 +27,8 @@
                         <option value="{{ $serv['id']}}">{{ $serv['descripcion']}}</option> 
                     @endforeach                             
                 </select>
+                @if($servicio)                
+                @endif
                 <x-jet-input-error for="servicio"/>
             </div> 
             @else
@@ -40,12 +42,12 @@
             @endif          
             <div class="mb-4">
                 <x-jet-label value="Placa:"/>
-                <x-jet-input type="text" class="w-full" wire:model="placa" />
+                <x-jet-input type="text" class="w-full" wire:model="placa" maxlength="6"/>
                 <x-jet-input-error for="placa"/>
             </div>
             <div class="mb-4">
                 <x-jet-label value="Certificado:"/>
-                <x-jet-input type="text" class="w-full" wire:model="certificado"/>
+                <x-jet-input type="text" class="w-full" wire:model="certificado" maxlength="7"/>
                 <x-jet-input-error for="certificado"/>
             </div>            
             <div class="mb-4">
