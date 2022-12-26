@@ -15,4 +15,9 @@ class Taller extends Model
     'direccion',
     'ruc',
     ];
+
+    public function servicios(){
+        return $this->hasMany(Servicio::class,'taller_idtaller');
+    }    
+   
 }

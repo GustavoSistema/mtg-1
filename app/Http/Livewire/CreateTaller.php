@@ -50,7 +50,7 @@ class CreateTaller extends Component
         //$rules=[];
         foreach($this->tipos as $key=>$item){
             if($item!=0){                             
-                $this->rules+=[('precios.'.$key)=>'required|numeric|min:1',];                 
+                $this->rules+=[('precios.'.$key)=>'required|numeric',];                 
             }
         }
         /*
@@ -67,6 +67,17 @@ class CreateTaller extends Component
             'direccion'=>$this->direccion,
             'ruc'=>$this->ruc,
         ]);
+
+        foreach($this->tipos as $key=>$item){
+            if($item){
+                $serv=Servicio::create([
+                    'precio'=>$this->precios[$key],
+                    'estado'=>1,
+                    'taller_idtaller'=>$taller->id,
+                    'tipoServicio_idtipoServicio'=>$item,
+                ]);
+            }
+        }
 
         $this->reset(['open','nombre','direccion','ruc']);
         $this->emitTo('talleres','render');
@@ -95,19 +106,6 @@ class CreateTaller extends Component
     protected $messages = [
         //'precios.*.min' => 'Ingrese un precio valido', 
         'precios.*.required' => 'Ingrese un precio valido.'      
-    ];
-
-
+    ];   
     
-    /*
-    public function agregaServicio(){
-        $this->serv++;
-        $this->emitTo('createTaller','render');
-    }
-    public function borraServicio(){
-        $this->serv--;
-        $this->emitTo('createTaller','render');
-    }
-
-    */
 }
