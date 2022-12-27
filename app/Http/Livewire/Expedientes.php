@@ -191,7 +191,9 @@ class Expedientes extends Component
 
         $this->expediente->servicio_idservicio=$this->servicioSeleccionado;
 
-        $this->expediente->save();        
+        $this->expediente->save();     
+
+       // $this->reset();   
         
         $this->reset(['editando','expediente','documentosnuevos','fotosnuevas']);        
         
@@ -210,8 +212,9 @@ class Expedientes extends Component
         foreach($imgs as $img ){
             Storage::delete($img->ruta);
         }
-        $expediente->delete();        
-        $this->emitTo('expedientes','render');
+        $expediente->delete(); 
+        $this->expediente=Expediente::make();
+        $this->emitTo('expedientes','render');           
         $this->identificador=rand();
         $this->resetPage();
     }
