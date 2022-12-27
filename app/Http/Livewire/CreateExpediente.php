@@ -89,7 +89,7 @@ class CreateExpediente extends Component
     {
         $this->validate( [
             'files'=>'required|max:10',
-            'files.*'=>'mimes:jpg,jpeg,png,tif|max:5010',
+            'files.*'=>'mimes:jpg,jpeg,png,tif|max:10010',
         ]);
     }
 
@@ -97,7 +97,7 @@ class CreateExpediente extends Component
     {
         $this->validate( [
             'documentos'=>'array|max:3',
-            'documentos.*'=>'file|mimes:pdf,xls,xlsx,doc,docx|max:5010'
+            'documentos.*'=>'file|mimes:pdf,xls,xlsx,doc,docx|max:10010'
         ]);
     }
 

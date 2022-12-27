@@ -171,8 +171,9 @@
             <div class="flex flex-row items-center">
                 <x-jet-label value="precio:"/>
                 <x-jet-input type="text" class="w-6px" wire:model="taller.servicios.{{$key}}.precio" /> 
-                <x-jet-input-error for="taller.servicios.{{$key}}.precio" />                       
+                                       
             </div>  
+            <x-jet-input-error for="taller.servicios.{{$key}}.estado" />
             <x-jet-input-error for="taller.servicios.{{$key}}.precio" />                   
         </div>
         @endforeach

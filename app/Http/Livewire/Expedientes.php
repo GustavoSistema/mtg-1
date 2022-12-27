@@ -73,15 +73,7 @@ class Expedientes extends Component
         $this->identitifcador=rand();        
         $this->expediente= new Expediente();
         $this->cant="10";
-        $this->talleres=Taller::all(); 
-        $user=User::find($this->idus);
-        /*                
-        $this->servicios= json_decode(DB::table('servicio')
-        ->select('servicio.*','tiposervicio.descripcion')
-        ->join('tiposervicio','servicio.tipoServicio_idtipoServicio','=','tiposervicio.id')
-        ->where('taller_idtaller',$user->taller_idtaller)
-        ->get(),true); 
-        */
+        $this->talleres=Taller::all();         
     }
 
 
@@ -163,24 +155,26 @@ class Expedientes extends Component
     public function actualizar(){       
         
         $this->validate();        
-
-        foreach($this->fotosnuevas as $key=>$file){
-            $file_save= new imagen();
-            $file_save->nombre=$this->expediente->placa.'-foto'.($key+1).'-'.$this->expediente->certificado;
-            $file_save->extension=$file->extension();
-            $file_save->ruta = $file->storeAs('public/expedientes',$file_save->nombre.'.'.$file->extension());
-            $file_save->Expediente_idExpediente=$this->expediente->id;
-            Imagen::create([
-                'nombre'=>$file_save->nombre,
-                'ruta'=>$file_save->ruta,
-                'extension'=>$file_save->extension,
-                'Expediente_idExpediente'=>$file_save->Expediente_idExpediente,
-            ]);
+        if(count($this->fotosnuevas)>0){
+            foreach($this->fotosnuevas as $key=>$fn){
+                $file_sa= new imagen();
+                $file_sa->nombre=$this->expediente->placa.'-foto'.($key+1).$this->identificador.'-'.$this->expediente->certificado;
+                $file_sa->extension=$fn->extension();
+                $file_sa->ruta = $fn->storeAs('public/expedientes',$file_sa->nombre.'.'.$fn->extension());
+                $file_sa->Expediente_idExpediente=$this->expediente->id;
+                Imagen::create([
+                    'nombre'=>$file_sa->nombre,
+                    'ruta'=>$file_sa->ruta,
+                    'extension'=>$file_sa->extension,
+                    'Expediente_idExpediente'=>$file_sa->Expediente_idExpediente,
+                ]);
+            }
         }
+        
 
         foreach($this->documentosnuevos as $key=>$file){
             $file_save= new imagen();
-            $file_save->nombre=$this->expediente->placa.'-doc'.($key+1).'-'.$this->expediente->certificado;
+            $file_save->nombre=$this->expediente->placa.'-doc'.($key+1).$this->identificador.'-'.$this->expediente->certificado;
             $file_save->extension=$file->extension();
             $file_save->ruta = $file->storeAs('public/expedientes',$file_save->nombre.'.'.$file->extension());
             $file_save->Expediente_idExpediente=$this->expediente->id;

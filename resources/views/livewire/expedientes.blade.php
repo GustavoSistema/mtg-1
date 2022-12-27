@@ -287,9 +287,9 @@
                 <x-jet-input-error for="fotosnuevas" />
                 <x-jet-input-error for="fotosnuevas.*" />
             </div>
-            <div wire:loading wire:target="fotosnuevas"
+            <div wire:loading wire:target="fotosnuevas,deleteFileUpload"
                 class="my-4 w-full px-6 py-4 text-center font-bold bg-indigo-200 rounded-md">
-                Procesando sus archivos, espere un momento...
+                Procesando sus imagenes, espere un momento...
             </div>
             <h1 class="pt-2  font-semibold sm:text-lg text-gray-900">
                 Galeria de fotos:

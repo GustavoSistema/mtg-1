@@ -27,7 +27,7 @@ class Talleres extends Component
       'taller.direccion'=>'required|min:5',
       'taller.ruc'=>'required|min:11|max:11',
       'taller.servicios.*.estado'=> 'nullable',
-      'taller.servicios.*.precio'=> 'nullable',
+      'taller.servicios.*.precio'=> 'required|numeric',
     ];
 
     public function render()
@@ -60,20 +60,12 @@ class Talleres extends Component
 
     public function actualizar(){
         $this->taller->save();
-        foreach($this->taller->servicios as $ser){
-            $ser->save();
-        }  
-        /* 
-        foreach($this->taller->servicios as  $key=>$serv){
-            if($serv->id== $this->serviciosTaller[$key]['id']){
-                  if($serv->precio != $this->serviciosTaller[$key]['precio'] ){
-                        $serv->precio=$this->serviciosTaller[$key]['precio'];
-                  }
-            }
+        foreach($this->taller->servicios as $ser){                
+                $ser->save();
+                if($ser->estado){
+
+                }
         }
-        */
-
-
         $this->reset(['editando']);
         $this->emit('alert','El expediente se actualizo correctamente');
 
