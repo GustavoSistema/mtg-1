@@ -297,7 +297,7 @@
             <hr />
             @if (count($files) || count($fotosnuevas))
                 <section class="mt-4 overflow-hidden border-dotted border-2 text-gray-700 "
-                    id="{{ 'section-' . $identificador }}">
+                    id="{{ 'section-' . $identificador }}" wire:model="fotosnuevas">
                     <div class="container px-5 py-2 mx-auto lg:px-32">
                         <div class="flex flex-wrap -m-1 md:-m-2">
                             @foreach ($files as $fil)
@@ -361,7 +361,7 @@
                     <div class="container px-5 py-2 mx-auto lg:px-32">
                         <div class="flex flex-wrap -m-1 md:-m-2">
                             @foreach ($documentos as $fil)
-                                {{--
+                            {{--
                             <div class="flex flex-wrap w-1/3 ">
                                 <div class="w-full p-1 md:p-1 items-center justify-center text-center">                                    
                                     <img alt="gallery" class="mx-auto flex object-cover object-center w-15 h-15 rounded-lg" src="/images/{{$fil->extension}}.png">

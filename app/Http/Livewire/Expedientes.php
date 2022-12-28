@@ -222,9 +222,8 @@ class Expedientes extends Component
     public function deleteFile(Imagen $file){
         Storage::delete([$file->ruta]);
         $file->delete();        
-        $this->emitTo('expedientes','render');
-        $this->identificador=rand();
-        $this->resetPage();
+        //$this->emitTo('expedientes','render');
+        //$this->identificador=rand();        
     }
 
     public function deleteFileUpload($id){
@@ -235,8 +234,7 @@ class Expedientes extends Component
         $this->resetPage();
     }
     
-    public function updatingEditando(){
-        //$this->identificador=rand(); 
-        $this->reset(['documentosnuevos','fotosnuevas']);       
+    public function updatingEditando(){        
+        $this->reset(['documentosnuevos','fotosnuevas']);    
     }
 }
