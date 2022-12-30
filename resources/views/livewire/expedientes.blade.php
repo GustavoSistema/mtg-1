@@ -215,6 +215,10 @@
 
         <x-slot name="content">
             @if ($expediente)
+            <div>
+                <span class="flex justify-end font-ligth text-sm">ultima actualizacion:{{$expediente->updated_at}}</span>
+            </div>
+                
                 @if ($expediente->estado == 2)
                     @if ($observaciones)
                         <h1>Observaciones: </h1>

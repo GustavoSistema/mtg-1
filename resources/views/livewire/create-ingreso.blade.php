@@ -13,12 +13,7 @@
             <x-jet-label value="N° de guia:"/>
             <x-jet-input type="text" class="w-full" wire:model="numguia" />
             <x-jet-input-error for="numguia"/>
-        </div>    
-        <div class="mb-4">
-            <x-jet-label value="Estado:"/>
-            <x-jet-input type="text" class="w-full" wire:model="estado" />
-            <x-jet-input-error for="estado"/>
-        </div>
+        </div>   
         <div class="mb-4">
             <x-jet-label value="Motivo:"/>
             <x-jet-input type="text" class="w-full" wire:model="motivo" />
@@ -36,28 +31,40 @@
                 </select>
                 <x-jet-input-error for="tipoMat" />
             </div>
-            <div>
-                <x-jet-label value="Cantidad:" />
-                <x-jet-input type="number" class="w-full" wire:model="cantidad" />
-                <x-jet-input-error for="cantidad" />
-            </div>
-            <div>
-                <x-jet-label value="Prefijo:" />
-                <x-jet-input type="number" class="w-full" wire:model="prefijo" />
-                <x-jet-input-error for="prefijo" />
-            </div>
-            <div>
-                <x-jet-label value="N° de inicio" />
-                <x-jet-input type="number" class="w-full" wire:model="numInicio" />
-                <x-jet-input-error for="numInicio" />
-            </div>
-            <div>
-                <x-jet-label value="N° de Final" />
-                <x-jet-input type="number" class="w-full" wire:model="numFinal" enable />
-                <x-jet-input-error for="numFinal" />
-            </div>
-                     
-            
+
+            @switch($mostrar)
+                @case(1)
+                    <div>
+                        <x-jet-label value="Cantidad:" />
+                        <x-jet-input type="number" class="w-full" wire:model="cantidad" />
+                        <x-jet-input-error for="cantidad" />
+                    </div>
+                    <div>
+                        <x-jet-label value="Prefijo:" />
+                        <x-jet-input type="number" class="w-full" wire:model="prefijo" />
+                        <x-jet-input-error for="prefijo" />
+                    </div>
+                    <div>
+                        <x-jet-label value="N° de inicio" />
+                        <x-jet-input type="number" class="w-full" wire:model="numInicio" />
+                        <x-jet-input-error for="numInicio" />
+                    </div>
+                    <div>
+                        <x-jet-label value="N° de Final" />
+                        <x-jet-input type="number" class="w-full" wire:model="numFinal" enable />
+                        <x-jet-input-error for="numFinal" />
+                    </div>
+                    @break
+                @case(2)
+                    <div>
+                        <x-jet-label value="Cantidad:" />
+                        <x-jet-input type="number" class="w-full" wire:model="cantidad" />
+                        <x-jet-input-error for="cantidad" />
+                    </div>
+                    @break
+                @default
+                    <h1>Selecciona un tipo de articulo</h1>
+            @endswitch                 
         </div>
     </x-slot>
     

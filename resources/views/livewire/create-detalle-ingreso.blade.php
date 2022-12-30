@@ -9,26 +9,30 @@
         </select>
         <x-jet-input-error for="tipoMat" />
     </div>
-    <div>
-        <x-jet-label value="Cantidad:" />
-        <x-jet-input type="number" class="w-full" wire:model="cantidad" />
-        <x-jet-input-error for="cantidad" />
-    </div>
-    <div>
-        <x-jet-label value="N° de inicio" />
-        <x-jet-input type="number" class="w-full" wire:model="numInicio" />
-        <x-jet-input-error for="numInicio" />
-    </div>
-    <div>
-        <x-jet-label value="N° de Final" />
-        <x-jet-input type="number" class="w-full" wire:model="numFinal" enable />
-        <x-jet-input-error for="numFinal" />
-    </div>
-    <div>
-        <div class="flex justify-center items-center my-4">
-            <button class="p-2 bg-indigo-500 text-white font-semibold rounded-lg" wire:click="guardar">agregar</button>
+    @if($mostrar==1)
+        <div>
+            <x-jet-label value="Cantidad:" />
+            <x-jet-input type="number" class="w-full" wire:model="cantidad" />
+            <x-jet-input-error for="cantidad" />
         </div>
-    </div>
+        <div>
+            <x-jet-label value="N° de inicio" />
+            <x-jet-input type="number" class="w-full" wire:model="numInicio" />
+            <x-jet-input-error for="numInicio" />
+        </div>
+        <div>
+            <x-jet-label value="N° de Final" />
+            <x-jet-input type="number" class="w-full" wire:model="numFinal" enable />
+            <x-jet-input-error for="numFinal" />
+        </div>
+        <div>
+            <div class="flex justify-center items-center my-4">
+                <button class="p-2 bg-indigo-500 text-white font-semibold rounded-lg" wire:click="guardar">agregar</button>
+            </div>
+        </div>
+    @else
+        <h1>NO ES ESTO</h1>
+    @endif
     
 
 </div>

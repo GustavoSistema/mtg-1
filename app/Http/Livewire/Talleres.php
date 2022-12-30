@@ -40,13 +40,13 @@ class Talleres extends Component
         return view('livewire.talleres',compact('talleres'));
     }
 
-  public function cargaServiciosTaller($id){
-          $this->serviciosTaller=DB::table('servicio') 
-          ->select('servicio.*', 'tiposervicio.descripcion')             
-          ->join('tiposervicio', 'servicio.tipoServicio_idtipoServicio', '=', 'tiposervicio.id')
-          ->where('taller_idtaller',$id)
-          ->get();
-  }
+    public function cargaServiciosTaller($id){
+            $this->serviciosTaller=DB::table('servicio') 
+            ->select('servicio.*', 'tiposervicio.descripcion')             
+            ->join('tiposervicio', 'servicio.tipoServicio_idtipoServicio', '=', 'tiposervicio.id')
+            ->where('taller_idtaller',$id)
+            ->get();
+    }
     
 
     public function edit(Taller $tal){       
@@ -63,7 +63,7 @@ class Talleres extends Component
         foreach($this->taller->servicios as $ser){                
                 $ser->save();
                 if($ser->estado){
-
+                    
                 }
         }
         $this->reset(['editando']);

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DetalleIngreso extends Model
+class IngresoDetalle extends Model
 {
     use HasFactory;
 
@@ -21,8 +21,5 @@ class DetalleIngreso extends Model
     'updated_at',        
     ];
 
-    public function detalleIngreso(){
-        return $this->belongsTo(Material::class,'idMaterial');
-    }
     
 }

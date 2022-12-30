@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\DetalleIngreso;
+use App\Models\IngresoDetalle;
 use App\Models\TipoMaterial;
 use Livewire\Component;
 
@@ -31,7 +32,7 @@ class CreateDetalleIngreso extends Component
 
     public function guardar(){
         $this->validate();
-        $detalleI= new DetalleIngreso();
+        $detalleI= new IngresoDetalle();
         $aux=1;
         
             

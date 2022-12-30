@@ -23,9 +23,10 @@ class Material extends Model
     'idTipoMaterial',
     'created_at',
     'updated_at',        
-    ];
+    ];   
 
-    public function detalleIngreso(){
-        return $this->belongsTo(TipoMaterial::class,'id');
+    public function tipo(){
+        return $this->belongsTo(TipoMaterial::class,'idTipoMaterial');
     }
+    
 }
