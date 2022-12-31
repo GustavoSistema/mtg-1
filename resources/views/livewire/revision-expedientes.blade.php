@@ -317,10 +317,10 @@
                                 <div class="w-full items-center justify-center ">
                                     <img alt="gallery" class="mx-auto flex object-cover object-center w-full rounded-lg" src="{{ Storage::url($fil->ruta) }}">                                    
                                 </div> 
-                                <div class="absolute mt-2">
-                                    <a class="group max-w-max relative mx-1 flex flex-col items-center justify-center rounded-full border border-gray-500 p-1 text-gray-500 hover:bg-gray-200 hover:text-gray-600" href="#">
+                                <div class="absolute mt-2 w-full bottom-3 flex justify-center items-center">
+                                    <a class="group max-w-max relative mx-1 flex flex-col items-center justify-center rounded-full bg-white border border-gray-500 p-1 text-gray-500 hover:bg-gray-200 hover:text-gray-600" href="#">
                                         <!-- Text/Icon goes here -->
-                                        <p class="text-xs  flex justify-center items-center"><i class="fas fa-info-circle"></i></p>
+                                        <p class="flex m-auto"><i class="fas fa-info-circle"></i></p>
                                         <!-- Tooltip here -->
                                         <div class="[transform:perspective(50px)_translateZ(0)_rotateX(10deg)] group-hover:[transform:perspective(0px)_translateZ(0)_rotateX(0deg)] absolute bottom-0 mb-6 origin-bottom transform rounded text-white opacity-0 transition-all duration-300 group-hover:opacity-100 z-10">
                                             <div class="flex w-56 flex-col items-center">
@@ -365,14 +365,13 @@
                         @foreach ($documentos as $fil)                            
                             <div class="flex flex-wrap w-1/5 ">
                                 <div class="w-full p-1 md:p-2 items-center justify-center text-center">
-                                    <img alt="gallery" class="mx-auto flex object-cover object-center w-15 h-15 rounded-lg" src="/images/{{$fil->extension}}.png">
-                                   
+                                    <img alt="gallery" class="mx-auto flex object-cover object-center w-15 h-15 rounded-lg" src="/images/{{$fil->extension}}.png">                                   
                                     <div class="block">
                                         <p class="truncate text-sm" >{{ $fil->nombre }}</p>
                                         <div class="flex flex-row">
                                             <a class="group max-w-max relative mx-1 flex flex-col items-center justify-center rounded-full border border-gray-500 p-1 text-gray-500 hover:bg-gray-200 hover:text-gray-600" href="#">
                                                 <!-- Text/Icon goes here -->
-                                                <p class="text-xs  flex justify-center items-center"><i class="fas fa-info-circle"></i></p>
+                                                <p class="flex justify-center items-center"><i class="fas fa-info-circle"></i></p>
                                                 <!-- Tooltip here -->
                                                 <div class="[transform:perspective(50px)_translateZ(0)_rotateX(10deg)] group-hover:[transform:perspective(0px)_translateZ(0)_rotateX(0deg)] absolute bottom-0 mb-6 origin-bottom transform rounded text-white opacity-0 transition-all duration-300 group-hover:opacity-100 z-10">
                                                     <div class="flex w-56 flex-col items-center">
@@ -384,7 +383,7 @@
                                                     </div>
                                                 </div>
                                             </a>
-                                            <a class="" wire:click="download('{{$fil->ruta}}')"><i class="fas fa-download mt-1 mx-auto hover:text-indigo-400"></i></a>
+                                            <a wire:click="download('{{$fil->ruta}}')"><i class="fas fa-download mt-1 mx-auto hover:text-indigo-400"></i></a>
                                         </div>                                                                           
                                     </div>                                    
                                     

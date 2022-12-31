@@ -6,7 +6,5 @@
         <option value="{{ $item->id }}">{{ $item->nombre }}</option>
         @endforeach 
     </select>   
-    {{$seleccion}}
-    
-                 
+    {{$seleccion}}   
 </div> 
