@@ -24,6 +24,8 @@ class CreateIngreso extends Component
         "tipoMat"=>"required|numeric",            
     ];
 
+    
+
     public function mount(){
         //$this->open=false;
         $this->tiposMaterial=TipoMaterial::all()->sortBy("descripcion");
