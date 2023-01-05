@@ -16,13 +16,72 @@
                         <x-jet-input-error for="inspector"/>   
                     </div>                                       
                         @livewire('create-asignacion')
-                </div>                                          
+                </div> 
+                <x-jet-input-error for="articulos"/>
+                <div class="m-4">
+                    @if($articulos)         
+                    <div class="flex flex-col">
+                        <div class="overflow-x-auto sm:mx-0.5">
+                            <div class="py-2 inline-block min-w-full ">
+                                <div class="overflow-hidden">
+                                    <table class="min-w-full">
+                                        <thead class="bg-indigo-300 border-b">
+                                            <tr>
+                                                <th scope="col"
+                                                    class="text-sm font-medium font-semibold text-gray-900 px-6 py-4 text-left">
+                                                    #
+                                                </th>
+                                                <th scope="col"
+                                                    class="text-sm font-medium font-semibold text-gray-900 px-6 py-4 text-left">
+                                                    Material
+                                                </th>
+                                                <th scope="col"
+                                                    class="text-sm font-medium font-semibold text-gray-900 px-6 py-4 text-left">
+                                                    Cantidad
+                                                </th>
+                                                <th scope="col" class="text-sm font-medium font-semibold text-gray-900 px-6 py-4 text-left">
+                                                    Acción
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($articulos as $key => $articulo)
+                                                <tr class="bg-gray-100 border-b">
+                                                    <td
+                                                        class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                        {{ $key + 1 }}
+                                                    </td>
+                                                    <td
+                                                        class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                        {{$articulo['nombreTipo']}}
+                                                    </td>
+                                                    <td
+                                                        class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                        {{$articulo['cantidad']}}
+                                                    </td>
+                                                    <td
+                                                        class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                        <a wire:click="deleteArticulo({{$key}})" class="hover: cursor-pointer p-4" ><i class="fas fa-times" ></i>
+                                                        </td></a>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                   
+                    @endif                  
+                </div> 
+                
+                <div class="flex items-center justify-center">
+                    <button class="p-3 bg-indigo-500 rounded-xl text-white text-sm hover:font-bold hover:bg-indigo-700" wire:click="guardar">Aceptar</button>
+                    <a href="{{ route('cargoPdf')}}" target="__blank" class="p-3 bg-sky-500 rounded-xl text-white text-sm hover:font-bold hover:bg-sky-700 ml-2" >ver PDF</a>
+                </div>                                        
             </div>
-            <div>
-                @isset($articulos)
-                   <h1>{{$articulos}}</h1>
-                @endisset                   
-            </div>
+            
         
     </div>
 </div>

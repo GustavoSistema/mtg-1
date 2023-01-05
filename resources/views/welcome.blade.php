@@ -63,7 +63,7 @@
                         </div>
                     </div>
 
-                    <div class="ml-4 text-center text-sm text-gray-500 sm:text-right sm:ml-0">
+                    <div class="ml-4 text-center text-sm text-black-500 sm:text-right sm:ml-0">
                        Powered by ECR - Development ®
                     </div>
                 </div>

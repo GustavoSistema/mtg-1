@@ -47,24 +47,52 @@ class CreateIngreso extends Component
             "numeroguia"=>$this->numguia,
             "estado"=>1,
             "idUsuario"=>Auth::id(),           
-        ]);       
-        for($i = $this->numInicio; $i < ($this->numInicio+$this->cantidad); $i++){
-            $formato=Material::create([
-                "estado"=>1,
-                "numSerie"=>((string)$this->prefijo.(string)$i),
-                "grupo"=>$this->numguia,                
-                "idTipoMaterial"=>$this->tipoMat, 
-                "idUsuario"=>Auth::id(),               
-            ]);
-            array_push($aux,$formato->id);           
-        }           
-        foreach ($aux as $id){
-            $detalleIng=IngresoDetalle::create([
-                "idIngreso"=>$ingreso->id,
-                "idMaterial"=>$id,
-                "estado"=>1
-            ]);
-        } 
+        ]); 
+        
+        switch ($this->mostrar) {
+            case 1:
+                for($i = $this->numInicio; $i < ($this->numInicio+$this->cantidad); $i++){
+                    $formato=Material::create([
+                        "estado"=>1,
+                        "numSerie"=>((string)$this->prefijo.(string)$i),
+                        "grupo"=>$this->numguia,                
+                        "idTipoMaterial"=>$this->tipoMat,
+                        "ubicacion"=>'MOTORGAS COMPANY S.A.', 
+                        "idUsuario"=>Auth::id(),               
+                    ]);
+                    array_push($aux,$formato->id);           
+                }           
+                foreach ($aux as $id){
+                    $detalleIng=IngresoDetalle::create([
+                        "idIngreso"=>$ingreso->id,
+                        "idMaterial"=>$id,
+                        "estado"=>1
+                    ]);
+                }                
+                break;
+            case 2:
+                for($i = 0; $i < $this->cantidad; $i++){
+                    $formato=Material::create([
+                        "estado"=>1,                        
+                        "grupo"=>$this->numguia,                
+                        "idTipoMaterial"=>$this->tipoMat,
+                        "ubicacion"=>'MOTORGAS COMPANY S.A.', 
+                        "idUsuario"=>Auth::id(),               
+                    ]);
+                    array_push($aux,$formato->id);           
+                }
+                foreach ($aux as $id){
+                    $detalleIng=IngresoDetalle::create([
+                        "idIngreso"=>$ingreso->id,
+                        "idMaterial"=>$id,
+                        "estado"=>1
+                    ]);
+                }
+                break;            
+            default:                
+                break;
+        }
+         
         $this->reset(['motivo','numguia','numInicio','numFinal','prefijo','tipoMat','estado']); 
         $this->open=false;   
         $this->emitTo('ingresos','render');
