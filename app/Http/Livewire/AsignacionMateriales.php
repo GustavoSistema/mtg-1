@@ -2,20 +2,22 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Material;
 use App\Models\Salida;
+use App\Models\SalidaDetalle;
 use App\Models\TipoMaterial;
+use App\Models\TipoServicio;
 use App\Models\User;
-use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use PDF;
 use Livewire\Component;
-use PhpParser\Node\Stmt\Foreach_;
+
 
 class AsignacionMateriales extends Component
 {
     public $open=false;
-    public $inspectores,$inspector,$stockGlp,$stockGnv,$stockChips;
+    public $inspectores,$inspector,$stockGlp,$stockGnv,$stockChips,$ruta;
     public  $articulos=[];
     
 
@@ -43,6 +45,7 @@ class AsignacionMateriales extends Component
         unset($this->articulos[$id]);
     }
 
+    
     public function guardar(){
         $this->validate(
             [
@@ -59,24 +62,102 @@ class AsignacionMateriales extends Component
                 "estado"=>1                
             ]
         );  
-        
-        
 
+        foreach($this->articulos as $key=>$articulo){
+                $this->asignarMaterial($articulo,$salida);
+        }
+        $this->ruta=route('cargoPdf', ['id' => $salida->id]);
+        
+        $this->reset(['articulos','inspector']);
+    }
+    
+
+    
+    public function asignarMaterial($art,Salida $salida){
+        switch ($art["tipo"]) {
+            case 1:
+                $items=$this->asignarFormatos($art["cantidad"],$art["tipo"],$salida->idUsuarioAsignado);
+                $this->guardaDetalles($items,$salida->id);
+                break;
+            case 2:
+                $items=$this->asignarChips($art["cantidad"],$salida->idUsuarioAsignado);
+                $this->guardaDetalles($items,$salida->id);
+                break;
+            case 1:
+                $items=$this->asignarFormatos($art["cantidad"],$art["tipo"],$salida->idUsuarioAsignado);
+                $this->guardaDetalles($items,$salida->id);
+                break;           
+            default:
+                
+                break;
+        }
     }
 
-    public function enviar(){
-        $materiales=$this->articulos;
-       $data=[
-        "date"=>date('d/m/Y'),
-        "title"=>"MOTORGAS COMPANY S.A.",
-        "materiales"=>$this->articulos
-        ];
-        view()->share('cargoPDF',$data);          
+    public function guardaDetalles($articulos,$idSalida){
+        foreach($articulos as $articulo){
+            $detalleSal=SalidaDetalle::create([
+                "idSalida"=>$idSalida,
+                "idMaterial"=>$articulo->id,
+                "estado"=>1
+            ]);
+        }
+    }
+
+    public function asignarChips($cantidad,$idUsuario){
+        $asignados=[];
+        $usuario=User::find($idUsuario);
+        $chips=Material::where([
+                                ["idTipoMaterial",2],
+                                ["estado",1]
+                              ])
+                        ->orderBy('id','asc')
+                        ->paginate($cantidad);                                              
+        foreach($chips as $chip){
+            $chip->update(['idUsuario'=>null,'ubicacion'=>'En proceso de envio a '.$usuario->name,'estado'=>2]);
+            array_push($asignados,$chip);
+        }
+        return $asignados;
+    }
+
+    public function asignarFormatos($cantidad,$tipo,$idUsuario){
+        $usuario=User::find($idUsuario);
+        $aux=[];        
+        $formatos=Material::where([
+            ["idTipoMaterial",$tipo],
+            ["estado",1]
+        ])
+        ->orderBy('numSerie','asc')
+        ->paginate($cantidad);  
+
+        foreach($formatos as $formato){
+            $formato->update(['idUsuario'=>null,'ubicacion'=>'En proceso de envio a '.$usuario->name,'estado'=>2]);
+            array_push($aux,$formato);
+        }
+
+    }
+    
+    public function cuentaMateriales($materiales){
+        $aux=$materiales->toArray();
+        $mat=array_column($aux, 'idTipoMaterial');
+        $conteo=json_encode(array_count_values($mat),true);
+        return $conteo;
+    }
+
+    public function enviar($id){
+        $salida=Salida::find($id);
+        $materiales=$this->cuentaMateriales($salida->materiales);
+        
+        $inspector=$salida->usuarioAsignado;
+        $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+        $fecha=date('d').' de '.$meses[date('m')-1].' del '.date('Y').'.';               
+        $data=[
+        "date"=>$fecha,
+        "empresa"=>"MOTORGAS COMPANY S.A.",
+        "inspector"=>$inspector->name,
+        "materiales"=>$materiales
+        ];                 
         $pdf = App::make('dompdf.wrapper');
-        $pdf->loadView('cargoPDF',$data);
-
-
-        //return $pdf->download('prueba.pdf');
+        $pdf->loadView('cargoPDF',$data);        
         return $pdf->stream();
     }
 }

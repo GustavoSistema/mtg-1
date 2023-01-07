@@ -32,7 +32,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get('/Expedientes',Expedientes::class)->middleware('can:expedientes')->name('expedientes');
     Route::get('/Talleres',Talleres::class)->name('talleres');
     Route::get('/Ingresos',Ingresos::class)->name('ingresos');
-    Route::get('/Asignacion-de-materiales/CargoPdf',[AsignacionMateriales::class,'enviar'])->name('cargoPdf');
+    Route::get('/CargoPdf/{id}', function ($id) {
+        $am= new AsignacionMateriales();
+        return  $am->enviar($id);
+    })->name('cargoPdf');
     Route::get('/Asignacion-de-materiales',AsignacionMateriales::class)->name('asignacion');
     Route::get('/RevisionExpedientes',RevisionExpedientes::class)->middleware('can:revisionExpedientes')->name('revisionExpedientes');  
     Route::get('/dashboard', function (){return view('dashboard');})->name('dashboard');

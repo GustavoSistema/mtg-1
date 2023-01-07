@@ -78,10 +78,10 @@
                 
                 <div class="flex items-center justify-center">
                     <button class="p-3 bg-indigo-500 rounded-xl text-white text-sm hover:font-bold hover:bg-indigo-700" wire:click="guardar">Aceptar</button>
-                    <a href="{{ route('cargoPdf')}}" target="__blank" class="p-3 bg-sky-500 rounded-xl text-white text-sm hover:font-bold hover:bg-sky-700 ml-2" >ver PDF</a>
+                    @if($ruta)
+                        <a href="{{ $ruta }}" target="__blank" class="p-3 bg-sky-500 rounded-xl text-white text-sm hover:font-bold hover:bg-sky-700 ml-2" >ver PDF</a>
+                    @endif
                 </div>                                        
-            </div>
-            
-        
+            </div>           
     </div>
 </div>

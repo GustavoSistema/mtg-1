@@ -106,6 +106,13 @@ class CreateIngreso extends Component
                 $this->numFinal=$this->numInicio+($this->cantidad-1);
             }
         }
+        if($propertyName=="cantidad" && $this->numInicio>0){
+            if($this->cantidad){               
+                $this->numFinal=$this->numInicio+($this->cantidad-1);
+            }else{
+                $this->numFinal=0;
+            }
+        }
         if($propertyName=="tipoMat"){
             switch ($this->tipoMat) {
                 case 1:

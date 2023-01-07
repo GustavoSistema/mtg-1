@@ -16,7 +16,7 @@
                     class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full ">
                     <option value="0">Seleccione</option>
                     @foreach ($tiposMateriales as $tipo)
-                        <option value="{{ $tipo->id }}">{{ $tipo->descripcion.' - ('.$stocks[$tipo->descripcion].')'}}</option>
+                        <option value="{{ $tipo->id }}">{{ $tipo->descripcion.' - ( '.$stocks[$tipo->descripcion].' )'}}</option>
                     @endforeach
                 </select>
                 <x-jet-input-error for="tipoM" />

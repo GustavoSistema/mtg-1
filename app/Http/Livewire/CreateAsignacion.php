@@ -12,7 +12,8 @@ class CreateAsignacion extends Component
 {
 
     public $open=false;
-    public $inspectores,$inspector,$tiposMateriales,$tipoM,$cantidad,$nombre,$motivo,$nombreTipo;
+    public $inspectores,$inspector,$tiposMateriales,$cantidad,$nombre,$motivo,$nombreTipo;
+    public $tipoM=0;
     public $stocks=[];   
 
     protected $rules=[               
@@ -20,36 +21,25 @@ class CreateAsignacion extends Component
          "motivo"=>"required|numeric"           
     ];
 
+   
 
-    public function cargaStock(){
-        $GLP=Material::where([
-            ['estado',1],
-            ['idTipoMaterial',3]
-            ])
-            ->get();
-       
-        $this->stocks+=["FORMATO GLP"=>count($GLP)];
-
-        $CHIP=Material::where([
-            ['estado',1],
-            ['idTipoMaterial',2]
-            ])
-            ->get();
-        $this->stocks+=["CHIP"=>count($CHIP)];
-
-        $GNV=Material::where([
-            ['estado',1],
-            ['idTipoMaterial',1]
-            ])
-            ->get();
-        $this->stocks+=["FORMATO GNV"=>count($GNV)];
-
-
+    public function listaStock(){
+        $materiales=TipoMaterial::all();
+        foreach($materiales as $key=>$material){
+            $lista=Material::where([
+                                    ['estado',1],
+                                    ['idTipoMaterial',$material->id]
+                                    ])
+                            ->get();
+            $this->stocks+=[$material->descripcion=>count($lista)];
+        }
     }
+
     public function mount(){
-        $this->cargaStock();
+        $this->listaStock();
         $this->inspectores=User::role(['inspector','supervisor'])        
-        ->orderBy('name')->get();
+                                ->orderBy('name')
+                                ->get();
         $this->tiposMateriales=TipoMaterial::all()->sortBy("descripcion");
     }
 
@@ -78,6 +68,7 @@ class CreateAsignacion extends Component
 
     public function addArticulo(){
         $rule=[];
+
         switch ($this->tipoM) {
             case 1:
                 $rule=["cantidad"=>'required|numeric|min:1|max:'.$this->stocks["FORMATO GNV"]];
@@ -91,7 +82,8 @@ class CreateAsignacion extends Component
             default:
                 $rule=["cantidad"=>'required|numeric|min:1'];
             break;
-           } 
+        } 
+
         $this->validate($rule);        
         $articulo= array("tipo"=>$this->tipoM,"nombreTipo"=>$this->nombreTipo,"cantidad"=>$this->cantidad,"motivo"=>$this->motivo);
         $this->emit('agregarArticulo',$articulo);
@@ -100,8 +92,9 @@ class CreateAsignacion extends Component
     }      
 
     public function updatedOpen(){
-       
-        $this->reset(['tipoM','motivo','cantidad']);
+        
+        $this->reset(['tipoM','motivo','cantidad','stocks']);
+        $this->listaStock();
     }
 
     
