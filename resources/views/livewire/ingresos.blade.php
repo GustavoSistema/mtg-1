@@ -101,7 +101,7 @@
                                                     <div class="flex justify-end">
                                                         <a wire:click="edit({{ $item }})"
                                                             class="py-3 px-4 text-center rounded-md bg-lime-300 font-bold text-white cursor-pointer hover:bg-lime-400">
-                                                            <i class="fas fa-edit"></i>
+                                                            <i class="fas fa-eye"></i>
                                                         </a>
                                                         <a wire:click="$emit('deleteIngreso',{{ $item->id }})"
                                                             class="py-3 px-5 text-center ml-2 rounded-md bg-indigo-300 font-bold text-white cursor-pointer hover:bg-indigo-400">

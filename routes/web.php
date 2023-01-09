@@ -2,8 +2,10 @@
 use App\Http\Livewire\AsignacionMateriales;
 use App\Http\Livewire\Expedientes;
 use App\Http\Livewire\Ingresos;
+use App\Http\Livewire\RecepcionMateriales;
 use App\Http\Livewire\Talleres;
 use App\Http\Livewire\RevisionExpedientes;
+use App\Http\Livewire\Salidas;
 use App\Http\Livewire\Servicios;
 use App\Models\Ingreso;
 use Illuminate\Support\Facades\Route;
@@ -32,11 +34,13 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get('/Expedientes',Expedientes::class)->middleware('can:expedientes')->name('expedientes');
     Route::get('/Talleres',Talleres::class)->name('talleres');
     Route::get('/Ingresos',Ingresos::class)->name('ingresos');
+    Route::get('/Salidas',Salidas::class)->name('salidas');
     Route::get('/CargoPdf/{id}', function ($id) {
         $am= new AsignacionMateriales();
         return  $am->enviar($id);
     })->name('cargoPdf');
     Route::get('/Asignacion-de-materiales',AsignacionMateriales::class)->name('asignacion');
+    Route::get('/Recepcion-de-materiales',RecepcionMateriales::class)->name('recepcion');
     Route::get('/RevisionExpedientes',RevisionExpedientes::class)->middleware('can:revisionExpedientes')->name('revisionExpedientes');  
     Route::get('/dashboard', function (){return view('dashboard');})->name('dashboard');
     Route::get('download/{path}', function($path) { return Illuminate\Support\Facades\Storage::download($path);})->where('path','.*');

@@ -83,7 +83,7 @@ class AsignacionMateriales extends Component
                 $items=$this->asignarChips($art["cantidad"],$salida->idUsuarioAsignado);
                 $this->guardaDetalles($items,$salida->id);
                 break;
-            case 1:
+            case 3:
                 $items=$this->asignarFormatos($art["cantidad"],$art["tipo"],$salida->idUsuarioAsignado);
                 $this->guardaDetalles($items,$salida->id);
                 break;           
@@ -133,21 +133,27 @@ class AsignacionMateriales extends Component
             $formato->update(['idUsuario'=>null,'ubicacion'=>'En proceso de envio a '.$usuario->name,'estado'=>2]);
             array_push($aux,$formato);
         }
-
+        return $aux;
     }
     
     public function cuentaMateriales($materiales){
-        $aux=$materiales->toArray();
-        $mat=array_column($aux, 'idTipoMaterial');
-        $conteo=json_encode(array_count_values($mat),true);
-        return $conteo;
+        $end=[];
+        $tipos=TipoMaterial::All();    
+        $aux=$materiales->toArray();       
+        $mat=array_column($aux, 'idTipoMaterial');        
+        $conteo=array_count_values($mat);        
+        foreach($tipos as $tipo){
+            if(isset($conteo[$tipo->id])){
+                array_push($end,array("tipo"=>$tipo->descripcion,"cantidad"=>$conteo[$tipo->id]));
+            }
+        }        
+        return $end;        
     }
 
     public function enviar($id){
-        $salida=Salida::find($id);
-        $materiales=$this->cuentaMateriales($salida->materiales);
-        
-        $inspector=$salida->usuarioAsignado;
+        $sal=Salida::find($id);
+        $materiales=$this->cuentaMateriales($sal->materiales);        
+        $inspector=$sal->usuarioAsignado;
         $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
         $fecha=date('d').' de '.$meses[date('m')-1].' del '.date('Y').'.';               
         $data=[
@@ -158,6 +164,6 @@ class AsignacionMateriales extends Component
         ];                 
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadView('cargoPDF',$data);        
-        return $pdf->stream();
+        return $pdf->stream(date('d-m-Y').'_'.$inspector->name.'-cargo.pdf');
     }
 }

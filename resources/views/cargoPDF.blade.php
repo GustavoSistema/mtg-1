@@ -64,11 +64,14 @@
         <br>
         <p>Asunto:</p>        
         <p>Le enviamos el siguiente material de trabajo por parte de la empresa <strong>{{$empresa}}</strong> </p>
-        <ol>
-            <li>ariculo 1 cantidad 1</li>            
+        <ol>        
+            @foreach ($materiales as $material)
+                <li>{{$material["tipo"]}} - {{$material["cantidad"]}}</li>
+            @endforeach  
+                                         
         </ol>
-        <p>{{$materiales}}</p>
-        <p>Sin otro particular me despido de ud.</p>
+        
+        <p>Sin otro particular me despido de usted muy atentamente.</p>
     </main>
     
     <footer>
