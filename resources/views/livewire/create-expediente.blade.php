@@ -2,7 +2,6 @@
            
     <button  wire:click="$set('open',true)" class="bg-indigo-600 px-6 py-4 rounded-md text-white font-semibold tracking-wide cursor-pointer">Agregar</button>
 
-
     <x-jet-dialog-modal wire:model="open">
         <x-slot name="title">
             Crear nuevo Expediente                      

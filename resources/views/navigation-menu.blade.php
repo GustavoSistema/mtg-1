@@ -76,7 +76,12 @@
                             
                         </x-slot>
 
-                        <x-slot name="content">                         
+                        <x-slot name="content">      
+                            <x-jet-dropdown-link href="{{ route('inventario') }}">
+                                {{ __('Inventario') }}
+                            </x-jet-dropdown-link> 
+
+                            <div class="border-t border-gray-100"></div>                   
 
                             <x-jet-dropdown-link href="{{ route('ingresos') }}">
                                 {{ __('Ingreso de Materiales') }}
