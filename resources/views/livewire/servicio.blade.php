@@ -1,6 +1,6 @@
 <div class="block  justify-center mt-8">
     <h1 class="text-center font-xl my-4"> REALIZAR NUEVO SERVICIO</h1>
-    <div class="max-w-5xl m-auto p-8 bg-white rounded-lg shadow-md my-4">
+    <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4">
         <div class=" bg-indigo-200 rounded-lg py-4 px-2 grid grid-cols-1 gap-8 sm:grid-cols-2">
             <div>
                 <x-jet-label value="Taller:" for="serv"/>
@@ -18,8 +18,8 @@
                     
                     @if(isset($servicios))
                         <option value="">Seleccione </option>
-                        @foreach ($servicios as $serv)
-                            <option value="{{ $serv->id }}">{{ $serv->tipoServicio->descripcion}}</option> 
+                        @foreach ($servicios as $item)
+                            <option value="{{ $item->id }}">{{ $item->tipoServicio->descripcion}}</option> 
                         @endforeach  
                     @else
                         <option value="">Seleccione un taller</option>
@@ -31,13 +31,14 @@
         </div>
     </div>
     {{--DATOS DEL VEHICULO--}}
+    @if($serv)
     <div class="max-w-5xl m-auto  bg-white rounded-lg shadow-md dark:bg-gray-800">
         <div class="flex items-center justify-between bg-gray-400 py-4 px-6 rounded-t-lg">
             <span class="text-lg font-semibold text-white dark:text-gray-400">Datos del vehículo</span>
             <a class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-300 transform bg-gray-600 rounded cursor-pointer hover:bg-gray-500" tabindex="0" role="button">Design</a>
         </div>    
         <div class="mt-2 mb-6 px-8 py-4">           
-            <div class="grid grid-cols-1 gap-8 mt-4 sm:grid-cols-3">
+            <div class="grid grid-cols-1 gap-8 sm:grid-cols-3">
                 <div>
                     <x-jet-label value="Placa:"/>
                     <x-jet-input type="text" class="w-full" wire:model="placa" />
@@ -144,23 +145,41 @@
                     <x-jet-label value="Color:"/>
                     <x-jet-input type="text" class="w-full" wire:model="color" />
                     <x-jet-input-error for="color"/>
-                </div>
-                <div class="flex flex-row">
-                    <div class="w-1/2">
+                </div>                
+                <div class="flex flex-row w-full justify-center m-auto">
+                    <div class="w-1/3">
                         <x-jet-label value="Peso Neto:"/>
                         <x-jet-input type="text" class="w-5/6" wire:model="pesoNeto" />
                         <x-jet-input-error for="pesoNeto"/>
                     </div>
-                    <div class="w-1/2">
+                    <div class="w-1/3">
                         <x-jet-label value="Peso Bruto:"/>
                         <x-jet-input type="text" class="w-5/6" wire:model="pesoBruto" />
                         <x-jet-input-error for="pesoBruto"/>
                     </div>
-                </div>             
+                    <div class="w-1/3">
+                        <x-jet-label value="Carga Util:"/>
+                        <x-jet-input type="text" class="w-5/6" wire:model="cargaUtil" />
+                        <x-jet-input-error for="cargaUtil"/>
+                    </div>
+                </div> 
+                           
             </div>
+            <div class="my-8 flex flex-row justify-between">
+                <a wire:click="guardaVehiculo" class="hover:cursor-pointer  my-4 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 mt-4 sm:mt-0 inline-flex items-start justify-start px-6 py-3 bg-amber-400 hover:bg-amber-500 focus:outline-none rounded">
+                    <p class="text-sm font-medium leading-none text-white">Guardar vehículo</p>
+                </a> 
+                @if (isset($ruta))
+                <a href="{{$ruta}}" class="hover:cursor-pointer  my-4 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 mt-4 sm:mt-0 inline-flex items-start justify-start px-6 py-3 bg-indigo-400 hover:bg-amber-500 focus:outline-none rounded">
+                    <p class="text-sm font-medium leading-none text-white">Ver PDF</p>
+                </a>
+                @endif
+                
+            </div>
+            
         </div>       
     </div>
-
+    @endif
     {{--DATOS DE LOS EQUIPOS--}}
     <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md dark:bg-gray-800">
         <div class="flex items-center justify-between bg-gray-400 py-4 px-6 rounded-t-lg">
@@ -246,7 +265,7 @@
                 </div>                            
             </div>
         </div>
-
+        
         
     </div>
     

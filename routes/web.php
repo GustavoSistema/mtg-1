@@ -43,6 +43,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
         $am= new AsignacionMateriales();
         return  $am->enviar($id);
     })->name('cargoPdf');
+    Route::get('/Certificado/{id}', function ($id) {
+        $ser= new Servicio();
+        return  $ser->enviar($id);
+    })->name('certificado');
     Route::get('/Asignacion-de-materiales',AsignacionMateriales::class)->name('asignacion');
     Route::get('/Recepcion-de-materiales',RecepcionMateriales::class)->name('recepcion');
     Route::get('/RevisionExpedientes',RevisionExpedientes::class)->middleware('can:revisionExpedientes')->name('revisionExpedientes');  
