@@ -5,9 +5,11 @@ namespace App\Http\Livewire;
 use App\Models\Material;
 use App\Models\Salida;
 use App\Models\SalidaDetalle;
+use App\Models\Subgrupo;
 use App\Models\TipoMaterial;
 use App\Models\TipoServicio;
 use App\Models\User;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use PDF;
@@ -71,7 +73,9 @@ class AsignacionMateriales extends Component
         $this->reset(['articulos','inspector']);
     }
     
-
+    public function identificaSeries($articulos){
+        
+    }
     
     public function asignarMaterial($art,Salida $salida){
         switch ($art["tipo"]) {
@@ -105,9 +109,10 @@ class AsignacionMateriales extends Component
 
     public function asignarChips($cantidad,$idUsuario){
         $asignados=[];
+        $materialTipoChip=2;
         $usuario=User::find($idUsuario);
         $chips=Material::where([
-                                ["idTipoMaterial",2],
+                                ["idTipoMaterial",$materialTipoChip],
                                 ["estado",1]
                               ])
                         ->orderBy('id','asc')
@@ -138,16 +143,40 @@ class AsignacionMateriales extends Component
     
     public function cuentaMateriales($materiales){
         $end=[];
+        $inicio=$materiales[0]->numSerie;
+        $fin=$materiales[count($materiales)-1]->numSerie;
         $tipos=TipoMaterial::All();    
-        $aux=$materiales->toArray();       
+        $aux=$materiales->toArray(); 
         $mat=array_column($aux, 'idTipoMaterial');        
         $conteo=array_count_values($mat);        
         foreach($tipos as $tipo){
-            if(isset($conteo[$tipo->id])){
-                array_push($end,array("tipo"=>$tipo->descripcion,"cantidad"=>$conteo[$tipo->id]));
+            if(isset($conteo[$tipo->id])){  
+                    if($tipo->id==1 || $tipo->id==3){
+                        $series=$this->calculaSeries($materiales,$tipo->id);
+                        array_push($end,array("tipo"=>$tipo->descripcion,"cantidad"=>$conteo[$tipo->id],"inicio"=>$series["inicio"],"fin"=>$series["fin"])); 
+                    }else{
+                        array_push($end,array("tipo"=>$tipo->descripcion,"cantidad"=>$conteo[$tipo->id],"inicio"=>null,"fin"=>null));
+                    }
+                    
+
             }
         }        
-        return $end;        
+        return $end;       
+    }
+
+    public function calculaSeries($articulos,$tipo){
+        $aux=[]; 
+        if($tipo ==1 || $tipo==3){
+            foreach($articulos as $articulo){
+                if($articulo->idTipoMaterial==$tipo){
+                    array_push($aux,$articulo);
+                }
+            }     
+            return array("tipo"=>$tipo,"inicio"=>$aux[0]->numSerie,"fin"=>$aux[count($aux)-1]->numSerie);
+        } else{
+            return array();
+        }
+
     }
 
     public function enviar($id){
@@ -160,7 +189,8 @@ class AsignacionMateriales extends Component
         "date"=>$fecha,
         "empresa"=>"MOTORGAS COMPANY S.A.",
         "inspector"=>$inspector->name,
-        "materiales"=>$materiales
+        "materiales"=>$materiales,
+        "salida"=>$sal
         ];                 
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadView('cargoPDF',$data);        

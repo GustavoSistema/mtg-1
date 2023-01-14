@@ -66,7 +66,12 @@
         <p>Le enviamos el siguiente material de trabajo por parte de la empresa <strong>{{$empresa}}</strong> </p>
         <ol>        
             @foreach ($materiales as $material)
+            @if ($material["tipo"]=="FORMATO GNV" || $material["tipo"]=="FORMATO GLP")
+                <li>{{$material["tipo"]}} - {{$material["cantidad"]}} {{'('.$material["inicio"].' - '.$material["fin"].').'}}</li>
+            @else
                 <li>{{$material["tipo"]}} - {{$material["cantidad"]}}</li>
+            @endif
+                
             @endforeach  
                                          
         </ol>

@@ -81,7 +81,6 @@
     <header>
        
     </header>  
-   
     <main>        
         <h3>CERTIFICADO DE INSPECCIÓN ANUAL DEL VEHÍCULO A GNV</h3>
         <h5>{{ "Certificado N° ".$carro->placa." - ".date("Y") }}</h5>

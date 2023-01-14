@@ -170,7 +170,7 @@
                     <p class="text-sm font-medium leading-none text-white">Guardar vehículo</p>
                 </a> 
                 @if (isset($ruta))
-                <a href="{{$ruta}}" class="hover:cursor-pointer  my-4 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 mt-4 sm:mt-0 inline-flex items-start justify-start px-6 py-3 bg-indigo-400 hover:bg-amber-500 focus:outline-none rounded">
+                <a href="{{$ruta}}" target="__blank" class="hover:cursor-pointer  my-4 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 mt-4 sm:mt-0 inline-flex items-start justify-start px-6 py-3 bg-indigo-400 hover:bg-amber-500 focus:outline-none rounded">
                     <p class="text-sm font-medium leading-none text-white">Ver PDF</p>
                 </a>
                 @endif

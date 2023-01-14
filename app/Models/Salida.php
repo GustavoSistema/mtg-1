@@ -18,7 +18,8 @@ class Salida extends Model
     'idUsuarioSalida',
     'idUsuarioAsignado',
     'motivo', 
-    'estado'      
+    'estado',  
+    'idSubGrupo',    
     ];
 
 
@@ -52,5 +53,8 @@ class Salida extends Model
 
     public function usuarioAsignado(){
         return $this->belongsTo(User::class,'idUsuarioAsignado');
+    }
+    public function subgrupo(){
+        return $this->belongsTo(Subgrupo::class,'idSubGrupo');
     }
 }
