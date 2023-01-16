@@ -17,10 +17,13 @@ class Servicio extends Component
     $largo,$ancho,$altura,$color,$pesoNeto,$pesoBruto,$cargaUtil;
 
     //Definiendo Variables de equipos
+    public $tipoEquipo,$equipoSerie,$equipoMarca,$equipoModelo,$equipoCapacidad;
     public $equipos=[];
 
     //Variables del servicio
-    public $talleres,$servicios,$serv,$taller,$ruta;
+    public $talleres,$servicios,$serv,$taller,$ruta,$open;
+
+    
 
 
     protected $rules=[
@@ -50,7 +53,12 @@ class Servicio extends Component
                     "cargaUtil"=>"required|numeric",
                     ];
 
-
+    public function mount(){
+        //$this->servicios=ModelServicio::make();
+        $this->talleres=Taller::all();
+        $this->taller=Taller::make();
+        $this->open=false;
+    }
     public function render()
     {
         return view('livewire.servicio');
@@ -60,11 +68,7 @@ class Servicio extends Component
         $this->servicios=ModelServicio::where("taller_idtaller",$val)->get();
         $this->reset(["serv"]);
     }
-    public function mount(){
-        //$this->servicios=ModelServicio::make();
-        $this->talleres=Taller::all();
-        $this->taller=Taller::make();
-    }
+    
 
 
     public function guardaVehiculo(){
@@ -112,4 +116,6 @@ class Servicio extends Component
         $pdf->loadView('anualGnv',$data);        
         return $pdf->stream($id.'-'.date('d-m-Y').'-cargo.pdf');
     }
+
+
 }

@@ -32,7 +32,7 @@
     </div>
     {{--DATOS DEL VEHICULO--}}
     @if($serv)
-    <div class="max-w-5xl m-auto  bg-white rounded-lg shadow-md dark:bg-gray-800">
+    <div class="max-w-5xl m-auto  bg-white rounded-lg shadow-md dark:bg-gray-300">
         <div class="flex items-center justify-between bg-gray-400 py-4 px-6 rounded-t-lg">
             <span class="text-lg font-semibold text-white dark:text-gray-400">Datos del vehículo</span>
             <a class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-300 transform bg-gray-600 rounded cursor-pointer hover:bg-gray-500" tabindex="0" role="button">Design</a>
@@ -181,10 +181,15 @@
     </div>
     @endif
     {{--DATOS DE LOS EQUIPOS--}}
-    <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md dark:bg-gray-800">
+    <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md dark:bg-gray-300">
         <div class="flex items-center justify-between bg-gray-400 py-4 px-6 rounded-t-lg">
             <span class="text-lg font-semibold text-white dark:text-gray-400">Datos de los equipos de GNV</span>
             <a class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-300 transform bg-gray-600 rounded cursor-pointer hover:bg-gray-500" tabindex="0" role="button">❌</a>
+        </div>
+        <div>
+            <a wire:click="$set('open',true)" class="hover:cursor-pointer  my-4 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 mt-4 sm:mt-0 inline-flex items-start justify-start px-6 py-3 bg-amber-400 hover:bg-amber-500 focus:outline-none rounded">
+                <p class="text-sm font-medium leading-none text-white">Agregar Equipos</p>
+            </a> 
         </div>
         <div class="mt-2 mb-6 px-8 py-4">
             <h1 class="text-xl font-semibold text-indigo-500 underline">Cilindros:</h1>
@@ -264,10 +269,52 @@
                     <x-jet-input-error for="reductor.marca"/>
                 </div>                            
             </div>
-        </div>
-        
-        
+        </div>       
     </div>
     
+
+    <x-jet-dialog-modal wire:model="open">
+        <x-slot name="title">
+           AGREGAR EQUIPO                    
+        </x-slot>        
+        <x-slot name="content">      
+            <div class="mb-4">
+                <x-jet-label value="Tipo:" for="taller"/>
+                <select wire:model="tipoEquipo" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full ">
+                    <option value="">Seleccione</option> 
+                    <option value="0">Chip</option>    
+                    <option value="1">Tanque</option>       
+                    <option value="2">Reductor</option>                                    
+                </select>
+                <x-jet-input-error for="tipoEquipo"/>
+            </div> 
+            @if (isset($tipoEquipo))
+                @switch($tipoEquipo)
+                    @case(1)
+                        <x-form-tanque-gnv>
+                        </x-form-tanque-gnv>
+                        @break
+                    @case(2)
+                        <x-form-reductor-gnv>
+                        </x-form-reductor-gnv>
+                        @break
+                    @default
+                        <div class="p-4 bg-indigo-300 text-center rounded-xl">
+                            <p>Seleccione un tipo de equipo</p>
+                        </div>
+                @endswitch
+            @endif 
+        </x-slot>
+        
+        <x-slot name="footer">
+            <x-jet-secondary-button wire:click="$set('open',false)" class="mx-2">
+                Cancelar
+            </x-jet-secondary-button>
+            <x-jet-button wire:click="guardaEquipos" wire:loading.attr="disabled" wire:target="guardaEquipos">
+                Guardar
+            </x-jet-button>            
+        </x-slot>
+
+    </x-jet-dialog-modal>
 
 </div>
