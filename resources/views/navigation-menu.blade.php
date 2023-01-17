@@ -56,7 +56,7 @@
                             @can('revisionExpedientes')
                             <div class="border-t border-gray-100"></div>
                             <x-jet-dropdown-link href="{{ route('revisionExpedientes') }}" :active="request()->routeIs('revisionExpedientes')">
-                                {{ __('revisar Expedientes') }}
+                                {{ __('Revisar Expedientes') }}
                             </x-jet-dropdown-link>  
                             @endcan                          
                         </x-slot>

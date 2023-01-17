@@ -15,7 +15,7 @@ class Inventario extends Component
         $materiales=Material::where([
             ['estado',3],
             ['idUsuario',Auth::id()],
-            ['idTipoMaterial',3],
+            ['idTipoMaterial',1],
             ])
             ->get();       
 

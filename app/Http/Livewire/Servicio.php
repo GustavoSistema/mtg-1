@@ -2,8 +2,10 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Equipo;
 use App\Models\Servicio as ModelServicio;
 use App\Models\Taller;
+use App\Models\TipoEquipo;
 use App\Models\vehiculo;
 use Illuminate\Support\Facades\App;
 use Livewire\Component;
@@ -17,11 +19,13 @@ class Servicio extends Component
     $largo,$ancho,$altura,$color,$pesoNeto,$pesoBruto,$cargaUtil;
 
     //Definiendo Variables de equipos
+    
+    public $tiposDisponibles=[];
     public $tipoEquipo,$equipoSerie,$equipoMarca,$equipoModelo,$equipoCapacidad;
     public $equipos=[];
 
     //Variables del servicio
-    public $talleres,$servicios,$serv,$taller,$ruta,$open;
+    public $talleres,$servicios,$serv,$tipoServicio,$taller,$ruta,$open;
 
     
 
@@ -56,17 +60,34 @@ class Servicio extends Component
     public function mount(){
         //$this->servicios=ModelServicio::make();
         $this->talleres=Taller::all();
-        $this->taller=Taller::make();
+        $this->taller=Taller::make();        
+        $this->listaTiposDisponibles();
         $this->open=false;
+        
     }
     public function render()
     {
         return view('livewire.servicio');
     }
 
+    public function updated($propertyName){
+
+        $this->validateOnly($propertyName);
+
+    }
+
     public function updatedTaller($val){
         $this->servicios=ModelServicio::where("taller_idtaller",$val)->get();
         $this->reset(["serv"]);
+    }
+
+    public function updatedServ($val){
+        if($val){
+            $this->tipoServicio=ModelServicio::find($val)->tipoServicio;
+        }else{
+            $this->tipoServicio=null;
+        }
+       
     }
     
 
@@ -100,7 +121,6 @@ class Servicio extends Component
         //$this->emit("alert","El vehículo con placa ".$vehiculo->placa." se registro correctamente.");
         $this->ruta=route('certificado', ['id' => $vehiculo->id]);
         $this->emit('alert','El vehículo con placa '.$vehiculo->placa.' se registro correctamente.');
-
     }
 
     public function enviar($id){
@@ -117,5 +137,164 @@ class Servicio extends Component
         return $pdf->stream($id.'-'.date('d-m-Y').'-cargo.pdf');
     }
 
+    public function guardaEquipos(){
+        $this->validate([
+                        "tipoEquipo"=>"required|numeric|min:1"
+                        ]);
+        switch ($this->tipoEquipo) {
+            case 1:
+                $this->salvaDatosChip();
+                $this->listaTiposDisponibles();
+            break;
+            case 2:
+                $this->salvaDatosReductor();
+                $this->listaTiposDisponibles();
+            break;
+            case 3:
+                $this->salvaDatosTanque();
+                $this->listaTiposDisponibles();
+            break;
+            
+            default:
+                $this->emit("alert","ocurrio un error al guardar los datos");
+                break;
+        }
+    }
+
+    public function salvaDatosTanque(){
+        $this->validate([
+                        "equipoSerie"=>"required|min:1",
+                        "equipoMarca"=>"required|min:1",
+                        "equipoCapacidad"=>"required|numeric|min:1"
+                        ]);
+        $equipo=new Equipo();
+        $equipo->idTipoEquipo=$this->tipoEquipo;
+        $equipo->numSerie=strtoupper($this->equipoSerie);
+        $equipo->marca=strtoupper($this->equipoMarca);
+        $equipo->capacidad=strtoupper($this->equipoCapacidad);
+
+        array_push($this->equipos,$equipo);   
+        
+        $this->reset(["equipoSerie","equipoMarca","equipoModelo","equipoCapacidad","tipoEquipo"]);      
+        $this->open=false;
+        $this->emit("alert","El ".$equipo->tipo->nombre." con serie ".$equipo->numSerie." se añadio Correctamente");
+    }
+
+    public function salvaDatosReductor(){
+        $this->validate([
+            "equipoSerie"=>"required|min:1",
+            "equipoMarca"=>"required|min:1",
+            "equipoModelo"=>"required|min:1"
+            ]);
+
+        $equipo=new Equipo();
+        $equipo->idTipoEquipo=$this->tipoEquipo;
+        $equipo->numSerie=strtoupper($this->equipoSerie);
+        $equipo->marca=strtoupper($this->equipoMarca);
+        $equipo->modelo=strtoupper($this->equipoModelo);
+
+        array_push($this->equipos,$equipo);   
+        
+        $this->reset(["equipoSerie","equipoMarca","equipoModelo","equipoCapacidad","tipoEquipo"]);       
+        $this->open=false;
+        $this->emit("alert","El ".$equipo->tipo->nombre." con serie ".$equipo->numSerie." se añadio Correctamente");
+    }
+
+    public function salvaDatosChip(){
+        $this->validate([
+            "equipoSerie"=>"required|min:1",           
+            ]);
+
+        $equipo=new Equipo();
+        $equipo->idTipoEquipo=$this->tipoEquipo;
+        $equipo->numSerie=strtoupper($this->equipoSerie);
+        array_push($this->equipos,$equipo);   
+        
+        $this->reset(["equipoSerie","equipoMarca","equipoModelo","equipoCapacidad","tipoEquipo"]);        
+        $this->open=false;
+        $this->emit("alert","El ".$equipo->tipo->nombre." con serie ".$equipo->numSerie." se añadio Correctamente");
+    }
+
+    public function cuentaTipo($tipo){
+        $cuenta=0;
+        if(count($this->equipos)>0){
+            foreach($this->equipos as $eq){
+                if($eq["idTipoEquipo"] == $tipo){
+                    $cuenta++;
+                }
+            }
+        }else{
+            $cuenta=0;
+        }
+        
+        return $cuenta;
+    }
+
+
+    public function listaTiposDisponibles(){
+        $aux=[];
+        $todos=TipoEquipo::all();
+        foreach($todos as $tip){
+            if($tip->id==3){
+                array_push($aux,array("id"=>$tip->id,"nombre"=>$tip->nombre,"estado"=>1));
+            }else{
+                if($this->cuentaTipo($tip->id) >= 1 ){
+                    array_push($aux,array("id"=>$tip->id,"nombre"=>$tip->nombre,"estado"=>0));
+                }else{
+                    array_push($aux,array("id"=>$tip->id,"nombre"=>$tip->nombre,"estado"=>1));
+                }
+            }            
+        }
+        
+        $this->tiposDisponibles=$aux;
+        $this->tipoEquipo="";
+        //return $aux;
+    }   
+
+    public function salvaEquipos(){
+        $aux=[];
+        if(isset($this->equipos)){
+            if(count($this->equipos) > 0){
+                foreach($this->equipos as $eq){
+                    $this->guardaEquipoEnBD($eq);
+                    array_push($aux,$eq);
+                }
+            }else{
+                $this->emit("CustomAlert",["titulo"=>"ADVERTENCIA","mensaje"=>"Para realizar un servicio debes de completar los datos de los equipos","icono"=>'error']);
+            }
+        }
+    }
+
+    public function guardaEquipoEnBD($modelo){
+        $eq=new Equipo();
+        switch ($modelo["idTipoEquipo"]) {
+            case 1:
+                $eq->idTipoEquipo=$modelo["idTipoEquipo"];
+                $eq->numSerie=$modelo["numSerie"];
+                $eq->save();
+                return $eq;
+                break;
+            case 2:
+                $eq->idTipoEquipo=$modelo["idTipoEquipo"];
+                $eq->marca=$modelo["marca"];
+                $eq->modelo=$modelo["modelo"];
+                $eq->numSerie=$modelo["numSerie"];
+                $eq->save();
+                return $eq;
+                break;
+            case 3:
+                $eq->idTipoEquipo=$modelo["idTipoEquipo"];
+                $eq->numSerie=$modelo["numSerie"];
+                $eq->marca=$modelo["marca"];
+                $eq->capacidad=$modelo["capacidad"];
+                $eq->save();
+                return $eq;
+                break;
+            default:
+                $this->emit("CustomAlert",["titulo"=>"Error","mensaje"=>"Ocurrio un error al guardar el equipo " .$modelo["numSerie"],"icono"=>"error"]);
+                return null;
+                break;
+        }
+    }
 
 }
