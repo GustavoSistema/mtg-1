@@ -2,16 +2,20 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Certificacion;
 use App\Models\Equipo;
+use App\Models\Material;
 use App\Models\Servicio as ModelServicio;
 use App\Models\Taller;
 use App\Models\TipoEquipo;
 use App\Models\vehiculo;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Servicio extends Component
-{
+{   
+    
 
     //Definiendo Variables de vehiculo
     public $placa,$categoria,$marca,$modelo,$version,$anioFab,$numSerie,$numMotor,
@@ -25,7 +29,13 @@ class Servicio extends Component
     public $equipos=[];
 
     //Variables del servicio
-    public $talleres,$servicios,$serv,$tipoServicio,$taller,$ruta,$open;
+    public $formatosGnvDisponibles;
+    public $listaVehiculos=[];
+    public $talleres,$servicios,$serv,$tipoServicio,$taller,$ruta,$open,$formularioVehiculo,$vehiculoServicio;
+
+
+    //variables del certificado
+    public $servicioCertificado,$numSugerido;
 
     
 
@@ -57,17 +67,23 @@ class Servicio extends Component
                     "cargaUtil"=>"required|numeric",
                     ];
 
+    
+
+    
+    public function render()
+    {
+        return view('livewire.servicio');
+    }
+    
     public function mount(){
         //$this->servicios=ModelServicio::make();
         $this->talleres=Taller::all();
         $this->taller=Taller::make();        
         $this->listaTiposDisponibles();
         $this->open=false;
-        
-    }
-    public function render()
-    {
-        return view('livewire.servicio');
+        $this->formularioVehiculo=true;
+        $this->formatosGnvDisponibles=Material::where([['estado',3],['idUsuario',Auth::id()],['idTipoMaterial',1]])->get();   
+        //$this->numSugerido=$this->numFormatoSugerido();     
     }
 
     public function updated($propertyName){
@@ -79,18 +95,21 @@ class Servicio extends Component
     public function updatedTaller($val){
         $this->servicios=ModelServicio::where("taller_idtaller",$val)->get();
         $this->reset(["serv"]);
-    }
+    }  
 
     public function updatedServ($val){
         if($val){
             $this->tipoServicio=ModelServicio::find($val)->tipoServicio;
+            if($this->formatoSugerido($this->tipoServicio->id)){
+                $this->numSugerido=$this->formatoSugerido($this->tipoServicio->id)->numSerie;
+            }else{
+                $this->numSugerido=null;
+            }
+           
         }else{
             $this->tipoServicio=null;
-        }
-       
-    }
-    
-
+        }       
+    }    
 
     public function guardaVehiculo(){
         $this->validate();
@@ -120,7 +139,38 @@ class Servicio extends Component
                                     ]);
         //$this->emit("alert","El vehículo con placa ".$vehiculo->placa." se registro correctamente.");
         $this->ruta=route('certificado', ['id' => $vehiculo->id]);
+        $this->formularioVehiculo=false;
+        $this->vehiculoServicio=$vehiculo;
         $this->emit('alert','El vehículo con placa '.$vehiculo->placa.' se registro correctamente.');
+    }
+
+    public function actualizarVehiculo(){
+            $this->validate();
+             $this->vehiculoServicio->update(["placa"=>strtoupper($this->placa),
+                                            "categoria"=>strtoupper($this->categoria),
+                                            "marca"=>strtoupper($this->marca),
+                                            "modelo"=>strtoupper($this->modelo),
+                                            "version"=>strtoupper($this->version),
+                                            "anioFab"=>$this->anioFab,
+                                            "numSerie"=>strtoupper($this->numSerie),
+                                            "numMotor"=>strtoupper($this->numMotor),
+                                            "cilindros"=>$this->cilindros,
+                                            "cilindrada"=>$this->cilindrada,
+                                            "combustible"=>strtoupper($this->combustible),
+                                            "ejes"=>$this->ejes,
+                                            "ruedas"=>$this->ruedas,
+                                            "asientos"=>$this->asientos,
+                                            "pasajeros"=>$this->pasajeros,
+                                            "largo"=>$this->largo,
+                                            "ancho"=>$this->ancho,
+                                            "altura"=>$this->altura,
+                                            "color"=>strtoupper($this->color),
+                                            "pesoNeto"=>$this->pesoNeto,
+                                            "pesoBruto"=>$this->pesoBruto,  
+                                            "cargaUtil"=>$this->cargaUtil,]); 
+        $this->formularioVehiculo=false;   
+        $this->emit("alert","Los datos del vehículo se actualizaron correctamente");
+              
     }
 
     public function enviar($id){
@@ -177,7 +227,7 @@ class Servicio extends Component
         
         $this->reset(["equipoSerie","equipoMarca","equipoModelo","equipoCapacidad","tipoEquipo"]);      
         $this->open=false;
-        $this->emit("alert","El ".$equipo->tipo->nombre." con serie ".$equipo->numSerie." se añadio Correctamente");
+        $this->emit("alert","El ".$equipo->tipo->nombre." con serie ".$equipo->numSerie." se añadió correctamente.");
     }
 
     public function salvaDatosReductor(){
@@ -230,7 +280,6 @@ class Servicio extends Component
         return $cuenta;
     }
 
-
     public function listaTiposDisponibles(){
         $aux=[];
         $todos=TipoEquipo::all();
@@ -263,6 +312,7 @@ class Servicio extends Component
                 $this->emit("CustomAlert",["titulo"=>"ADVERTENCIA","mensaje"=>"Para realizar un servicio debes de completar los datos de los equipos","icono"=>'error']);
             }
         }
+        return $aux;
     }
 
     public function guardaEquipoEnBD($modelo){
@@ -295,6 +345,74 @@ class Servicio extends Component
                 return null;
                 break;
         }
+    }
+
+    public function certificar(){
+        $servicio=ModelServicio::find($this->serv);
+        $v=$this->validaVehiculo();
+        $e=$this->validaEquipos();
+        if($v && $e){
+            $cert=Certificacion::create([
+                                    "idTaller"=>$this->taller,
+                                    "idInspector"=>Auth::id(),
+                                    "idServicio"=>$this->serv,
+                                    "estado"=>1,
+                                    "precio"=>$servicio->precio,
+                                    "pagado"=>0,
+                                ]);
+            $this->servicioCertificado=$cert;
+        }
+        
+    }
+
+    public function formatoSugerido($tipo){
+        $formato=Material::where([
+            ["idTipoMaterial",$tipo],
+            ['idUsuario',Auth::id()],
+            ["estado",3]
+        ])
+        ->orderBy('numSerie','asc')->get();
+        if(isset($formato[0])){
+            return $formato[0];
+        }else{
+            return null;
+        }
+        
+    }
+
+    public function numFormatoSugerido(){
+        $formato=Material::where([
+            ["idTipoMaterial",1],
+            ['idUsuario',Auth::id()],
+            ["estado",3]
+        ])
+        ->orderBy('numSerie','asc')->get();
+
+        return $formato;
+        
+    }
+
+    public function validaEquipos(){
+        $estado=false;
+        $chips=$this->cuentaTipo(1);
+        $reg=$this->cuentaTipo(2);       
+        $cil=$this->cuentaTipo(3);
+            if($chips>0 && $reg>0 && $cil >0){
+                $this->emit("alert","aea");
+                $estado=true;                
+            }else{
+                $this->emit("CustomAlert",["titulo"=>"ERROR","mensaje"=>"Debe completar los datos de equipos para poder certificar","icono"=>"error"]);                
+            }
+        return $estado;
+    }
+    public function validaVehiculo(){
+        $estado=false;
+        if($this->vehiculoServicio!=null){
+            $estado=true;
+        }else{
+                $this->emit("CustomAlert",["titulo"=>"ERROR","mensaje"=>"Ingrese un vehículo válido para poder certificar","icono"=>"error"]);
+        }
+        return $estado;
     }
 
 }
