@@ -13,6 +13,7 @@ class Certificacion extends Model
 
     public $fillable=[
         "id",
+        "idVehiculo",
         "idTaller",
         "idInspector",
         "idServicio",
@@ -23,4 +24,24 @@ class Certificacion extends Model
         "created_at",
         "updated_at"
     ];
+
+    public function Vehiculo(){
+        return $this->belongsTo(vehiculo::class,'idVehiculo');
+    }
+
+    public function Taller(){
+        return $this->belongsTo(Taller::class,'idTaller');
+    }
+
+    public function Inspector(){
+        return $this->belongsTo(User::class,'idInspector');
+    }
+
+    public function Servicio(){
+        return $this->belongsTo(Servicio::class,'idServicio');
+    }
+
+    public function Materiales(){
+        return $this->belongsToMany(Material::class, 'serviciomaterial','idCertificacion','idMaterial');
+    }
 }

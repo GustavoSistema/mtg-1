@@ -83,10 +83,11 @@
     </header>  
     <main>        
         <h3>CERTIFICADO DE CONFORMIDAD DE CONVERSIÓN A GNV</h3>
-        <h5>{{ "Certificado N° ".$carro->placa." - ".date("Y") }}</h5>
+        <h5>{{ "Certificado N° ".$hoja->numSerie." - ".date("Y") }}</h5>
         <h4> {{"LA ENTIDAD CERTIFICADORA ".$empresa." CERTIFICA:"}}</h4>     
         <p>Haber efectuado la evaluación de las condiciones de seguridad respecto de la conversión del sistema de combustión a 
-            Gas Natural Vehicular – GNV efectuada  por  el taller de  Conversión  Autorizado: {{$carro->placa}}</p>        
+            Gas Natural Vehicular – GNV efectuada  por  el taller de  Conversión  Autorizado: {{$taller->nombre}}</p>        
+        <!-- DATOS VEHICULO -->
         <table>
             <tr>
                 <td style="padding: 0 5px 0 5px; text-align:center;">1</td>
@@ -154,19 +155,19 @@
             </tr>
         </table>
         <p>Habiéndose instalado al mismo los siguientes componentes:</p>
+        <!-- DATOS DE LOS EQUIPOS -->
             <table>
                 <tr>
-                    <td style="padding: 0 5px 0 5px; text-align:center;">1</td>
-                    <td>Placa de rodaje</td>
-                    <td>{{$carro->placa}}</td>
-                    <td style="padding: 0 5px 0 5px; text-align:center;">9</td>
-                    <td>Cilindros / Cilindrada</td>
-                    <td>{{$carro->cilindros.' / '.$carro->cilindrada}}</td>
+                    <td style="text-align:center;">N°</td>
+                    <td style="text-align:center;">Marca</td>
+                    <td style="text-align:center;">N°Serie</td>
+                    <td style="text-align:center;">Modelo</td>
+                    <td style="text-align:center;">Capacidad</td>                    
                 </tr>
             </table>
         <p>Consiste por el presente documento que el sistema de combustible  a Gas Natural Vehicular GNV, del vehículo antes referido, no afectaran negativamente la seguridad
              del mismo(**), el tránsito terrestre, el medio ambiente o incumplen con las condiciones técnicas establecidas en la normativa vigente en la materia(***),según el
-              expediente técnico   N° {{$carro->placa}} - 2023,  habilitándose al mismo para cargar  Gas  Natural  vehicular-GNV,  hasta  el: {{date("d/m/").(date("Y")+1)}} 
+              expediente técnico   N° {{$hoja->numSerie}} - 2023,  habilitándose al mismo para cargar  Gas  Natural  vehicular-GNV,  hasta  el: {{date("d/m/").(date("Y")+1)}} 
         </p>
         <h6>OBSERVACIONES</h6>
             <ul>
@@ -177,7 +178,7 @@
                 <li>Las abreviaturas: S/V significa “Sin Versión”, NE significa “No Especificado en los documentos presentes”</li>
                 <li>De acuerdo a la normatividad vigente, el resultado de la prueba de emisiones contaminantes del vehiculó es aprobatorio.</li>
             </ul>
-        <p>Inspeccion realizada en el taller: TALLER DE PRUEBA {{$carro->marca}} S.A.C.</p>
+        <p>Inspeccion realizada en el taller: {{$taller->nombre}} </p>
         <p>Se expide el presente en la ciudad de Lima, a los {{$fecha}}</p>
         
     </main>

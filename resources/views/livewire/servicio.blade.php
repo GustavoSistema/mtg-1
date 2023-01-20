@@ -39,7 +39,8 @@
                     <h1 class="font-bold"><span class="p-1 bg-green-300 rounded-lg">Formato Sugerido:</span></h1>
                 </div>
                 <div class="w-2/6 flex justify-end">
-                    <x-jet-input type="text" wire:model="numSugerido" type="number" />
+                    <x-jet-input type="text" wire:model="numSugerido" type="text" />
+                    <x-jet-input-error for="numSugerido" />
                 </div>
             </div>
         @else
@@ -147,12 +148,25 @@
             @endif
         @endif
     @endif
-    @if(isset($servicioCertificado))
-    <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4">
-        <h1>{{$servicioCertificado}}</h1>
+    
+    <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4 py-4">
+        <div class="my-2 flex flex-row justify-evenly items-center">
+            @if(!isset($servicioCertificado))
+            <a wire:click="certificar"
+                class="hover:cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-amber-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-indigo-400 hover:bg-indigo-500 focus:outline-none rounded">
+                <p class="text-sm font-medium leading-none text-white"><i class="fas fa-file-signature"></i> &nbsp;Generar Certificado</p>
+            </a> 
+            @endif
+            @if(isset($servicioCertificado))
+            <a href="{{$ruta}}" target="__blank"
+                class="hover:cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-amber-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-green-400 hover:bg-green-500 focus:outline-none rounded">
+                <p class="text-sm font-medium leading-none text-white"><i class="fas fa-eye"></i> &nbsp;ver PDF</p>
+            </a> 
+            @endif
+        </div>        
     </div>
-    @endif
-    {{-- BOTONES--}}     
+    
+    {{-- BOTONES    
     <div class="m-auto py-6 w-full flex justify-center">
         <div class="inline-flex rounded-md shadow-lg shadow-indigo-500/50" role="group">
             <button type="button" wire:click="certificar"
@@ -165,7 +179,7 @@
                 <i class="fas fa-eye"></i>&nbsp;
                 ver PDF
             </button>
-            <button type="button"
+            <button type="button" wire:click="muestra"
                 class="inline-flex items-center px-4 py-2 text-sm font-medium text-indigo-900 bg-transparent border-t border-b  border-indigo-900 hover:bg-indigo-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-indigo-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700">
                 <svg aria-hidden="true" class="w-4 h-4 mr-2 fill-current" fill="currentColor" viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg">
@@ -181,6 +195,7 @@
             </button>
         </div>
     </div>
+    --}} 
 
 
     <x-jet-dialog-modal wire:model="open">
@@ -240,20 +255,4 @@
         </x-slot>
 
     </x-jet-dialog-modal>
-
-    @push('js')
-    <script>
-        Livewire.on('deshabilitar', ()=> {
-            let datosV=document.getElementById("datosVehiculo");
-            var selects=datosV.querySelectorAll('select')
-            var textinputs = datosV.querySelectorAll('input');
-            for (var i = 0; i < textinputs.length; ++i) { 
-                textinputs[i].disabled= true;
-            }
-            for (var i = 0; i < selects.length; ++i) { 
-                selects[i].disabled= true;
-            }
-        });
-    </script>
-    @endpush
 </div>
