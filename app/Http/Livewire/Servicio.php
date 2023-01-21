@@ -33,7 +33,7 @@ class Servicio extends Component
     //Variables del servicio
     public $formatosGnvDisponibles;
     public $listaVehiculos=[];
-    public $talleres,$servicios,$serv,$tipoServicio,$taller,$ruta,$open,$formularioVehiculo,$vehiculoServicio;
+    public $talleres,$servicios,$serv,$tipoServicio,$taller,$ruta,$open,$formularioVehiculo,$vehiculoServicio,$rutaDes;
 
 
 
@@ -391,6 +391,7 @@ class Servicio extends Component
                                             ]);
             $this->asignaEquiposVehiculo($this->salvaEquipos(),$this->vehiculoServicio);
             $this->ruta=$this->generarRuta($cert);
+            $this->rutaDes=$this->generarRutaDescarga($cert);
             $this->emit("minAlert",["titulo"=>"Buen Trabajo!","mensaje"=>"Tu certificado esta listo!","icono"=>"success",]);            
         }        
         
@@ -405,7 +406,7 @@ class Servicio extends Component
             $tipoSer=$certificacion->Servicio->tipoServicio->id;            
             switch ($tipoSer) {
                 case 1:
-                    $ver= route('certificadoInicial', ['id' => $certificacion->id]);
+                    $ver= route('certificadoInicial', ['id' => $certificacion->id]);                    
                 break; 
                 case 2:
                     $ver= route('certificado', ['id' => $certificacion->id]);
@@ -417,6 +418,25 @@ class Servicio extends Component
         }
 
         return $ver;
+    }
+    public function generarRutaDescarga(Certificacion $certificacion){        
+        $descargar="";
+        if($certificacion){
+            $tipoSer=$certificacion->Servicio->tipoServicio->id;            
+            switch ($tipoSer) {
+                case 1:                    
+                    $descargar=route('descargarInicial', ['id' => $certificacion->id]);
+                break; 
+                case 2:
+                    $descargar=route('descargarCertificado', ['id' => $certificacion->id]);
+                break;                
+                default:
+                    # code...
+                    break;
+            }
+        }
+
+        return $descargar;
     }
 
     //revisa la existencia del vehiculo en nuestra base de datos y los devuelve en caso de encontrarlo
@@ -430,7 +450,7 @@ class Servicio extends Component
             if($hoja!=null){               
                 return $hoja;
             }else{
-                $this->emit("CustomAlert",["titulo"=>"ERROR","mensaje"=>"El número de serie sugerido no corresponde con ningún formato en su poder","icono"=>"error"]);
+                $this->emit("CustomAlert",["titulo"=>"ERROR","mensaje"=>"El número de serie ingresado no corresponde con ningún formato en su poder","icono"=>"error"]);
                 return null;
             }
         } else{
@@ -507,25 +527,80 @@ class Servicio extends Component
             return abort(404);
         }
     }
-
-    public function generaPdfInicialGnv($id){
+    public function descargaPdfAnualGnv($id){
         if(Certificacion::findOrFail($id)){
             $certificacion=Certificacion::find($id);
             $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-            $fecha=date('d').' días del mes de '.$meses[date('m')-1].' del '.date('Y').'.';               
+            $fecha=date('d').' días del mes de '.$meses[date('m')-1].' del '.date('Y').'.'; 
+            $hoja=$certificacion->Materiales->where('idTipoMaterial',1)->first();              
             $data=[
             "fecha"=>$fecha,
             "empresa"=>"MOTORGAS COMPANY S.A.",
             "carro"=>$certificacion->Vehiculo,
             "taller"=>$certificacion->Taller, 
-            "hoja"=>$certificacion->Materiales->first(), 
+            "hoja"=>$hoja, 
             ];                 
             $pdf = App::make('dompdf.wrapper');
-            $pdf->loadView('conversionGnv',$data);        
-            return $pdf->stream($id.'-'.date('d-m-Y').'-cargo.pdf');
+            $pdf->loadView('anualGnv',$data);        
+            return $pdf->download($certificacion->Vehiculo->placa.'-'.$hoja->numSerie.'.pdf');
         }else{
             return abort(404);
         }
     }
 
+    public function generaPdfInicialGnv($id){
+        if(Certificacion::findOrFail($id)){
+            $certificacion=Certificacion::find($id);
+            $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+            $fecha=date('d').' días del mes de '.$meses[date('m')-1].' del '.date('Y').'.';              
+            $chip=$certificacion->vehiculo->Equipos->where("idTipoEquipo",1)->first();           
+            $equipos=$certificacion->vehiculo->Equipos->where("idTipoEquipo","!=",1)->sortBy("idTipoEquipo");                     
+            //dd($equipos); 
+            $hoja=$certificacion->Materiales->where('idTipoMaterial',1)->first();
+            $data=[
+            "fecha"=>$fecha,
+            "empresa"=>"MOTORGAS COMPANY S.A.",
+            "carro"=>$certificacion->Vehiculo,
+            "taller"=>$certificacion->Taller, 
+            "hoja"=>$hoja, 
+            "equipos"=>$equipos,
+            "chip"=>$chip,
+            ];                 
+            $pdf = App::make('dompdf.wrapper');
+            $pdf->loadView('conversionGnv',$data);        
+            //return $pdf->stream($id.'-'.date('d-m-Y').'-cargo.pdf');
+            return  $pdf->stream($certificacion->Vehiculo->placa.'-'.$hoja->numSerie.'.pdf');
+        }else{
+            return abort(404);
+        }
+    }
+
+    public function descargaPdfInicialGnv($id){
+        if(Certificacion::findOrFail($id)){
+            $certificacion=Certificacion::find($id);
+            $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+            $fecha=date('d').' días del mes de '.$meses[date('m')-1].' del '.date('Y').'.';              
+            $chip=$certificacion->vehiculo->Equipos->where("idTipoEquipo",1)->first();           
+            $equipos=$certificacion->vehiculo->Equipos->where("idTipoEquipo","!=",1)->sortBy("idTipoEquipo");                     
+            //dd($equipos); 
+            $hoja=$certificacion->Materiales->where('idTipoMaterial',1)->first();
+            $data=[
+            "fecha"=>$fecha,
+            "empresa"=>"MOTORGAS COMPANY S.A.",
+            "carro"=>$certificacion->Vehiculo,
+            "taller"=>$certificacion->Taller, 
+            "hoja"=>$hoja, 
+            "equipos"=>$equipos,
+            "chip"=>$chip,
+            ];                 
+            $pdf = App::make('dompdf.wrapper');
+            $pdf->loadView('conversionGnv',$data);        
+            //return $pdf->stream($id.'-'.date('d-m-Y').'-cargo.pdf');
+            return  $pdf->download($certificacion->Vehiculo->placa.'-'.$hoja->numSerie.'.pdf');
+        }else{
+            return abort(404);
+        }
+    }
+
+   
 }

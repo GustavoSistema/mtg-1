@@ -39,4 +39,8 @@ class vehiculo extends Model
         "updated_at",
     ];
 
+    public function Equipos(){
+        return $this->belongsToMany(Equipo::class, 'equiposvehiculo','idVehiculo','idEquipo');
+    }
+
 }

@@ -150,19 +150,59 @@
                 <td>N° Motor</td>
                 <td>{{$carro->numMotor}}</td>
                 <td style="padding: 0 5px 0 5px; text-align:center;">16</td>
-                <td>Peso bruto</td>
+                <td>Peso bruto(kg)</td>
                 <td>{{$carro->pesoBruto}}</td>
             </tr>
         </table>
         <p>Habiéndose instalado al mismo los siguientes componentes:</p>
         <!-- DATOS DE LOS EQUIPOS -->
+        <p>Chip de identificacion: {{$chip->numSerie}}</p>
             <table>
                 <tr>
-                    <td style="text-align:center;">N°</td>
+                    <td style="text-align:center;">Componente</td>
                     <td style="text-align:center;">Marca</td>
                     <td style="text-align:center;">N°Serie</td>
                     <td style="text-align:center;">Modelo</td>
                     <td style="text-align:center;">Capacidad</td>                    
+                </tr>
+                @foreach ($equipos as $key=>$item)
+                    @switch($item->idTipoEquipo)
+                        @case(2)
+                            <tr>                        
+                                <td style="text-align:center;">{{$item->tipo->nombre}}</td>
+                                <td style="text-align:center;">{{$item->marca}}</td>
+                                <td style="text-align:center;">{{$item->numSerie}}</td>
+                                <td style="text-align:center;">{{$item->modelo}}</td>
+                                <td style="text-align:center;">N/A</td>                    
+                            </tr>
+                        @break
+                        @case(3)
+                            <tr>                        
+                                <td style="text-align:center;">{{$item->tipo->nombre}}</td>
+                                <td style="text-align:center;">{{$item->marca}}</td>
+                                <td style="text-align:center;">{{$item->numSerie}}</td>
+                                <td style="text-align:center;">N/A</td>
+                                <td style="text-align:center;">{{$item->capacidad}}</td>                    
+                            </tr>
+                        @break
+                        @default                            
+                    @endswitch               
+                @endforeach                
+            </table>
+        <p>
+            Como consecuencia de la conversion del sistema de combustion a Gas Natural Vehicular - GNV, las caracteristicas originales del vehiculo 
+            se han modificado de la siguiente manera:
+        </p>
+            <table>
+                <tr>
+                    <td style="text-align:center;">17</td>
+                    <td style="text-align:center;">Combustible</td>
+                    <td style="text-align:center;">BI COMBUSTIBLE GNV</td>                   
+                </tr>
+                <tr>
+                    <td style="text-align:center;">18</td>
+                    <td style="text-align:center;">Peso neto(kg)</td>
+                    <td style="text-align:center;">{{$carro->pesoNeto+60}}</td>                   
                 </tr>
             </table>
         <p>Consiste por el presente documento que el sistema de combustible  a Gas Natural Vehicular GNV, del vehículo antes referido, no afectaran negativamente la seguridad
@@ -177,8 +217,7 @@
                 <li>Este documento es válido únicamente en original, con firma y sello del representante y del ingeniero supervisor.</li>
                 <li>Las abreviaturas: S/V significa “Sin Versión”, NE significa “No Especificado en los documentos presentes”</li>
                 <li>De acuerdo a la normatividad vigente, el resultado de la prueba de emisiones contaminantes del vehiculó es aprobatorio.</li>
-            </ul>
-        <p>Inspeccion realizada en el taller: {{$taller->nombre}} </p>
+            </ul>       
         <p>Se expide el presente en la ciudad de Lima, a los {{$fecha}}</p>
         
     </main>
