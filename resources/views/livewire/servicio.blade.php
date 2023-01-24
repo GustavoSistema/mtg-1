@@ -166,6 +166,10 @@
                 class="hover:cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-amber-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-green-400 hover:bg-green-500 focus:outline-none rounded">
                 <p class="text-sm font-medium leading-none text-white"><i class="fas fa-file-download"></i> &nbsp;Descargar PDF</p>
             </a>
+            <a href="{{route('servicio')}}" 
+                class="hover:cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-amber-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-green-400 hover:bg-green-500 focus:outline-none rounded">
+                <p class="text-sm font-medium leading-none text-white"><i class="fas fa-archive"></i> &nbsp;Finalizar</p>
+            </a>
             @endif
         </div>        
     </div>

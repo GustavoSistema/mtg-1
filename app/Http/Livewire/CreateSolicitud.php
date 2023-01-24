@@ -89,7 +89,7 @@ class CreateSolicitud extends Component
 
         $sol=Solicitud::create([
             "idInspector"=>Auth::id(),
-            "data"=>json_encode($this->articulos),
+            "data"=>json_encode($this->articulos,true),
             "estado"=>1
         ]);
 

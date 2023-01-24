@@ -17,6 +17,13 @@
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    @can('servicio')
+                    <x-jet-nav-link href="{{ route('servicio') }}" :active="request()->routeIs('servicio')">
+                        {{ __('Servicio') }}
+                    </x-jet-nav-link>
+                    @endcan
+                </div>
                 {{--
                 @can('expedientes')
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
@@ -77,36 +84,50 @@
                         </x-slot>
 
                         <x-slot name="content">      
+                            
+                            @can('inventario')
                             <x-jet-dropdown-link href="{{ route('inventario') }}">
                                 {{ __('Inventario') }}
                             </x-jet-dropdown-link> 
-
-                            <div class="border-t border-gray-100"></div>                   
-
-                            <x-jet-dropdown-link href="{{ route('ingresos') }}">
-                                {{ __('Ingreso de Materiales') }}
-                            </x-jet-dropdown-link> 
-
-                            <div class="border-t border-gray-100"></div>
-
-                            <!-- Authentication -->
-                            <x-jet-dropdown-link href="{{ route('salidas') }}">
-                                {{ __('Salida de materiales') }}
-                            </x-jet-dropdown-link>                            
-
-                            <div class="border-t border-gray-100"></div>
-
-                            <!-- Authentication -->
-                            <x-jet-dropdown-link href="{{ route('asignacion') }}">
-                                {{ __('Asignación de materiales') }}
-                            </x-jet-dropdown-link> 
+                            <div class="border-t border-gray-100"></div> 
+                            @endcan
+                                              
+                            @can('ingresos')
+                                <x-jet-dropdown-link href="{{ route('ingresos') }}">
+                                    {{ __('Ingreso de Materiales') }}
+                                </x-jet-dropdown-link>
+                                <div class="border-t border-gray-100"></div>                                
+                            @endcan
                             
-                            <div class="border-t border-gray-100"></div>
 
-                            <!-- Authentication -->
+                            @can('salidas')
+                                <x-jet-dropdown-link href="{{ route('salidas') }}">
+                                    {{ __('Salida de materiales') }}
+                                </x-jet-dropdown-link>                          
+                                <div class="border-t border-gray-100"></div>
+                            @endcan
+                            
+
+                            @can('asignacion')
+                                <x-jet-dropdown-link href="{{ route('asignacion') }}">
+                                    {{ __('Asignación de materiales') }}
+                                </x-jet-dropdown-link>                             
+                                <div class="border-t border-gray-100"></div>
+                            @endcan
+                            
+                            @can('solicitud')
+                            <x-jet-dropdown-link href="{{ route('solicitud') }}">
+                                {{ __('Solicitud de materiales') }}
+                            </x-jet-dropdown-link>                             
+                            <div class="border-t border-gray-100"></div>
+                            @endcan
+                            
+                            @can('recepcion')
                             <x-jet-dropdown-link href="{{ route('recepcion') }}">
                                 {{ __('Recepción de materiales') }}
                             </x-jet-dropdown-link> 
+                            @endcan
+                            
                         </x-slot>
                     </x-jet-dropdown>
                 </div>
@@ -121,7 +142,6 @@
                                 <span class="inline-flex rounded-md">
                                     <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition">
                                         {{ Auth::user()->currentTeam->name }}
-
                                         <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                             <path fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
                                         </svg>
@@ -163,8 +183,53 @@
                     </div>
                 @endif
 
-                <!-- Settings Dropdown -->
+                
+                <!-- NOTIFICACIONESSS -->
+
                 <div class="ml-3 relative">
+                    <x-jet-dropdown align="right" width="48">
+                        <x-slot name="trigger">
+                            <div class="m-4 inline-flex relative w-fit">
+                                @if (Auth()->user()->unreadNotifications->count())
+                                    <div class="absolute inline-block top-0 right-0 bottom-auto left-auto translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 px-1 text-sm text-white bg-indigo-400 rounded-full z-10">
+                                        {{Auth()->user()->unreadNotifications->count()}}
+                                    </div>
+                                @else
+                                    
+                                @endif
+                                
+                                <div class="flex items-center justify-center text-center">
+                                  <i class="fas fa-bell fa-lg"></i>
+                                </div>
+                              </div>
+                        </x-slot>
+
+                        <x-slot name="content">
+                            <!-- Account Management -->
+                            <div class="block px-4 py-2 text-xs text-gray-400">
+                                {{ __('Tienes '.Auth()->user()->unreadNotifications->count().' notificaciones') }}
+                            </div>
+                            @foreach (Auth()->user()->unreadNotifications as $notification)
+                                @if ($notification->type=="App\Notifications\CreateSolicitud")
+                                <x-jet-dropdown-link href="{{ route('leerNotificacion',[$notification->id,$notification->data['idSoli']])}}" >
+                                    <p class="text-xs "> Nueva solicitud de Materiales de <strong class="text-indigo-500">{{ $notification->data["inspector"] }}</strong></p> 
+                                </x-jet-dropdown-link>
+                                <div class="border-t border-gray-100"></div>
+                                @endif
+                               
+                            @endforeach                         
+                            
+
+                            <!-- Authentication -->
+                            
+                        </x-slot>
+                    </x-jet-dropdown>
+                </div>
+
+
+
+                <!-- Settings Dropdown -->
+                <div class="relative">
                     <x-jet-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())

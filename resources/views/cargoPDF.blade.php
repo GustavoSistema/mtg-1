@@ -77,6 +77,13 @@
         </ol>
         
         <p>Sin otro particular me despido de usted muy atentamente.</p>
+        <br>
+        <br>
+        <br>
+        <p>_________________________</p>
+        <p>Nombre:</p>
+        <p>DNI:</p>
+
     </main>
     
     <footer>

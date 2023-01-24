@@ -1,6 +1,6 @@
 <div>
     <div class="container block justify-center m-auto py-12">
-        <h1 class="text-2xl font-bold text-center text-lime-400 ">Nueva Solicitud de Materiales</h1>
+        <h1 class="text-2xl font-bold text-center text-indigo-600 ">Nueva Solicitud de Materiales</h1>
         <div class="block flex-row w-full justify-center gap-2 mt-4 md:flex md:flex-row">
             <div class="md:w-1/2 w-full">
                 <div class="flex p-8 items-center justify-center">
@@ -46,7 +46,7 @@
                                     <span class="bg-lime-300 rounded-full px-2 mr-6">{{$item["nombre"]}}</span> <p>{{$item["cantidad"]}} <strong>UND.</strong></p>                           
                                 </div>     
                                 <div class="flex items-center justify-end">
-                                    <button class="bg-sky-300 p-2 rounded-full" wire:click="eliminaArticulo({{$key}})"><i class="fas fa-times" style="color: darkgreen"></i></button>
+                                    <button class="bg-sky-300 p-2 rounded-full shadow-lg border border-sky-400 hover:bg-sky-500" wire:click="eliminaArticulo({{$key}})"><i class="fas fa-times" style="color: darkgreen"></i></button>
                                 </div>                   
                             </div>                        
                         @endforeach

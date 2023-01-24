@@ -11,6 +11,7 @@ use App\Http\Livewire\Salidas;
 use App\Http\Livewire\Servicio;
 use App\Http\Livewire\Servicios;
 use App\Http\Livewire\Solicitud;
+use App\Http\Livewire\VistaSolicitud;
 use App\Models\Ingreso;
 use Illuminate\Support\Facades\Route;
 
@@ -36,18 +37,23 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
 ->group(function () {
     
     Route::get('/Expedientes',Expedientes::class)->middleware('can:expedientes')->name('expedientes');
-    Route::get('/Servicio',Servicio::class)->name('servicio');
+    Route::get('/Servicio',Servicio::class)->middleware('can:servicio')->name('servicio');
     Route::get('/Talleres',Talleres::class)->name('talleres');
-    Route::get('/Ingresos',Ingresos::class)->name('ingresos');
-    Route::get('/Salidas',Salidas::class)->name('salidas');
-    Route::get('/Inventario',Inventario::class)->name('inventario');
-    Route::get('/Asignacion-de-materiales',AsignacionMateriales::class)->name('asignacion');
-    Route::get('/Recepcion-de-materiales',RecepcionMateriales::class)->name('recepcion');
-    Route::get('/Solicitud-de-materiales',Solicitud::class)->name('solicitud');
-    Route::get('/Crear-solicitud',CreateSolicitud::class)->name('nuevaSolicitud');
+    Route::get('/Ingresos',Ingresos::class)->middleware('can:ingresos')->name('ingresos');
+    Route::get('/Salidas',Salidas::class)->middleware('can:salidas')->name('salidas');
+    Route::get('/Inventario',Inventario::class)->middleware('can:inventario')->name('inventario');
+    Route::get('/Asignacion-de-materiales',AsignacionMateriales::class)->middleware('can:asignacion')->name('asignacion');
+    Route::get('/Recepcion-de-materiales',RecepcionMateriales::class)->middleware('can:recepcion')->name('recepcion');
+    Route::get('/Solicitud-de-materiales',Solicitud::class)->middleware('can:solicitud')->name('solicitud');
+    Route::get('/Crear-solicitud',CreateSolicitud::class)->middleware('can:nuevaSolicitud')->name('nuevaSolicitud');
     Route::get('/RevisionExpedientes',RevisionExpedientes::class)->middleware('can:revisionExpedientes')->name('revisionExpedientes');  
     Route::get('/dashboard', function (){return view('dashboard');})->name('dashboard');
+    Route::get('/Solicitud/{soliId}',VistaSolicitud::class)->name('vistaSolicitud');
+    
+    Route::get("Notification/{idNoti}/{idSoli}","App\Http\Controllers\NotificationController@marcarUnaNotificación")->name("leerNotificacion");
+
     Route::get('download/{path}', function($path) { return Illuminate\Support\Facades\Storage::download($path);})->where('path','.*');
+   
     Route::get('/CargoPdf/{id}', function ($id) {
         $am= new AsignacionMateriales();
         return  $am->enviar($id);

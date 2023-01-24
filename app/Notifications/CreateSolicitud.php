@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Solicitud;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -55,11 +56,12 @@ class CreateSolicitud extends Notification
      */
     public function toArray($notifiable)
     {
+        $inspector=User::find($this->solicitud->idInspector)->name;
         return [
-            "inspector"=>$this->solicitud->idInspector,
+            "inspector"=>$inspector,
             "data"=>$this->solicitud->data,
             "fecha"=>$this->solicitud->created_at,
-
+            "idSoli"=>$this->solicitud->id,
         ];
     }
 }
