@@ -1,5 +1,6 @@
 <?php
 use App\Http\Livewire\AsignacionMateriales;
+use App\Http\Livewire\CreateSolicitud;
 use App\Http\Livewire\Expedientes;
 use App\Http\Livewire\Ingresos;
 use App\Http\Livewire\Inventario;
@@ -9,6 +10,7 @@ use App\Http\Livewire\RevisionExpedientes;
 use App\Http\Livewire\Salidas;
 use App\Http\Livewire\Servicio;
 use App\Http\Livewire\Servicios;
+use App\Http\Livewire\Solicitud;
 use App\Models\Ingreso;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +41,13 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get('/Ingresos',Ingresos::class)->name('ingresos');
     Route::get('/Salidas',Salidas::class)->name('salidas');
     Route::get('/Inventario',Inventario::class)->name('inventario');
+    Route::get('/Asignacion-de-materiales',AsignacionMateriales::class)->name('asignacion');
+    Route::get('/Recepcion-de-materiales',RecepcionMateriales::class)->name('recepcion');
+    Route::get('/Solicitud-de-materiales',Solicitud::class)->name('solicitud');
+    Route::get('/Crear-solicitud',CreateSolicitud::class)->name('nuevaSolicitud');
+    Route::get('/RevisionExpedientes',RevisionExpedientes::class)->middleware('can:revisionExpedientes')->name('revisionExpedientes');  
+    Route::get('/dashboard', function (){return view('dashboard');})->name('dashboard');
+    Route::get('download/{path}', function($path) { return Illuminate\Support\Facades\Storage::download($path);})->where('path','.*');
     Route::get('/CargoPdf/{id}', function ($id) {
         $am= new AsignacionMateriales();
         return  $am->enviar($id);
@@ -58,10 +67,5 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get('/CertificadoInicial/{id}/download', function ($id) {
         $ser= new Servicio();
         return  $ser->descargaPdfInicialGnv($id);
-    })->name('descargarInicial');  
-    Route::get('/Asignacion-de-materiales',AsignacionMateriales::class)->name('asignacion');
-    Route::get('/Recepcion-de-materiales',RecepcionMateriales::class)->name('recepcion');
-    Route::get('/RevisionExpedientes',RevisionExpedientes::class)->middleware('can:revisionExpedientes')->name('revisionExpedientes');  
-    Route::get('/dashboard', function (){return view('dashboard');})->name('dashboard');
-    Route::get('download/{path}', function($path) { return Illuminate\Support\Facades\Storage::download($path);})->where('path','.*');
+    })->name('descargarInicial'); 
 });

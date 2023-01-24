@@ -491,7 +491,7 @@ class Servicio extends Component
         $reg=$this->cuentaTipo(2);       
         $cil=$this->cuentaTipo(3);
             if($chips>0 && $reg>0 && $cil >0){
-                $this->emit("alert","aea");
+                $this->validaVehiculo();
                 $estado=true;                
             }else{
                 $this->emit("CustomAlert",["titulo"=>"ERROR","mensaje"=>"Debe completar los datos de equipos para poder certificar","icono"=>"error"]);                
@@ -501,6 +501,7 @@ class Servicio extends Component
     public function validaVehiculo(){
         $estado=false;
         if($this->vehiculoServicio!=null){
+            //$this->validaEquipos();
             $estado=true;
         }else{
                 $this->emit("CustomAlert",["titulo"=>"ERROR","mensaje"=>"Ingrese un vehículo válido para poder certificar","icono"=>"error"]);

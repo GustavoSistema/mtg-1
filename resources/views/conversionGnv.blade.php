@@ -211,11 +211,15 @@
         </p>
         <h6>OBSERVACIONES</h6>
             <ul>
-                <li>(*) Los datos de los numerales 1 al 16, provienen de la tarjeta de propiedad del vehículo y/o han sido suministrados por el cliente, por tal motivo deberán ser verificados por el cliente antes de iniciar cualquier trámite con este certificado.</li>
-                <li>(**) y (***) Las condiciones técnicas y de seguridad verificadas en el vehículo, corresponden a las expuestas en la Resolución Directoral 365-2021-MTC/17.03</li>
-                <li>Este documento no es válido en caso de presentar cualquier tipo de alteración o enmendadura.</li>
-                <li>Este documento es válido únicamente en original, con firma y sello del representante y del ingeniero supervisor.</li>
-                <li>Las abreviaturas: S/V significa “Sin Versión”, NE significa “No Especificado en los documentos presentes”</li>
+                <li>(*) Los datos de los numerales 1 al 18, provienen de la tarjeta de propiedad del vehículo y/o han sido suministrados por el cliente, por tal motivo deberán 
+                    ser verificados por el cliente antes de iniciar cualquier trámite con este certificado.
+                </li>
+                <li>
+                    (**) y (***) Las condiciones técnicas y de seguridad verificadas en el vehículo, corresponden a las expuestas en la Resolución Directoral 3990 -2005-MTC/f5.
+                </li>
+                <li> Este documento no es válido en caso de presentar cualquier tipo de alteración o enmendadura.</li>
+                <li>Este documento es válido únicamente en original, con firma y sello del representante y del ingeniero supervisor</li>
+                <li>Las abreviaturas: S/V significa “Sin Versión”, NE significa “No Especificado en los documentos presentes” </li>
                 <li>De acuerdo a la normatividad vigente, el resultado de la prueba de emisiones contaminantes del vehiculó es aprobatorio.</li>
             </ul>       
         <p>Se expide el presente en la ciudad de Lima, a los {{$fecha}}</p>
