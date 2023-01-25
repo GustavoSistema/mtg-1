@@ -43,27 +43,27 @@ class Servicio extends Component
                     "taller"=>"required|numeric|min:1",
                     "serv"=>"required|numeric|min:1",
                     "placa"=>"required|min:6",
-                    "categoria"=>"required|min:2",
+                    "categoria"=>"nullable",
                     "marca"=>"required|min:2",
                     "modelo"=>"required|min:2",
-                    "version"=>"required|min:2", 
-                    "anioFab"=>"required|numeric|min:1900",                  
-                    "numSerie"=>"required|min:2",
-                    "numMotor"=>"required|min:2",
-                    "cilindros"=>"required|numeric|min:1",
-                    "cilindrada"=>"required|numeric|min:1",
-                    "combustible"=>"required|min:2", 
-                    "ejes"=>"required|numeric|min:1",   
-                    "ruedas"=>"required|numeric|min:1",    
-                    "asientos"=>"required|numeric|min:1",      
-                    "pasajeros"=>"required|numeric|min:1",   
-                    "largo"=>"required|numeric",   
-                    "ancho"=>"required|numeric",
-                    "altura"=>"required|numeric",
-                    "color"=>"required|min:2",
-                    "pesoNeto"=>"required|numeric",
-                    "pesoBruto"=>"required|numeric",
-                    "cargaUtil"=>"required|numeric",
+                    "version"=>"nullable", 
+                    "anioFab"=>"nullable|numeric|min:1900",                  
+                    "numSerie"=>"nullable|min:2",
+                    "numMotor"=>"nullable|min:2",
+                    "cilindros"=>"nullable|numeric|min:1",
+                    "cilindrada"=>"nullable|numeric|min:1",
+                    "combustible"=>"nullable|min:2", 
+                    "ejes"=>"nullable|numeric|min:1",   
+                    "ruedas"=>"nullable|numeric|min:1",    
+                    "asientos"=>"nullable|numeric|min:1",      
+                    "pasajeros"=>"nullable|numeric|min:1",   
+                    "largo"=>"nullable|numeric",   
+                    "ancho"=>"nullable|numeric",
+                    "altura"=>"nullable|numeric",
+                    "color"=>"nullable|min:2",
+                    "pesoNeto"=>"nullable|numeric",
+                    "pesoBruto"=>"nullable|numeric",
+                    "cargaUtil"=>"nullable|numeric",
                     ];
 
     
@@ -137,31 +137,77 @@ class Servicio extends Component
         $vehiculo=vehiculo::create([            
                                     "placa"=>strtoupper($this->placa),
                                     "categoria"=>strtoupper($this->categoria),
-                                    "marca"=>strtoupper($this->marca),
-                                    "modelo"=>strtoupper($this->modelo),
-                                    "version"=>strtoupper($this->version),
-                                    "anioFab"=>$this->anioFab,
-                                    "numSerie"=>strtoupper($this->numSerie),
-                                    "numMotor"=>strtoupper($this->numMotor),
+                                    "marca"=>$this->retornaNE($this->marca),
+                                    "modelo"=>$this->retornaNE($this->modelo),
+                                    "version"=>$this->retornaSV($this->version),
+
+                                    //considerar en el PDF
+                                    "anioFab"=>$this->retornaNulo($this->anioFab),
+                                    //considerar en el PDF
+
+                                    "numSerie"=>$this->retornaNE($this->numSerie),
+                                    "numMotor"=>$this->retornaNE($this->numMotor),
+
+
+                                    //considerar en el PDF
                                     "cilindros"=>$this->cilindros,
                                     "cilindrada"=>$this->cilindrada,
-                                    "combustible"=>strtoupper($this->combustible),
-                                    "ejes"=>$this->ejes,
-                                    "ruedas"=>$this->ruedas,
-                                    "asientos"=>$this->asientos,
-                                    "pasajeros"=>$this->pasajeros,
-                                    "largo"=>$this->largo,
-                                    "ancho"=>$this->ancho,
-                                    "altura"=>$this->altura,
-                                    "color"=>strtoupper($this->color),
-                                    "pesoNeto"=>$this->pesoNeto,
-                                    "pesoBruto"=>$this->pesoBruto,  
-                                    "cargaUtil"=>$this->cargaUtil,          
+                                    //considerar en el PDF
+
+
+                                    "combustible"=>$this->retornaNE($this->combustible),
+
+                                    //considerar en el PDF
+                                    "ejes"=>$this->retornaNulo($this->ejes),
+                                    "ruedas"=>$this->retornaNulo($this->ruedas),
+                                    "asientos"=>$this->retornaNulo($this->asientos),
+                                    "pasajeros"=>$this->retornaNulo($this->pasajeros),
+                                    //considerar en el PDF
+
+
+                                    //considerar en el PDF
+                                    "largo"=>$this->retornaNulo($this->largo),
+                                    "ancho"=>$this->retornaNulo($this->ancho),
+                                    "altura"=>$this->retornaNulo($this->altura),
+                                    //considerar en el PDF
+
+                                    "color"=>$this->retornaNE($this->color),
+
+                                    //considerar en el PDF
+                                    "pesoNeto"=>$this->retornaNulo($this->pesoNeto),
+                                    "pesoBruto"=>$this->retornaNulo($this->pesoBruto),  
+                                    "cargaUtil"=>$this->retornaNulo($this->cargaUtil), 
+                                    //considerar en el PDF         
+
                                     ]);
         //$this->emit("alert","El vehículo con placa ".$vehiculo->placa." se registro correctamente.");
         $this->formularioVehiculo=false;
         $this->vehiculoServicio=$vehiculo;
         $this->emit('alert','El vehículo con placa '.$vehiculo->placa.' se registro correctamente.');
+    }
+
+    public function retornaNE($value){
+        if(isset($value)){
+            return strtoupper($value);
+        }else{
+            return $value='NE';
+        }
+    }
+
+    public function retornaSV($value){
+        if(isset($value)){
+            return strtoupper($value);
+        }else{
+            return $value='S/V';
+        }
+    }
+
+    public function retornaNulo($value){
+        if(isset($value)){
+            return strtoupper($value);
+        }else{
+            return $value=null;
+        }
     }
 
     public function actualizarVehiculo(){

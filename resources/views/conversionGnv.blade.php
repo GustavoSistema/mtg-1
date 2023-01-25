@@ -95,7 +95,7 @@
                 <td>{{$carro->placa}}</td>
                 <td style="padding: 0 5px 0 5px; text-align:center;">9</td>
                 <td>Cilindros / Cilindrada</td>
-                <td>{{$carro->cilindros.' / '.$carro->cilindrada}}</td>
+                <td>{{ (isset($carro->cilindros)? $carro->cilindros : 'NE').' / '. (isset($carro->cilindrada)? $carro->cilindrada : 'NE')}}</td>
             </tr>
             <tr>
                 <td style="padding: 0 5px 0 5px; text-align:center;">2</td>
@@ -108,18 +108,18 @@
             <tr>
                 <td style="padding: 0 5px 0 5px; text-align:center;">3</td>
                 <td>Marca</td>
-                <td>{{$carro->marca}}</td>
+                <td>{{(isset($carro->marca)? $carro->marca : 'NE')}}</td>
                 <td style="padding: 0 5px 0 5px; text-align:center;">11</td>
                 <td>N° Ejes / N° Ruedas</td>
-                <td>{{$carro->ejes.' / '.$carro->ruedas}}</td>
+                <td>{{(isset($carro->ejes)? $carro->ejes : 'NE').' / '.(isset($carro->ruedas)? $carro->ruedas : 'NE')}}</td>
             </tr>
             <tr>
                 <td style="padding: 0 5px 0 5px; text-align:center;">4</td>
                 <td>Modelo</td>
-                <td>{{$carro->modelo}}</td>
+                <td>{{(isset($carro->modelo)? $carro->modelo : 'NE')}}</td>
                 <td style="padding: 0 5px 0 5px; text-align:center;">12</td>
                 <td>N° Asientos / N° Pasajeros</td>
-                <td>{{$carro->asientos.' / '.$carro->pasajeros}}</td>
+                <td>{{(isset($carro->asientos)? $carro->asientos : 'NE').' / '.(isset($carro->pasajeros)? $carro->pasajeros : 'NE')}}</td>
             </tr>
             <tr>
                 <td style="padding: 0 5px 0 5px; text-align:center;">5</td>
@@ -127,12 +127,12 @@
                 <td>{{$carro->version}}</td>
                 <td style="padding: 0 5px 0 5px; text-align:center;">13</td>
                 <td>Largo / Ancho / Alto(m)</td>
-                <td>{{$carro->largo.' / '.$carro->ancho.' / '.$carro->altura}}</td>
+                <td>{{(isset($carro->largo)? $carro->largo : 'NE').' / '.(isset($carro->ancho)? $carro->ancho : 'NE').' / '.(isset($carro->altura)? $carro->altura : 'NE')}}</td>
             </tr>
             <tr>
                 <td style="padding: 0 5px 0 5px; text-align:center;">6</td>
                 <td>Año fabricación</td>
-                <td>{{$carro->anioFab}}</td>
+                <td>{{(isset($carro->anioFab)? $carro->anioFab : 'NE')}}</td>
                 <td style="padding: 0 5px 0 5px; text-align:center;">14</td>
                 <td>Color(es)</td>
                 <td>{{$carro->color}}</td>
@@ -140,18 +140,18 @@
             <tr>
                 <td style="padding: 0 5px 0 5px; text-align:center;">7</td>
                 <td>VIN / N° Serie</td>
-                <td>{{$carro->numSerie}}</td>
+                <td>{{(isset($carro->numSerie)? $carro->numSerie : 'NE')}}</td>
                 <td style="padding: 0 5px 0 5px; text-align:center;">15</td>
                 <td>Peso neto(kg)</td>
-                <td>{{$carro->pesoNeto}}</td>
+                <td>{{(isset($carro->pesoNeto)? $carro->pesoNeto : '0.00')}}</td>
             </tr>
             <tr>
                 <td style="padding: 0 5px 0 5px; text-align:center;">8</td>
                 <td>N° Motor</td>
-                <td>{{$carro->numMotor}}</td>
+                <td>{{(isset($carro->numMotor)? $carro->numMotor : 'NE')}}</td>
                 <td style="padding: 0 5px 0 5px; text-align:center;">16</td>
                 <td>Peso bruto(kg)</td>
-                <td>{{$carro->pesoBruto}}</td>
+                <td>{{(isset($carro->pesoBruto)? $carro->pesoBruto : '0.00')}}</td>
             </tr>
         </table>
         <p>Habiéndose instalado al mismo los siguientes componentes:</p>
