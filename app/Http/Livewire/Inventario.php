@@ -9,6 +9,24 @@ use PharIo\Manifest\Author;
 
 class Inventario extends Component
 {
+
+    public $consumidosGnv,$disponiblesGnv;
+
+
+    public function mount(){
+        $this->disponiblesGnv=Material::where([
+            ['estado',3],
+            ['idUsuario',Auth::id()],
+            ['idTipoMaterial',1],
+            ])
+            ->count();
+        $this->consumidosGnv=Material::where([
+            ['estado',4],
+            ['idUsuario',Auth::id()],
+            ['idTipoMaterial',1],
+            ])
+            ->count();
+    }
     
     public function render()
     {
@@ -19,6 +37,6 @@ class Inventario extends Component
             ])
             ->get();       
 
-        return view('livewire.inventario',compact('materiales'));
+        return view('livewire.inventario');
     }
 }
