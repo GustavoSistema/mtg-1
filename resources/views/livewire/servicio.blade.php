@@ -79,7 +79,7 @@
 
                 @if ($equipos)
                     <div>
-                        @foreach ($equipos as $e)
+                        @foreach ($equipos as $key=>$e)
                             @switch($e["idTipoEquipo"])
                                 @case(1)
                                     <div class="block  w-5/6 bg-white border border-black p-2 rounded-lg shadow-lg m-auto mb-4">
@@ -92,8 +92,9 @@
                                                 <p>Serie: <strong>{{ $e['numSerie'] }}</strong></p>
                                             </div>
                                             <div class="w-1/6 flex justify-end items-center">
-                                                <a class="bg-amber-300 p-4 rounded-xl hover:bg-amber-500 hover:cursor-pointer"><i
-                                                        class="fas fa-edit"></i></a>
+                                                <a class="bg-amber-300 p-4 rounded-xl hover:bg-amber-500 hover:cursor-pointer" wire:click="eliminaEquipo({{$key}})">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -112,8 +113,9 @@
                                                 <p>Modelo: <strong>{{ $e['modelo'] }}</strong></p>
                                             </div>
                                             <div class=" w-1/6 flex justify-end items-center">
-                                                <a class="bg-amber-300 p-4 rounded-xl hover:bg-amber-500 hover:cursor-pointer"><i
-                                                        class="fas fa-edit"></i></a>
+                                                <a class="bg-amber-300 p-4 rounded-xl hover:bg-amber-500 hover:cursor-pointer" wire:click="eliminaEquipo({{$key}})">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -132,8 +134,9 @@
                                                 <p>Capacidad: <strong>{{ $e['capacidad'] }}</strong></p>
                                             </div>
                                             <div class="bg w-1/6 flex justify-end items-center">
-                                                <a class="bg-amber-300 p-4 rounded-xl hover:bg-amber-500 hover:cursor-pointer"><i
-                                                        class="fas fa-edit"></i></a>
+                                                <a class="bg-amber-300 p-4 rounded-xl hover:bg-amber-500 hover:cursor-pointer" wire:click="eliminaEquipo({{$key}})">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>

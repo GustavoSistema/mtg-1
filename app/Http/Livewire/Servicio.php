@@ -233,7 +233,8 @@ class Servicio extends Component
         
         $this->reset(["equipoSerie","equipoMarca","equipoModelo","equipoCapacidad","tipoEquipo"]);      
         $this->open=false;
-        $this->emit("alert","El ".$equipo->tipo->nombre." con serie ".$equipo->numSerie." se añadió correctamente.");
+        $this->emit("minAlert",["titulo"=>"BUEN TRABAJO!","mensaje"=>"El ".$equipo->tipo->nombre." con serie ".$equipo->numSerie." se añadio Correctamente","icono"=>"success"]);
+        //$this->emit("alert","El ".$equipo->tipo->nombre." con serie ".$equipo->numSerie." se añadió correctamente.");
     }
 
     public function salvaDatosReductor(){
@@ -253,7 +254,8 @@ class Servicio extends Component
         
         $this->reset(["equipoSerie","equipoMarca","equipoModelo","equipoCapacidad","tipoEquipo"]);       
         $this->open=false;
-        $this->emit("alert","El ".$equipo->tipo->nombre." con serie ".$equipo->numSerie." se añadio Correctamente");
+        //$this->emit("alert","El ".$equipo->tipo->nombre." con serie ".$equipo->numSerie." se añadio Correctamente");
+        $this->emit("minAlert",["titulo"=>"BUEN TRABAJO!","mensaje"=>"El ".$equipo->tipo->nombre." con serie ".$equipo->numSerie." se añadio Correctamente","icono"=>"success"]);
     }
 
     public function salvaDatosChip(){
@@ -268,7 +270,14 @@ class Servicio extends Component
         
         $this->reset(["equipoSerie","equipoMarca","equipoModelo","equipoCapacidad","tipoEquipo"]);        
         $this->open=false;
-        $this->emit("alert","El ".$equipo->tipo->nombre." con serie ".$equipo->numSerie." se añadio Correctamente");
+        //$this->emit("alert","El ".$equipo->tipo->nombre." con serie ".$equipo->numSerie." se añadio Correctamente");
+        $this->emit("minAlert",["titulo"=>"BUEN TRABAJO!","mensaje"=>"El ".$equipo->tipo->nombre." con serie ".$equipo->numSerie." se añadio Correctamente","icono"=>"success"]);
+    }
+
+    public function eliminaEquipo($idEquipo){
+        unset($this->equipos[$idEquipo]);
+        $this->listaTiposDisponibles();
+        $this->emit("minAlert",["titulo"=>"BUEN TRABAJO!","mensaje"=>"Eliminaste un item de tu lista de equipos","icono"=>"success",]); 
     }
 
     public function cuentaTipo($tipo){
