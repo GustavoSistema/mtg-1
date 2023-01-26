@@ -204,7 +204,7 @@ class Servicio extends Component
 
     public function retornaNulo($value){
         if(isset($value)){
-            return strtoupper($value);
+            return $value;
         }else{
             return $value=null;
         }
@@ -519,10 +519,11 @@ class Servicio extends Component
             ["idTipoMaterial",$tipo],
             ['idUsuario',Auth::id()],
             ["estado",3]
-        ])
-        ->orderBy('numSerie','asc')->first();
+        ])->min("numSerie");
+        //->orderBy('numSerie','asc')->first();
+        
         if(isset($formato)){
-            return $formato->numSerie;
+            return $formato;
         }else{
             return null;
         }                
