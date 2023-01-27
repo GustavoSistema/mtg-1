@@ -2,16 +2,30 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Departamento;
+use App\Models\Distrito;
+use App\Models\Provincia;
 use App\Models\Servicio;
 use App\Models\Taller;
 use App\Models\TipoServicio;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class CreateTaller extends Component
 {
+
+    use WithFileUploads;
+
     public $servicios=[];
     public $tipos=[];
     public $precios=[];
+
+    public $departamentos,$provincias,$distritos,$logo;
+
+    public $departamentoSel=Null;
+    public $provinciaSel=Null;
+    public $distritoSel=Null;
+
     public $nombre,$direccion,$ruc,$contador;
     public $open=false; 
 
@@ -20,13 +34,15 @@ class CreateTaller extends Component
         'nombre'=>'required|min:5|max:110',      
         'direccion'=>'required|min:5|max:110',
         'ruc'=>'required|min:11|max:11|unique:taller,ruc',
-           
+        'precios'=>'array|min:1|required',
+        'logo'=>'image'
+
         //'servicios'=>'array|required',  
         //'servicios.precio'=>'numeric|required',     
         
         //'tipos'=>'array|min:1|required',
         //'tipos.*'=>'numeric|min:1',
-        'precios'=>'array|min:1|required',
+        
         //'precios.*'=>'numeric|required|min:1',         
     ]; 
     
@@ -34,6 +50,7 @@ class CreateTaller extends Component
     public function mount(){
         $this->cargaTipoServicios();
         $this->cargaServicios();
+        $this->departamentos=Departamento::all();
     }
      
     public function render()
@@ -101,6 +118,15 @@ class CreateTaller extends Component
                 $this->contador++;
             }
         }
+    }
+
+    public function updatedDepartamentoSel($depa){        
+        $this->provincias=Provincia::where("idDepa",$depa)->get();  
+        $this->provinciaSel=null;         
+    }
+
+    public function updatedProvinciaSel($prov){        
+        $this->distritos=Distrito::where("idProv",$prov)->get();           
     }
 
     protected $messages = [

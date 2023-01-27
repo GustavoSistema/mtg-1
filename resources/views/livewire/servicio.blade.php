@@ -150,32 +150,45 @@
             </div>               
             @endif
         @endif
+
+
+        {{--BOTONES--}}
+
+        <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4 py-4">
+            <div class="my-2 flex flex-row justify-evenly items-center">
+                @if(!isset($servicioCertificado))
+                <a wire:click="certificar"
+                    class="hover:cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-amber-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-indigo-400 hover:bg-indigo-500 focus:outline-none rounded">
+                    <p class="text-sm font-medium leading-none text-white"><i class="fas fa-file-signature"></i> &nbsp;Generar Certificado</p>
+                </a> 
+                @endif
+                @if(isset($servicioCertificado))
+                <a href="{{$ruta}}" target="__blank"
+                    class="hover:cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-amber-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-cyan-400 hover:bg-cyan-500 focus:outline-none rounded">
+                    <p class="text-sm font-medium leading-none text-white"><i class="fas fa-eye"></i> &nbsp;ver Certificado</p>
+                </a> 
+                <a href="{{$rutaDes}}" target="__blank"
+                    class="hover:cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-amber-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-cyan-600 hover:bg-cyan-700 focus:outline-none rounded">
+                    <p class="text-sm font-medium leading-none text-white"><i class="fas fa-file-download"></i> &nbsp;Descargar Certificado</p>
+                </a>
+                <a href="{{ route('fichaTecnicaGnv',[$servicioCertificado->id])}}" target="__blank"
+                    class="hover:cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-amber-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-blue-400 hover:bg-blue-500 focus:outline-none rounded">
+                    <p class="text-sm font-medium leading-none text-white"><i class="fas fa-eye"></i> &nbsp;Ver Ficha T.</p>
+                </a>
+                <a href="{{ route('descargarFichaTecnicaGnv',[$servicioCertificado->id])}}"
+                    class="hover:cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-amber-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-blue-600 hover:bg-blue-700 focus:outline-none rounded">
+                    <p class="text-sm font-medium leading-none text-white"><i class="fas fa-eye"></i> &nbsp;Descargar Ficha T.</p>
+                </a>
+                <a href="{{route('servicio')}}" 
+                    class="hover:cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-amber-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-red-400 hover:bg-red-500 focus:outline-none rounded">
+                    <p class="text-sm font-medium leading-none text-white"><i class="fas fa-archive"></i> &nbsp;Finalizar</p>
+                </a>
+                @endif            
+            </div>        
+        </div>
     @endif
     
-    <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4 py-4">
-        <div class="my-2 flex flex-row justify-evenly items-center">
-            @if(!isset($servicioCertificado))
-            <a wire:click="certificar"
-                class="hover:cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-amber-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-indigo-400 hover:bg-indigo-500 focus:outline-none rounded">
-                <p class="text-sm font-medium leading-none text-white"><i class="fas fa-file-signature"></i> &nbsp;Generar Certificado</p>
-            </a> 
-            @endif
-            @if(isset($servicioCertificado))
-            <a href="{{$ruta}}" target="__blank"
-                class="hover:cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-amber-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-green-400 hover:bg-green-500 focus:outline-none rounded">
-                <p class="text-sm font-medium leading-none text-white"><i class="fas fa-eye"></i> &nbsp;ver PDF</p>
-            </a> 
-            <a href="{{$rutaDes}}" target="__blank"
-                class="hover:cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-amber-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-green-400 hover:bg-green-500 focus:outline-none rounded">
-                <p class="text-sm font-medium leading-none text-white"><i class="fas fa-file-download"></i> &nbsp;Descargar PDF</p>
-            </a>
-            <a href="{{route('servicio')}}" 
-                class="hover:cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-amber-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-green-400 hover:bg-green-500 focus:outline-none rounded">
-                <p class="text-sm font-medium leading-none text-white"><i class="fas fa-archive"></i> &nbsp;Finalizar</p>
-            </a>
-            @endif
-        </div>        
-    </div>
+    
     
     {{-- BOTONES    
     <div class="m-auto py-6 w-full flex justify-center">

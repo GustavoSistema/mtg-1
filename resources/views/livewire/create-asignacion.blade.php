@@ -1,8 +1,8 @@
 <div>
     <div class="pt-7">
-        <a wire:click="$set('open',true)"
-            class="ml-6 bg-amber-500 px-6 py-3  mt-4 rounded-md text-white font-semibold tracking-wide cursor-pointer"><i
-                class="fas fa-plus"></i></a>
+        <a wire:click="$set('open',true)" class="ml-6 bg-amber-500 px-6 py-3  mt-4 rounded-md text-white font-semibold tracking-wide hover:cursor-pointer">
+            <i class="fas fa-plus"></i>
+        </a>
     </div>
 
     <x-jet-dialog-modal wire:model="open">

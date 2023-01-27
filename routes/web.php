@@ -51,6 +51,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get('/Solicitud/{soliId}',VistaSolicitud::class)->name('vistaSolicitud');
 
     Route::get("fichaTecnicaGnv/{idCert}","App\Http\Controllers\pdfController@generarFichaTecnica")->name("fichaTecnicaGnv");
+    Route::get("fichaTecnicaGnv/{idCert}/download","App\Http\Controllers\pdfController@descargarFichaTecnica")->name("descargarFichaTecnicaGnv");
     Route::get("Notification/{idNoti}/{idSoli}","App\Http\Controllers\NotificationController@marcarUnaNotificación")->name("leerNotificacion");
     
 

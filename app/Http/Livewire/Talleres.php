@@ -12,7 +12,7 @@ use Livewire\Component;
 class Talleres extends Component
 {
     
-    public $sort,$order,$cant,$search,$direction,$editando,$taller; 
+    public $sort,$order,$cant,$search,$direction,$editando,$taller,$open; 
     public $serviciosTaller=[];
     
 

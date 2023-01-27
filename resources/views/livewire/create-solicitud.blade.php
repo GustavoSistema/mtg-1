@@ -13,17 +13,17 @@
                         <div class="mt-4">
                             <div class="mx-auto w-full flex flex-row justify-between items-center">
                                 <p class="mt-2 text-md text-gray-600 dark:text-gray-300">Formatos GLP:</p> <span
-                                    class=" mr-2 bg-indigo-200 px-1 rounded-full">10</span>
+                                    class=" mr-2 bg-indigo-200 px-1 rounded-full">...</span>
                             </div>
                             <hr>
                             <div class="mx-auto w-full flex flex-row justify-between items-center">
                                 <p class="mt-2 text-md text-gray-600 dark:text-gray-300">Formatos GNV:</p> <span
-                                    class=" mr-2 bg-amber-200 px-1 rounded-full">10</span>
+                                    class=" mr-2 bg-amber-200 px-1 rounded-full">...</span>
                             </div>
                             <hr>
                             <div class="mx-auto w-full flex flex-row justify-between items-center">
                                 <p class="mt-2 text-md text-gray-600 dark:text-gray-300">Chips:</p> <span
-                                    class=" mr-2 bg-indigo-200 px-1 rounded-full">10</span>
+                                    class=" mr-2 bg-indigo-200 px-1 rounded-full">...</span>
                             </div>
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                 <div class="block p-8 items-center justify-center">
                     <div class="w-full  max-w-lg px-4 py-3">
                         <div class="flex items-center justify-center">
-                            <a  wire:click="$set('open',true)" class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 mt-4 sm:mt-0 inline-flex items-start justify-start px-6 py-3 bg-amber-400 hover:bg-amber-500 focus:outline-none rounded-full">
+                            <a  wire:click="$set('open',true)" class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 mt-4 sm:mt-0 inline-flex items-start justify-start px-6 py-3 bg-amber-400 hover:bg-amber-500 hover:cursor-pointer focus:outline-none rounded-full">
                                 <p class="text-sm font-medium leading-none text-white"><i class="fas fa-plus"></i>&nbsp;Agregar Articulos</p>
                             </a>
                         </div>                        

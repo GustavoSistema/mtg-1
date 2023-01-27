@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
+use function PHPUnit\Framework\isNull;
+
 class Servicio extends Component
 {   
     
@@ -187,18 +189,18 @@ class Servicio extends Component
     }
 
     public function retornaNE($value){
-        if(isset($value)){
-            return strtoupper($value);
+        if(isNull($value)){
+            return $value='NE';           
         }else{
-            return $value='NE';
+            return strtoupper($value);
         }
     }
 
     public function retornaSV($value){
-        if(isset($value)){
-            return strtoupper($value);
+        if(isNull($value)){
+            return $value='S/V';            
         }else{
-            return $value='S/V';
+            return strtoupper($value);
         }
     }
 
@@ -206,7 +208,7 @@ class Servicio extends Component
         if(isset($value)){
             return $value;
         }else{
-            return $value=null;
+            return $value=0;
         }
     }
 
