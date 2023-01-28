@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Departamento;
 use App\Models\Imagen;
 use App\Models\Servicio;
 use App\Models\Taller;
@@ -14,12 +15,19 @@ class Talleres extends Component
     
     public $sort,$order,$cant,$search,$direction,$editando,$taller,$open; 
     public $serviciosTaller=[];
+
+    public $departamentosTaller,$provinciasTaller,$distritosTaller,$logoTaller,$firmaTaller;
+
+    public $departamentoSel=Null;
+    public $provinciaSel=Null;
+    public $distritoSel=Null;
     
 
     public function mount(){
       $this->direction='desc';
       $this->sort='id';       
       $this->open=false;
+      $this->departamentosTaller=Departamento::all();
     }
 
     protected $rules=[
@@ -52,7 +60,8 @@ class Talleres extends Component
     public function edit(Taller $tal){       
           
           $this->taller=$tal;
-          //$this->serviciosTaller=Servicio::where('taller_idtaller',$id)->get();
+          $this->logoTaller=$tal->rutaLogo;
+          $this->firmaTaller=$tal->rutaFirma;
           
           $this->editando=true;          
        

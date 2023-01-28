@@ -152,8 +152,8 @@ class Servicio extends Component
 
 
                                     //considerar en el PDF
-                                    "cilindros"=>$this->cilindros,
-                                    "cilindrada"=>$this->cilindrada,
+                                    "cilindros"=>$this->retornaNulo($this->cilindros),
+                                    "cilindrada"=>$this->retornaNulo($this->cilindrada),
                                     //considerar en el PDF
 
 
@@ -208,34 +208,55 @@ class Servicio extends Component
         if(isset($value)){
             return $value;
         }else{
-            return $value=0;
+            return $value=null;
         }
     }
 
     public function actualizarVehiculo(){
             $this->validate();
-             $this->vehiculoServicio->update(["placa"=>strtoupper($this->placa),
-                                            "categoria"=>strtoupper($this->categoria),
-                                            "marca"=>strtoupper($this->marca),
-                                            "modelo"=>strtoupper($this->modelo),
-                                            "version"=>strtoupper($this->version),
-                                            "anioFab"=>$this->anioFab,
-                                            "numSerie"=>strtoupper($this->numSerie),
-                                            "numMotor"=>strtoupper($this->numMotor),
-                                            "cilindros"=>$this->cilindros,
-                                            "cilindrada"=>$this->cilindrada,
-                                            "combustible"=>strtoupper($this->combustible),
-                                            "ejes"=>$this->ejes,
-                                            "ruedas"=>$this->ruedas,
-                                            "asientos"=>$this->asientos,
-                                            "pasajeros"=>$this->pasajeros,
-                                            "largo"=>$this->largo,
-                                            "ancho"=>$this->ancho,
-                                            "altura"=>$this->altura,
-                                            "color"=>strtoupper($this->color),
-                                            "pesoNeto"=>$this->pesoNeto,
-                                            "pesoBruto"=>$this->pesoBruto,  
-                                            "cargaUtil"=>$this->cargaUtil,]); 
+             $this->vehiculoServicio->update([
+             "placa"=>strtoupper($this->placa),
+             "categoria"=>strtoupper($this->categoria),
+             "marca"=>$this->retornaNE($this->marca),
+             "modelo"=>$this->retornaNE($this->modelo),
+             "version"=>$this->retornaSV($this->version),
+
+             //considerar en el PDF
+             "anioFab"=>$this->retornaNulo($this->anioFab),
+             //considerar en el PDF
+
+             "numSerie"=>$this->retornaNE($this->numSerie),
+             "numMotor"=>$this->retornaNE($this->numMotor),
+
+
+             //considerar en el PDF
+             "cilindros"=>$this->retornaNulo($this->cilindros),
+             "cilindrada"=>$this->retornaNulo($this->cilindrada),
+             //considerar en el PDF
+
+
+             "combustible"=>$this->retornaNE($this->combustible),
+
+             //considerar en el PDF
+             "ejes"=>$this->retornaNulo($this->ejes),
+             "ruedas"=>$this->retornaNulo($this->ruedas),
+             "asientos"=>$this->retornaNulo($this->asientos),
+             "pasajeros"=>$this->retornaNulo($this->pasajeros),
+             //considerar en el PDF
+
+
+             //considerar en el PDF
+             "largo"=>$this->retornaNulo($this->largo),
+             "ancho"=>$this->retornaNulo($this->ancho),
+             "altura"=>$this->retornaNulo($this->altura),
+             //considerar en el PDF
+
+             "color"=>$this->retornaNE($this->color),
+
+             //considerar en el PDF
+             "pesoNeto"=>$this->retornaNulo($this->pesoNeto),
+             "pesoBruto"=>$this->retornaNulo($this->pesoBruto),  
+             "cargaUtil"=>$this->retornaNulo($this->cargaUtil),]); 
         $this->formularioVehiculo=false;   
         $this->emit("alert","Los datos del vehículo se actualizaron correctamente");
               

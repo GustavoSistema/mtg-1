@@ -14,6 +14,9 @@ class Taller extends Model
     ['nombre',
     'direccion',
     'ruc',
+    'idDistrito',
+    'rutaLogo',
+    'rutaFirma',
     ];
 
     public function servicios(){

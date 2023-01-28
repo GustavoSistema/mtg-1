@@ -155,6 +155,90 @@
         <x-jet-input wire:model="taller.ruc" type="text" class="w-full" />
         <x-jet-input-error for="taller.ruc" />
     </div>
+
+    <div class="grid grid-flow-row-dense grid-cols-2">
+
+        <div>
+            <x-jet-label value="Departamento:" />
+            <select wire:model="departamentoSel" class="bg-gray-50 border-indigo-500 rounded-md outline-none w-full">
+                <option value="null">Seleccione</option>
+                @foreach ($departamentosTaller as $depart)
+                    <option value="{{ $depart->id }}">{{ $depart->departamento }}</option>
+                @endforeach
+            </select>
+            <x-jet-input-error for="departamentoSel"/>
+        </div>              
+        
+        <div>
+            <x-jet-label value="Provincia:"/>
+            <select wire:model="provinciaSel" class="bg-gray-50 border-indigo-500 rounded-md outline-none w-full">
+                @if ($provinciasTaller)
+                    <option value="null">Seleccione</option>
+                    @foreach ($provinciasTaller as $prov)
+                        <option value="{{ $prov->id }}">{{ $prov->provincia }}</option>
+                    @endforeach
+                @else
+                    <option value="">Seleccione Depart.</option>
+                @endif
+                
+            </select>
+            <x-jet-input-error for="provinciaSel"/>
+        </div>               
+    </div>
+
+    
+
+    <div class="mb-4">
+        <x-jet-label value="Distrito:" />
+        <select wire:model="taller.idDistrito" class="bg-gray-50 border-indigo-500 rounded-md outline-none w-full pr-2 ">
+            @if ($distritosTaller)
+                <option value="null">Seleccione</option>
+                @foreach ($distritosTaller as $dist)
+                    <option value="{{ $dist->id }}">{{ $dist->distrito }}</option>
+                @endforeach
+            @else
+                <option value="">Seleccione Prov.</option>
+            @endif                       
+        </select>
+        <x-jet-input-error for="distritoSel"/>
+    </div>
+
+    <div class="mb-4">
+        <x-jet-label value="Logo:" />
+        <x-jet-input type="file"  class="w-full" wire:model="logo"
+            accept=".jpg,.png,.jpeg,.gif,.bmp,.tif,.tiff" />
+        <x-jet-input-error for="logo" />                
+    </div>
+    <div wire:loading wire:target="logo"
+        class="my-4 w-full px-6 py-4 text-center font-bold bg-indigo-200 rounded-md">
+        Espere un momento mientras se carga la imagen.
+    </div>
+    @if($logoTaller)            
+        
+            <div class="w-full p-1 md:p-2 items-center justify-center">
+                <img alt="gallery"
+                    class="mx-auto flex object-cover object-center w-36 h-36 rounded-lg"
+                    src="{{Storage::url($logoTaller)}}">                
+            </div>
+        
+    @endif
+
+    <div class="mb-4">
+        <x-jet-label value="Firma:" />
+        <x-jet-input type="file"  class="w-full" wire:model="firma"
+            accept=".jpg,.png,.jpeg,.gif,.bmp,.tif,.tiff" />
+        <x-jet-input-error for="firma" />                
+    </div>
+    <div wire:loading wire:target="firma"
+        class="my-4 w-full px-6 py-4 text-center font-bold bg-indigo-200 rounded-md">
+        Espere un momento mientras se carga la imagen.
+    </div>
+    @if($firmaTaller)          
+        <div class="w-full p-1 md:p-2 items-center justify-center">
+            <img alt="gallery" class="mx-auto flex object-fit object-center w-36 h-36 rounded-lg" src="{{Storage::url($firmaTaller)}}">                
+        </div>        
+    @endif    
+
     @if($taller) 
       @if(count($taller->servicios))
       <h1 class="font-bold text-lg"> Servicios</h1>

@@ -20,7 +20,7 @@ class CreateTaller extends Component
     public $tipos=[];
     public $precios=[];
 
-    public $departamentos,$provincias,$distritos,$logo;
+    public $departamentos,$provincias,$distritos,$logo,$firma;
 
     public $departamentoSel=Null;
     public $provinciaSel=Null;
@@ -35,7 +35,9 @@ class CreateTaller extends Component
         'direccion'=>'required|min:5|max:110',
         'ruc'=>'required|min:11|max:11|unique:taller,ruc',
         'precios'=>'array|min:1|required',
-        'logo'=>'image'
+        'logo'=>'image',
+        'firma'=>'image',
+        'distritoSel'=>'required|numeric|min:1'
 
         //'servicios'=>'array|required',  
         //'servicios.precio'=>'numeric|required',     
@@ -79,10 +81,15 @@ class CreateTaller extends Component
         */
         $this->validate(); 
         
+        $rutaLogo=$this->logo->storeAs('public/Logos','logo-'.$this->ruc.'.'.$this->logo->extension());
+        $rutaFirma=$this->firma->storeAs('public/Firmas','firma-'.$this->ruc.'.'.$this->firma->extension());
         $taller=Taller::create([
             'nombre'=>$this->nombre,
             'direccion'=>$this->direccion,
             'ruc'=>$this->ruc,
+            'rutaLogo'=>$rutaLogo,
+            'rutaFirma'=>$rutaFirma,
+            'idDistrito'=>$this->distritoSel,
         ]);
 
         foreach($this->tipos as $key=>$item){
@@ -126,7 +133,8 @@ class CreateTaller extends Component
     }
 
     public function updatedProvinciaSel($prov){        
-        $this->distritos=Distrito::where("idProv",$prov)->get();           
+        $this->distritos=Distrito::where("idProv",$prov)->get();       
+        $this->distritoSel=null;          
     }
 
     protected $messages = [

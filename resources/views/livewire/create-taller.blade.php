@@ -87,8 +87,7 @@
                 class="my-4 w-full px-6 py-4 text-center font-bold bg-indigo-200 rounded-md">
                 Espere un momento mientras se carga la imagen.
             </div>
-            @if($logo)
-            <h1>{{$logo->extension()}}</h1>
+            @if($logo)            
                 @if($logo->extension()=='png')
                     <div class="w-full p-1 md:p-2 items-center justify-center">
                         <img alt="gallery"
@@ -108,12 +107,11 @@
                 class="my-4 w-full px-6 py-4 text-center font-bold bg-indigo-200 rounded-md">
                 Espere un momento mientras se carga la imagen.
             </div>
-            @if($firma)
-            <h1>{{$firma->extension()}}</h1>
-                @if($firma->extension()=='png')
+            @if($firma)           
+                @if($firma->extension()=='png'|| $firma->extension()=='jpg' || $firma->extension()=='jpeg' ||$firma->extension()=='gif' || $firma->extension()=='bmp' || $firma->extension()=='bmp')
                     <div class="w-full p-1 md:p-2 items-center justify-center">
                         <img alt="gallery"
-                            class="mx-auto flex object-cover object-center w-36 h-36 rounded-lg"
+                            class="mx-auto flex object-fit object-center w-36 h-36 rounded-lg"
                             src="{{ $firma->temporaryUrl() }}">                
                     </div>
                 @endif

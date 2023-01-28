@@ -79,8 +79,8 @@
 </head>
 <body>
     <header>
-        <article>
-            <img style="float:left; padding-left: 3cm; margin-top: 20px" src="{{public_path('/images/logoJR.png')}}" width="90" height="90"/>
+        <article>           
+            <img style="float:left; padding-left: 3cm; margin-top: 20px" src="{{'.'.Storage::url($taller->rutaLogo)}}" width="90" height="90"/>
             <h2 style="margin-top: 40px">{{$taller->nombre}}</h2>
             <p>{{$taller->direccion}}</p>            
         </article>
@@ -211,11 +211,11 @@
                             <br>                        
                         </td>
                         <td style="width: 50%;">
-                            <img  src="{{public_path('/images/firmaJR.png')}}" width="180" height="90"/>                       
+                            <img  src="{{'.'.Storage::url($taller->rutaFirma)}}" width="180" height="90"/>                       
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 50%;">Firma del Cliente</td>
+                        <td style="width: 50%;">Firma del cliente</td>
                         <td style="width: 50%;">Firma del representante del taller</td>
                     </tr>
                 </table>
