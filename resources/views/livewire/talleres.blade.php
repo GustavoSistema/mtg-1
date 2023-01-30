@@ -59,7 +59,20 @@
                                             @else
                                                 <i class="fas fa-sort float-right mt-0.5"></i>
                                             @endif
-                                        </th>                                           
+                                        </th>    
+                                        <th class="cursor-pointer hover:font-bold hover:text-indigo-500 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                                            wire:click="order('idDistrito')">
+                                            Distrito
+                                            @if ($sort == 'idDistrito')
+                                                @if ($direction == 'asc')
+                                                    <i class="fas fa-sort-alpha-up-alt float-right mt-0.5"></i>
+                                                @else
+                                                    <i class="fas fa-sort-alpha-down-alt float-right mt-0.5"></i>
+                                                @endif
+                                            @else
+                                                <i class="fas fa-sort float-right mt-0.5"></i>
+                                            @endif
+                                        </th>                                         
                                         <th
                                             class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                             Acciones
@@ -92,7 +105,14 @@
                                                         {{ $item->ruc }}
                                                     </p>
                                                 </div>
-                                            </td>                                               
+                                            </td>     
+                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                <div class="flex items-center">
+                                                    <p class="text-gray-900 whitespace-no-wrap">
+                                                        {{ $item->Distrito }}
+                                                    </p>
+                                                </div>
+                                            </td>                                          
 
                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 {{-- @livewire('edit-usuario', ['usuario' => $usuario], key($usuario->id)) --}}
@@ -152,7 +172,7 @@
       </div>  
       <div class="mb-4">
         <x-jet-label value="RUC:" />
-        <x-jet-input wire:model="taller.ruc" type="text" class="w-full" />
+        <x-jet-input wire:model="taller.ruc" type="text" class="w-full" maxlength="11"/>
         <x-jet-input-error for="taller.ruc" />
     </div>
 
@@ -200,44 +220,81 @@
                 <option value="">Seleccione Prov.</option>
             @endif                       
         </select>
-        <x-jet-input-error for="distritoSel"/>
+        <x-jet-input-error for="taller.idDistrito"/>
     </div>
 
     <div class="mb-4">
         <x-jet-label value="Logo:" />
-        <x-jet-input type="file"  class="w-full" wire:model="logo"
+        <x-jet-input type="file"  class="w-full" wire:model="logoNuevo"
             accept=".jpg,.png,.jpeg,.gif,.bmp,.tif,.tiff" />
-        <x-jet-input-error for="logo" />                
+        <x-jet-input-error for="logoNuevo" />                
     </div>
-    <div wire:loading wire:target="logo"
+    <div wire:loading wire:target="logoNuevo"
         class="my-4 w-full px-6 py-4 text-center font-bold bg-indigo-200 rounded-md">
         Espere un momento mientras se carga la imagen.
     </div>
-    @if($logoTaller)            
-        
+    @if($logoNuevo)   
+        @if( $logoNuevo->extension()=='png' || $logoNuevo->extension()=='jpg' || $logoNuevo->extension()=='gif' || $logoNuevo->extension()=='bmp'|| $logoNuevo->extension()=='tif' || $logoNuevo->extension()=='tiff')
             <div class="w-full p-1 md:p-2 items-center justify-center">
                 <img alt="gallery"
                     class="mx-auto flex object-cover object-center w-36 h-36 rounded-lg"
-                    src="{{Storage::url($logoTaller)}}">                
+                    src="{{ $logoNuevo->temporaryUrl() }}">                
             </div>
-        
+        {{--
+        @else
+            <div>
+                <p class="text-center text-red-500"> ⚠ Formato inválido cargue un archivo de tipo imagen.</p> 
+            </div>
+        --}}
+        @endif          
+    @else
+        @if($logoTaller)
+            <div class="w-full p-1 md:p-2 items-center justify-center">
+                <img alt="gallery" class="mx-auto flex object-cover object-center w-36 h-36 rounded-lg" src="{{Storage::url($logoTaller)}}">                
+            </div>            
+        @else
+            <div class="w-full m-auto">
+                <p class="text-center text-red-500"> ⚠ No se a cargado ningún logo.</p>               
+            </div>
+        @endif                    
     @endif
 
     <div class="mb-4">
         <x-jet-label value="Firma:" />
-        <x-jet-input type="file"  class="w-full" wire:model="firma"
+        <x-jet-input type="file"  class="w-full" wire:model="firmaNuevo"
             accept=".jpg,.png,.jpeg,.gif,.bmp,.tif,.tiff" />
-        <x-jet-input-error for="firma" />                
+        <x-jet-input-error for="firmaNuevo" />                
     </div>
-    <div wire:loading wire:target="firma"
+    <div wire:loading wire:target="firmaNuevo"
         class="my-4 w-full px-6 py-4 text-center font-bold bg-indigo-200 rounded-md">
         Espere un momento mientras se carga la imagen.
-    </div>
-    @if($firmaTaller)          
-        <div class="w-full p-1 md:p-2 items-center justify-center">
-            <img alt="gallery" class="mx-auto flex object-fit object-center w-36 h-36 rounded-lg" src="{{Storage::url($firmaTaller)}}">                
-        </div>        
-    @endif    
+    </div>     
+
+    @if($firmaNuevo)   
+        @if( $firmaNuevo->extension()=='png' || $firmaNuevo->extension()=='jpg' || $firmaNuevo->extension()=='gif' || $firmaNuevo->extension()=='bmp'|| $firmaNuevo->extension()=='tif' || $firmaNuevo->extension()=='tiff')
+            <div class="w-full p-1 md:p-2 items-center justify-center">
+                <img alt="gallery"
+                    class="mx-auto flex object-cover object-center w-36 h-36 rounded-lg"
+                    src="{{ $firmaNuevo->temporaryUrl() }}">                
+            </div>
+        {{--
+        @else
+            <div>
+                <p class="text-center text-red-500"> ⚠ Formato inválido cargue un archivo de tipo imagen.</p> 
+            </div>
+        --}}
+        @endif          
+    @else
+        @if($firmaTaller)
+            <div class="w-full p-1 md:p-2 items-center justify-center">
+                <img alt="gallery" class="mx-auto flex object-cover object-center w-36 h-36 rounded-lg" src="{{Storage::url($firmaTaller)}}">                
+            </div>            
+        @else      
+            <div class="w-full m-auto">
+                <p class="text-center text-red-500"> ⚠ No se a cargado ningúna firma</p>               
+            </div>
+        @endif                    
+    @endif
 
     @if($taller) 
       @if(count($taller->servicios))

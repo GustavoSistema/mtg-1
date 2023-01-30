@@ -33,7 +33,8 @@ class CreateExpediente extends Component
         'servicio'=>'required',
         'files'=>'required',       
         'documentos'=>'array|max:10',
-        'tallerSeleccionado'=>'required',                
+        'tallerSeleccionado'=>'required',    
+        'certificado'=>'unique:expedientes,certificado|min:7,max:7',            
     ];
 
     

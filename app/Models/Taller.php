@@ -22,5 +22,10 @@ class Taller extends Model
     public function servicios(){
         return $this->hasMany(Servicio::class,'taller_idtaller');
     }    
+
+    public function Distrito(){
+        return $this->belongsTo(Distrito::class,'idDistrito');
+    }
+    
    
 }
