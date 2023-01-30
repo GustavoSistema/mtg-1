@@ -122,13 +122,13 @@ class Talleres extends Component
         
         $this->validate();
         if($this->logoNuevo){
-            Storage::delete($this->taller->rutaLogo);  
+            //Storage::delete($this->taller->rutaLogo);  
             $rutaLogo=$this->logoNuevo->storeAs('public/Logos','logo-'.$this->taller->ruc.'.'.$this->logoNuevo->extension());  
             $this->taller->rutaLogo=$rutaLogo;
         }
 
         if($this->firmaNuevo){
-            Storage::delete($this->taller->rutaFirma);
+            //Storage::delete($this->taller->rutaFirma);
             $rutaFirma=$this->firmaNuevo->storeAs('public/Firmas','firma-'.$this->taller->ruc.'.'.$this->firmaNuevo->extension()); 
             $this->taller->rutaFirma=$rutaFirma;
         }
