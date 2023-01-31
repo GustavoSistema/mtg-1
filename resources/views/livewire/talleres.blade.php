@@ -132,8 +132,7 @@
                             </table>
                         </div>
                     </div>
-                </div>
-            
+                </div>            
             @if ($talleres->hasPages())
                 <div>
                     <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-2 overflow-x-auto">

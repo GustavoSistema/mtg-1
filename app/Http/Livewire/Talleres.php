@@ -136,9 +136,9 @@ class Talleres extends Component
         $this->taller->save();
 
         foreach($this->taller->servicios as $ser){                
-                $ser->save();
-                if($ser->estado){
-                    
+               
+                if($ser->isDirty()){
+                    $ser->save();
                 }
         }
         $this->reset(['editando']);

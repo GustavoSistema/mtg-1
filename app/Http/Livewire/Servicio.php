@@ -189,18 +189,18 @@ class Servicio extends Component
     }
 
     public function retornaNE($value){
-        if(isNull($value)){
-            return $value='NE';           
+        if($value){
+            return strtoupper($value);                   
         }else{
-            return strtoupper($value);
+            return $value='NE';    
         }
     }
 
     public function retornaSV($value){
-        if(isNull($value)){
-            return $value='S/V';            
+        if($value){
+            return strtoupper($value);         
         }else{
-            return strtoupper($value);
+            return $value='S/V'; 
         }
     }
 
