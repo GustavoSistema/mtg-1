@@ -70,7 +70,7 @@ class Expedientes extends Component
 
     public function mount(){
         $this->idus=Auth::id();
-        $this->identitifcador=rand();        
+        $this->identificador=rand();        
         $this->expediente= new Expediente();
         $this->cant="10";
         $this->talleres=Taller::all();         

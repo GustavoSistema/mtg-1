@@ -15,6 +15,9 @@ use App\Http\Livewire\VistaSolicitud;
 use App\Models\Ingreso;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PdfController;
+use App\Http\Livewire\ListaCertificaciones;
+use App\Http\Livewire\ListaServicios;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -48,6 +51,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get('/Crear-solicitud',CreateSolicitud::class)->middleware('can:nuevaSolicitud')->name('nuevaSolicitud');
     Route::get('/RevisionExpedientes',RevisionExpedientes::class)->middleware('can:revisionExpedientes')->name('revisionExpedientes');  
     Route::get('/dashboard', function (){return view('dashboard');})->name('dashboard');
+    Route::get('/Listado-Certificaciones',ListaCertificaciones::class)->name('certificaciones');
     Route::get('/Solicitud/{soliId}',VistaSolicitud::class)->name('vistaSolicitud');
 
     Route::get("fichaTecnicaGnv/{idCert}","App\Http\Controllers\PdfController@generarFichaTecnica")->name("fichaTecnicaGnv");
