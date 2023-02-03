@@ -70,5 +70,26 @@ class PdfController extends Controller
         }
     }
 
+    public function generarCheckListArribaGnv($idCert){
+        if(Certificacion::findOrFail($idCert)){
+            $certificacion=Certificacion::find($idCert);
+            $hoja=$certificacion->Materiales->where('idTipoMaterial',1)->first();
+            
+            $data=[
+                'hoja'=>$hoja,
+                "vehiculo"=>$certificacion->Vehiculo,
+                "inspector"=>$certificacion->Inspector,
+                "taller"=>$certificacion->taller,
+                "fecha"=>$certificacion->created_at->format('d/m/Y'),                
+            ];
+            $pdf = App::make('dompdf.wrapper');
+            $pdf->loadView('checkListCilindroArribaGnv',$data);        
+            //return $pdf->stream($id.'-'.date('d-m-Y').'-cargo.pdf');
+            return  $pdf->stream('CHKL_ARRIBA-'.$certificacion->Vehiculo->placa.'-'.$hoja->numSerie.'.pdf');
+        }else{
+            return abort(404);
+        }
+    }
+
 
 }

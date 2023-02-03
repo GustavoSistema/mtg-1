@@ -83,8 +83,7 @@
             <img style="float:left; padding-left: 3cm; margin-top: 20px" src="{{'.'.Storage::url($taller->rutaLogo)}}" width="90" height="90"/>
             <h2 style="margin-top: 40px">{{$taller->nombre}}</h2>
             <p>{{$taller->direccion}}</p>            
-        </article>
-        
+        </article>        
     </header>  
     <main>        
         <h3 style="background-color:goldenrod;">           

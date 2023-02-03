@@ -20,8 +20,7 @@
             height: 3.5cm;            
             color: black;
             font-weight: bold;      
-            text-align: center; 
-            
+            text-align: center;             
         }
         
        

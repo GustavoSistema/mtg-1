@@ -184,7 +184,8 @@ class AsignacionMateriales extends Component
         $materiales=$this->cuentaMateriales($sal->materiales);        
         $inspector=$sal->usuarioAsignado;
         $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-        $fecha=date('d').' de '.$meses[date('m')-1].' del '.date('Y').'.';               
+        $fecSal=$sal->created_at;
+        $fecha=$fecSal->format('d').' de '.$meses[$fecSal->format('m')-1].' del '.$fecSal->format('Y').'.';               
         $data=[
         "date"=>$fecha,
         "empresa"=>"MOTORGAS COMPANY S.A.",

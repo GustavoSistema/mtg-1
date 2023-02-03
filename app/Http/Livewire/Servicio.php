@@ -543,8 +543,7 @@ class Servicio extends Component
             ['idUsuario',Auth::id()],
             ["estado",3]
         ])->min("numSerie");
-        //->orderBy('numSerie','asc')->first();
-        
+        //->orderBy('numSerie','asc')->first();        
         if(isset($formato)){
             return $formato;
         }else{
@@ -559,9 +558,7 @@ class Servicio extends Component
             ["estado",3]
         ])
         ->orderBy('numSerie','asc')->get();
-
-        return $formato;
-        
+        return $formato;        
     }
 
     public function validaEquipos(){
@@ -592,7 +589,8 @@ class Servicio extends Component
         if(Certificacion::findOrFail($id)){
             $certificacion=Certificacion::find($id);
             $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-            $fecha=date('d').' días del mes de '.$meses[date('m')-1].' del '.date('Y').'.';               
+            $fechaCert=$certificacion->created_at;
+            $fecha=$fechaCert->format('d').' días del mes de '.$meses[$fechaCert->format('m')-1].' del '.$fechaCert->format('Y').'.';                 
             $data=[
             "fecha"=>$fecha,
             "empresa"=>"MOTORGAS COMPANY S.A.",
@@ -611,7 +609,8 @@ class Servicio extends Component
         if(Certificacion::findOrFail($id)){
             $certificacion=Certificacion::find($id);
             $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-            $fecha=date('d').' días del mes de '.$meses[date('m')-1].' del '.date('Y').'.'; 
+            $fechaCert=$certificacion->created_at;
+            $fecha=$fechaCert->format('d').' días del mes de '.$meses[$fechaCert->format('m')-1].' del '.$fechaCert->format('Y').'.';  
             $hoja=$certificacion->Materiales->where('idTipoMaterial',1)->first();              
             $data=[
             "fecha"=>$fecha,
@@ -632,7 +631,8 @@ class Servicio extends Component
         if(Certificacion::findOrFail($id)){
             $certificacion=Certificacion::find($id);
             $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-            $fecha=date('d').' días del mes de '.$meses[date('m')-1].' del '.date('Y').'.';              
+            $fechaCert=$certificacion->created_at;
+            $fecha=$fechaCert->format('d').' días del mes de '.$meses[$fechaCert->format('m')-1].' del '.$fechaCert->format('Y').'.';              
             $chip=$certificacion->vehiculo->Equipos->where("idTipoEquipo",1)->first();           
             $equipos=$certificacion->vehiculo->Equipos->where("idTipoEquipo","!=",1)->sortBy("idTipoEquipo");                     
             //dd($equipos); 
@@ -659,7 +659,8 @@ class Servicio extends Component
         if(Certificacion::findOrFail($id)){
             $certificacion=Certificacion::find($id);
             $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-            $fecha=date('d').' días del mes de '.$meses[date('m')-1].' del '.date('Y').'.';              
+            $fechaCert=$certificacion->created_at;
+            $fecha=$fechaCert->format('d').' días del mes de '.$meses[$fechaCert->format('m')-1].' del '.$fechaCert->format('Y').'.';              
             $chip=$certificacion->vehiculo->Equipos->where("idTipoEquipo",1)->first();           
             $equipos=$certificacion->vehiculo->Equipos->where("idTipoEquipo","!=",1)->sortBy("idTipoEquipo");                     
             //dd($equipos); 
