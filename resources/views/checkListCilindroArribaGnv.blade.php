@@ -28,7 +28,7 @@
     <section>
         <table style="border: 1px solid; border-collapse: collapse; width: 500px; float: left;">
             <tr style="">
-                <td colspan="7"  style="align-self: start; border: 1px solid; border-collapse: collapse;">
+                <td colspan="6"  style="align-self: start; border: 1px solid; border-collapse: collapse;">
                     Taller: 
                     <br>
                     {{$taller->nombre}}                   
@@ -45,30 +45,23 @@
                     <br>
                     {{$vehiculo->placa}}
                 </td>
-                <td colspan="2" style="border: 1px solid; border-collapse: collapse;">
+                <td colspan="4" style="border: 1px solid; border-collapse: collapse;">
                     Inspector:
                     <br>
                     {{$inspector->name}}                   
-                </td>
-                <td style="border: 1px solid; border-collapse: collapse;">
-                    Marca Regulador:
-                    <br>
-                </td>
-                <td colspan="2" style="border: 1px solid; border-collapse: collapse;">
-                    Marca Cilindro:
-                    <br>
-                </td>
+                </td>                
+                
             </tr>
             <tr>
-                <td style="border: 1px solid; border-collapse: collapse;">
+                <td colspan="2" style="border: 1px solid; border-collapse: collapse;">
                     Revision
                     <br>
                     incial
                 </td>
-                <td style="border: 1px solid; border-collapse: collapse;">
+                <td style="border: 1px solid; border-collapse: collapse;width: 10%">
 
                 </td>
-                <td style="border: 1px solid; border-collapse: collapse;">
+                <td colspan="2" style="border: 1px solid; border-collapse: collapse;">
                     Revision
                     <br>
                     anual
@@ -80,19 +73,13 @@
                     Año del vehículo:
                     <br> 
                     {{$vehiculo->anioFab}}
-                </td>
-                <td rowspan="2" style="border: 1px solid; border-collapse: collapse;">
-                    Modelo:
-                </td>
-                <td rowspan="2" colspan="2" style="border: 1px solid; border-collapse: collapse;">
-                    N° serie cilindro:
-                </td>
+                </td>                
             </tr>
             <tr>
                 <td colspan="4" style="border: 1px solid; border-collapse: collapse;">
                     Tipo de conversion:
                 </td>
-                <td colspan="2" style="border: 1px solid; border-collapse: collapse;">
+                <td colspan="4" style="border: 1px solid; border-collapse: collapse;">
                     Sistema de combustible:
                 </td>
             </tr>
@@ -115,21 +102,18 @@
                 <td  style="border: 1px solid; border-collapse: collapse;">
                     Carburador
                 </td>
+                <td style="border: 1px solid; border-collapse: collapse;">
+
+                </td>
                 <td  style="border: 1px solid; border-collapse: collapse;">
                     Inyección
                 </td>
-                <td rowspan="2" style="border: 1px solid; border-collapse: collapse;">
-                    N° regulador:
-                </td>
-                <td rowspan="2"  style="border: 1px solid; border-collapse: collapse;">
-                    Capacidad (L):
-                </td>
-                <td rowspan="2"  style="border: 1px solid; border-collapse: collapse;">
-                    Fecha de fabricación:
+                <td style="border: 1px solid; border-collapse: collapse;width: 10%;">
+
                 </td>
             </tr>
             <tr>
-                <td colspan="6" style="border: 1px solid; border-collapse: collapse;">
+                <td colspan="8" style="border: 1px solid; border-collapse: collapse;">
                     (NTP 111.015-2004) / C- Conforme / NC- No conforme / N.A No aplica
                 </td>
             </tr>
@@ -214,7 +198,7 @@
                                 Regulador de Presión. Mezclador /Carburador							
 					         </td>
                             <td style="border: 1px solid; border-collapse: collapse;">
-                                Deben cumplir con los requisitos especiﬁca- dos por las normas de fabricación nacionales al existieran o internacionales aplicables.				
+                                Deben cumplir con los requisitos especifica- dos por las normas de fabricación nacionales al existieran o internacionales aplicables.				
 				            </td>
                             <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
                                 C
@@ -355,7 +339,7 @@
                                 Ubicación						
 							</td>
                             <td style="border: 1px solid; border-collapse: collapse;">
-                                Una vez instalado, no estar modiﬁcados, ni alterados				
+                                Una vez instalado, no estar modificados, ni alterados				
 				            </td>
                             <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
                                 C
@@ -415,7 +399,7 @@
 
                         <tr>
                             <td style="border: 1px solid; border-collapse: collapse;">
-                               "El método para montar el cilindro debe de evitar el debilitamiento signiﬁcativo de la estructura del 
+                               "El método para montar el cilindro debe de evitar el debilitamiento significativo de la estructura del 
                                vehículo y se debe añadir un refuerzo, si es necesario"				
 			                </td>
                             <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
@@ -461,7 +445,7 @@
 
                         <tr>
                             <td style="border: 1px solid; border-collapse: collapse;">
-                                Disponer por los menos dos cuñas o soporte de apoyo, aptas para resistir la carga estática y solicitantes dinámicas: así como dos sunchos de ﬁjación aptos para resistir la carga dinámica.				
+                                Disponer por los menos dos cuñas o soporte de apoyo, aptas para resistir la carga estática y solicitantes dinámicas: así como dos sunchos de fijación aptos para resistir la carga dinámica.				
 			                </td>
                             <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
                                 C
@@ -482,7 +466,7 @@
                                 Materiales			
 							</td>
                             <td style="border: 1px solid; border-collapse: collapse;">
-                                Perﬁl de acero revestidos contra la corrosión.			
+                                Perfil de acero revestidos contra la corrosión.			
 				            </td>
                             <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
                                 C
@@ -1031,6 +1015,425 @@
                                 ESTADO
                             </th>
                         </tr>
+
+                        <tr>
+                            <td rowspan="3" style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                6.4.2.3
+                            </td>
+                            <td rowspan="3" style="border: 1px solid; border-collapse: collapse;">
+                                Dispositivos
+	                        </td>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Tapón fusible para funda	
+			                </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>                            
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Cilindros en longitud menor en 1x50mm
+                                Dispositivo de seguridad ubicada en la válvula manobra con la que cada cilindro		
+			                </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>                            
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Cilindro en longitud mayor a 1x50mm
+                                Debe poseer un oficio calibrado ubicado en el casquete una pieza roscada con el dispositivo de seguridad combinado disco de rotura tapón fusible
+			                </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                N.A
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: cadetblue;">
+                                <strong >TUBERIAS</strong>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td rowspan="2" style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                6.4.2.3
+                            </td>
+                            <td rowspan="2" style="border: 1px solid; border-collapse: collapse;">
+                                Tuberías, manguera y accesorios de alta presión
+	                        </td>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                No ubicadas dentro de la cabina
+			                </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>                            
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Fabricados para soportar hasta cinco veces la presión de trabajo	
+			                </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                6.4.2.3
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Tuberías líneas de baja presión				
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Construidas para soportar (4) veces la presión de operación				
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td rowspan="11" style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                6.4.2.3
+                            </td>
+                            <td rowspan="11" style="border: 1px solid; border-collapse: collapse;">
+                                Instalación de tuberías y accesorios				
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Los materiales utilizados en la fabricación deben ser resistentes a la acción química del gas y las condiciones de operaciones.			
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Debe ser del tamaño adecuado para proveer el  ﬂujo de gas requerido confirme a las características del automotor en el que se implemente el sistema.		
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Las tuberías y accesorios deben estar limpios y  libres de recortes, residuos de la operación de fileteado escamas y otro tipo de suciedad o defecto.
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Los bordes extremos deben estar adecuados escariados
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Los accesorios y conexiones deben estar localiza- dos en lugares accesibles para permitir la inspección y mantenimiento.
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Montalos en forma segura y soportados para compensar vibraciones por medio de abrazaderas de metal galvanizados o con otro tratamiento equivalente
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Las tuberías pueden estar amarradas por bandas de nylon y otro producto de idéntica resistencia y reacción neutra
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                La distancia entre piezas de amarre no debe ser mayor de 600mm.
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Las tuberías siguen el recorrido práctico mas corto entre cilindros y mezclador, compatible con su ﬂexibilidad.
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Protegidas contra daños y roturas debido a choques, esfuerzos excesivos o desgastes por rozamiento
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Están encamisadas en el sitio donde resulta necesario.
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td rowspan="3" style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                6.4.2.3
+                            </td>
+                            <td rowspan="3" style="border: 1px solid; border-collapse: collapse;">
+                                Líneas rígidas entre cilindros y el punto de llenado
+	                        </td>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Dispuesta de manera que permitan un ligero movimiento estructural, para absorber las vibraciones, y que ante un impacto se evite su estrangulamiento
+			                </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>                            
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                No están ubicadas en canales que contengan el sistema de gases de escape	
+			                </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>                            
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Instaladas a una distancia mínima de 200mm de los terminales de la bateria, a menos que se prevenga el contrato eléctrico.
+			                </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Materiales
+	                        </td>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Dispuesta de manera que permitan un ligero movimiento estructural, para absorber las vibraciones, y que ante un impacto se evite su estrangulamiento
+			                </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td rowspan="9" style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                6.4.2.3
+                            </td>
+                            <td rowspan="9" style="border: 1px solid; border-collapse: collapse;">
+                                No está permitido				
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Conexiones en lugares por accesibles			
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                La ubicación de tuberías donde pueda acumularse gas		
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                La unión de niveles o manguilos	
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Utilizar materiales diferentes al bronce o acero
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Uniones utilizando tuberías que contengan rosca derecha e izquierda en la misma pieza
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                El curvado de tuberías donde dicha operación debilite a estos componentes
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Reparaciones de defectos en la línea que canaliza el GN: Todo elemento con fallas será reemplazado
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Cortes en la estructura, reduciendo su resistencia con el proposito de instalar tuberías o mangueras y
+                                desviándolos del objetivo para el cual fueron diseñadas
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                La línea rígida que sufra daños al doblarla en el
+                                momento del montaje no debe ser utilizada
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                6.4.2.3
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Mecanismo de cierre automático				
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Automáticamente evita el ﬂujo de gas el motor cesa de funcionar o no esta conectado al encendido			
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                6.4.2.3
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Válvula de retención			
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Evita retorno de gas, desde el cilindro a la conexión de llenado			
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                6.4.2.3
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Válvula de carga			
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Instalada en un lugar seguro contra impactos, en la zona del motor u otra zona considerada segura			
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>                        
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                6.4.2.3
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Válvula Manual			
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Instalada en un lugar que permita aislar del cilindro,
+                                el resto del sistema. Protegida contra golpes o choques.			
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>	
+
+                        <tr>
+                            <td rowspan="3" style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                6.4.2.3
+                            </td>
+                            <td rowspan="3" style="border: 1px solid; border-collapse: collapse;">
+                                Electroválvula de corte de gasolina.		
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Accionada electrónicamente
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Evita el ﬂujo de líquido al carburador haya sido conectado con el suministro de GNV
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td> 
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Debe ser instalada entre la bomba de gasolina y carburador mediante líneas rígidas ﬂexibles accesorios equivalentes aquellos que utilizan en la fabricante en la salida de bomba
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td> 
+                        </tr>
+                        
+
+
                     </table>
                 </td>
 
@@ -1053,6 +1456,232 @@
                                 ESTADO
                             </th>
                         </tr>
+
+                        <tr>
+                            <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: cadetblue;">
+                                <strong >MEZCLADOR</strong>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td rowspan="3" style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                6.4.2.3
+                            </td>
+                            <td  style="border: 1px solid; border-collapse: collapse;">
+                                Mezcladoras
+	                        </td>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Fabricado con materiales adecuados conforme a las condiciones de servicio para los cuales esta diseñado.	
+			                </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                N.A
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td  style="border: 1px solid; border-collapse: collapse;">
+                                Vehículos carburados
+	                        </td>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Se debe instalar entre el filtro del aire y el cuerpo del carburador
+			                </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                N.A
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td  style="border: 1px solid; border-collapse: collapse;">
+                                Vehículos a los cuales se le ha retirado el sistema de combustible líquido
+	                        </td>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Se debe empalmar con las mariposas de aclaración
+			                </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                N.A
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: cadetblue;">
+                                <strong >MANOMETRO</strong>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td rowspan="2" style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                6.4.2.3
+                            </td>
+                            <td rowspan="2" style="border: 1px solid; border-collapse: collapse;">
+                                Instalación
+	                        </td>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Próximo a la válvula de llenado	
+			                </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Lugar visible durante la operación de reabastecimiento
+			                </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: cadetblue;">
+                                <strong >SELECTOR DE COMBUSTIBLE / INDICADOR DE NIVEL</strong>
+                            </td>
+                        </tr>
+                        {{-- OBSERVAR Y REVISAR EN EL PDF--}}
+                        <tr>
+                            <td rowspan="4" style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                6.4.2.3
+                            </td>
+                            <td rowspan="4" style="border: 1px solid; border-collapse: collapse;">
+                                Selector de combustible
+	                        </td>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Próximo a la válvula de llenado	
+			                </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Operación de fácil acceso desde el asiento del conductor
+			                </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                La corriente para su accionamiento debe ser tomada de la posición de la chapa de encendido
+			                </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Entre este y la forma de alimentación eléctrica se debe intercalar un fusible para proteger todo el sistema eléctrico del equipo de conversión
+			                </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                6.4.2.3
+                            </td>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Selector de combustible
+	                        </td>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Si está dentro de la cabina debe ser un instrumento repetidor accionado eléctricamente
+			                </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+                        {{--HASTA AQUI EVALUAR--}}
+
+                        <tr>
+                            <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: cadetblue;">
+                                <strong >REGULADOR</strong>
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td rowspan="8" style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                6.4.2.3
+                            </td>
+                            <td rowspan="8" style="border: 1px solid; border-collapse: collapse;">
+                                Regulador
+	                        </td>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Instalada en forma de segura
+			                </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                No fijado directamente al motor del vehículo
+			                </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Instalado en forma segura y en un lugar accesible
+			                </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Protegido de golpes, de excesivo calor y de equipos e instalaciones eléctricas
+			                </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Dispone de un sistema de fijación propio de modo que su peso no sea soportado por las líneas rígidas o ﬂexibles adyacentes
+			                </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                El espesor de la platina para la fijación debe ser mínimo 3mm(1/8")
+			                </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Colocado de manera que el desplazamiento y el movimiento del vehículo no afectan el funcionamiento del mismo
+			                </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 1px solid; border-collapse: collapse;">
+                                Instalado cerca al mezclador para tener las mangueras lo más corta posible
+			                </td>
+                            <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                C
+                            </td>
+                        </tr>
+
+
                     </table>                    
                 </td>
             </tr>
