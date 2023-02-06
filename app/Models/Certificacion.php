@@ -44,4 +44,27 @@ class Certificacion extends Model
     public function Materiales(){
         return $this->belongsToMany(Material::class, 'serviciomaterial','idCertificacion','idMaterial');
     }
+
+    //Atributos Especiales del Certificado
+
+    public function getHojaAttribute(){
+        //$hoja=Certificacion::find($this->attributes['id'])->Materiales->where('idTipoMaterial',1)->first();
+        //return $hoja;
+        return $this->Materiales->where('idTipoMaterial',1)->first();
+        
+    }
+
+    public function getChipAttribute(){
+        return $this->Vehiculo->Equipos->where('idTipoEquipo',1)->first();
+    }
+
+    public function getReductorAttribute(){
+        return $this->Vehiculo->Equipos->where('idTipoEquipo',2)->first();
+    }
+
+    
+
+    public function getCilindrosAttribute(){
+        return $this->Vehiculo->Equipos->where('idTipoEquipo',3);
+    }
 }
