@@ -18,6 +18,8 @@ class Equipo extends Model
         "marca",
         "modelo",
         "capacidad",
+        "fechaFab",
+        "peso",
         "created_at",
         "updated_at"
     ];

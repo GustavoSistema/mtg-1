@@ -219,15 +219,33 @@ class Expedientes extends Component
         $this->resetPage();
     }
 
+    //borrar imagen de bd
     public function deleteFile(Imagen $file){
-        Storage::delete([$file->ruta]);
-        $file->delete();        
-        //$this->emitTo('expedientes','render');
-        //$this->identificador=rand();        
+        Storage::delete([$file->ruta]);        
+        $file->delete();     
+        $this->reset(["files"]);
+       // $this->identificador=rand();
+        $this->files=Imagen::where('Expediente_idExpediente','=',$this->expediente->id)->whereIn('extension',['jpg','jpeg','png','gif','tif','tiff','bmp'])->get();     
     }
+
+
+    //borrar documentos en bs
+    public function deleteDocument(Imagen $file){
+        Storage::delete([$file->ruta]);        
+        $file->delete();     
+        $this->reset(["documentos"]);
+       // $this->identificador=rand();
+        $this->documentos=Imagen::where('Expediente_idExpediente','=',$this->expediente->id)->whereIn('extension',['pdf','xlsx','xls','docx','doc'])->get();     
+    }
+
+    
 
     public function deleteFileUpload($id){
         unset($this->fotosnuevas[$id]);
+    }
+
+    public function deleteDocumentUpload($id){
+        unset($this->documentosnuevos[$id]);
     }
 
     public function updatingSearch(){

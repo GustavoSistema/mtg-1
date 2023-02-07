@@ -43,7 +43,7 @@ class PdfController extends Controller
     public function descargarFichaTecnica($idCert){
         if(Certificacion::findOrFail($idCert)){
             $certificacion=Certificacion::find($idCert);
-            $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+            //$meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
             //$fechaL=date('d').' días del mes de '.$meses[date('m')-1].' del '.date('Y').'.';              
             $chip=$certificacion->vehiculo->Equipos->where("idTipoEquipo",1)->first();           
             $equipos=$certificacion->vehiculo->Equipos->where("idTipoEquipo","!=",1)->sortBy("idTipoEquipo");                     
@@ -78,6 +78,7 @@ class PdfController extends Controller
             $data=[
                 'hoja'=>$hoja,
                 "vehiculo"=>$certificacion->Vehiculo,
+                "servicio"=>$certificacion->Servicio,
                 "inspector"=>$certificacion->Inspector,
                 "taller"=>$certificacion->taller,
                 "fecha"=>$certificacion->created_at->format('d/m/Y'), 

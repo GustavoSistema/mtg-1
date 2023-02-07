@@ -6,8 +6,7 @@
             <div class="mb-4 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-indigo-200 dark:bg-gray-800 dark:border-gray-700">   
                 <div class="flex flex-row justify-between">
                     <i class="fas fa-box"></i>       <span class="text-sm font-bold text-green-700">{{$recepcion->created_at}}</span>   
-                </div>
-                  
+                </div>                  
                 <a href="#">
                    <span>Codigo:</span> <h5 class="mb-2 text-sm font-semibold tracking-tight text-red-700 dark:text-white">{{$recepcion->numero}}</h5>
                 </a>

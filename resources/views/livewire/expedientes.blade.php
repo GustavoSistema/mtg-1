@@ -361,7 +361,7 @@
             <hr />
             @if (count($documentos) || count($documentosnuevos))
                 <section class="mt-4  overflow-hidden border-dotted border-2 text-gray-700 "
-                    id="{{ 'sections-' . $identificador }}">
+                    id="{{ 'sections-' . $identificador }} " wire:model="files">
                     <div class="container px-5 py-2 mx-auto lg:px-32">
                         <div class="flex flex-wrap -m-1 md:-m-2">
                             @foreach ($documentos as $fil)
@@ -380,7 +380,7 @@
                                             class="mx-auto flex object-cover object-center w-15 h-15 rounded-lg"
                                             src="/images/{{ $fil->extension }}.png">
                                         <p class="truncate text-sm">{{ $fil->nombre }}</p>
-                                        <a class="flex" wire:click="deleteFile({{ $fil->id }})"><i
+                                        <a class="flex" wire:click="deleteDocument({{ $fil->id }})"><i
                                                 class="fas fa-trash mt-1 mx-auto hover:text-indigo-400"></i></a>
                                     </div>
                                 </div>

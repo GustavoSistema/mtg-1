@@ -29,7 +29,7 @@ class Servicio extends Component
     //Definiendo Variables de equipos
     
     public $tiposDisponibles=[];
-    public $tipoEquipo,$equipoSerie,$equipoMarca,$equipoModelo,$equipoCapacidad;
+    public $tipoEquipo,$equipoSerie,$equipoMarca,$equipoModelo,$equipoCapacidad,$equipoPeso,$equipoFechaFab;
     public $equipos=[];
 
     //Variables del servicio
@@ -290,20 +290,30 @@ class Servicio extends Component
         $this->validate([
                         "equipoSerie"=>"required|min:1",
                         "equipoMarca"=>"required|min:1",
-                        "equipoCapacidad"=>"required|numeric|min:1"
+                        "equipoCapacidad"=>"required|numeric|min:1",
+                        "equipoPeso"=>"required|numeric|min:1",
+                        "equipoFechaFab"=>"required|date"
                         ]);
         $equipo=new Equipo();
         $equipo->idTipoEquipo=$this->tipoEquipo;
         $equipo->numSerie=strtoupper($this->equipoSerie);
         $equipo->marca=strtoupper($this->equipoMarca);
         $equipo->capacidad=strtoupper($this->equipoCapacidad);
+        $equipo->fechaFab=$this->equipoFechaFab;
+        $equipo->peso=$this->equipoPeso;
 
         array_push($this->equipos,$equipo);   
         
-        $this->reset(["equipoSerie","equipoMarca","equipoModelo","equipoCapacidad","tipoEquipo"]);      
+        $this->reset(["equipoSerie","equipoMarca","equipoModelo","equipoCapacidad","tipoEquipo","equipoFechaFab","equipoPeso"]);      
         $this->open=false;
         $this->emit("minAlert",["titulo"=>"BUEN TRABAJO!","mensaje"=>"El ".$equipo->tipo->nombre." con serie ".$equipo->numSerie." se añadio Correctamente","icono"=>"success"]);
         //$this->emit("alert","El ".$equipo->tipo->nombre." con serie ".$equipo->numSerie." se añadió correctamente.");
+    }
+
+    public function updatedEquipoCapacidad($var){
+        if(isset($var)){
+            $this->equipoPeso=$var+(mt_rand(5,8));
+        }
     }
 
     public function salvaDatosReductor(){
@@ -321,7 +331,7 @@ class Servicio extends Component
 
         array_push($this->equipos,$equipo);   
         
-        $this->reset(["equipoSerie","equipoMarca","equipoModelo","equipoCapacidad","tipoEquipo"]);       
+        $this->reset(["equipoSerie","equipoMarca","equipoModelo","equipoCapacidad","tipoEquipo","equipoFechaFab","equipoPeso"]);
         $this->open=false;
         //$this->emit("alert","El ".$equipo->tipo->nombre." con serie ".$equipo->numSerie." se añadio Correctamente");
         $this->emit("minAlert",["titulo"=>"BUEN TRABAJO!","mensaje"=>"El ".$equipo->tipo->nombre." con serie ".$equipo->numSerie." se añadio Correctamente","icono"=>"success"]);
@@ -337,7 +347,7 @@ class Servicio extends Component
         $equipo->numSerie=strtoupper($this->equipoSerie);
         array_push($this->equipos,$equipo);   
         
-        $this->reset(["equipoSerie","equipoMarca","equipoModelo","equipoCapacidad","tipoEquipo"]);        
+        $this->reset(["equipoSerie","equipoMarca","equipoModelo","equipoCapacidad","tipoEquipo","equipoFechaFab","equipoPeso"]);        
         $this->open=false;
         //$this->emit("alert","El ".$equipo->tipo->nombre." con serie ".$equipo->numSerie." se añadio Correctamente");
         $this->emit("minAlert",["titulo"=>"BUEN TRABAJO!","mensaje"=>"El ".$equipo->tipo->nombre." con serie ".$equipo->numSerie." se añadio Correctamente","icono"=>"success"]);
@@ -435,6 +445,8 @@ class Servicio extends Component
                 $eq->numSerie=$modelo["numSerie"];
                 $eq->marca=$modelo["marca"];
                 $eq->capacidad=$modelo["capacidad"];
+                $eq->fechaFab=$modelo["fechaFab"];
+                $eq->peso=$modelo["peso"];
                 $eq->save();
                 return $eq;
                 break;
