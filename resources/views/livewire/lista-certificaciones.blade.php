@@ -145,6 +145,16 @@
                                                 class="block px-4 py-2 text-sm text-indigo-700 hover:bg-slate-600 hover:text-white">
                                                 <i class="fas fa-file-download"></i> Desc. Ficha Técnica
                                             </a>
+
+                                            <a target="__blank" href="{{ route('checkListArribaGnv',[$certificacion->id])}}"
+                                                class="block px-4 py-2 text-sm text-indigo-700 hover:bg-slate-600 hover:text-white">
+                                                <i class="fas fa-file-download"></i> CheckList arriba
+                                            </a>
+
+                                            <a target="__blank" href="{{ route('checkListAbajoGnv',[$certificacion->id])}}"
+                                                class="block px-4 py-2 text-sm text-indigo-700 hover:bg-slate-600 hover:text-white">
+                                                <i class="fas fa-file-download"></i> CheckList abajo
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

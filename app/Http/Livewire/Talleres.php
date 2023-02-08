@@ -43,6 +43,7 @@ class Talleres extends Component
       'taller.nombre'=>'required|min:5',
       'taller.direccion'=>'required|min:5',
       'taller.ruc'=>'required|min:11|max:11',
+      'taller.representante'=>'required|min:5',
       'taller.idDistrito'=>'required',
       'taller.servicios.*.estado'=> 'nullable',
       'taller.servicios.*.precio'=> 'required|numeric',

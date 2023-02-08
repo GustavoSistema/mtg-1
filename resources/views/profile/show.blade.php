@@ -21,6 +21,18 @@
                 <x-jet-section-border />
             @endif
 
+            
+
+            @hasanyrole('inspector|supervisor')
+            <div class="mt-10 sm:mt-0">
+                @livewire('carga-firma-inspector')
+            </div>
+
+            <x-jet-section-border />               
+            @endhasanyrole
+
+            
+
             @if (Laravel\Fortify\Features::canManageTwoFactorAuthentication())
                 <div class="mt-10 sm:mt-0">
                     @livewire('profile.two-factor-authentication-form')

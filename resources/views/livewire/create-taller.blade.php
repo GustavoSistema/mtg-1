@@ -21,14 +21,16 @@
                 <x-jet-input type="text" class="w-full" wire:model="ruc"   maxlength="11"/>
                 <x-jet-input-error for="ruc" />
             </div>
-
+            <div class="mb-4">
+                <x-jet-label value="Representante del taller:" />
+                <x-jet-input type="text" class="w-full" wire:model="representante" />
+                <x-jet-input-error for="representante" />
+            </div>            
             <div class="mb-4">
                 <x-jet-label value="Direccion:" />
                 <x-jet-input type="text" class="w-full" wire:model="direccion" />
                 <x-jet-input-error for="direccion" />
-            </div>
-
-            
+            </div>           
 
             <div class="grid grid-flow-row-dense grid-cols-2">
 

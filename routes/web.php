@@ -56,7 +56,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
 
     Route::get("fichaTecnicaGnv/{idCert}","App\Http\Controllers\PdfController@generarFichaTecnica")->name("fichaTecnicaGnv");    
     Route::get("fichaTecnicaGnv/{idCert}/download","App\Http\Controllers\PdfController@descargarFichaTecnica")->name("descargarFichaTecnicaGnv");
-    Route::get("checkList/{idCert}","App\Http\Controllers\PdfController@generarCheckListArribaGnv")->name("checkListArribaGnv");
+    Route::get("checkListArriba/{idCert}","App\Http\Controllers\PdfController@generarCheckListArribaGnv")->name("checkListArribaGnv");
+    Route::get("checkListAbajo/{idCert}","App\Http\Controllers\PdfController@generarCheckListAbajoGnv")->name("checkListAbajoGnv");
     Route::get("Notification/{idNoti}/{idSoli}","App\Http\Controllers\NotificationController@marcarUnaNotificación")->name("leerNotificacion");
     
 

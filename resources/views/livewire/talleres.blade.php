@@ -163,17 +163,23 @@
             <x-jet-label value="Nombre:" />
             <x-jet-input wire:model="taller.nombre" type="text" class="w-full" />
             <x-jet-input-error for="taller.nombre" />            
-        </div>     
+        </div>
+        <div class="mb-4">
+            <x-jet-label value="RUC:" />
+            <x-jet-input wire:model="taller.ruc" type="text" class="w-full" maxlength="11"/>
+            <x-jet-input-error for="taller.ruc" />
+        </div> 
+        <div class="mb-4">
+            <x-jet-label value="Representante del taller:" />
+            <x-jet-input wire:model="taller.representante" type="text" class="w-full" />
+            <x-jet-input-error for="taller.representante" />
+          </div>     
         <div class="mb-4">
           <x-jet-label value="Direccion:" />
           <x-jet-input wire:model="taller.direccion" type="text" class="w-full" />
           <x-jet-input-error for="taller.direccion" />
-      </div>  
-      <div class="mb-4">
-        <x-jet-label value="RUC:" />
-        <x-jet-input wire:model="taller.ruc" type="text" class="w-full" maxlength="11"/>
-        <x-jet-input-error for="taller.ruc" />
-    </div>
+        </div>  
+        
 
     <div class="grid grid-flow-row-dense grid-cols-2">
 

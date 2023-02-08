@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head> 
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <style>        
         @page {
             margin: 0.5cm 1.5cm;
@@ -53,25 +53,51 @@
                 
             </tr>
             <tr>
-                <td colspan="2" style="border: 1px solid; border-collapse: collapse;">
-                    Revisión                    
-                    inicial
-                </td>
-                <td style="border: 1px solid; border-collapse: collapse;width: 10%">
-
-                </td>
-                <td colspan="2" style="border: 1px solid; border-collapse: collapse;">
-                    Revisión                    
-                    anual
-                </td>
-                <td style="border: 1px solid; border-collapse: collapse;">
-
-                </td>
-                <td colspan="2" style="border: 1px solid; border-collapse: collapse;">
-                    Año del vehículo:
-                    &nbsp; 
-                    {{$vehiculo->anioFab}}
-                </td>                
+                 @switch($servicio->tipoServicio->id)
+                     @case(1)
+                        <td colspan="2" style="border: 1px solid; border-collapse: collapse;">
+                            Revisión                    
+                            inicial
+                        </td>
+                        <td style="border: 1px solid; border-collapse: collapse;width: 10%;text-align: center;">
+                            <div style="font-family: DejaVu Sans, sans-serif;">✔</div>
+                        <td colspan="2" style="border: 1px solid; border-collapse: collapse;">
+                            Revisión                    
+                            anual
+                        </td>
+                        <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+        
+                        </td>
+                        <td colspan="2" style="border: 1px solid; border-collapse: collapse;">
+                            Año del vehículo:
+                            &nbsp; 
+                            {{$vehiculo->anioFab}}
+                        </td> 
+                         @break
+                     @case(2)
+                        <td colspan="2" style="border: 1px solid; border-collapse: collapse;">
+                            Revisión                    
+                            inicial
+                        </td>
+                        <td style="border: 1px solid; border-collapse: collapse;width: 10%;text-align: center;">
+                            
+                        <td colspan="2" style="border: 1px solid; border-collapse: collapse;">
+                            Revisión                    
+                            anual
+                        </td>
+                        <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                            <div style="font-family: DejaVu Sans, sans-serif;">✔</div>
+                        </td>
+                        <td colspan="2" style="border: 1px solid; border-collapse: collapse;">
+                            Año del vehículo:
+                            &nbsp; 
+                            {{$vehiculo->anioFab}}
+                        </td> 
+                         @break
+                     @default
+                         
+                 @endswitch
+                               
             </tr>
             <tr>
                 <td colspan="4" style="border: 1px solid; border-collapse: collapse;">
@@ -94,8 +120,8 @@
                 <td style="border: 1px solid; border-collapse: collapse;">
                     Bi-Combustible
                 </td>
-                <td style="border: 1px solid; border-collapse: collapse;">
-
+                <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                    <div style="font-family: DejaVu Sans, sans-serif;">✔</div>
                 </td>
                 <td  style="border: 1px solid; border-collapse: collapse;">
                     Carburador
@@ -106,8 +132,8 @@
                 <td  style="border: 1px solid; border-collapse: collapse;">
                     Inyección
                 </td>
-                <td style="border: 1px solid; border-collapse: collapse;width: 10%;">
-
+                <td style="border: 1px solid; border-collapse: collapse;width: 10%;text-align: center;">
+                    <div style="font-family: DejaVu Sans, sans-serif;">✔</div>
                 </td>
             </tr>
             <tr>
@@ -166,7 +192,7 @@
                 <td>
                     <table style="border: 1px solid; border-collapse: collapse; margin: auto;">
                         <tr>
-                            
+                           
                             <th style="border: 1px solid; border-collapse: collapse;">
                                 Marca
                             </th>
@@ -184,9 +210,9 @@
                             </th>
                         </tr>
                         
-                        @foreach ($cilindros as $item)
+                        @foreach ($cilindros as $key=> $item)
                         <tr>
-                           
+                            
                             <td  style="border: 1px solid; border-collapse: collapse;" >
                                 {{$item->marca}}
                             </td>
@@ -197,7 +223,7 @@
                                 {{$item->capacidad}}
                             </td>
                             <td  style="border: 1px solid; border-collapse: collapse;" >
-                                {{$item->fechaFab}}
+                                {{date('d/m/Y', strtotime($item->fechaFab))}}
                             </td>
                             <td  style="border: 1px solid; border-collapse: collapse;" >
                                 {{$item->peso}}
@@ -237,7 +263,7 @@
                                 </th>
                             </tr>
                             <tr>
-                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: cadetblue;">
+                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: goldenrod;">
                                     <strong >CERTIFICADOS DE CONFORMIDAD</strong>
                                 </td>
                             </tr>
@@ -258,7 +284,7 @@
                                     periódicos e información derivada de la experiencia en el uso de los mismos.<br>
                                 </td>
                                 <td style="border: 1px solid; border-collapse: collapse; float:center; text-align: center;">
-                                    C
+                                    N.A
                                 </td>
                             </tr>
     
@@ -311,7 +337,7 @@
                                     Registrados en la base de datos del sistema de control de camara de GNV"				
                                 </td>
                                 <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
-                                    C
+                                    N.A
                                 </td>
                             </tr>
                                     
@@ -321,12 +347,12 @@
                                     recomendado por el proveedor de equipos completos- PEC"				
                                 </td>
                                 <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
-                                    C
+                                    N.A
                                 </td>                          
                             </tr>
     
                             <tr>
-                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: cadetblue;">
+                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: goldenrod;">
                                     <strong >CONSTANCIAS</strong>
                                 </td>
                             </tr>
@@ -343,7 +369,7 @@
                 
                                 </td>
                                 <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
-                                    C
+                                    N.A
                                 </td>
                             </tr>
                             <tr>
@@ -357,7 +383,7 @@
                                     Previamente el taller debió inspeccionar el estado del vehículo, para efectos de realizar el montaje sin inconvenientes.				
                                 </td>
                                 <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
-                                    C
+                                    N.A
                                 </td>
                             </tr>
     
@@ -372,12 +398,12 @@
                                     Manual de instrucción, operación y mantenimiento del vehículo convertido.				
                                 </td>
                                 <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
-                                    C
+                                    N.A
                                 </td>
                             </tr>
     
                             <tr>
-                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: cadetblue;">
+                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: goldenrod;">
                                     <strong >CILINDROS</strong>
                                 </td>
                             </tr>
@@ -543,7 +569,7 @@
                             </tr>                       
     
                             <tr>
-                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: cadetblue;">
+                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: goldenrod;">
                                     <strong >DISPOSITIVOS DE SUJECIÓN DE CILINDROS</strong>
                                 </td>
                             </tr>
@@ -822,7 +848,7 @@
                             </tr>
     
                             <tr>
-                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: cadetblue;">
+                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: goldenrod;">
                                     <strong >MONTAJE DE CILINDROS</strong>
                                 </td>
                             </tr>
@@ -880,7 +906,7 @@
                                     Fijados al vehículo con 2 sunchos como mínimo	
                                 </td>
                                 <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
-                                    C
+                                    N.A
                                 </td>
                             </tr>
     
@@ -889,7 +915,7 @@
                                     Ancho mínimo de los sunchos 45mm		
                                 </td>
                                 <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
-                                    C
+                                    N.A
                                 </td>
                             </tr>
     
@@ -898,7 +924,7 @@
                                     Espesor de los soportes que le confiara equivalente a la de una barra de acero común de 225mm2 de  sección
                                 </td>
                                 <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
-                                    C
+                                    N.A
                                 </td>
                             </tr>
     
@@ -907,12 +933,27 @@
                                     Diámetro de los pernos 12mm	
                                 </td>
                                 <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                    N.A
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
+                                    6.4.2.3
+                                </td>
+                                <td style="border: 1px solid; border-collapse: collapse;">
+                                    Utilización de mas de 2 sunchos
+                                </td>
+                                <td style="border: 1px solid; border-collapse: collapse;">
+                                    Área total de la sección de los mismos será por lo menos igual a la de los sunchos de los especiﬁcados anteriormente
+                                </td>
+                                <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
                                     C
                                 </td>
                             </tr>
-    
+
                             <tr>
-                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: cadetblue;">
+                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: goldenrod;">
                                     <strong >CILINDROS EN COMPARTIMIENTO DE PASAJEROS</strong>
                                 </td>
                             </tr>
@@ -928,7 +969,7 @@
                                     Dentro de un compartimiento adecuadamente diseñado
                                 </td>
                                 <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
-                                    C
+                                    N.A
                                 </td>
                             </tr>
     
@@ -937,7 +978,7 @@
                                     El extremo del cilindro que contiene la válvula y demás accesorios deberá encerrarse dentro de una ceja resistente con un venteo al exterior del vehículo		
                                 </td>
                                 <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
-                                    C
+                                    N.A
                                 </td>
                             </tr>
     
@@ -946,7 +987,7 @@
                                     El disco de ruptura deberá ventear por un tubo de acero directamente al exterior del vehículo.
                                 </td>
                                 <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
-                                    C
+                                    N.A
                                 </td>
                             </tr>
     
@@ -961,7 +1002,7 @@
                                     El disco de ruptura deberá ventear por un tubo de acero directamente al exterior del vehículo.	
                                 </td>
                                 <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
-                                    C
+                                    N.A
                                 </td>
                             </tr>
     
@@ -970,7 +1011,7 @@
                                     Como alternativa puede ventearse el gas hacia el exterior del vehículo conforma se hace en los montajes de cilindros en comportamiento de pasajeros.		
                                 </td>
                                 <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
-                                    C
+                                    N.A
                                 </td>
                             </tr>
     
@@ -979,7 +1020,7 @@
                                     Tubos ﬂexibles construidos con material no inﬂamable o auto extinguible.
                                 </td>
                                 <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
-                                    C
+                                    N.A
                                 </td>
                             </tr>
     
@@ -989,7 +1030,7 @@
                                     menor a 1100mm2. No deben descargar en la zona de guardafangos.
                                 </td>
                                 <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
-                                    C
+                                    N.A
                                 </td>
                             </tr>
     
@@ -1004,12 +1045,12 @@
                                     Posee un medio adecuado para absorber y transmitir a la estructura del vehículo cualquier embestida.
                                 </td>
                                 <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
-                                    C
+                                    N.A
                                 </td>
                             </tr>      
                             
                             <tr>
-                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: cadetblue;">
+                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: goldenrod;">
                                     <strong >CILINDROS ENTRE EJES DEL VEHÍCULO</strong>
                                 </td>
                             </tr>
@@ -1045,7 +1086,7 @@
                             </tr>
                             
                             <tr>
-                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: cadetblue;">
+                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: goldenrod;">
                                     <strong >CILINDROS DETRAS DEL EJE TRASERO</strong>
                                 </td>
                             </tr>
@@ -1061,7 +1102,7 @@
                                     Distancia mínima al suelo =200mm
                                 </td>
                                 <td style="border: 1px solid; border-collapse: collapse;text-align: center;">
-                                    N.A
+                                    C
                                 </td>
                             </tr> 
     
@@ -1115,7 +1156,7 @@
                             </tr>
                              
                             <tr>
-                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: cadetblue;">
+                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: goldenrod;">
                                     <strong >TUBERIAS</strong>
                                 </td>
                             </tr>
@@ -1168,8 +1209,11 @@
                     </td>
                 </tr>
             </table>
-        </section>               
+        </section>       
+         
         
+        
+
         <!--PAGINA 2-->
         <section>
             <table style="width:100%;padding: 0; box-sizing:border-box; font-size: 6.5px; text-align: start; margin-top: 50px;">
@@ -1553,7 +1597,7 @@
                             </tr>
     
                             <tr>
-                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: cadetblue;">
+                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: goldenrod;">
                                     <strong >MEZCLADOR</strong>
                                 </td>
                             </tr>
@@ -1599,7 +1643,7 @@
                            
     
                             <tr>
-                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: cadetblue;">
+                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: goldenrod;">
                                     <strong >MANOMETRO</strong>
                                 </td>
                             </tr>
@@ -1629,7 +1673,7 @@
                             </tr>
     
                             <tr>
-                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: cadetblue;">
+                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: goldenrod;">
                                     <strong >SELECTOR DE COMBUSTIBLE / INDICADOR DE NIVEL</strong>
                                 </td>
                             </tr>
@@ -1693,7 +1737,7 @@
                             {{--HASTA AQUI EVALUAR--}}
     
                             <tr>
-                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: cadetblue;">
+                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: goldenrod;">
                                     <strong >REGULADOR</strong>
                                 </td>
                             </tr>
@@ -1778,7 +1822,7 @@
                             </tr>
     
                             <tr>
-                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: cadetblue;">
+                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: goldenrod;">
                                     <strong >COMPONENTES ELECTRICOS</strong>
                                 </td>
                             </tr>
@@ -1863,7 +1907,7 @@
                             </tr>
     
                             <tr>
-                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: cadetblue;">
+                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: goldenrod;">
                                     <strong >COMPONENTES ELECTRICOS</strong>
                                 </td>
                             </tr>
@@ -1902,7 +1946,7 @@
                             </tr>
     
                             <tr>
-                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: cadetblue;">
+                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: goldenrod;">
                                     <strong >VEHICULOS CON SISTEMA DE INYECCION</strong>
                                 </td>
                             </tr>
@@ -1956,7 +2000,7 @@
                             </tr>
     
                             <tr>
-                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: cadetblue;">
+                                <td colspan="4" style="border: 1px solid; border-collapse: collapse;text-align:center;background-color: goldenrod;">
                                     <strong >HERMETICIDAD</strong>
                                 </td>
                             </tr>
@@ -2003,6 +2047,7 @@
                         <h4>ANALISIS DE GASES</h4>
                         
                         <table style="border: 1px solid; border-collapse: collapse; margin: auto;">
+                           
                             <tr>
                                 <th colspan="2" style="border: 1px solid; border-collapse: collapse;">
                                     OC % del volumen
@@ -2060,7 +2105,42 @@
                                 </td>
                             </tr>
 
-                            
+                            <tr>
+                                <td style="border: 1px solid; border-collapse: collapse;">
+                                    vehículo a GNV
+                                </td>
+                                <td style="border: 1px solid; border-collapse: collapse;">
+                                    
+                                </td>
+                                <td style="border: 1px solid; border-collapse: collapse;">
+                                
+                                </td>
+                                <td style="border: 1px solid; border-collapse: collapse;">
+                                
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid; border-collapse: collapse;">
+                                    vehículo a Gasolina
+                                </td>
+                                <td style="border: 1px solid; border-collapse: collapse;">
+                                    
+                                </td>
+                                <td style="border: 1px solid; border-collapse: collapse;">
+                                
+                                </td>
+                                <td style="border: 1px solid; border-collapse: collapse;">
+                                
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="border: 1px solid; border-collapse: collapse;">
+                                    Año de fabricación
+                                </td>
+                                <td colspan="2" style="border: 1px solid; border-collapse: collapse;">
+                                    
+                                </td>                                
+                            </tr>                            
 
                         </table>
                         <p>C:CUMPLE  NC: NO CUMPLE  N.A : NO APLICA</p>
@@ -2068,20 +2148,18 @@
                 </tr>
             </table>
         </section>
-
         <br>
-
         <section>
             <table style="width: 100%; border: 1px solid; border-collapse: collapse; margin: auto;">
                 <tr >
-                    <td style="border: 1px solid; border-collapse: collapse;width: 25%;">
-                        
+                    <td style="border: 1px solid; border-collapse: collapse;width: 25%;text-align: center;">
+                        {{$inspector->name}}
                     </td>
                     <td style="border: 1px solid; border-collapse: collapse;width: 25%;">
-                    
+                        <img  src="{{'.'.Storage::url($inspector->rutaFirma)}}" width="180" height="90"/>
                     </td>
-                    <td style="border: 1px solid; border-collapse: collapse;width: 25%;">
-                    
+                    <td style="border: 1px solid; border-collapse: collapse;width: 25%;text-align: center;">
+                        {{$taller->representante}}
                     </td>
                     <td style="border: 1px solid; border-collapse: collapse;width: 25%;">
                         <img  src="{{'.'.Storage::url($taller->rutaFirma)}}" width="180" height="90"/>
@@ -2103,6 +2181,9 @@
                     </td>
                 </tr>
             </table>
-        </section>       
+        </section>
+        
+    
+       
 </body>
 </html>

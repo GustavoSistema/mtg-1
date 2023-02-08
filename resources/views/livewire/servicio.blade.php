@@ -132,7 +132,7 @@
                                                 <p>Serie: <strong>{{ $e['numSerie'] }}</strong></p>
                                                 <p>Marca: <strong>{{ $e['marca'] }}</strong></p>
                                                 <p>Capacidad (L): <strong>{{ $e['capacidad'] }}</strong></p>
-                                                <p>Fecha de Fabricación: <strong>{{ $e['fechaFab']}}</strong></p>
+                                                <p>Fecha de Fabricación: <strong>{{ date('d/m/Y', strtotime($e['fechaFab']));}}</strong></p>
                                                 <p>Peso (KG): <strong>{{ $e['peso'] }}</strong></p>
                                             </div>
                                             <div class="bg w-1/6 flex justify-end items-center">

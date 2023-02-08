@@ -85,7 +85,7 @@ class RevisionExpedientes extends Component
         $this->tipos=TipoServicio::all();
         $this->inspectores=User::role(['inspector','supervisor'])->where('id','!=',Auth::id())->orderBy('name')->get();
         $this->idus=Auth::id();
-        $this->identitifcador=rand();        
+        $this->identificador=rand();        
         $this->expediente= new Expediente();
         $this->cant="10";  
         $this->conteo=0;

@@ -97,4 +97,31 @@ class PdfController extends Controller
     }
 
 
+    public function generarCheckListAbajoGnv($idCert){
+        if(Certificacion::findOrFail($idCert)){
+            $certificacion=Certificacion::find($idCert);
+            //$hoja=$certificacion->Materiales->where('idTipoMaterial',1)->first();    
+            $hoja=$certificacion->Hoja;        
+            $data=[
+                'hoja'=>$hoja,
+                "vehiculo"=>$certificacion->Vehiculo,
+                "servicio"=>$certificacion->Servicio,
+                "inspector"=>$certificacion->Inspector,
+                "taller"=>$certificacion->taller,
+                "fecha"=>$certificacion->created_at->format('d/m/Y'), 
+                "reductor"=>$certificacion->Reductor,
+                "chip"=>$certificacion->Chip,
+                "cilindros"=>$certificacion->Cilindros,
+                "certificacion"=>$certificacion,               
+            ];
+            $pdf = App::make('dompdf.wrapper');
+            $pdf->loadView('checkListCilindroAbajoGnv',$data);        
+            //return $pdf->stream($id.'-'.date('d-m-Y').'-cargo.pdf');
+            return  $pdf->stream('CHKL_ABAJO-'.$certificacion->Vehiculo->placa.'-'.$hoja->numSerie.'.pdf');
+        }else{
+            return abort(404);
+        }
+    }
+
+
 }
