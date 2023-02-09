@@ -26,36 +26,38 @@
                     @endcan
                 </div>
                 --}}
-                <div class="hidden pt-4 space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-dropdown align="right" width="48">
-                        <x-slot name="trigger">                            
-                                <span class="inline-flex rounded-md">
-                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-indigo-500 hover:font-bold focus:outline-none transition">
-                                        Servicios
-                                            <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                        </svg>
-                                    </button>
-                                </span>                            
-                        </x-slot>
+                @hasanyrole('inspector|supervisor') 
+                    <div class="hidden pt-4 space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-jet-dropdown align="right" width="48">
+                            <x-slot name="trigger">                            
+                                    <span class="inline-flex rounded-md">
+                                        <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-indigo-500 hover:font-bold focus:outline-none transition">
+                                            Servicios
+                                                <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                            </svg>
+                                        </button>
+                                    </span>                            
+                            </x-slot>
 
-                        <x-slot name="content">                         
-                           
-                            <x-jet-dropdown-link href="{{ route('servicio') }}" :active="request()->routeIs('servicio')">
-                                {{ __('Nuevo Servicio') }}
-                            </x-jet-dropdown-link>
-                            
-                                                                               
-                           
-                            <div class="border-t border-gray-100"></div>
-                            <x-jet-dropdown-link href="{{ route('certificaciones') }}" :active="request()->routeIs('certificaciones')">
-                                {{ __('Listado Servicios') }}
-                            </x-jet-dropdown-link>  
-                            
-
-                        </x-slot>
-                    </x-jet-dropdown>
-                </div>
+                            <x-slot name="content">                         
+                                @can('servicio')
+                                    <x-jet-dropdown-link href="{{ route('servicio') }}" :active="request()->routeIs('servicio')">
+                                        {{ __('Nuevo Servicio') }}
+                                    </x-jet-dropdown-link>
+                                @endcan
+                                                                                
+                                @can('certificaciones')
+                                    <div class="border-t border-gray-100"></div>
+                                    <x-jet-dropdown-link href="{{ route('certificaciones') }}" :active="request()->routeIs('certificaciones')">
+                                        {{ __('Listado Servicios') }}
+                                    </x-jet-dropdown-link>                                 
+                                @endcan
+                            </x-slot>
+                        </x-jet-dropdown>
+                    </div>
+                @endhasanyrole
+               
                 {{--
                 @can('expedientes')
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
@@ -329,27 +331,179 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+                {{ __('Inicio') }}
             </x-jet-responsive-nav-link>
         </div>
 
-        @can('expedientes')
-        <div class="pt-2 pb-3 space-y-1">
-            <x-jet-responsive-nav-link href="{{ route('expedientes') }}" :active="request()->routeIs('expedientes')">
-                Expedientes
-            </x-jet-responsive-nav-link>
-        </div>
-        @endcan
-
-        @can('revisionExpedientes')
-        <div class="pt-2 pb-3 space-y-1">
-            <x-jet-responsive-nav-link href="{{ route('revisionExpedientes') }}" :active="request()->routeIs('revisionExpedientes')">
-                Revisión Expedientes
-            </x-jet-responsive-nav-link>
-        </div>
-        @endcan
-        <!-- Responsive Settings Options -->
+       
+        {{--
         <div class="pt-4 pb-1 border-t border-gray-200">
+            <div class="flex items-center px-4">
+                <div>
+                    <div class="font-medium text-base text-indigo-800">prueba</div>                    
+                </div>
+            </div>
+
+            <div class="mt-3 space-y-1">
+                <x-jet-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
+                    {{ __('link Prueba') }}
+                </x-jet-responsive-nav-link>
+            </div>
+        </div>
+        --}}
+        @hasanyrole('inspector|supervisor') 
+        <div x-data="{ open: false }" class="border-t border-indigo-200 ">
+            <div  @click="open = ! open" class="p-4 bg-gray-100 flex w-full hover:bg-gray-200">
+              <div class="flex gap-2 w-full justify-between items-center">                  
+                  <h4 class="font-medium  text-indigo-700">Servicios</h4>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+              </div>             
+            </div>
+            <div x-show="open" @click.outside="open = false"  x-transition:enter="transition ease-out duration-300"
+                  x-transition:enter-start="opacity-0 translate-y-0"
+                  x-transition:enter-end="opacity-100 translate-y-0"
+                  x-transition:leave="transition ease-in duration-300"
+                  x-transition:leave-start="opacity-100 translate-y-10"
+                  x-transition:leave-end="opacity-0 translate-y-0" class="w-full">
+
+            {{--OPCIONES--}}
+                  @can('servicio')
+                    <div class="space-y-1 border-b border-t">
+                        <x-jet-responsive-nav-link href="{{ route('servicio') }}" :active="request()->routeIs('servicio')">
+                            Nuevo Servicio
+                        </x-jet-responsive-nav-link>
+                    </div>
+                  @endcan
+                  
+                  @can('certificaciones')
+                    <div class="space-y-1">
+                        <x-jet-responsive-nav-link href="{{ route('certificaciones') }}" :active="request()->routeIs('certificaciones')">
+                            Listado Servicios
+                        </x-jet-responsive-nav-link>
+                    </div>
+                  @endcan
+            {{--FIN OPCIONES--}}
+
+            </div>
+        </div>
+        @endhasanyrole
+
+        <div x-data="{ open: false }" class="border-t border-indigo-200">
+            <div  @click="open = ! open" class="p-4 bg-gray-100 flex w-full hover:bg-gray-200 ">
+              <div class="flex gap-2 w-full justify-between items-center">                  
+                  <h4 class="font-medium  text-indigo-700">Expedientes</h4>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+              </div>             
+            </div>
+            <div x-show="open" @click.outside="open = false"  x-transition:enter="transition ease-out duration-300"
+                  x-transition:enter-start="opacity-0 translate-y-0"
+                  x-transition:enter-end="opacity-100 translate-y-0"
+                  x-transition:leave="transition ease-in duration-300"
+                  x-transition:leave-start="opacity-100 translate-y-10"
+                  x-transition:leave-end="opacity-0 translate-y-0" class="w-full">
+
+            {{--OPCIONES--}}
+                  @can('expedientes')
+                  <div class="space-y-1 border-t border-b">
+                      <x-jet-responsive-nav-link href="{{ route('expedientes') }}" :active="request()->routeIs('expedientes')">
+                        Listado Expedientes
+                      </x-jet-responsive-nav-link>
+                  </div>
+                  @endcan
+                  
+                  @can('revisionExpedientes')
+                  <div class="space-y-1">
+                      <x-jet-responsive-nav-link href="{{ route('revisionExpedientes') }}" :active="request()->routeIs('revisionExpedientes')">
+                          Revisión Expedientes
+                      </x-jet-responsive-nav-link>
+                  </div>
+                  @endcan
+            {{--FIN OPCIONES--}}
+
+            </div>
+        </div>
+        
+
+        <div x-data="{ open: false }" class="border-t border-indigo-200">
+            <div  @click="open = ! open" class="p-4 bg-gray-100 flex w-full hover:bg-gray-200">
+              <div class="flex gap-2 w-full justify-between items-center">                  
+                  <h4 class="font-medium  text-indigo-700">
+                    Materiales
+                  </h4>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+              </div>             
+            </div>
+            <div x-show="open" @click.outside="open = false"  x-transition:enter="transition ease-out duration-300"
+                  x-transition:enter-start="opacity-0 translate-y-0"
+                  x-transition:enter-end="opacity-100 translate-y-0"
+                  x-transition:leave="transition ease-in duration-300"
+                  x-transition:leave-start="opacity-100 translate-y-10"
+                  x-transition:leave-end="opacity-0 translate-y-0" class="w-full">
+
+            {{--OPCIONES--}}                            
+                  @can('inventario')
+                    <div class="space-y-1 border-t border-b">
+                        <x-jet-responsive-nav-link href="{{ route('inventario') }}" :active="request()->routeIs('inventario')">
+                            {{ __('Inventario') }}
+                        </x-jet-responsive-nav-link>
+                    </div>                  
+                  @endcan
+                                    
+                  @can('ingresos')
+                    <div class="border-b space-y-1">
+                        <x-jet-responsive-nav-link href="{{ route('ingresos') }}" :active="request()->routeIs('ingresos')">
+                            {{ __('Ingreso de Materiales') }}
+                        </x-jet-responsive-nav-link>
+                    </div>                                                  
+                  @endcan
+                  
+
+                  @can('salidas')
+                    <div class="border-b space-y-1">
+                        <x-jet-responsive-nav-link href="{{ route('salidas') }}" :active="request()->routeIs('salidas')">
+                            {{ __('Salida de materiales') }}
+                        </x-jet-responsive-nav-link>
+                    </div> 
+                  @endcan
+                  
+
+                  @can('asignacion')
+                    <div class="border-b space-y-1">
+                        <x-jet-responsive-nav-link href="{{ route('asignacion') }}" :active="request()->routeIs('asignacion')">
+                            {{ __('Asignación de materiales') }}
+                        </x-jet-responsive-nav-link>
+                    </div>                         
+                  @endcan
+                  
+                  @can('solicitud')
+                    <div class="border-b space-y-1">
+                        <x-jet-responsive-nav-link href="{{ route('solicitud') }}" :active="request()->routeIs('solicitud')">
+                            {{ __('Solicitud de materiales') }}
+                        </x-jet-responsive-nav-link>
+                    </div> 
+                  @endcan
+                  
+                  @can('recepcion')
+                    <div class="space-y-1">
+                        <x-jet-responsive-nav-link href="{{ route('recepcion') }}" :active="request()->routeIs('recepcion')">
+                            {{ __('Recepción de materiales') }}
+                        </x-jet-responsive-nav-link>
+                    </div>                   
+                  @endcan
+            {{--FIN OPCIONES--}}
+
+            </div>
+        </div>
+        
+
+        <!-- Responsive Settings Options -->
+        <div class="pt-4 pb-1 border-t border-indigo-200">
             <div class="flex items-center px-4">
                 @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                     <div class="shrink-0 mr-3">

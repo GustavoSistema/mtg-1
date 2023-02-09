@@ -26,7 +26,7 @@ class RoleSeed extends Seeder
 
         //Permission::find(4)->syncRoles([$supervisor,$admin,$inspector]);
        // Permission::find(5)->syncRoles([$supervisor,$admin]);       
-       
+       /*
        $ingresos=Permission::create(["name"=>"ingresos"]);
        $salidas=Permission::create(["name"=>"salidas"]);
        $asignacion=Permission::create(["name"=>"asignacion"]);
@@ -36,20 +36,14 @@ class RoleSeed extends Seeder
        $salidas->syncRoles([$admin]);
        $asignacion->syncRoles([$admin]);
 
+        */
+
+       $certificaciones=Permission::create(["name"=>"certificaciones"]);
+       
 
 
-       $inventario=Permission::create(["name"=>"inventario"]);
-       $servicio=Permission::create(["name"=>"servicio"]);
-       $recepcion=Permission::create(["name"=>"recepcion"]);       
-       $solicitudes=Permission::create(["name"=>"solicitud"]);
-       $nuevaSoli=Permission::create(["name"=>"nuevaSolicitud"]);
-
-
-       $inventario->syncRoles([$supervisor,$inspector]);
-       $servicio->syncRoles([$supervisor,$inspector]);
-       $recepcion->syncRoles([$supervisor,$inspector]);
-       $solicitudes->syncRoles([$supervisor,$inspector]);
-       $nuevaSoli->syncRoles([$supervisor,$inspector]);
+       $certificaciones->syncRoles([$supervisor,$inspector]);
+       
 
     }
 }

@@ -51,8 +51,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get('/Crear-solicitud',CreateSolicitud::class)->middleware('can:nuevaSolicitud')->name('nuevaSolicitud');
     Route::get('/RevisionExpedientes',RevisionExpedientes::class)->middleware('can:revisionExpedientes')->name('revisionExpedientes');  
     Route::get('/dashboard', function (){return view('dashboard');})->name('dashboard');
-    Route::get('/Listado-Certificaciones',ListaCertificaciones::class)->name('certificaciones');
+    Route::get('/Listado-Certificaciones',ListaCertificaciones::class)->middleware('can:certificaciones')->name('certificaciones');
     Route::get('/Solicitud/{soliId}',VistaSolicitud::class)->name('vistaSolicitud');
+    
 
     Route::get("fichaTecnicaGnv/{idCert}","App\Http\Controllers\PdfController@generarFichaTecnica")->name("fichaTecnicaGnv");    
     Route::get("fichaTecnicaGnv/{idCert}/download","App\Http\Controllers\PdfController@descargarFichaTecnica")->name("descargarFichaTecnicaGnv");
