@@ -45,10 +45,38 @@ class Ingresos extends Component
 
     public function edit(Ingreso $ing){
         $this->ingreso=$ing;
-        $this->details=$this->detalle($ing);
+        //$this->details=$this->detalle($ing);
         $this->editando=true;
     }
 
+    public function eliminaMateriales(Ingreso $ingreso){
+        foreach($ingreso->materiales as $material){
+            $material->delete();
+        }
+    }
+
+
+    public function delete(Ingreso $ingres){
+        $this->eliminaMateriales($ingres);
+        $ingres->delete();
+        
+        $this->emitTo('Ingresos','render');
+    }
+
+    public function validaEstadoMateriales(Ingreso $ingreso){
+        $sinMod=$ingreso->materiales->where("estado",1)->count();
+        $total=$ingreso->materiales->count();
+        if($sinMod==$total){
+            $this->emit('deleteIngreso',$ingreso->id);
+        }else{
+            $this->emit("CustomAlert",["titulo"=>"ERROR","mensaje"=>"No puedes eliminar este registro, ya que 1 o mas materiales se encuentran en uso.","icono"=>"error",]); 
+        }
+        
+    }
+
+
+
+    /*
     public function detalle($ing){
         $aux=[];
         $var="";
@@ -68,4 +96,7 @@ class Ingresos extends Component
 
         return $a;
     }
+    */
+
+    
 }

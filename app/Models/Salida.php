@@ -47,6 +47,19 @@ class Salida extends Model
         return $this->belongsToMany(Material::class, 'detallesalida','idSalida','idMaterial');
     }
 
+    public function getFormatosGnvAttribute(){
+        return $this->materiales->where('idTipoMaterial',1);
+    }
+
+    public function getInicioSerieGnvAttribute(){
+        return $this->materiales->where('idTipoMaterial',1)->min('numSerie');
+    }
+
+    public function getFinalSerieGnvAttribute(){
+        return $this->materiales->where('idTipoMaterial',1)->max('numSerie');
+    }
+    
+
     public function usuarioCreador(){
         return $this->belongsTo(User::class,'idUsuarioSalida');
     }

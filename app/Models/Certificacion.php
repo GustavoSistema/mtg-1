@@ -25,6 +25,10 @@ class Certificacion extends Model
         "updated_at"
     ];
 
+    protected $appends = [
+        'serieFormato',
+    ];
+
     public function Vehiculo(){
         return $this->belongsTo(vehiculo::class,'idVehiculo');
     }
@@ -46,6 +50,13 @@ class Certificacion extends Model
     }
 
     //Atributos Especiales del Certificado
+
+    public function getserieFormatoAttribute(){
+        //$hoja=Certificacion::find($this->attributes['id'])->Materiales->where('idTipoMaterial',1)->first();
+        //return $hoja;
+        return $this->Materiales->where('idTipoMaterial',1)->first()->numSerie;
+        
+    }
 
     public function getHojaAttribute(){
         //$hoja=Certificacion::find($this->attributes['id'])->Materiales->where('idTipoMaterial',1)->first();

@@ -103,7 +103,7 @@
                                                             class="py-3 px-4 text-center rounded-md bg-lime-300 font-bold text-white cursor-pointer hover:bg-lime-400">
                                                             <i class="fas fa-eye"></i>
                                                         </a>
-                                                        <a wire:click="$emit('deleteIngreso',{{ $item->id }})"
+                                                        <a wire:click="validaEstadoMateriales({{ $item->id }})"
                                                             class="py-3 px-5 text-center ml-2 rounded-md bg-indigo-300 font-bold text-white cursor-pointer hover:bg-indigo-400">
                                                             <i class="fas fa-trash"></i>
                                                         </a>
@@ -162,6 +162,8 @@
                     <span class="bg-lime-300  px-2 rounded-xl">{{ $ingreso->motivo }}</span>
                 </div>
             </div>
+
+            {{--
             @if (count($ingreso->detalles) > 0)
                 <div class="flex flex-col">
                     <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
@@ -209,19 +211,168 @@
                 </div>
 
             @endif
+            --}}
+
+            @if ($ingreso->materiales->count() > 0)
+                <div class="flex flex-col">
+                    <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
+                        <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                            <div class="overflow-hidden">
+                                @switch($ingreso->TipoMaterial->tipo->id)
+                                    @case(1)
+                                    <table class="min-w-full">
+                                        <thead class="bg-indigo-300 border-b">
+                                            <tr>
+                                                <th scope="col"
+                                                    class="text-sm font-medium font-semibold text-gray-900 px-6 py-4 text-left">
+                                                    #
+                                                </th>
+                                                <th scope="col"
+                                                    class="text-sm font-medium font-semibold text-gray-900 px-6 py-4 text-left">
+                                                    Producto
+                                                </th>
+                                                <th scope="col"
+                                                    class="text-sm font-medium font-semibold text-gray-900 px-6 py-4 text-left">
+                                                    Cantidad
+                                                </th>
+    
+                                                <th scope="col"
+                                                    class="text-sm font-medium font-semibold text-gray-900 px-6 py-4 text-left">
+                                                    Series
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>                                           
+                                                <tr class="bg-gray-100 border-b">
+                                                    <td
+                                                        class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                        1
+                                                    </td>
+                                                    <td
+                                                        class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                        {{ $ingreso->TipoMaterial->tipo->descripcion }}
+                                                    </td>
+                                                    <td
+                                                        class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                        {{ $ingreso->FormatosGnv->count() }}
+                                                    </td>
+                                                    <td
+                                                        class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                        {{ $ingreso->InicioSerieGnv.' - '.$ingreso->FinalSerieGnv }}
+                                                    </td>
+                                                </tr>                                            
+                                        </tbody>
+                                    </table>
+                                        @break
+                                    @case(2)
+                                    <table class="min-w-full">
+                                        <thead class="bg-indigo-300 border-b">
+                                            <tr>
+                                                <th scope="col"
+                                                    class="text-sm font-medium font-semibold text-gray-900 px-6 py-4 text-left">
+                                                    #
+                                                </th>
+                                                <th scope="col"
+                                                    class="text-sm font-medium font-semibold text-gray-900 px-6 py-4 text-left">
+                                                    Producto
+                                                </th>
+                                                <th scope="col"
+                                                    class="text-sm font-medium font-semibold text-gray-900 px-6 py-4 text-left">
+                                                    Cantidad
+                                                </th>
+    
+                                                <th scope="col"
+                                                    class="text-sm font-medium font-semibold text-gray-900 px-6 py-4 text-left">
+                                                    Series
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>                                           
+                                                <tr class="bg-gray-100 border-b">
+                                                    <td
+                                                        class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                        1
+                                                    </td>
+                                                    <td
+                                                        class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                        {{ $ingreso->TipoMaterial->tipo->descripcion }}
+                                                    </td>
+                                                    <td
+                                                        class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                        {{ $ingreso->Chips->count() }}
+                                                    </td>
+                                                    <td
+                                                        class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                        N.A
+                                                    </td>
+                                                </tr>                                            
+                                        </tbody>
+                                    </table>     
+                                        @break
+                                    @case(3)
+                                    <table class="min-w-full">
+                                        <thead class="bg-indigo-300 border-b">
+                                            <tr>
+                                                <th scope="col"
+                                                    class="text-sm font-medium font-semibold text-gray-900 px-6 py-4 text-left">
+                                                    #
+                                                </th>
+                                                <th scope="col"
+                                                    class="text-sm font-medium font-semibold text-gray-900 px-6 py-4 text-left">
+                                                    Producto
+                                                </th>
+                                                <th scope="col"
+                                                    class="text-sm font-medium font-semibold text-gray-900 px-6 py-4 text-left">
+                                                    Cantidad
+                                                </th>
+    
+                                                <th scope="col"
+                                                    class="text-sm font-medium font-semibold text-gray-900 px-6 py-4 text-left">
+                                                    Series
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>                                           
+                                                <tr class="bg-gray-100 border-b">
+                                                    <td
+                                                        class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                        1
+                                                    </td>
+                                                    <td
+                                                        class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                        {{ $ingreso->TipoMaterial->tipo->descripcion }}
+                                                    </td>
+                                                    <td
+                                                        class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                        {{ $ingreso->FormatosGlp->count() }}
+                                                    </td>
+                                                    <td
+                                                        class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                        {{ $ingreso->InicioSerieGlp.' - '.$ingreso->FinalSerieGlp }}
+                                                    </td>
+                                                </tr>                                            
+                                        </tbody>
+                                    </table>  
+                                        @break
+                                    @default
+                                        
+                                @endswitch
+                                
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            @endif
         @endif
+
     </x-slot>
 
     <x-slot name="footer">
         <x-jet-secondary-button wire:click="$set('editando',false)" class="mx-2">
-            Cancelar
-        </x-jet-secondary-button>
-        <x-jet-button wire:click="actualizar" wire:loading.attr="disabled"
-            wire:target="update,documentosnuevos,fotosnuevas">
-            Actualizar
-        </x-jet-button>
-
-
+            Cerrar
+        </x-jet-secondary-button>       
     </x-slot>
 
 </x-jet-dialog-modal>
@@ -229,7 +380,7 @@
 
 @push('js')
     <script>
-        Livewire.on('deleteIngreso', expedienteId => {
+        Livewire.on('deleteIngreso', ingresoId => {
             Swal.fire({
                 title: '¿Seguro que quieres eliminar este registro?',
                 text: "Luego de eliminar no podras recuperarlo.",
@@ -241,7 +392,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
 
-                    Livewire.emitTo('ingresos', 'delete', expedienteId);
+                    Livewire.emitTo('ingresos', 'delete', ingresoId);
 
                     Swal.fire(
                         'Listo!',

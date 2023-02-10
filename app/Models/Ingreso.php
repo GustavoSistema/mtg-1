@@ -35,34 +35,52 @@ class Ingreso extends Model
     }
 
 
+    public function getTipoMaterialAttribute(){
+        return $this->materiales->first();
+    }
+
+
     public function materiales(){
         return $this->belongsToMany(Material::class, 'detalleingreso','idIngreso','idMaterial');
     }
 
-    public function getDetallesAttribute(){
-        $tipos=TipoMaterial::all();        
-        $index=0;
-        $res=[];
-        foreach($tipos as $tipo){
-            $aux=DB::table('material')
-            ->select('material.idTipoMaterial','tipomaterial.descripcion')            
-            ->join('tipomaterial','material.idTipoMaterial',"=",'tipomaterial.id')
-            ->where([
-                ['material.grupo',$this->attributes['numeroguia']],
-                ['material.idTipoMaterial',$tipo->id],                
-            ])            
-            ->get();
-            if(count($aux)>0) {
-                $a=array("tipo"=>$tipo->descripcion,"cantidad"=>count($aux));
-                array_push($res,$a);
-            }
-
-        }        
-        return $res;
+    //Datos de los formatos de GNV
+    public function getFormatosGnvAttribute(){
+        return $this->materiales->where('idTipoMaterial',1);
     }
 
-    public function getDetailAttribute(){
-        $aux=Material::where('grupo',$this->attributes['numeroguia'])->get();    
-        return count($aux);
+    public function getInicioSerieGnvAttribute(){
+        return $this->materiales->where('idTipoMaterial',1)->min('numSerie');
     }
+
+    public function getFinalSerieGnvAttribute(){
+        return $this->materiales->where('idTipoMaterial',1)->max('numSerie');
+    }
+
+
+    //Datos de chip
+
+    public function getChipsAttribute(){
+        return $this->materiales->where('idTipoMaterial',2);
+    }
+
+
+    //Datos de los formatos de GLP
+    public function getFormatosGlpAttribute(){
+        return $this->materiales->where('idTipoMaterial',3);
+    }
+
+    public function getInicioSerieGlpAttribute(){
+        return $this->materiales->where('idTipoMaterial',3)->min('numSerie');
+    }
+
+    public function getFinalSerieGlpAttribute(){
+        return $this->materiales->where('idTipoMaterial',3)->max('numSerie');
+    }
+
+
+
+
+
+    
 }

@@ -333,9 +333,7 @@
             <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Inicio') }}
             </x-jet-responsive-nav-link>
-        </div>
-
-       
+        </div>       
         {{--
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="flex items-center px-4">
@@ -390,6 +388,8 @@
         </div>
         @endhasanyrole
 
+
+
         <div x-data="{ open: false }" class="border-t border-indigo-200">
             <div  @click="open = ! open" class="p-4 bg-gray-100 flex w-full hover:bg-gray-200 ">
               <div class="flex gap-2 w-full justify-between items-center">                  
@@ -423,7 +423,6 @@
                   </div>
                   @endcan
             {{--FIN OPCIONES--}}
-
             </div>
         </div>
         

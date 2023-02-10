@@ -109,7 +109,7 @@
                                         <td class="pl-2">
                                             <div class="flex items-center">
                                                 
-                                                <p class="text-sm leading-none text-gray-600 ml-2">{{$salida->estado}}</p>
+                                                <p class="text-sm leading-none text-gray-600 ml-2">{{$salida->InicioSerieGnv.' - '.$salida->FinalSerieGnv}}</p>
                                             </div>
                                         </td>
                                         <td class="pl-2">

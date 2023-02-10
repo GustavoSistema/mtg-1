@@ -39,9 +39,9 @@
                         <x-jet-input-error for="cantidad" />
                     </div>
                     <div>
-                        <x-jet-label value="Prefijo:" />
-                        <x-jet-input type="number" class="w-full" wire:model="prefijo" />
-                        <x-jet-input-error for="prefijo" />
+                        <x-jet-label value="Año de Actividad:" />
+                        <x-jet-input type="number" class="w-full" wire:model="anioActivo" />
+                        <x-jet-input-error for="anioActivo" />
                     </div>
                     <div>
                         <x-jet-label value="N° de inicio" />
@@ -65,13 +65,23 @@
                     <h1>Selecciona un tipo de articulo</h1>
             @endswitch                 
         </div>
+        
+        @if ($temp)
+            @if ($temp->count() > 0)
+                <div class="p-4 bg-red-400 items-center text-align-center rounded-lg shadow-xl border border-red-500">
+                    <p>⚠ <strong class="text-yellow-200">Error.</strong></p>
+                    <p >Se encontrarón {{ $temp->count()}} formatos existentes en el rango de series que ingresaste, por favor ingresa un rango de series válido.</p>            
+                </div>
+            @endif            
+        @endif
+        
     </x-slot>
     
     <x-slot name="footer">
         <x-jet-secondary-button wire:click="$set('open',false)" class="mx-2">
             Cancelar
         </x-jet-secondary-button>
-        <x-jet-button wire:click="save" wire:loading.attr="disabled" wire:target="save">
+        <x-jet-button wire:click="save" wire:loading.attr="disabled" wire:target="save,validaSeries">
             Guardar
         </x-jet-button>            
     </x-slot>

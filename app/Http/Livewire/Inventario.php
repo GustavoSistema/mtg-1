@@ -15,13 +15,13 @@ class Inventario extends Component
 
     public function mount(){
         $this->disponiblesGnv=Material::where([
-            ['estado',3],
+            ['estado',3], //FORMATOS EN STOCK
             ['idUsuario',Auth::id()],
             ['idTipoMaterial',1],
             ])
             ->count();
         $this->consumidosGnv=Material::where([
-            ['estado',4],
+            ['estado',4], //FORMATOS CONSUMIDOS
             ['idUsuario',Auth::id()],
             ['idTipoMaterial',1],
             ])
