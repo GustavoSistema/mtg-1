@@ -65,9 +65,15 @@
                     <h1>Selecciona un tipo de articulo</h1>
             @endswitch                 
         </div>
+        @if($mensaje)
+            <p wire:model="mensaje">{{$mensaje}}</p>
+        @endif
+        <div wire:loading wire:target="save" class="bg-indigo-400 p-4 text-center w-full rounded-lg border border-indigo-500 shadow-lg">
+           Creando materiales por favor espere...            
+        </div>
         
         @if ($temp)
-            @if ($temp->count() > 0)
+            @if ($temp->count() > 1)
                 <div class="p-4 bg-red-400 items-center text-align-center rounded-lg shadow-xl border border-red-500">
                     <p>⚠ <strong class="text-yellow-200">Error.</strong></p>
                     <p >Se encontrarón {{ $temp->count()}} formatos existentes en el rango de series que ingresaste, por favor ingresa un rango de series válido.</p>            

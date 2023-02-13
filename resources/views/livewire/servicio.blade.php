@@ -189,41 +189,7 @@
             </div>        
         </div>
     @endif
-    
-    
-    
-    {{-- BOTONES    
-    <div class="m-auto py-6 w-full flex justify-center">
-        <div class="inline-flex rounded-md shadow-lg shadow-indigo-500/50" role="group">
-            <button type="button" wire:click="certificar"
-                class="inline-flex items-center px-4 py-2 text-sm font-medium text-indigo-900 bg-transparent border border-indigo-900 rounded-l-lg hover:bg-indigo-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-indigo-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700">
-                <i class="fas fa-file-signature"></i>&nbsp;
-                Certificar
-            </button>
-            <button type="button" wire:click="salvaEquipos"
-                class="inline-flex items-center px-4 py-2 text-sm font-medium text-indigo-900 bg-transparent border-t border-r border-b border-indigo-900 hover:bg-indigo-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-indigo-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700">
-                <i class="fas fa-eye"></i>&nbsp;
-                ver PDF
-            </button>
-            <button type="button" wire:click="muestra"
-                class="inline-flex items-center px-4 py-2 text-sm font-medium text-indigo-900 bg-transparent border-t border-b  border-indigo-900 hover:bg-indigo-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-indigo-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700">
-                <svg aria-hidden="true" class="w-4 h-4 mr-2 fill-current" fill="currentColor" viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                        d="M2 9.5A3.5 3.5 0 005.5 13H9v2.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 15.586V13h2.5a4.5 4.5 0 10-.616-8.958 4.002 4.002 0 10-7.753 1.977A3.5 3.5 0 002 9.5zm9 3.5H9V8a1 1 0 012 0v5z"
-                        clip-rule="evenodd"></path>
-                </svg>
-                Descargar PDF
-            </button>
-            <button type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-indigo-900 bg-transparent border border-indigo-900 rounded-r-md hover:bg-indigo-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-indigo-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700">
-                <i class="fas fa-archive"></i>&nbsp;
-                Finalizar
-            </button>
-        </div>
-    </div>
-    --}} 
-
-
+      
     <x-jet-dialog-modal wire:model="open">
         <x-slot name="title">
             AGREGAR EQUIPO
@@ -281,4 +247,5 @@
         </x-slot>
 
     </x-jet-dialog-modal>
+    
 </div>

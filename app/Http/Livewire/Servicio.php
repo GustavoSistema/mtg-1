@@ -298,7 +298,7 @@ class Servicio extends Component
         $equipo->idTipoEquipo=$this->tipoEquipo;
         $equipo->numSerie=strtoupper($this->equipoSerie);
         $equipo->marca=strtoupper($this->equipoMarca);
-        $equipo->capacidad=strtoupper($this->equipoCapacidad);
+        $equipo->capacidad=$this->equipoCapacidad;
         $equipo->fechaFab=$this->equipoFechaFab;
         $equipo->peso=$this->equipoPeso;
 
@@ -311,9 +311,11 @@ class Servicio extends Component
     }
 
     public function updatedEquipoCapacidad($var){
-        if(isset($var)){
+        if($var!=null && $var!='e'){
             $this->equipoPeso=$var+(mt_rand(5,8));
-        }
+        }else{
+            $this->equipoPeso=null;
+        }   
     }
 
     public function salvaDatosReductor(){
@@ -333,7 +335,6 @@ class Servicio extends Component
         
         $this->reset(["equipoSerie","equipoMarca","equipoModelo","equipoCapacidad","tipoEquipo","equipoFechaFab","equipoPeso"]);
         $this->open=false;
-        //$this->emit("alert","El ".$equipo->tipo->nombre." con serie ".$equipo->numSerie." se añadio Correctamente");
         $this->emit("minAlert",["titulo"=>"BUEN TRABAJO!","mensaje"=>"El ".$equipo->tipo->nombre." con serie ".$equipo->numSerie." se añadio Correctamente","icono"=>"success"]);
     }
 

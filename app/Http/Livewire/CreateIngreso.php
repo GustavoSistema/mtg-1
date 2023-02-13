@@ -32,6 +32,7 @@ class CreateIngreso extends Component
         //$this->open=false;
         $this->tiposMaterial=TipoMaterial::all()->sortBy("descripcion");
         $this->anioActivo=Date('Y');
+        $this->mensaje="Procesando su solicitud espere un momento";
         //$this->prefijo=0;
     }
 
@@ -67,14 +68,17 @@ class CreateIngreso extends Component
                             "ubicacion"=>'MOTORGAS COMPANY S.A.', 
                             "idUsuario"=>Auth::id(),               
                         ]);
+                        
                         array_push($aux,$formato->id);           
-                    }           
-                    foreach ($aux as $id){
+                    }      
+                    $this->mensaje="se termino de crear ".$this->cantidad." formatos";     
+                    foreach ($aux  as $key=>$id){
                         $detalleIng=IngresoDetalle::create([
                             "idIngreso"=>$ingreso->id,
                             "idMaterial"=>$id,
                             "estado"=>1
                         ]);
+                        
                     }                
                     break;
                 case 2:
@@ -101,7 +105,7 @@ class CreateIngreso extends Component
                     break;
             }
             
-            $this->reset(['motivo','numguia','numInicio','numFinal','anioActivo','tipoMat','estado']); 
+            $this->reset(['motivo','numguia','numInicio','numFinal','anioActivo','tipoMat','estado','cantidad','mensaje']); 
             $this->open=false;   
             $this->emitTo('ingresos','render');
             $this->emit("CustomAlert",["titulo"=>"BUEN TRABAJO!","mensaje"=>"Tu nuevo ingreso se registro correctamente y se crearon todos los materiales","icono"=>"success"]);

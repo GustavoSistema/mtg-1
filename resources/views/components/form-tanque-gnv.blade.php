@@ -11,7 +11,7 @@
     </div> 
     <div class="mb-4">
         <x-jet-label value="Capacidad:"/>
-        <x-jet-input type="number" class="w-full" wire:model="equipoCapacidad" />
+        <x-jet-input type="number" class="w-full" wire:model="equipoCapacidad" inputmode="numeric"  pattern="[0-9]*"/>
         <x-jet-input-error for="equipoCapacidad"/>
     </div>   
     <div class="mb-4">
@@ -21,7 +21,7 @@
     </div>  
     <div class="mb-4">
         <x-jet-label value="Peso:"/>
-        <x-jet-input type="number" class="w-full" wire:model="equipoPeso" />
+        <x-jet-input type="number" class="w-full" wire:model="equipoPeso" inputmode="numeric" disabled/>
         <x-jet-input-error for="equipoPeso"/>
     </div>  
 </div>

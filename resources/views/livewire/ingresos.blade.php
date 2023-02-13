@@ -117,6 +117,7 @@
                             </div>
                         </div>
                     </div>
+
                     {{--
                     @if ($ingresos->hasPages())
                         <div>
@@ -139,7 +140,7 @@
     </div>
 </div>
 
-<x-jet-dialog-modal wire:model="editando" wire:loading.attr="disabled" wire:target="deleteFile">
+<x-jet-dialog-modal wire:model="editando">
     <x-slot name="title" class="font-bold">
         <h1>INGRESO</h1>
     </x-slot>

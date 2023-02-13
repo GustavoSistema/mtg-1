@@ -38,7 +38,7 @@ Route::get('phpmyinfo', function () {
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
 ->group(function () {
-    
+        
     Route::get('/Expedientes',Expedientes::class)->middleware('can:expedientes')->name('expedientes');
     Route::get('/Servicio',Servicio::class)->middleware('can:servicio')->name('servicio');
     Route::get('/Talleres',Talleres::class)->name('talleres');
