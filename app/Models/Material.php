@@ -29,4 +29,10 @@ class Material extends Model
         return $this->belongsTo(TipoMaterial::class,'idTipoMaterial');
     }
     
+    public function scopeSearchSerieFormmato($query,$search){
+        if($search){
+           return $query->where([['idTipoMaterial', 1],['numSerie','like','%'.$search.'%']]);
+        }
+       
+    }
 }

@@ -56,13 +56,13 @@
                             <td class="pl-2">
                                 <div class="flex items-center">
                                     <p class="text-sm font-medium leading-none text-gray-600 mr-2">
-                                        {{ $certificacion->inspector }}
+                                        {{ $certificacion->inspector->name }}
                                     </p>
                                 </div>
                             </td>
                             <td class="pl-2">
                                 <div class="flex items-center">
-                                    @switch($certificacion->tipoServicio)
+                                    @switch($certificacion->Servicio->tipoServicio->id)
                                         @case(1)
                                             <p class="text-sm leading-none text-gray-600 ml-2 p-2 bg-green-200 rounded-full">
                                                 Conversion a GNV
@@ -98,7 +98,7 @@
                             <td class="pl-2">
                                 <div class="flex items-center">
                                     <p class="text-sm leading-none text-gray-600 ml-2">
-                                        {{ $certificacion->taller }}</p>
+                                        {{ $certificacion->taller->nombre }}</p>
                                 </div>
                             </td>
                             <td class="pl-2">
@@ -109,7 +109,7 @@
                             </td>
                             <td class="">
                                 <div class="flex items-center justify-center">
-                                    <p class="text-sm font-semibold  text-gray-600 p-1 bg-orange-100 rounded-full">{{ $this->obtieneNumeroHoja($certificacion->id); }}</p>
+                                    <p class="text-sm font-semibold  text-gray-600 p-1 bg-orange-100 rounded-full">{{ $certificacion->serieFormato }}</p>
                                 </div>
                             </td>
                             <td class="pl-2">
@@ -175,7 +175,7 @@
                             </div>
                         </div>
                     
-                @endif
+            @endif
         
         @else
         <div class="p-4 w-full bg-indigo-300 items-center flex justify-center">

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,8 +27,12 @@ class Certificacion extends Model
     ];
 
     protected $appends = [
-        'serieFormato',
+        'serie_formato',
+        'placa',
+
     ];
+
+    
 
     public function Vehiculo(){
         return $this->belongsTo(vehiculo::class,'idVehiculo');
@@ -49,8 +54,43 @@ class Certificacion extends Model
         return $this->belongsToMany(Material::class, 'serviciomaterial','idCertificacion','idMaterial');
     }
 
+    //scopes para busquedas
+
+    
+
+    public function scopeIdInspector(Builder $query, string $search): void
+    {
+        $query->where('idInspector', $search);
+    }
+
+    public function scopeNumFormato($query,$search): void{
+        if($search){
+            $query->whereHas('Materiales', function (Builder $query) use ($search) {
+                $query->where('numSerie', 'like', '%'.$search.'%');
+            });
+        }
+    }
+
+    public function scopePlacaVehiculo($query,$search): void{
+        if($search){
+        $query->orWhereHas('Vehiculo', function (Builder $query) use ($search) {
+            $query->where('placa', 'like', '%'.$search.'%');
+        });
+        }
+    }
+
+           
+    
+
+
+
+
     //Atributos Especiales del Certificado
 
+
+    public function getplacaAttribute(){
+        return $this->Vehiculo->placa;
+    }
     public function getserieFormatoAttribute(){
         //$hoja=Certificacion::find($this->attributes['id'])->Materiales->where('idTipoMaterial',1)->first();
         //return $hoja;
@@ -58,13 +98,14 @@ class Certificacion extends Model
         
     }
 
+    /*
     public function getHojaAttribute(){
         //$hoja=Certificacion::find($this->attributes['id'])->Materiales->where('idTipoMaterial',1)->first();
         //return $hoja;
-        return $this->Materiales->where('idTipoMaterial',1)->first();
+        return $this->Materiales;
         
     }
-
+    */
     public function getChipAttribute(){
         return $this->Vehiculo->Equipos->where('idTipoEquipo',1)->first();
     }
@@ -78,4 +119,5 @@ class Certificacion extends Model
     public function getCilindrosAttribute(){
         return $this->Vehiculo->Equipos->where('idTipoEquipo',3);
     }
+    
 }

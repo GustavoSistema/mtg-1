@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Certificacion;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -21,14 +22,23 @@ class ListaCertificaciones extends Component
 
     public function render()
     {
-        /*
+        
         $certificaciones=Certificacion::
+            
+            numFormato($this->search)
+            ->placaVehiculo($this->search)
+            ->idInspector(Auth::id())
+            ->orderBy($this->sort,$this->direction)
+            ->paginate($this->cant);
+                /*
             where([
             ['idInspector',Auth::id()],
             ['id','like','%'.$this->search.'%']
-            ])->get();
-        */        
-
+            ])
+            */
+            
+            //->orWhere()
+                /*
         $certificaciones= DB::table('certificacion') 
         ->select('certificacion.*', 'vehiculo.placa','servicio.tipoServicio_idtipoServicio as tipoServicio','taller.nombre as taller','users.name as inspector')    
         ->join('users','users.id','=','certificacion.idInspector')         
@@ -43,6 +53,9 @@ class ListaCertificaciones extends Component
         //->orWhere($filtros2)           
         ->orderBy($this->sort,$this->direction)
         ->paginate($this->cant);
+
+
+            */ 
               
         return view('livewire.lista-certificaciones',compact('certificaciones'));
     }
