@@ -3,19 +3,23 @@
 namespace App\Http\Livewire;
 
 use App\Models\Certificacion;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Date;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class ListaCertificaciones extends Component
+class AdministracionCertificaciones extends Component
 {
+    
+
     use WithPagination;
 
-    public $search,$sort,$direction,$cant,$user;
+    public $search,$sort,$direction,$cant,$user,$fechaFin,$dateOptions;
+    
 
-
+    protected $listeners=['render','delete','anular'];
+   
     protected $queryString=[
         'cant'=>['except'=>'10'],
         'sort'=>['except'=>'certificacion.id'],
@@ -23,25 +27,44 @@ class ListaCertificaciones extends Component
         'search'=>['except'=>''],        
    ];
 
+
+   
+   protected $casts = [
+    'fechaFin' => 'datetime:d-m-Y',
+   ];
+
     public function mount(){
         $this->user=Auth::id();
         $this->cant="10";
         $this->sort='certificacion.id';
         $this->direction="desc";
+        $this->fechaFin=date('d/m/Y');
+        $this->dateOptions=json_encode("minDate: '1920-01-01',  
+        locale: {
+          firstDayOfWeek: 1,
+          weekdays: {
+            shorthand: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+            longhand: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],         
+          }, 
+          months: {
+            shorthand: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Оct', 'Nov', 'Dic'],
+            longhand: ['Enero', 'Febreo', 'Мarzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+          }");
     }
 
     public function render()
     {
-        
-        $certificaciones=Certificacion::
-            
+       
+        $certificaciones=Certificacion::            
             numFormato($this->search)
             ->placaVehiculo($this->search)
-            ->idInspector(Auth::id())
+            ->idInspector('')
+            //->where('created_at',$this->fechaFin)
+            //->where('nombre','hola')
             ->orderBy($this->sort,$this->direction)
-            ->paginate($this->cant);           
-              
-        return view('livewire.lista-certificaciones',compact('certificaciones'));
+            ->paginate($this->cant);    
+        return view('livewire.administracion-certificaciones',compact('certificaciones'));       
+        
     }
 
 
@@ -59,6 +82,19 @@ class ListaCertificaciones extends Component
         }        
     }
 
+    public function anular(Certificacion $certificacion){
+        $certificacion->Hoja->update(['estado'=>5]); // estado anulado en MATERIAL
+        $certificacion->update(['estado'=>2]); //estado anulado en CERTIFICACION
+        $this->emitTo('administracion-certificaciones','render');
+    }
+
+    public function delete(Certificacion $certificacion){
+            $certificacion->Hoja->update(['estado'=>3]);
+            $certificacion->delete();
+            $this->emitTo('administracion-certificaciones','render');
+    }
+
+   
 
     public function generarRuta($cer){        
         $certificacion=Certificacion::find($cer);
@@ -103,15 +139,7 @@ class ListaCertificaciones extends Component
     }
 
 
-    public function obtieneNumeroHoja($id){
-        $certificacion=Certificacion::find($id);
-        $hoja=$certificacion->Materiales->where('idTipoMaterial',1)->first();     
-        if($hoja->numSerie!=null){
-            return $hoja->numSerie;
-        }else{
-            return 0;    
-        }
-                
-
-    }
+    
 }
+
+

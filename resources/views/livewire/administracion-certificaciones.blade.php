@@ -1,6 +1,5 @@
 <div>
-    
-    <x-table-certificaciones>
+    <x-table-administracion-certificaciones>
         
         @if ($certificaciones->count())
         {{--
@@ -30,12 +29,15 @@
                         </th>
                         <th scope="col" class="text-sm font-medium font-semibold text-white px-6 py-4 text-left">
                             N° Formato
-                        </th>
+                        </th>                        
                         <th scope="col" class="text-sm font-medium font-semibold text-white px-6 py-4 text-left">
                             Fecha
                         </th>
                         <th scope="col" class="text-sm font-medium font-semibold text-white px-6 py-4 text-left">
-                            Acciones
+                            Estado
+                        </th>
+                        <th scope="col" class="text-sm font-medium font-semibold text-white px-6 py-4 text-left">
+                            
                         </th>
 
                     </tr>
@@ -110,16 +112,37 @@
                                     <p class="text-sm font-semibold  text-gray-600 p-1 bg-orange-100 rounded-full">{{ $certificacion->serieFormato }}</p>
                                 </div>
                             </td>
+                            
                             <td class="pl-2">
                                 <button
-                                    class="py-3 px-3 text-sm focus:outline-none leading-none text-sky-700 bg-sky-100 rounded">{{ $certificacion->created_at }}</button>
+                                    class="py-3 px-3 text-sm focus:outline-none leading-none text-sky-700 bg-sky-100 rounded">{{ $certificacion->created_at }}
+                                </button>
+                            </td>
+
+                            <td class="">
+                                <div class="flex items-center justify-center">
+                                    @switch( $certificacion->estado)
+                                        @case(1)
+                                            
+                                            <i class="far fa-check-circle fa-lg" style="color: forestgreen;"></i>
+                                            @break
+                                        @case(2)
+                                        <i class="far fa-times-circle fa-lg" style="color: red;"></i>
+                                            @break
+                                        @default
+                                            
+                                    @endswitch
+
+                                    
+                                </div>
                             </td>
                             <td class="pl-4">
                                 <div class="relative flex justify-center px-5">
+                                    {{--
                                     <div x-data="{ dropdownMenu: false }" class="relative">
                                         <!-- Dropdown toggle button -->
                                         <button @click="dropdownMenu = ! dropdownMenu"
-                                            class="flex items-center p-2 border border-slate-300  bg-gray-300/50  rounded-md">
+                                            class="flex items-center p-2 border border-slate-300  bg-gray-300/50  rounded-md hover:bg-gray-300 hover: border-indigo-300">
                                             <span class="mr-4 text-indigo-700">Seleccione <i
                                                     class="fas fa-sort-down -mt-2"></i></span>
                                         </button>
@@ -127,34 +150,45 @@
                                         <div x-show="dropdownMenu"
                                             class="absolute py-2 mt-2 border border-indigo-300/50  bg-slate-300 rounded-md shadow-xl w-44 z-10 ">
 
-                                            <a href="{{ $this->generarRuta($certificacion->id) }}" target="__blank"
-                                                class="block px-4 py-2 text-sm text-indigo-700 hover:bg-slate-600 hover:text-white">
-                                                <i class="fas fa-eye "></i> Ver Certificado
+                                            
+                                            <a wire:click="$emit('deleteCertificacion',{{ $certificacion->id }})"
+                                                class="flex px-4 py-2 text-sm text-indigo-700 hover:bg-slate-600 hover:text-white justify-between items-center">
+                                                <i class="fas fa-trash"></i> 
+                                                <span>Eliminar servicio</span>
                                             </a>
-                                            <a href="{{ $this->generarRutaDescarga($certificacion->id) }}"
-                                                class="block px-4 py-2 text-sm text-indigo-700 hover:bg-slate-600 hover:text-white">
-                                                <i class="fas fa-file-download"></i> <span>Desc. Certificado</span>
-                                            </a>
-                                            <a href="{{ route('fichaTecnicaGnv',[$certificacion->id])}}" target="__blank"
-                                                class="block px-4 py-2 text-sm text-indigo-700 hover:bg-slate-600 hover:text-white">
-                                                <i class="fas fa-eye "></i> ver Ficha Técnica
-                                            </a>
-                                            <a href="{{ route('descargarFichaTecnicaGnv',[$certificacion->id])}}"
-                                                class="block px-4 py-2 text-sm text-indigo-700 hover:bg-slate-600 hover:text-white">
-                                                <i class="fas fa-file-download"></i> Desc. Ficha Técnica
-                                            </a>
-
-                                            <a target="__blank" href="{{ route('checkListArribaGnv',[$certificacion->id])}}"
-                                                class="block px-4 py-2 text-sm text-indigo-700 hover:bg-slate-600 hover:text-white">
-                                                <i class="fas fa-file-download"></i> CheckList arriba
-                                            </a>
-
-                                            <a target="__blank" href="{{ route('checkListAbajoGnv',[$certificacion->id])}}"
-                                                class="block px-4 py-2 text-sm text-indigo-700 hover:bg-slate-600 hover:text-white">
-                                                <i class="fas fa-file-download"></i> CheckList abajo
+                                            <a wire:click="$emit('anularCertificacion',{{ $certificacion->id }})"
+                                                class="flex px-4 py-2 text-sm text-indigo-700 hover:bg-slate-600 hover:text-white justify-between items-center">
+                                                <i class="fas fa-eraser"></i> 
+                                                <span>Anular Servicio</span>
                                             </a>
                                         </div>
                                     </div>
+                                    --}}
+                                    <div class="inline-block text-left" x-data="{ menu: false }">
+                                        <button x-on:click="menu = ! menu" type="button" class="flex items-center text-gray-400 hover:text-gray-600 focus:outline-none" id="menu-button" aria-expanded="true" aria-haspopup="true">
+                                            <span class="sr-only"></span>
+                                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                            <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                                            </svg>
+                                        </button>
+                                        <div x-show="menu" x-on:click.away="menu = false" class="origin-top-right absolute right-12 mt-2 w-56 rounded-md shadow-lg bg-gray-300 ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none z-40" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                                            <div class="" role="none">
+                                                <a wire:click="$emit('deleteCertificacion',{{ $certificacion->id }})"
+                                                    class="flex px-4 py-2 text-sm text-indigo-700 hover:bg-slate-600 hover:text-white justify-between items-center rounded-t-md hover:cursor-pointer">
+                                                    <i class="fas fa-trash"></i> 
+                                                    <span>Eliminar servicio</span>
+                                                </a>
+                                            </div>
+                                            <div class="" role="none">
+                                                <a wire:click="$emit('anularCertificacion',{{ $certificacion->id }})"
+                                                    class="flex px-4 py-2 text-sm text-indigo-700 hover:bg-slate-600 hover:text-white justify-between items-center rounded-b-md hover:cursor-pointer">
+                                                    <i class="fas fa-eraser"></i> 
+                                                    <span>Anular servicio</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </td>
                         </tr>
@@ -182,6 +216,58 @@
         @endif
 
 
-    </x-table-certificaciones>
-    
+    </x-table-administracion-certificaciones>
+
+
+    @push('js')
+        <script>
+            Livewire.on('deleteCertificacion', certificacionId => {
+                Swal.fire({
+                    title: '¿Estas seguro de eliminar este servicio?',
+                    text: "una vez eliminado este registro, no podras recuperarlo.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, eliminar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        Livewire.emitTo('administracion-certificaciones', 'delete', certificacionId);
+
+                        Swal.fire(
+                            'Listo!',
+                            'Servicio eliminado correctamente.',
+                            'success'
+                        )
+                    }
+                })
+            });
+        </script>
+
+        <script>
+            Livewire.on('anularCertificacion', certificacionId => {
+                Swal.fire({
+                    title: '¿Seguro que quieres anular este servicio?',
+                    text: "Al anular este servicio el formato asociado quedará inutilizable",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, eliminar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        Livewire.emitTo('administracion-certificaciones', 'anular', certificacionId);
+
+                        Swal.fire(
+                            'Listo!',
+                            'Servicio anulado correctamente.',
+                            'success'
+                        )
+                    }
+                })
+            });
+        </script>
+    @endpush
 </div>

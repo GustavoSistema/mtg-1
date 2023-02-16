@@ -1,11 +1,15 @@
 import './bootstrap';
 
+
 import Alpine from 'alpinejs';
 
-window.Alpine = Alpine;
 
+
+window.Alpine = Alpine;
 Alpine.start();
 
 
+import * as pikaday from  'pikaday';
 
 
+//console.log(Pikaday);

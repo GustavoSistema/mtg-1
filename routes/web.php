@@ -15,6 +15,7 @@ use App\Http\Livewire\VistaSolicitud;
 use App\Models\Ingreso;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PdfController;
+use App\Http\Livewire\AdministracionCertificaciones;
 use App\Http\Livewire\ListaCertificaciones;
 use App\Http\Livewire\ListaServicios;
 
@@ -52,6 +53,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get('/RevisionExpedientes',RevisionExpedientes::class)->middleware('can:revisionExpedientes')->name('revisionExpedientes');  
     Route::get('/dashboard', function (){return view('dashboard');})->name('dashboard');
     Route::get('/Listado-Certificaciones',ListaCertificaciones::class)->middleware('can:certificaciones')->name('certificaciones');
+    Route::get('/Administracion-de-certificaciones',AdministracionCertificaciones::class)->name('admin.certificaciones');
     Route::get('/Solicitud/{soliId}',VistaSolicitud::class)->name('vistaSolicitud');
     
 

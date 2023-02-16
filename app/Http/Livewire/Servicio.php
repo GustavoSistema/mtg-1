@@ -554,16 +554,18 @@ class Servicio extends Component
         $formato=Material::where([
             ["idTipoMaterial",$tipo],
             ['idUsuario',Auth::id()],
-            ["estado",3]
-        ])->min("numSerie");
-        //->orderBy('numSerie','asc')->first();        
+            ["estado",3],
+            //['nombre',1]
+        ])
+        ->orderBy('numSerie','asc')    
+        ->min("numSerie");    
         if(isset($formato)){
             return $formato;
         }else{
             return null;
         }                
     }
-
+    /*
     public function numFormatoSugerido(){
         $formato=Material::where([
             ["idTipoMaterial",1],
@@ -573,6 +575,7 @@ class Servicio extends Component
         ->orderBy('numSerie','asc')->get();
         return $formato;        
     }
+    */
 
     public function validaEquipos(){
         $estado=false;

@@ -496,7 +496,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
 
-                        Livewire.emitTo('expedientes', 'delete', expedienteId);
+                        Livewire.emitTo('admin.certificaciones', 'delete', expedienteId);
 
                         Swal.fire(
                             'Listo!',

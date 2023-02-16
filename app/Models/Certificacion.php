@@ -59,8 +59,11 @@ class Certificacion extends Model
     
 
     public function scopeIdInspector(Builder $query, string $search): void
-    {
-        $query->where('idInspector', $search);
+    {   
+        if($search){
+            $query->where('idInspector', $search);
+        }
+       
     }
 
     public function scopeNumFormato($query,$search): void{
@@ -98,14 +101,14 @@ class Certificacion extends Model
         
     }
 
-    /*
+    
     public function getHojaAttribute(){
-        //$hoja=Certificacion::find($this->attributes['id'])->Materiales->where('idTipoMaterial',1)->first();
-        //return $hoja;
-        return $this->Materiales;
+        $hoja=Certificacion::find($this->attributes['id'])->Materiales->where('idTipoMaterial',1)->first();
+        return $hoja;
+        //return $this->Materiales;
         
     }
-    */
+    
     public function getChipAttribute(){
         return $this->Vehiculo->Equipos->where('idTipoEquipo',1)->first();
     }

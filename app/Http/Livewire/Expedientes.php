@@ -20,6 +20,7 @@ class Expedientes extends Component
 {
     use WithFileUploads;
     use WithPagination;
+    
     public $observaciones=[];
     public $talleres=[];
     public $fotosnuevas=[];

@@ -4,9 +4,12 @@ namespace App\Http\Livewire;
 
 use App\Models\Ingreso;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Ingresos extends Component
 {
+
+    use WithPagination;
     
     public $cant,$sort,$direction,$search,$ingreso,$details;
     public $editando=false;

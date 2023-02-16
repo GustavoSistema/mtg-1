@@ -4,9 +4,13 @@ namespace App\Http\Livewire;
 
 use App\Models\Taller;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class ListaTalleres extends Component
 {
+
+    use WithPagination;
+
     public $talleres,$seleccion;
 
     public function mount(){

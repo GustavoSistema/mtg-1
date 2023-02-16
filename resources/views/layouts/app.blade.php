@@ -12,7 +12,15 @@
     <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
     <!-- Styles -->
+
+    {{--
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link href="{{ asset('css/pikaday.css') }}" rel="stylesheet">
+    --}}
+
+
+    @stack('styles')
+
     @livewireStyles
 
 
@@ -90,7 +98,7 @@
             )
         });
     </script>
-
+ 
 </body>
 
 </html>
