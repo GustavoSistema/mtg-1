@@ -59,7 +59,7 @@ class CreateIngreso extends Component
                 case 1:
                     for($i = $this->numInicio; $i < ($this->numInicio+$this->cantidad); $i++){
                         $formato=Material::create([
-                            "estado"=>1,
+                            "estado"=>1,//ESTADO DE MATERIAL: EN STOCK 
                             //"numSerie"=>((string)$this->prefijo.(string)$i),
                             "numSerie"=>$i,
                             "anioActivo"=>$this->anioActivo,
@@ -84,7 +84,7 @@ class CreateIngreso extends Component
                 case 2:
                     for($i = 0; $i < $this->cantidad; $i++){
                         $formato=Material::create([
-                            "estado"=>1,                        
+                            "estado"=>1,//ESTADO DE MATERIAL: EN STOCK                        
                             "grupo"=>$this->numguia,                
                             "idTipoMaterial"=>$this->tipoMat,
                             "ubicacion"=>'MOTORGAS COMPANY S.A.', 

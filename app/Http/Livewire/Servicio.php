@@ -37,8 +37,8 @@ class Servicio extends Component
     public $listaVehiculos=[];
     public $talleres,$servicios,$serv,$tipoServicio,$taller,$ruta,$open,$formularioVehiculo,$vehiculoServicio,$rutaDes;
 
-
-
+    public $busqueda=false;
+    public $vehiculos;
     //variables del certificado
     public $servicioCertificado,$numSugerido;   
     protected $rules=[
@@ -78,7 +78,7 @@ class Servicio extends Component
     
     public function mount(){
         //$this->servicios=ModelServicio::make();
-        $this->talleres=Taller::all();
+        $this->talleres=Taller::all()->sortBy('nombre');
         $this->taller=Taller::make();        
         $this->listaTiposDisponibles();
         $this->open=false;
@@ -187,6 +187,8 @@ class Servicio extends Component
         $this->vehiculoServicio=$vehiculo;
         $this->emit('alert','El vehículo con placa '.$vehiculo->placa.' se registro correctamente.');
     }
+
+
 
     public function retornaNE($value){
         if($value){
@@ -532,7 +534,51 @@ class Servicio extends Component
 
     //revisa la existencia del vehiculo en nuestra base de datos y los devuelve en caso de encontrarlo
     public function buscarVehiculo(){
-        
+        $this->validate(['placa'=>'min:6|max:6']);
+
+        $vehiculos=vehiculo::where('placa','like','%'.$this->placa.'%')->get();
+        if($vehiculos->count() > 0){
+            $this->busqueda=true;
+           
+            $this->vehiculos=$vehiculos;
+        }else{
+            $this->emit("minAlert",["titulo"=>"AVISO DEL SISTEMA","mensaje"=>"No se encontro ningún vehículo con la placa ingresada","icono"=>"warning"]);
+        }
+       
+    }
+
+    public function seleccionaVehiculo($id){
+        $this->pasaDatosVehiculo($this->vehiculos[$id]);
+        $this->formularioVehiculo=false;
+        $this->vehiculoServicio=$this->vehiculos[$id];
+        $this->vehiculos=null;
+        $this->busqueda=false;
+    }
+
+    public function pasaDatosVehiculo(vehiculo $ve){
+        $this->placa=$ve->placa;
+        $this->categoria=$ve->categoria;
+        $this->marca=$ve->marca;       
+        $this->modelo=$ve->modelo;
+        $this->version=$ve->version;
+        $this->anioFab=$ve->anioFab;
+        $this->numSerie=$ve->numSerie;
+        $this->numMotor=$ve->numMotor;
+        $this->cilindros=$ve->cilindros;
+        $this->cilindrada=$ve->cilindrada;
+        $this->combustible=$ve->combustible;
+        $this->ejes=$ve->ejes;
+        $this->ruedas=$ve->ruedas;
+        $this->asientos=$ve->asientos;
+        $this->pasajeros=$ve->pasajeros;
+        $this->largo=$ve->largo;
+        $this->ancho=$ve->ancho;
+        $this->altura=$ve->altura;
+        $this->color=$ve->color;
+        $this->pesoNeto=$ve->pesoNeto;
+        $this->pesoBruto=$ve->pesoBruto;  
+        $this->cargaUtil=$ve->cargaUtil;     
+
     }
 
     public function procesaFormato($numSerieFormato){

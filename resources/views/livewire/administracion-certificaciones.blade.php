@@ -19,11 +19,11 @@
                             Inspector
                         </th>
                         <th scope="col" class="text-sm font-medium font-semibold text-white px-6 py-4 text-left">
-                            Servicio
-                        </th>
-                        <th scope="col" class="text-sm font-medium font-semibold text-white px-6 py-4 text-left">
                             Taller
                         </th>
+                        <th scope="col" class="text-sm font-medium font-semibold text-white px-6 py-4 text-left">
+                            Servicio
+                        </th>                        
                         <th scope="col" class="text-sm font-medium font-semibold text-white px-6 py-4 text-left">
                             Placa
                         </th>
@@ -62,6 +62,12 @@
                             </td>
                             <td class="pl-2">
                                 <div class="flex items-center">
+                                    <p class="text-sm leading-none text-gray-600 ml-2">
+                                        {{ $certificacion->taller->nombre }}</p>
+                                </div>
+                            </td>
+                            <td class="pl-2">
+                                <div class="flex items-center">
                                     @switch($certificacion->Servicio->tipoServicio->id)
                                         @case(1)
                                             <p class="text-sm leading-none text-gray-600 ml-2 p-2 bg-green-200 rounded-full">
@@ -95,12 +101,7 @@
 
                                 </div>
                             </td>
-                            <td class="pl-2">
-                                <div class="flex items-center">
-                                    <p class="text-sm leading-none text-gray-600 ml-2">
-                                        {{ $certificacion->taller->nombre }}</p>
-                                </div>
-                            </td>
+                            
                             <td class="pl-2">
                                 <div class="flex items-center">
                                     <p class="text-sm font-bold  text-indigo-700 ml-2">
@@ -109,14 +110,14 @@
                             </td>
                             <td class="">
                                 <div class="flex items-center justify-center">
-                                    <p class="text-sm font-semibold  text-gray-600 p-1 bg-orange-100 rounded-full">{{ $certificacion->serieFormato }}</p>
+                                    <p class="text-sm font-bold  text-red-600  bg-red-100 ">{{ $certificacion->serieFormato }}</p>
                                 </div>
                             </td>
                             
                             <td class="pl-2">
-                                <button
-                                    class="py-3 px-3 text-sm focus:outline-none leading-none text-sky-700 bg-sky-100 rounded">{{ $certificacion->created_at }}
-                                </button>
+                                
+                                <p class="text-gray-600 ">{{ $certificacion->created_at->format('d/m/Y  h:m:s') }}</p>
+                                
                             </td>
 
                             <td class="">
@@ -129,11 +130,8 @@
                                         @case(2)
                                         <i class="far fa-times-circle fa-lg" style="color: red;"></i>
                                             @break
-                                        @default
-                                            
+                                        @default                                            
                                     @endswitch
-
-                                    
                                 </div>
                             </td>
                             <td class="pl-4">

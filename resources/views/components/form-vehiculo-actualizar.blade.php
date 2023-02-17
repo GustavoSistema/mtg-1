@@ -8,7 +8,7 @@
         <div class="grid grid-cols-1 gap-8 sm:grid-cols-3">
             <div>
                 <x-jet-label value="Placa:" />
-                <x-jet-input type="text" class="w-full" wire:model="placa" maxlength="6"/>
+                <x-jet-input type="text" class="w-full" wire:model="placa" wire:keydown.enter="buscarVehiculo" maxlength="6"/>
                 <x-jet-input-error for="placa" />
             </div>
             <div>
@@ -161,7 +161,11 @@
             @endif            
         </div>
         --}}
-        <div class="mt-4  mb-2 flex flex-row justify-center items-center">
+        <div class="mt-4  mb-2 flex flex-row justify-center items-center space-x-2">
+            <a wire:click="$set('formularioVehiculo',false)"
+                class="hover:cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-amber-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-gray-400 hover:bg-gray-500 focus:outline-none rounded">
+                <p class="text-sm font-medium leading-none text-white">Cancelar</p>
+            </a>
             <a wire:click="actualizarVehiculo"
                 class="hover:cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-amber-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-green-400 hover:bg-green-500 focus:outline-none rounded">
                 <p class="text-sm font-medium leading-none text-white">Actualizar vehículo</p>
