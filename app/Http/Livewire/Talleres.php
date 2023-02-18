@@ -43,6 +43,7 @@ class Talleres extends Component
     public function mount(){
       $this->direction='desc';
       $this->sort='id';       
+      $this->cant=10;
       $this->open=false;
       $this->index=rand();
       $this->serviciosNuevos= new Collection();

@@ -38,11 +38,12 @@ class RoleSeed extends Seeder
 
         */
 
-       $certificaciones=Permission::create(["name"=>"certificaciones"]);
-       
+       $talleres=Permission::create(["name"=>"talleres"]);
+       $adminCert=Permission::create(['name'=>"admin.certificaciones"]);
 
 
-       $certificaciones->syncRoles([$supervisor,$inspector]);
+       $talleres->syncRoles([$admin]);
+       $adminCert->syncRoles([$admin]);
        
 
     }

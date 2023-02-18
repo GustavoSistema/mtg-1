@@ -42,7 +42,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
         
     Route::get('/Expedientes',Expedientes::class)->middleware('can:expedientes')->name('expedientes');
     Route::get('/Servicio',Servicio::class)->middleware('can:servicio')->name('servicio');
-    Route::get('/Talleres',Talleres::class)->name('talleres');
+    Route::get('/Talleres',Talleres::class)->middleware('can:talleres')->name('talleres');
     Route::get('/Ingresos',Ingresos::class)->middleware('can:ingresos')->name('ingresos');
     Route::get('/Salidas',Salidas::class)->middleware('can:salidas')->name('salidas');
     Route::get('/Inventario',Inventario::class)->middleware('can:inventario')->name('inventario');
@@ -53,7 +53,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get('/RevisionExpedientes',RevisionExpedientes::class)->middleware('can:revisionExpedientes')->name('revisionExpedientes');  
     Route::get('/dashboard', function (){return view('dashboard');})->name('dashboard');
     Route::get('/Listado-Certificaciones',ListaCertificaciones::class)->middleware('can:certificaciones')->name('certificaciones');
-    Route::get('/Administracion-de-certificaciones',AdministracionCertificaciones::class)->name('admin.certificaciones');
+    Route::get('/Administracion-de-certificaciones',AdministracionCertificaciones::class)->middleware('can:admin.certificaciones')->name('admin.certificaciones');
     Route::get('/Solicitud/{soliId}',VistaSolicitud::class)->name('vistaSolicitud');
     
 
