@@ -33,17 +33,17 @@ class CreateTaller extends Component
     protected $rules=[
         'nombre'=>'required|min:5|max:110',      
         'direccion'=>'required|min:5|max:110',
-        'ruc'=>'required|min:11|max:11|unique:taller,ruc',
+        'ruc'=>'required|digits:11|unique:taller,ruc',
         'precios'=>'array|min:1|required',
-        'logo'=>'image',
-        'firma'=>'image',
+        'logo'=>'nullable|mimes:jpg,bmp,png,jpeg,tif,tiff',
+        'firma'=>'nullable|mimes:jpg,bmp,png,jpeg,tif,tiff',
         'distritoSel'=>'required|numeric|min:1',
-        'representante'=>'required|string'
+        'representante'=>'required|string',
 
         //'servicios'=>'array|required',  
         //'servicios.precio'=>'numeric|required',     
         
-        //'tipos'=>'array|min:1|required',
+        'tipos'=>'array|min:1|required',
         //'tipos.*'=>'numeric|min:1',
         
         //'precios.*'=>'numeric|required|min:1',         
@@ -81,9 +81,17 @@ class CreateTaller extends Component
         }
         */
         $this->validate(); 
-        
-        $rutaLogo=$this->logo->storeAs('public/Logos','logo-'.$this->ruc.'.'.$this->logo->extension());
-        $rutaFirma=$this->firma->storeAs('public/Firmas','firma-'.$this->ruc.'.'.$this->firma->extension());
+        if($this->logo){
+            $rutaLogo=$this->logo->storeAs('public/Logos','logo-'.$this->ruc.'.'.$this->logo->extension());
+        }else{
+            $rutaLogo=null;
+        }
+        if($this->firma){
+            $rutaFirma=$this->firma->storeAs('public/Firmas','firma-'.$this->ruc.'.'.$this->firma->extension());
+        }else{
+            $rutaFirma=null;
+        }
+       
         $taller=Taller::create([
             'nombre'=>$this->nombre,
             'direccion'=>$this->direccion,
@@ -104,6 +112,8 @@ class CreateTaller extends Component
                 ]);
             }
         }
+
+        
 
         $this->reset(['open','nombre','direccion','ruc']);
         $this->emitTo('talleres','render');
@@ -141,7 +151,10 @@ class CreateTaller extends Component
 
     protected $messages = [
         //'precios.*.min' => 'Ingrese un precio valido', 
-        'precios.*.required' => 'Ingrese un precio valido.'      
+        'precios.*.required' => 'Ingrese un precio valido.',
+        'tipos.min:1'=>'debe agregar por lo menos 1 servicio',
+        
+
     ];   
     
 }

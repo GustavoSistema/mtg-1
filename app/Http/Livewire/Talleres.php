@@ -34,7 +34,7 @@ class Talleres extends Component
     public $provinciaSel=Null;
     public $distritoSel=Null;
 
-
+    public $index;
     public $agregando=false;
     public $serviciosNuevos;
     public $serviciosDisponibles;
@@ -44,6 +44,7 @@ class Talleres extends Component
       $this->direction='desc';
       $this->sort='id';       
       $this->open=false;
+      $this->index=rand();
       $this->serviciosNuevos= new Collection();
       $this->departamentosTaller=Departamento::all();
     }
@@ -51,14 +52,16 @@ class Talleres extends Component
     protected $rules=[
       'taller.nombre'=>'required|min:5',
       'taller.direccion'=>'required|min:5',
-      'taller.ruc'=>'required|min:11|max:11',
+      'taller.ruc'=>'required|digits:11',
       'taller.representante'=>'required|min:5',
       'taller.idDistrito'=>'required',
       'taller.servicios.*.estado'=> 'nullable',
       'taller.servicios.*.precio'=> 'required|numeric',
-      'logoNuevo'=>'nullable|image',
-      'firmaNuevo'=>'nullable|image',
+      'logoNuevo'=>'nullable|mimes:jpg,bmp,png,jpeg,tif,tiff',
+      'firmaNuevo'=>'nullable|mimes:jpg,bmp,png,jpeg,tif,tiff',
       'serviciosNuevos.*.estado'=>'nullable',
+      'serviciosNuevos.*.taller_idtaller'=>'numeric',
+      'serviciosNuevos.*.tipoServicio_idtipoServicio'=>'numeric',
       'serviciosNuevos.*.precio'=>'nullable|numeric',
 
     ];
@@ -86,19 +89,18 @@ class Talleres extends Component
     }
     
 
-    public function edit(Taller $tal){      
+    public function edit(Taller $tal){          
+       $this->reset(["logoTaller","firmaTaller"]);
+        $this->index=rand();
         if($tal->idDistrito!=null) {
-          $dist=Distrito::find($tal->idDistrito);
-          $prov=Provincia::find($dist->idProv);
-          $depa=Departamento::find($prov->idDepa);
-
-          
-         
-         
-          $this->departamentoSel=$depa->id;
-          $this->updatedDepartamentoSel($depa->id);
-          $this->provinciaSel=$prov->id;
-          $this->updatedProvinciaSel($prov->id);
+            $dist=Distrito::find($tal->idDistrito);
+            $prov=Provincia::find($dist->idProv);
+            $depa=Departamento::find($prov->idDepa);        
+            
+            $this->departamentoSel=$depa->id;
+            $this->updatedDepartamentoSel($depa->id);
+            $this->provinciaSel=$prov->id;
+            $this->updatedProvinciaSel($prov->id);
         }else{
           $this->reset(["departamentoSel","provinciaSel","distritoSel"]);          
         }
@@ -200,13 +202,37 @@ class Talleres extends Component
             $servicio= new Servicio();
             $servicio->estado=0;
             $servicio->precio=null;
+            $servicio->taller_idtaller=$this->taller->id;
             $servicio->tipoServicio_idtipoServicio=$tipo->id;
-
             $this->serviciosNuevos->push($servicio);
         }
     }
 
-    
+    public function guardarServicios(){
+        $nuevos= new Collection();
+        foreach($this->serviciosNuevos as $servicio){
+            if($servicio->estado==1){                
+                $servicio->save();
+                $nuevos->push($servicio);
+            }
+        }
+
+        $this->serviciosNuevos=new Collection();
+        $this->reset(['serviciosDisponibles','taller']);
+        $this->index=rand();
+        $this->agregando=false;
+        if($nuevos->count()>1){
+            $this->emit("minAlert",["titulo"=>"¡BUEN TRABAJO!","mensaje"=>"se agregaron correctamente ".$nuevos->count()." servicios","icono"=>"success"]);
+        }else{
+            $this->emit("minAlert",["titulo"=>"¡AVISO!","mensaje"=>"Debes seleccionar al menos un servicio para registrar","icono"=>"warning"]);
+        }
+        
+    }
+
+    protected $messages = [
+        //'precios.*.min' => 'Ingrese un precio valido', 
+        'serviciosNuevos.*.precios.numeric' => 'Ingrese un precio valido.'      
+    ]; 
 
     public function updatedAgregando(){
         $this->reset(['serviciosDisponibles','taller','serviciosNuevos']);

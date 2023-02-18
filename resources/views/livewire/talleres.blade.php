@@ -109,10 +109,16 @@
                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 <div class="flex items-center">
                                                     <p class="text-gray-900 whitespace-no-wrap">
-                                                        {{ $item->Distrito }}
+                                                        @if(isset($item->Distrito->distrito))
+                                                            {{ $item->Distrito->distrito }}
+                                                        @else
+                                                            SIN DATOS
+                                                        @endif
                                                     </p>
                                                 </div>
-                                            </td>                                          
+                                            </td>
+                                           
+                                                                                      
 
                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 {{-- @livewire('edit-usuario', ['usuario' => $usuario], key($usuario->id)) --}}
@@ -255,8 +261,8 @@
         Espere un momento mientras se carga la imagen.
     </div>
     @if($logoNuevo)   
-        @if( $logoNuevo->extension()=='png' || $logoNuevo->extension()=='jpg' || $logoNuevo->extension()=='gif' || $logoNuevo->extension()=='bmp'|| $logoNuevo->extension()=='tif' || $logoNuevo->extension()=='tiff')
-            <div class="w-full p-1 md:p-2 items-center justify-center">
+        @if( $logoNuevo->extension()=='png'|| $logoNuevo->extension()=='jpeg' || $logoNuevo->extension()=='jpg' || $logoNuevo->extension()=='gif' || $logoNuevo->extension()=='gift' || $logoNuevo->extension()=='bmp'|| $logoNuevo->extension()=='tif' || $logoNuevo->extension()=='tiff')
+            <div class="w-full p-1 md:p-2 items-center justify-center" id="{{$index}}-ind">
                 <img alt="gallery"
                     class="mx-auto flex object-cover object-center w-36 h-36 rounded-lg"
                     src="{{ $logoNuevo->temporaryUrl() }}">                
@@ -270,7 +276,7 @@
         @endif          
     @else
         @if($logoTaller)
-            <div class="w-full p-1 md:p-2 items-center justify-center">
+            <div class="w-full p-1 md:p-2 items-center justify-center" id="{{$index}}-src">
                 <img alt="gallery" class="mx-auto flex object-cover object-center w-36 h-36 rounded-lg" src="{{Storage::url($logoTaller)}}">                
             </div>            
         @else
@@ -292,8 +298,8 @@
     </div>     
 
     @if($firmaNuevo)   
-        @if( $firmaNuevo->extension()=='png' || $firmaNuevo->extension()=='jpg' || $firmaNuevo->extension()=='gif' || $firmaNuevo->extension()=='bmp'|| $firmaNuevo->extension()=='tif' || $firmaNuevo->extension()=='tiff')
-            <div class="w-full p-1 md:p-2 items-center justify-center">
+        @if( $firmaNuevo->extension()=='png' || $firmaNuevo->extension()=='jpg' || $firmaNuevo->extension()=='jpeg' || $firmaNuevo->extension()=='gif' || $firmaNuevo->extension()=='gift' || $firmaNuevo->extension()=='bmp'|| $firmaNuevo->extension()=='tif' || $firmaNuevo->extension()=='tiff')
+            <div class="w-full p-1 md:p-2 items-center justify-center" id="{{$index}}-in">
                 <img alt="gallery"
                     class="mx-auto flex object-cover object-center w-36 h-36 rounded-lg"
                     src="{{ $firmaNuevo->temporaryUrl() }}">                
@@ -307,7 +313,7 @@
         @endif          
     @else
         @if($firmaTaller)
-            <div class="w-full p-1 md:p-2 items-center justify-center">
+            <div class="w-full p-1 md:p-2 items-center justify-center" id="{{$index}}-src-2">
                 <img alt="gallery" class="mx-auto flex object-cover object-center w-36 h-36 rounded-lg" src="{{Storage::url($firmaTaller)}}">                
             </div>            
         @else      
@@ -332,17 +338,17 @@
             </div>
             <div class="flex flex-row items-center">
                 <x-jet-label value="precio:"/>
-                <x-jet-input type="text" class="w-6px" wire:model="taller.servicios.{{$key}}.precio" /> 
-                                       
+                <x-jet-input type="number" class="w-6px" wire:model="taller.servicios.{{$key}}.precio" />                                        
             </div>  
-            <x-jet-input-error for="taller.servicios.{{$key}}.estado" />
-            <x-jet-input-error for="taller.servicios.{{$key}}.precio" />                   
         </div>
+        <x-jet-input-error for="taller.servicios.{{$key}}.estado" />
+        <x-jet-input-error for="taller.servicios.{{$key}}.precio" />
         @endforeach
       </div>
       @else
-        <div class="w-full align-center justify-center">
-          <h1>No se encontraron servicios</h1>
+      <hr>
+        <div class="w-full items-center mt-2 justify-center text-center py-2 ">
+          <h1 class="text-xs text-gray-500 ">El taller no cuenta con servicios registrados</h1>
         </div>
       @endif 
     @endif   
@@ -414,7 +420,7 @@
         <x-jet-secondary-button wire:click="$set('agregando',false)" class="mx-2">
             Cancelar
         </x-jet-secondary-button>
-        <x-jet-button  wire:loading.attr="disabled" wire:target="update">
+        <x-jet-button  wire:loading.attr="disabled" wire:target="guardarServicios" wire:click="guardarServicios">
             Agregar
         </x-jet-button>      
 

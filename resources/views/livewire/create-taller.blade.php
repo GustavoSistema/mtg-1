@@ -90,8 +90,8 @@
                 Espere un momento mientras se carga la imagen.
             </div>
             @if($logo)            
-                @if($logo->extension()=='png')
-                    <div class="w-full p-1 md:p-2 items-center justify-center">
+                @if($logo->extension()=='png'|| $logo->extension()=='jpeg' || $logo->extension()=='jpg' || $logo->extension()=='gif' || $logo->extension()=='gift' || $logo->extension()=='bmp'|| $logo->extension()=='tif' || $logo->extension()=='tiff')
+                    <div class="w-full p-1 md:p-2 items-center justify-center" >
                         <img alt="gallery"
                             class="mx-auto flex object-cover object-center w-36 h-36 rounded-lg"
                             src="{{ $logo->temporaryUrl() }}">                
@@ -110,8 +110,8 @@
                 Espere un momento mientras se carga la imagen.
             </div>
             @if($firma)           
-                @if($firma->extension()=='png'|| $firma->extension()=='jpg' || $firma->extension()=='jpeg' ||$firma->extension()=='gif' || $firma->extension()=='bmp' || $firma->extension()=='bmp')
-                    <div class="w-full p-1 md:p-2 items-center justify-center">
+                @if($firma->extension()=='png'|| $firma->extension()=='jpg' || $firma->extension()=='jpeg' ||$firma->extension()=='gif' ||$firma->extension()=='gift' || $firma->extension()=='bmp' || $firma->extension()=='tif' || $firma->extension()=='tiff')
+                    <div class="w-full p-1 md:p-2 items-center justify-center" >
                         <img alt="gallery"
                             class="mx-auto flex object-fit object-center w-36 h-36 rounded-lg"
                             src="{{ $firma->temporaryUrl() }}">                
@@ -136,7 +136,7 @@
                         </div>
                         <div class="flex flex-row items-center">
                             <x-jet-label value="precio:" />
-                            <x-jet-input type="text" class="w-6px" wire:model="precios.{{ $key }}" />
+                            <x-jet-input type="number" class="w-6px" wire:model="precios.{{ $key }}" />
                         </div>
                     </div>
                     <x-jet-input-error for="tipos.{{ $key }}" />
