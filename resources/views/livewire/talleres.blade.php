@@ -116,13 +116,28 @@
 
                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 {{-- @livewire('edit-usuario', ['usuario' => $usuario], key($usuario->id)) --}}
-                                                <div class="flex justify-end">
-                                                    <a class="py-3 px-4 text-center rounded-md bg-lime-300 font-bold text-white cursor-pointer hover:bg-lime-400" wire:click="edit({{ $item }})">
+                                                <div class="flex justify-end space-x-2">
+                                                    <a class="group flex py-4 px-4 text-center rounded-md bg-lime-300 font-bold text-white cursor-pointer hover:bg-lime-400 hover:animate-pulse" wire:click="edit({{ $item }})">
                                                         <i class="fas fa-edit"></i>
+                                                        <span class="group-hover:opacity-100 transition-opacity bg-gray-800 px-1 text-sm text-gray-100 rounded-md absolute left-1/2-translate-x-1/2 translate-y-full opacity-0 m-4 mx-auto">
+                                                            Editar
+                                                        </span>
                                                     </a>
-                                                    <a class="py-3 px-5 text-center ml-2 rounded-md bg-indigo-300 font-bold text-white cursor-pointer hover:bg-indigo-400">
+                                                    @if($this->obtieneServiciosDisponibles($item)->count()>0)
+                                                    <button data-tooltip-target="tooltip-dark" type="button" class="group flex py-4 px-4 text-center rounded-md bg-orange-300 font-bold text-white cursor-pointer hover:bg-orange-400 hover:animate-pulse" wire:click="agregarServicios({{ $item }})">
+                                                        <i class="fas fa-plus-circle"></i>                                                          
+                                                        <span class="group-hover:opacity-100 transition-opacity bg-gray-800 px-1 text-sm text-gray-100 rounded-md absolute left-1/2-translate-x-1/2 translate-y-full opacity-0 m-4 mx-auto">
+                                                            Agregar servicios
+                                                        </span>
+                                                    </button>
+                                                    
+                                                    @endif                                                    
+                                                    <a class="group flex py-4 px-4 text-center rounded-md bg-indigo-300 font-bold text-white cursor-pointer hover:bg-indigo-400  hover:animate-pulse">
                                                         <i class="fas fa-trash"></i>
-                                                    </a>
+                                                        <span class="group-hover:opacity-100 transition-opacity bg-gray-800 px-1 text-sm text-gray-100 rounded-md absolute left-1/2-translate-x-1/2 translate-y-full opacity-0 m-4 mx-auto">
+                                                           Eliminar
+                                                        </span>
+                                                    </a>                                                   
                                                 </div>
 
                                             </td>
@@ -153,7 +168,8 @@
         </x-table>        
    </div> 
 
-   <x-jet-dialog-modal wire:model="editando" wire:loading.attr="disabled" wire:target="deleteFile">
+{{-- MODAL PARA EDITAR TALLER --}}
+   <x-jet-dialog-modal wire:model="editando" wire:loading.attr="disabled" >
     <x-slot name="title" class="font-bold">
       <h1 class="text-xl font-bold">Editar Taller</h1> 
     </x-slot>
@@ -343,6 +359,67 @@
 
     </x-slot>  
     
-  </x-jet-dialog-modal>
+   </x-jet-dialog-modal>
+
+
+{{-- MODAL PARA AGREGAR SERVICIOS --}}
+   <x-jet-dialog-modal wire:model="agregando" wire:loading.attr="disabled" >
+    <x-slot name="title" class="font-bold">
+      <h1 class="text-xl font-bold">Agregar Servicios</h1> 
+    </x-slot>
+
+    <x-slot name="content">     
+        @if ($serviciosNuevos)
+            @foreach ($serviciosNuevos as $key=>$serv)
+           {{--
+            <div class="flex flex-row justify-between bg-indigo-100 my-2 items-center rounded-lg p-2">
+                <div class="">
+                    <input
+                        class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white outline-transparent checked:bg-indigo-600 checked:border-indigo-600 outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                        wire:model="tipos.{{ $key }}" value="{{ $item->id }}" type="checkbox">
+                    <label class="form-check-label inline-block text-gray-800">
+                        {{ $item->descripcion }}
+                    </label>
+                </div>
+                <div class="flex flex-row items-center">
+                    <x-jet-label value="precio:" />
+                    <x-jet-input type="text" class="w-6px" wire:model="precios.{{ $key }}" />
+                </div>
+            </div>
+            --}}
+            <div class="flex flex-row justify-between bg-indigo-100 my-2 items-center rounded-lg p-2">
+                <div class="">
+                    <input wire:model="serviciosNuevos.{{$key}}.estado" class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white outline-transparent checked:bg-indigo-600 checked:border-indigo-600 outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox">
+                    <label class="form-check-label inline-block text-gray-800">
+                        {{$serviciosDisponibles[$key]->descripcion}}
+                    </label>                        
+                </div>
+                <div class="flex flex-row items-center">
+                    <x-jet-label value="precio:"/>
+                    <x-jet-input type="number" class="w-6px" wire:model="serviciosNuevos.{{$key}}.precio" />                                            
+                </div> 
+                                                  
+            </div>
+            <div class="flex flex-row">
+                <x-jet-input-error for="serviciosNuevos.{{$key}}.estado" />
+                <x-jet-input-error for="serviciosNuevos.{{$key}}.precio" /> 
+            </div>  
+            <x-jet-input-error for="serviciosNuevos.{{ $key }}" />            
+            @endforeach
+        @endif
+             
+    </x-slot>
+
+    <x-slot name="footer">
+        <x-jet-secondary-button wire:click="$set('agregando',false)" class="mx-2">
+            Cancelar
+        </x-jet-secondary-button>
+        <x-jet-button  wire:loading.attr="disabled" wire:target="update">
+            Agregar
+        </x-jet-button>      
+
+    </x-slot>  
+    
+   </x-jet-dialog-modal>
    
 </div>

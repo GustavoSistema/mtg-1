@@ -8,7 +8,9 @@ use App\Models\Imagen;
 use App\Models\Provincia;
 use App\Models\Servicio;
 use App\Models\Taller;
+use App\Models\TipoServicio;
 use Doctrine\Inflector\Rules\English\Rules;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
@@ -31,12 +33,18 @@ class Talleres extends Component
     public $departamentoSel=Null;
     public $provinciaSel=Null;
     public $distritoSel=Null;
-    
+
+
+    public $agregando=false;
+    public $serviciosNuevos;
+    public $serviciosDisponibles;
+
 
     public function mount(){
       $this->direction='desc';
       $this->sort='id';       
       $this->open=false;
+      $this->serviciosNuevos= new Collection();
       $this->departamentosTaller=Departamento::all();
     }
 
@@ -50,6 +58,9 @@ class Talleres extends Component
       'taller.servicios.*.precio'=> 'required|numeric',
       'logoNuevo'=>'nullable|image',
       'firmaNuevo'=>'nullable|image',
+      'serviciosNuevos.*.estado'=>'nullable',
+      'serviciosNuevos.*.precio'=>'nullable|numeric',
+
     ];
 
     public function render()
@@ -163,4 +174,43 @@ class Talleres extends Component
     }
 
     protected $listeners=['render'];
+
+    public function agregarServicios(Taller $taller){
+        $this->serviciosNuevos=new Collection();
+        $this->reset(['serviciosDisponibles','taller']);
+
+        $this->taller=$taller;        
+        $this->serviciosDisponibles=$this->obtieneServiciosDisponibles($taller);
+       //$dis=$this->obtieneServiciosDisponibles($taller);
+        $this->creaNuevosServicios($this->serviciosDisponibles);
+        $this->agregando=true;
+    }
+
+
+    public function obtieneServiciosDisponibles(Taller $taller){
+        
+        $usados=$taller->servicios->pluck('tipoServicio_idtipoServicio')->toArray();
+        $servicios=TipoServicio::all();
+        $disp=$servicios->except($usados);      
+        return $disp;
+    }
+
+    public function creaNuevosServicios($tipos){
+        foreach($tipos as $tipo){
+            $servicio= new Servicio();
+            $servicio->estado=0;
+            $servicio->precio=null;
+            $servicio->tipoServicio_idtipoServicio=$tipo->id;
+
+            $this->serviciosNuevos->push($servicio);
+        }
+    }
+
+    
+
+    public function updatedAgregando(){
+        $this->reset(['serviciosDisponibles','taller','serviciosNuevos']);
+    }
+
+
 }

@@ -33,8 +33,13 @@
                         <th scope="col" class="text-sm font-medium font-semibold text-white px-6 py-4 text-left">
                             Fecha
                         </th>
+                        
                         <th scope="col" class="text-sm font-medium font-semibold text-white px-6 py-4 text-left">
                             Estado
+                        </th>
+
+                        <th scope="col" class="text-sm font-medium font-semibold text-white px-6 py-4 text-left">
+                            Documentos
                         </th>
                         <th scope="col" class="text-sm font-medium font-semibold text-white px-6 py-4 text-left">
                             
@@ -132,6 +137,49 @@
                                             @break
                                         @default                                            
                                     @endswitch
+                                </div>
+                            </td>
+                            <td class="pl-4">
+                                <div class="relative flex justify-center px-5">
+                                    <div x-data="{ dropdownMenu: false }" class="relative">
+                                        <!-- Dropdown toggle button -->
+                                        <button @click="dropdownMenu = ! dropdownMenu"
+                                            class="flex items-center p-2 border border-slate-300  bg-gray-300/50  rounded-md">
+                                            <span class="mr-4 text-indigo-700">Seleccione <i
+                                                    class="fas fa-sort-down -mt-2"></i></span>
+                                        </button>
+                                        <!-- Dropdown list -->
+                                        <div x-show="dropdownMenu"
+                                            class="absolute py-2 mt-2 border border-indigo-300/50  bg-slate-300 rounded-md shadow-xl w-44 z-10 ">
+
+                                            <a href="{{ $this->generarRuta($certificacion->id) }}" target="__blank"
+                                                class="block px-4 py-2 text-sm text-indigo-700 hover:bg-slate-600 hover:text-white">
+                                                <i class="fas fa-eye "></i> Ver Certificado
+                                            </a>
+                                            <a href="{{ $this->generarRutaDescarga($certificacion->id) }}"
+                                                class="block px-4 py-2 text-sm text-indigo-700 hover:bg-slate-600 hover:text-white">
+                                                <i class="fas fa-file-download"></i> <span>Desc. Certificado</span>
+                                            </a>
+                                            <a href="{{ route('fichaTecnicaGnv',[$certificacion->id])}}" target="__blank"
+                                                class="block px-4 py-2 text-sm text-indigo-700 hover:bg-slate-600 hover:text-white">
+                                                <i class="fas fa-eye "></i> ver Ficha Técnica
+                                            </a>
+                                            <a href="{{ route('descargarFichaTecnicaGnv',[$certificacion->id])}}"
+                                                class="block px-4 py-2 text-sm text-indigo-700 hover:bg-slate-600 hover:text-white">
+                                                <i class="fas fa-file-download"></i> Desc. Ficha Técnica
+                                            </a>
+
+                                            <a target="__blank" href="{{ route('checkListArribaGnv',[$certificacion->id])}}"
+                                                class="block px-4 py-2 text-sm text-indigo-700 hover:bg-slate-600 hover:text-white">
+                                                <i class="fas fa-file-download"></i> CheckList arriba
+                                            </a>
+
+                                            <a target="__blank" href="{{ route('checkListAbajoGnv',[$certificacion->id])}}"
+                                                class="block px-4 py-2 text-sm text-indigo-700 hover:bg-slate-600 hover:text-white">
+                                                <i class="fas fa-file-download"></i> CheckList abajo
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             </td>
                             <td class="pl-4">

@@ -50,6 +50,9 @@
                     @foreach ($materiales as $material)
                         <div class="flex flex-row justify-between m-auto w-96">
                             <p>{{$material["tipo"]}}</p> <p>{{$material["cantidad"]}}</p> 
+                            {{--
+                            ." (".($material["tipo"] = 1  ?  :).")"    
+                            --}}
                         </div>
                         <hr class="mb-2 w-96 m-auto">                        
                     @endforeach             

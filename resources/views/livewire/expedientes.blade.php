@@ -500,7 +500,7 @@
 
                         Swal.fire(
                             'Listo!',
-                            'Expediente eliminado corrrectamente.',
+                            'Expediente eliminado correctamente.',
                             'success'
                         )
                     }
