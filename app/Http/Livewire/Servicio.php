@@ -11,6 +11,7 @@ use App\Models\ServicioMaterial;
 use App\Models\Taller;
 use App\Models\TipoEquipo;
 use App\Models\vehiculo;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -29,8 +30,9 @@ class Servicio extends Component
     //Definiendo Variables de equipos
     
     public $tiposDisponibles=[];
-    public $tipoEquipo,$equipoSerie,$equipoMarca,$equipoModelo,$equipoCapacidad,$equipoPeso,$equipoFechaFab;
+    public $tipoEquipo,$equipoSerie,$equipoMarca,$equipoModelo,$equipoCapacidad,$equipoPeso,$equipoFechaFab,$cantEquipos;
     public $equipos=[];
+    
 
     //Variables del servicio
     public $formatosGnvDisponibles;
@@ -80,7 +82,7 @@ class Servicio extends Component
         //$this->servicios=ModelServicio::make();
         $this->talleres=Taller::all()->sortBy('nombre');
         $this->taller=Taller::make();        
-        $this->listaTiposDisponibles();
+        //$this->listaTiposDisponibles();
         $this->open=false;
         $this->formularioVehiculo=true;
         $this->formatosGnvDisponibles=Material::where([['estado',3],['idUsuario',Auth::id()],['idTipoMaterial',1]])->get();   
@@ -106,6 +108,12 @@ class Servicio extends Component
         }else{
             $this->tipoServicio=null;
         }       
+    }
+
+    public function updatedOpen(){
+        
+            $this->listaTiposDisponibles();
+        
     }
         
     //muestra el número de formato sugerido según el tipo de servicio
@@ -187,8 +195,6 @@ class Servicio extends Component
         $this->vehiculoServicio=$vehiculo;
         $this->emit('alert','El vehículo con placa '.$vehiculo->placa.' se registro correctamente.');
     }
-
-
 
     public function retornaNE($value){
         if($value){
@@ -288,7 +294,15 @@ class Servicio extends Component
         }
     }
 
-    public function salvaDatosTanque(){
+    public function updatedEquipoCapacidad($var){
+        if($var!=null && $var!='e'){
+            $this->equipoPeso=$var+(mt_rand(5,8));
+        }else{
+            $this->equipoPeso=null;
+        }   
+    }      
+
+    public function salvaTanque(){
         $this->validate([
                         "equipoSerie"=>"required|min:1",
                         "equipoMarca"=>"required|min:1",
@@ -302,25 +316,25 @@ class Servicio extends Component
         $equipo->marca=strtoupper($this->equipoMarca);
         $equipo->capacidad=$this->equipoCapacidad;
         $equipo->fechaFab=$this->equipoFechaFab;
-        $equipo->peso=$this->equipoPeso;
+        $equipo->peso=$this->equipoPeso;  
+        $equipo->save();
 
-        array_push($this->equipos,$equipo);   
+        $this->reset(["equipoSerie","equipoMarca","equipoModelo","equipoCapacidad","tipoEquipo","equipoFechaFab","equipoPeso"]);      
+        $this->open=false;
+        $this->emit("minAlert",["titulo"=>"BUEN TRABAJO!","mensaje"=>"El ".$equipo->tipo->nombre." con serie ".$equipo->numSerie." se añadio Correctamente","icono"=>"success"]);
         
+        
+        
+        return $equipo; 
+        /*
         $this->reset(["equipoSerie","equipoMarca","equipoModelo","equipoCapacidad","tipoEquipo","equipoFechaFab","equipoPeso"]);      
         $this->open=false;
         $this->emit("minAlert",["titulo"=>"BUEN TRABAJO!","mensaje"=>"El ".$equipo->tipo->nombre." con serie ".$equipo->numSerie." se añadio Correctamente","icono"=>"success"]);
         //$this->emit("alert","El ".$equipo->tipo->nombre." con serie ".$equipo->numSerie." se añadió correctamente.");
+        */
     }
 
-    public function updatedEquipoCapacidad($var){
-        if($var!=null && $var!='e'){
-            $this->equipoPeso=$var+(mt_rand(5,8));
-        }else{
-            $this->equipoPeso=null;
-        }   
-    }
-
-    public function salvaDatosReductor(){
+    public function salvaReductor(){
         $this->validate([
             "equipoSerie"=>"required|min:1",
             "equipoMarca"=>"required|min:1",
@@ -333,14 +347,18 @@ class Servicio extends Component
         $equipo->marca=strtoupper($this->equipoMarca);
         $equipo->modelo=strtoupper($this->equipoModelo);
 
-        array_push($this->equipos,$equipo);   
-        
+        //array_push($this->equipos,$equipo);   
+        $equipo->save();
         $this->reset(["equipoSerie","equipoMarca","equipoModelo","equipoCapacidad","tipoEquipo","equipoFechaFab","equipoPeso"]);
         $this->open=false;
         $this->emit("minAlert",["titulo"=>"BUEN TRABAJO!","mensaje"=>"El ".$equipo->tipo->nombre." con serie ".$equipo->numSerie." se añadio Correctamente","icono"=>"success"]);
+        
+        
+
+        return $equipo;    
     }
 
-    public function salvaDatosChip(){
+    public function salvaChip(){
         $this->validate([
             "equipoSerie"=>"required|min:1",           
             ]);
@@ -348,50 +366,73 @@ class Servicio extends Component
         $equipo=new Equipo();
         $equipo->idTipoEquipo=$this->tipoEquipo;
         $equipo->numSerie=strtoupper($this->equipoSerie);
-        array_push($this->equipos,$equipo);   
+
+        $equipo->save();   
         
-        $this->reset(["equipoSerie","equipoMarca","equipoModelo","equipoCapacidad","tipoEquipo","equipoFechaFab","equipoPeso"]);        
+        $this->reset(["equipoSerie","equipoMarca","equipoModelo","equipoCapacidad","tipoEquipo","equipoFechaFab","equipoPeso","equipos"]);     
+        $this->equipos=Equipo::make();   
         $this->open=false;
         //$this->emit("alert","El ".$equipo->tipo->nombre." con serie ".$equipo->numSerie." se añadio Correctamente");
         $this->emit("minAlert",["titulo"=>"BUEN TRABAJO!","mensaje"=>"El ".$equipo->tipo->nombre." con serie ".$equipo->numSerie." se añadio Correctamente","icono"=>"success"]);
+        
+        
+
+        return $equipo;
+    }
+    
+    public function actualizaListaEquipos(){
+        if( isset($this->vehiculoServicio->Equipos)){
+            $this->vehiculoServicio->refresh();
+            $this->equipos=$this->vehiculoServicio->Equipos;
+        }
+        
     }
 
-    public function eliminaEquipo($idEquipo){
-        unset($this->equipos[$idEquipo]);
-        $this->listaTiposDisponibles();
+    public function eliminaEquipo(Equipo $eq){        
+        $eq->delete();
+        $this->reset(["equipos"]);
+        
+        $this->actualizaListaEquipos();
+
+        $this->cantEquipos=$this->cuentaEquipos();
+
         $this->emit("minAlert",["titulo"=>"BUEN TRABAJO!","mensaje"=>"Eliminaste un item de tu lista de equipos","icono"=>"success",]); 
     }
 
-    public function cuentaTipo($tipo){
+    
+    public function cuentaDis($tipo){
         $cuenta=0;
-        if(count($this->equipos)>0){
-            foreach($this->equipos as $eq){
-                if($eq["idTipoEquipo"] == $tipo){
-                    $cuenta++;
+        if(isset($this->vehiculoServicio->Equipos)){
+            if($this->vehiculoServicio->Equipos->count() >0){
+                foreach($this->vehiculoServicio->Equipos as $eq){
+                    if($eq["idTipoEquipo"] == $tipo){
+                        $cuenta++;
+                    }
                 }
+            }else{
+                $cuenta=0;
             }
-        }else{
-            $cuenta=0;
         }
-        
         return $cuenta;
     }
 
     public function listaTiposDisponibles(){
+        $this->equipos=Equipo::make();
+        $this->equipos=$this->vehiculoServicio->Equipos;
         $aux=[];
         $todos=TipoEquipo::all();
         foreach($todos as $tip){
             if($tip->id==3){
                 array_push($aux,array("id"=>$tip->id,"nombre"=>$tip->nombre,"estado"=>1));
             }else{
-                if($this->cuentaTipo($tip->id) >= 1 ){
+                if($this->cuentaDis($tip->id) >= 1 ){
                     array_push($aux,array("id"=>$tip->id,"nombre"=>$tip->nombre,"estado"=>0));
                 }else{
                     array_push($aux,array("id"=>$tip->id,"nombre"=>$tip->nombre,"estado"=>1));
                 }
             }            
         }
-        
+        $this->cantEquipos=$this->cuentaEquipos();
         $this->tiposDisponibles=$aux;
         $this->tipoEquipo="";
         //return $aux;
@@ -422,43 +463,39 @@ class Servicio extends Component
         }else{
             $this->emit("CustomAlert",["titulo"=>"ERROR","mensaje"=>"No se pudo asignar equipos al vehículo","icono"=>"error"]);
         }
-    }
-    public function muestra(){
-        $this->emit("minAlert",["titulo"=>"GOOD JOB","mensaje"=>"hola todo bien","icono"=>"success",]);       
-    }
-    public function guardaEquipoEnBD($modelo){
-        $eq=new Equipo();
-        switch ($modelo["idTipoEquipo"]) {
+    }    
+
+    public function guardaEquipo(){
+        $this->validate([
+            "tipoEquipo"=>"required|numeric|min:1"
+            ]);
+            switch ($this->tipoEquipo) {
             case 1:
-                $eq->idTipoEquipo=$modelo["idTipoEquipo"];
-                $eq->numSerie=$modelo["numSerie"];
-                $eq->save();
-                return $eq;
-                break;
+                $chip=$this->salvaChip();
+                $equipoVehiculo=EquiposVehiculo::create(["idEquipo"=>$chip->id,"idVehiculo"=>$this->vehiculoServicio->id]);
+                $this->actualizaListaEquipos();
+                $this->cantEquipos=$this->cuentaEquipos();
+            break;
             case 2:
-                $eq->idTipoEquipo=$modelo["idTipoEquipo"];
-                $eq->marca=$modelo["marca"];
-                $eq->modelo=$modelo["modelo"];
-                $eq->numSerie=$modelo["numSerie"];
-                $eq->save();
-                return $eq;
-                break;
+                $reductor=$this->salvaReductor();
+                $equipoVehiculo=EquiposVehiculo::create(["idEquipo"=>$reductor->id,"idVehiculo"=>$this->vehiculoServicio->id]);
+                $this->actualizaListaEquipos();
+                $this->cantEquipos=$this->cuentaEquipos();
+            break;
             case 3:
-                $eq->idTipoEquipo=$modelo["idTipoEquipo"];
-                $eq->numSerie=$modelo["numSerie"];
-                $eq->marca=$modelo["marca"];
-                $eq->capacidad=$modelo["capacidad"];
-                $eq->fechaFab=$modelo["fechaFab"];
-                $eq->peso=$modelo["peso"];
-                $eq->save();
-                return $eq;
-                break;
+                $tanque=$this->salvaTanque();
+                $equipoVehiculo=EquiposVehiculo::create(["idEquipo"=>$tanque->id,"idVehiculo"=>$this->vehiculoServicio->id]);
+                $this->actualizaListaEquipos();
+                $this->cantEquipos=$this->cuentaEquipos();
+            break;
+
             default:
-                $this->emit("CustomAlert",["titulo"=>"Error","mensaje"=>"Ocurrio un error al guardar el equipo " .$modelo["numSerie"],"icono"=>"error"]);
-                return null;
+                $this->emit("alert","ocurrio un error al guardar los datos");
                 break;
-        }
+            }
     }
+
+    
 
 
     public function certificar(){        
@@ -466,26 +503,37 @@ class Servicio extends Component
         $v=$this->validaVehiculo();
         $e=$this->validaEquipos();
         $hoja=$this->procesaFormato($this->numSugerido);
-        if($v && $e && $hoja){
-            $cert=Certificacion::create([
-                "idVehiculo"=>$this->vehiculoServicio->id,
-                "idTaller"=>$this->taller,
-                "idInspector"=>Auth::id(),
-                "idServicio"=>$this->serv,
-                "estado"=>1,
-                "precio"=>$servicio->precio,
-                "pagado"=>0,
-            ]);
-            $this->servicioCertificado=$cert;           
-            $hoja->update(["estado"=>4]);
-            $servM=ServicioMaterial::create([
-                                            "idMaterial"=>$hoja->id,
-                                            "idCertificacion"=>$cert->id
-                                            ]);
-            $this->asignaEquiposVehiculo($this->salvaEquipos(),$this->vehiculoServicio);
-            $this->ruta=$this->generarRuta($cert);
-            $this->rutaDes=$this->generarRutaDescarga($cert);
-            $this->emit("minAlert",["titulo"=>"Buen Trabajo!","mensaje"=>"Tu certificado esta listo!","icono"=>"success",]);            
+        if($hoja){
+            if($v){
+                if($e){
+                    $cert=Certificacion::create([
+                        "idVehiculo"=>$this->vehiculoServicio->id,
+                        "idTaller"=>$this->taller,
+                        "idInspector"=>Auth::id(),
+                        "idServicio"=>$this->serv,
+                        "estado"=>1,
+                        "precio"=>$servicio->precio,
+                        "pagado"=>0,
+                    ]);
+                    $this->servicioCertificado=$cert;           
+                    $hoja->update(["estado"=>4]);
+                    $servM=ServicioMaterial::create([
+                                                    "idMaterial"=>$hoja->id,
+                                                    "idCertificacion"=>$cert->id
+                                                    ]);
+                   //$this->asignaEquiposVehiculo($this->salvaEquipos(),$this->vehiculoServicio);
+                    $this->ruta=$this->generarRuta($cert);
+                    $this->rutaDes=$this->generarRutaDescarga($cert);
+                    $this->emit("minAlert",["titulo"=>"Buen Trabajo!","mensaje"=>"Tu certificado esta listo!","icono"=>"success",]);
+                }else{
+                    $this->emit("CustomAlert",["titulo"=>"ERROR","mensaje"=>"Debe completar los datos de los equipos para continuar","icono"=>"error"]);
+                }
+            }else{
+                $this->emit("CustomAlert",["titulo"=>"ERROR","mensaje"=>"Ingrese un vehículo valido para poder continuar","icono"=>"error"]);
+            }
+
+
+                        
         }        
         
     }
@@ -512,6 +560,7 @@ class Servicio extends Component
 
         return $ver;
     }
+
     public function generarRutaDescarga(Certificacion $certificacion){        
         $descargar="";
         if($certificacion){
@@ -551,8 +600,24 @@ class Servicio extends Component
         $this->pasaDatosVehiculo($this->vehiculos[$id]);
         $this->formularioVehiculo=false;
         $this->vehiculoServicio=$this->vehiculos[$id];
+        if(isset($this->vehiculoServicio->Equipos)){
+            $this->equipos=$this->vehiculoServicio->Equipos;
+        }
+        $this->cantEquipos=$this->cuentaEquipos();
         $this->vehiculos=null;
         $this->busqueda=false;
+    }
+
+    public function cuentaEquipos(){
+        $estado=false;
+        $chips=$this->cuentaDis(1);
+        $reg=$this->cuentaDis(2);       
+        $cil=$this->cuentaDis(3);
+            if($chips>0 && $reg>0 && $cil >0){
+                //$this->validaVehiculo();
+                $estado=true;                
+            }
+        return $estado;
     }
 
     public function pasaDatosVehiculo(vehiculo $ve){
@@ -591,7 +656,7 @@ class Servicio extends Component
                 return null;
             }
         } else{
-            $this->emit("CustomAlert",["titulo"=>"ERROR","mensaje"=>"Ingrese un número de serie válido.","icono"=>"error"]);
+            $this->emit("CustomAlert",["titulo"=>"ERROR","mensaje"=>"Número de serie no válido.","icono"=>"error"]);
             return null;
         }
     }
@@ -625,11 +690,11 @@ class Servicio extends Component
 
     public function validaEquipos(){
         $estado=false;
-        $chips=$this->cuentaTipo(1);
-        $reg=$this->cuentaTipo(2);       
-        $cil=$this->cuentaTipo(3);
+        $chips=$this->cuentaDis(1);
+        $reg=$this->cuentaDis(2);       
+        $cil=$this->cuentaDis(3);
             if($chips>0 && $reg>0 && $cil >0){
-                $this->validaVehiculo();
+                //$this->validaVehiculo();
                 $estado=true;                
             }else{
                 $this->emit("CustomAlert",["titulo"=>"ERROR","mensaje"=>"Debe completar los datos de equipos para poder certificar","icono"=>"error"]);                

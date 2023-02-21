@@ -92,38 +92,50 @@
     </div>
     
 </div>
-<div class="p-6 border-t border-gray-200 md:border-t-0 md:border-l">
-    <div>
-      <canvas id="myChart"></canvas>
+
+<div class="p-6 border-t border-gray-200 md:border-t-0 md:border-l text-center">    
+    <p>RESUMEN GRÁFICO DE EXPEDIENTES</p>
+    <div  style="position: relative; height:40vh; width:100%">
+      <canvas id="chart" class="w-full m-auto"></canvas>
     </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <script>
-      const ctx = document.getElementById('myChart');
-    
-      new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: [
-                'Red',
-                'Blue',
-                'Yellow'
-            ],
-            datasets: [{
-                label: 'My First Dataset',
-                data: [300, 50, 100],              
-                hoverOffset: 4
-            }]
-            },
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true
-            }
-          }
-        }
-      });
-    </script>
 </div>
+    
+
+    @once
+    @push('js')
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    @endpush
+    @endonce
+
+    @push('js')
+    <script>
+        const chart = new Chart(
+            document.getElementById('chart'), {
+                type: 'doughnut',
+                data: {
+                    labels: @json($labels),
+                    datasets: [{
+                    label: 'Expedientes',
+                    data: @json($dataset),
+                    borderWidth: 1,             
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        },                        
+                    },
+                    responsive: true,
+                    
+                }
+            }
+        );
+        window.addEventListener("load", (event) => {
+        //console.log("page is fully loaded");
+        Livewire.emitTo('resumen-expedientes', 'enviaDatos');        
+        });
+
+    </script>
+    @endpush
 </div>

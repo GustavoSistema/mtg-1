@@ -60,6 +60,7 @@
 
     <script src="https://kit.fontawesome.com/2e81971293.js" crossorigin="anonymous"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   
     <script>
         livewire.on('alert', function(message) {
             Swal.fire(
@@ -69,6 +70,7 @@
             )
         });
     </script>
+
     <script>
         livewire.on('CustomAlert', function(params) {
             Swal.fire(
@@ -78,6 +80,8 @@
             )
         });
     </script>
+
+    
     <script>
         const Toast = Swal.mixin({
         toast: true,
@@ -98,7 +102,12 @@
             )
         });
     </script>
- 
+    <script>
+        Livewire.on('updateChart', data => {
+            chart.data = data;
+            chart.update();
+        });
+    </script>
 </body>
 
 </html>

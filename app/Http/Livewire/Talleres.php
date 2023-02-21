@@ -211,13 +211,22 @@ class Talleres extends Component
 
     public function guardarServicios(){
         $nuevos= new Collection();
-        foreach($this->serviciosNuevos as $servicio){
-            if($servicio->estado==1){                
+        $rules=[];
+        foreach($this->serviciosNuevos as $eky=>$servicio){
+            if($servicio->estado==1){    
+               $rules+=["serviciosNuevos.".$eky.".precio"=>"numeric"];           
+            }
+        }
+        if(count($rules)){
+            $this->validate($rules);
+        }
+        
+        foreach($this->serviciosNuevos as $eky=>$servicio){
+            if($servicio->estado==1){                               
                 $servicio->save();
                 $nuevos->push($servicio);
             }
         }
-
         $this->serviciosNuevos=new Collection();
         $this->reset(['serviciosDisponibles','taller']);
         $this->index=rand();
@@ -232,7 +241,7 @@ class Talleres extends Component
 
     protected $messages = [
         //'precios.*.min' => 'Ingrese un precio valido', 
-        'serviciosNuevos.*.precios.numeric' => 'Ingrese un precio valido.'      
+        'serviciosNuevos.*.precio.numeric' => 'Ingrese un precio valido.'      
     ]; 
 
     public function updatedAgregando(){

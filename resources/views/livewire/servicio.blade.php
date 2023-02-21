@@ -31,9 +31,9 @@
 
         </div>
     </div>        
-    {{-- DATOS DEL VEHICULO --}}    
+    
     @if ($serv)
-        @if ($numSugerido>0)
+        
             <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4 py-4 px-8 flex flex-row justify-between items-center">
                 <div class="w-4/6 items-center">
                     <h1 class="font-bold"><span class="p-1 bg-green-300 rounded-lg">Formato Sugerido:</span></h1>
@@ -43,12 +43,10 @@
                     <x-jet-input-error for="numSugerido" />
                 </div>
             </div>
-        @else
-            <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4 py-4 bg-red-500/70">
-                <h1 class=" w-full text-center text-white">No cuentas con formatos disponibles para realizar este servicio.</h1>
-            </div>
-        @endif
         
+       
+    
+    {{-- DATOS DEL VEHICULO --}}    
         @if(isset($vehiculoServicio))
             @if($formularioVehiculo)
                 <x-form-vehiculo-actualizar/>
@@ -58,16 +56,26 @@
         @else
             <x-form-vehiculo-habilitado/>
         @endif   
-        @if(isset($tipoServicio))
+
+        @if(isset($vehiculoServicio))          
         {{-- DATOS DE LOS EQUIPOS GNV--}}
+            
+
+
             @if($tipoServicio->id == 1 || $tipoServicio->id == 2)
             <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md dark:bg-gray-300 pb-3">
-                <div class="flex items-center justify-between bg-gray-400 py-4 px-6 rounded-t-lg">
-                    <span class="text-lg font-semibold text-white dark:text-gray-400">Datos de los equipos de GNV</span>
-                    <a class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-300 transform bg-gray-600 rounded cursor-pointer hover:bg-gray-500"
-                        tabindex="0" role="button">...</a>
-                </div>
-
+                @if($cantEquipos)
+                    <div class="flex items-center justify-between bg-green-400 py-4 px-6 rounded-t-lg">
+                        <span class="text-lg font-semibold text-white dark:text-gray-400">Datos de los equipos de GNV</span>
+                        <i class="fas fa-check-circle fa-lg"></i>
+                    </div>
+                @else
+                    <div class="flex items-center justify-between bg-gray-400 py-4 px-6 rounded-t-lg">
+                        <span class="text-lg font-semibold text-white dark:text-gray-400">Datos de los equipos de GNV</span>
+                        <a class="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-300 transform bg-gray-600 rounded cursor-pointer hover:bg-gray-500"
+                            tabindex="0" role="button">...</a>
+                    </div>
+                @endif
                 <div class="w-full flex flex-row justify-center items-center m-auto py-6">
                     <a wire:click="$set('open',true)"
                         class="hover:cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 mt-4 sm:mt-0 inline-flex items-center justify-start px-6 py-3 bg-amber-400 hover:bg-amber-500 focus:outline-none rounded">
@@ -75,24 +83,26 @@
                                 class="fas fa-plus-square fa-xl"></i>&nbsp;Agregar
                             Equipos</p>
                     </a>
-                </div>
-
-                @if ($equipos)
-                    <div>
-                        @foreach ($equipos as $key=>$e)
-                            @switch($e["idTipoEquipo"])
+                </div>               
+                
+                    @if ($equipos->count())
+                    
+                    <div wire:model="equipos">
+                        @foreach ($equipos as $e)        
+                        @if (isset($e->idTipoEquipo))
+                            @switch($e->idTipoEquipo)
                                 @case(1)
                                     <div class="block  w-5/6 bg-white border border-black p-2 rounded-lg shadow-lg m-auto mb-4">
                                         <div class="flex flex-row w-full">
                                             <div class="block  w-5/6">
                                                 <span
                                                     class="bg-teal-200 text-teal-800 text-xs px-2 inline-block rounded-full  uppercase font-semibold tracking-wide">
-                                                    <i class="fas fa-microchip"></i>&nbsp;{{ $e['tipo']['nombre'] }}
+                                                    <i class="fas fa-microchip"></i>&nbsp;{{ $e->tipo->nombre }}
                                                 </span>
-                                                <p>Serie: <strong>{{ $e['numSerie'] }}</strong></p>
+                                                <p>Serie: <strong>{{ $e->numSerie }}</strong></p>
                                             </div>
                                             <div class="w-1/6 flex justify-end items-center">
-                                                <a class="bg-amber-300 p-4 rounded-xl hover:bg-amber-500 hover:cursor-pointer" wire:click="eliminaEquipo({{$key}})">
+                                                <a class="bg-amber-300 p-4 rounded-xl hover:bg-amber-500 hover:cursor-pointer" wire:click="eliminaEquipo({{$e}})">
                                                     <i class="fas fa-trash"></i>
                                                 </a>
                                             </div>
@@ -106,14 +116,14 @@
                                             <div class="block w-5/6">
                                                 <span
                                                     class="bg-sky-200 text-sky-800 text-xs px-2 inline-block rounded-full  uppercase font-semibold tracking-wide">
-                                                    <i class="fas fa-tenge"></i>&nbsp;{{ $e['tipo']['nombre'] }}
+                                                    <i class="fas fa-tenge"></i>&nbsp;{{ $e->tipo->nombre}}
                                                 </span>
-                                                <p>Serie: <strong>{{ $e['numSerie'] }}</strong></p>
-                                                <p>Marca: <strong>{{ $e['marca'] }}</strong></p>
-                                                <p>Modelo: <strong>{{ $e['modelo'] }}</strong></p>
+                                                <p>Serie: <strong>{{ $e->numSerie }}</strong></p>
+                                                <p>Marca: <strong>{{ $e->marca}}</strong></p>
+                                                <p>Modelo: <strong>{{ $e->modelo}}</strong></p>
                                             </div>
                                             <div class=" w-1/6 flex justify-end items-center">
-                                                <a class="bg-amber-300 p-4 rounded-xl hover:bg-amber-500 hover:cursor-pointer" wire:click="eliminaEquipo({{$key}})">
+                                                <a class="bg-amber-300 p-4 rounded-xl hover:bg-amber-500 hover:cursor-pointer" wire:click="eliminaEquipo({{$e}})">
                                                     <i class="fas fa-trash"></i>
                                                 </a>
                                             </div>
@@ -127,16 +137,16 @@
                                             <div class="block bg w-5/6">
                                                 <span
                                                     class="bg-orange-400 text-white text-xs px-2 inline-block rounded-full  uppercase font-semibold tracking-wide">
-                                                    <i class="fas fa-battery-empty"></i>&nbsp;{{ $e['tipo']['nombre'] }}
+                                                    <i class="fas fa-battery-empty"></i>&nbsp;{{ $e->tipo->nombre}}
                                                 </span>
-                                                <p>Serie: <strong>{{ $e['numSerie'] }}</strong></p>
-                                                <p>Marca: <strong>{{ $e['marca'] }}</strong></p>
-                                                <p>Capacidad (L): <strong>{{ $e['capacidad'] }}</strong></p>
-                                                <p>Fecha de Fabricación: <strong>{{ date('d/m/Y', strtotime($e['fechaFab']));}}</strong></p>
+                                                <p>Serie: <strong>{{ $e->numSerie }}</strong></p>
+                                                <p>Marca: <strong>{{ $e->marca}}</strong></p>
+                                                <p>Capacidad (L): <strong>{{ $e->capacidad }}</strong></p>
+                                                <p>Fecha de Fabricación: <strong>{{ date('d/m/Y', strtotime($e->fechaFab));}}</strong></p>
                                                 <p>Peso (KG): <strong>{{ $e['peso'] }}</strong></p>
                                             </div>
                                             <div class="bg w-1/6 flex justify-end items-center">
-                                                <a class="bg-amber-300 p-4 rounded-xl hover:bg-amber-500 hover:cursor-pointer" wire:click="eliminaEquipo({{$key}})">
+                                                <a class="bg-amber-300 p-4 rounded-xl hover:bg-amber-500 hover:cursor-pointer" wire:click="eliminaEquipo({{$e}})">
                                                     <i class="fas fa-trash"></i>
                                                 </a>
                                             </div>
@@ -146,8 +156,10 @@
 
                                 @default
                             @endswitch
+                            @endif
                         @endforeach
                     </div>
+                    
                 @endif
             </div>               
             @endif
@@ -190,6 +202,8 @@
         </div>
     @endif
       
+
+     {{--Modal agregar equipos--}}   
     <x-jet-dialog-modal wire:model="open">
         <x-slot name="title">
             AGREGAR EQUIPO
@@ -241,7 +255,7 @@
             <x-jet-secondary-button wire:click="$set('open',false)" class="mx-2">
                 Cancelar
             </x-jet-secondary-button>
-            <x-jet-button wire:click="guardaEquipos" wire:loading.attr="disabled" wire:target="guardaEquipos">
+            <x-jet-button wire:click="guardaEquipo" wire:loading.attr="disabled" wire:target="guardaEquipo">
                 Guardar
             </x-jet-button>
         </x-slot>
@@ -249,7 +263,7 @@
     </x-jet-dialog-modal>
     
 
-
+    {{--Modal Busqueda de Vehiculos--}}
     <x-jet-dialog-modal wire:model="busqueda">
         <x-slot name="title">
             <h1 class="text-3xl font-medium">vehículos</h1>

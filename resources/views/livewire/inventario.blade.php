@@ -20,7 +20,7 @@
                         </div>  
                         <hr> 
                         <div class="mx-auto w-full flex flex-row justify-between items-center">
-                            <p class="mt-2 text-md text-gray-600 dark:text-gray-300">Anulado:</p> <span class=" mr-2 bg-indigo-200 px-1 rounded-full">...</span>                            
+                            <p class="mt-2 text-md text-gray-600 dark:text-gray-300">Anulado:</p> <span class=" mr-2 bg-indigo-200 px-1 rounded-full">{{$anuladoGnv}}</span>                            
                         </div>  
                         <hr> 
                         <div class="mx-auto w-full flex flex-row justify-between items-center">

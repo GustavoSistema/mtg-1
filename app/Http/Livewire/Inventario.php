@@ -10,7 +10,7 @@ use PharIo\Manifest\Author;
 class Inventario extends Component
 {
 
-    public $consumidosGnv,$disponiblesGnv;
+    public $consumidosGnv,$disponiblesGnv,$anuladoGnv;
 
 
     public function mount(){
@@ -22,6 +22,12 @@ class Inventario extends Component
             ->count();
         $this->consumidosGnv=Material::where([
             ['estado',4], //FORMATOS CONSUMIDOS
+            ['idUsuario',Auth::id()],
+            ['idTipoMaterial',1],
+            ])
+            ->count();
+        $this->anuladoGnv=Material::where([
+            ['estado',5], //FORMATOS ANULADOS
             ['idUsuario',Auth::id()],
             ['idTipoMaterial',1],
             ])
