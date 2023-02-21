@@ -254,19 +254,24 @@
                 <div class="ml-3 relative">
                     <x-jet-dropdown align="right" width="48">
                         <x-slot name="trigger">
+                            
                             <div class="m-4 inline-flex relative w-fit">
-                                @if (Auth()->user()->unreadNotifications->count())
-                                    <div class="absolute inline-block top-0 right-0 bottom-auto left-auto translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 px-1 text-sm text-white bg-indigo-400 rounded-full z-10">
-                                        {{Auth()->user()->unreadNotifications->count()}}
-                                    </div>
+                                @if (Auth()->user()->unreadNotifications->count())                                    
+                                    <span class="absolute inline-block top-0 right-0 bottom-auto left-auto translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 rounded-full z-10">
+                                        <span class=" absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75 animate-ping"></span>
+                                        <span class="relative inline-flex rounded-full px-2 text-white bg-indigo-500 items-center m-auto text-xs">
+                                            {{Auth()->user()->unreadNotifications->count()}}
+                                        </span>
+                                    </span>
                                 @else
                                     
-                                @endif
-                                
+                                @endif                                
                                 <div class="flex items-center justify-center text-center">
                                   <i class="fas fa-bell fa-lg"></i>
                                 </div>
                               </div>
+                            
+                              
                         </x-slot>
 
                         <x-slot name="content">

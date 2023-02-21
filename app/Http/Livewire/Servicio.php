@@ -193,6 +193,7 @@ class Servicio extends Component
         //$this->emit("alert","El vehículo con placa ".$vehiculo->placa." se registro correctamente.");
         $this->formularioVehiculo=false;
         $this->vehiculoServicio=$vehiculo;
+        $this->equipos=Equipo::make();
         $this->emit('alert','El vehículo con placa '.$vehiculo->placa.' se registro correctamente.');
     }
 

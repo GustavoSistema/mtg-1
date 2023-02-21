@@ -95,7 +95,7 @@
 
 <div class="p-6 border-t border-gray-200 md:border-t-0 md:border-l text-center">    
     <p>RESUMEN GRÁFICO DE EXPEDIENTES</p>
-    <div  style="position: relative; height:40vh; width:100%">
+    <div  style="position: relative; height:30vh; width:100%">
       <canvas id="chart" class="w-full m-auto"></canvas>
     </div>
 </div>

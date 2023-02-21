@@ -80,8 +80,7 @@
                     <a wire:click="$set('open',true)"
                         class="hover:cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 mt-4 sm:mt-0 inline-flex items-center justify-start px-6 py-3 bg-amber-400 hover:bg-amber-500 focus:outline-none rounded">
                         <p class="text-sm font-medium leading-none text-white"><i
-                                class="fas fa-plus-square fa-xl"></i>&nbsp;Agregar
-                            Equipos</p>
+                                class="fas fa-plus-square fa-xl"></i>&nbsp;Agregar Equipos</p>
                     </a>
                 </div>               
                 
