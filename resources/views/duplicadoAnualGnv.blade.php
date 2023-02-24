@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>    
-    <title>CERTIFICADO DE INSPECCIÓN ANUAL DEL VEHÍCULO A GNV</title>
+    <title>DUPLICADO DE INSPECCIÓN ANUAL DEL VEHÍCULO A GNV</title>
     <style>        
         @page {
             margin: 0cm 0cm;
@@ -164,7 +164,7 @@
             </ol>
         <p>Consiste por el presente documento que el sistema de combustible  a Gas Natural Vehicular GNV, del vehículo antes referido, no afectaran negativamente la seguridad
              del mismo(**), el tránsito terrestre, el medio ambiente o incumplen con las condiciones técnicas establecidas en la normativa vigente en la materia(***),según el
-              expediente técnico   N° {{$hoja->numSerie}} - 2023,  habilitándose al mismo para cargar  Gas  Natural  vehicular-GNV,  hasta  el: {{$fechaCert->format("d/m/").($fechaCert->format("Y")+1)}} 
+              expediente técnico   N° {{$hojaAntiguo->numSerie}} - 2023,  habilitándose al mismo para cargar  Gas  Natural  vehicular-GNV,  hasta  el: {{$fechaAntiguo->format("d/m/").($fechaAntiguo->format("Y")+1)}} 
         </p>
         <h6>OBSERVACIONES</h6>
             <ul>
@@ -173,7 +173,12 @@
                 <li>Este documento no es válido en caso de presentar cualquier tipo de alteración o enmendadura.</li>
                 <li>Este documento es válido únicamente en original, con firma y sello del representante y del ingeniero supervisor.</li>
                 <li>Las abreviaturas: S/V significa “Sin Versión”, NE significa “No Especificado en los documentos presentes”</li>
-                <li>De acuerdo a la normatividad vigente, el resultado de la prueba de emisiones contaminantes del vehiculó es aprobatorio.</li>
+                <li>Este certificado es <strong>DUPLICADO</strong> para trámites administrativos a pedido del cliente y es 
+                    <strong>COPIA FIEL DEL ORIGINAL</strong>, con fecha de revisión anual 
+                    <strong>{{$fechaAntiguo->format('d/m/Y')}}</strong> </li>
+                <li>Cumpliendo con el D.S. 047-2001-MTC, modificatorias 009-2012 MINAM, D.S. Nro.010-2017 - MINAM, indicamos que
+                    el resultado de la prueba de emisiones contaminantes del vehículo es aprobatorio
+                </li>
             </ul>
         <p>Inspeccion realizada en el taller: {{$taller->nombre}} </p>
         <p>Se expide el presente en la ciudad de Lima, a los {{$fecha}}</p>

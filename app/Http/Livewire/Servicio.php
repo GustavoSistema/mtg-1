@@ -11,6 +11,7 @@ use App\Models\ServicioMaterial;
 use App\Models\Taller;
 use App\Models\TipoEquipo;
 use App\Models\vehiculo;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -37,10 +38,13 @@ class Servicio extends Component
     //Variables del servicio
     public $formatosGnvDisponibles;
     public $listaVehiculos=[];
-    public $talleres,$servicios,$serv,$tipoServicio,$taller,$ruta,$open,$formularioVehiculo,$vehiculoServicio,$rutaDes;
+    public $talleres,$servicios,$serv,$tipoServicio,$taller,$ruta,$open,$formularioVehiculo,$vehiculoServicio,$rutaDes,$certDuplicado;
 
     public $busqueda=false;
+    public $busquedaCert=false;
+    public $certificaciones;
     public $vehiculos;
+    public $fechaCerti;
     //variables del certificado
     public $servicioCertificado,$numSugerido;   
     protected $rules=[
@@ -105,9 +109,40 @@ class Servicio extends Component
         if($val){
             $this->tipoServicio=ModelServicio::find($val)->tipoServicio;            
             $this->sugeridoSegunTipo($this->tipoServicio->id);  
+            $this->reset(["vehiculoServicio","servicioCertificado"]);
+            $this->resetFormVehiculo();
         }else{
             $this->tipoServicio=null;
+            $this->reset(["vehiculoServicio","servicioCertificado"]);
+            $this->resetFormVehiculo();
         }       
+    }
+
+    public function resetFormVehiculo(){
+        $this->reset([
+            "placa",
+            "categoria",
+            "marca",
+            "modelo",
+            "version",
+            "anioFab",
+            "numSerie",
+            "numMotor",
+            "cilindros",
+            "cilindrada",
+            "combustible",
+            "ejes",
+            "ruedas",
+            "asientos",
+            "pasajeros",
+            "largo",
+            "ancho",
+            "altura",
+            "color",
+            "pesoNeto",
+            "pesoBruto",  
+            "cargaUtil",     
+        ]);
     }
 
     public function updatedOpen(){
@@ -133,7 +168,13 @@ class Servicio extends Component
                 break;
                 case 4:
                     $this->numSugerido=$this->formatoSugerido($formatoGlp);
-                break;                
+                break;                   
+                case 8:
+                    $this->numSugerido=$this->formatoSugerido($formatoGnv);
+                break;  
+                case 9:
+                    $this->numSugerido=$this->formatoSugerido($formatoGlp);
+                break; 
                 default:
                     $this->numSugerido=0;
                 break;
@@ -503,7 +544,7 @@ class Servicio extends Component
         $servicio=ModelServicio::find($this->serv);
         $v=$this->validaVehiculo();
         $e=$this->validaEquipos();
-        $hoja=$this->procesaFormato($this->numSugerido);
+        $hoja=$this->procesaFormato($this->numSugerido,$this->tipoServicio->id);
         if($hoja){
             if($v){
                 if($e){
@@ -537,6 +578,51 @@ class Servicio extends Component
                         
         }        
         
+    }
+
+    public function generarRutaDuplicado(Certificacion $certificacion,Certificacion $nuevo){
+        $ver=null;
+        if($certificacion){
+            $tipoSer=$certificacion->Servicio->tipoServicio->id;            
+            switch ($tipoSer) {
+                case 1:
+                    $ver= route('duplicadoInicialGnv', ['idAntiguo' =>$certificacion->id,'idNuevo'=>$nuevo->id]);                    
+                break; 
+                case 2:
+                    $ver= route('duplicadoAnualGnv', ['idAntiguo' =>$certificacion->id,'idNuevo'=>$nuevo->id]);
+                break;                
+                default:                    
+                    break;
+            }
+        }
+        return $ver;
+    }
+
+    public function duplicarCertificado(){
+        $servicio=ModelServicio::find($this->serv);
+        if(Certificacion::findOrFail($this->servicioCertificado->id)){
+            $hoja=$this->procesaFormato($this->numSugerido,$this->tipoServicio->id);
+            $cert=Certificacion::create([
+                "idVehiculo"=>$this->servicioCertificado->Vehiculo->id,
+                "idTaller"=>$this->servicioCertificado->Taller->id,
+                "idInspector"=>Auth::id(),
+                "idServicio"=>$this->serv,
+                "estado"=>1,
+                "precio"=>$servicio->precio,
+                "pagado"=>0,
+            ]);
+           // $this->servicioCertificado=$cert;           
+            $hoja->update(["estado"=>4]);
+            $servM=ServicioMaterial::create([
+                                            "idMaterial"=>$hoja->id,
+                                            "idCertificacion"=>$cert->id
+                                            ]);
+            $this->certDuplicado=$cert;
+            $this->ruta=$this->generarRutaDuplicado($this->servicioCertificado,$cert);
+            $this->emit("minAlert",["titulo"=>"Buen Trabajo!","mensaje"=>"Tu certificado esta listo!","icono"=>"success",]);
+        }else{
+            $this->emit("minAlert",["titulo"=>"AVISO DEL SISTEMA","mensaje"=>"No se pudo realizar la certificación","icono"=>"warning"]);
+        }
     }
 
   
@@ -582,6 +668,11 @@ class Servicio extends Component
         return $descargar;
     }
 
+
+    public function reseteaBusquedaCert(){
+        $this->servicioCertificado=null;
+    }
+
     //revisa la existencia del vehiculo en nuestra base de datos y los devuelve en caso de encontrarlo
     public function buscarVehiculo(){
         $this->validate(['placa'=>'min:6|max:6']);
@@ -597,6 +688,27 @@ class Servicio extends Component
        
     }
 
+    public function buscarCertificacion(){
+        $this->validate(['placa'=>'min:6|max:6']);
+
+        //implementar un switch o if else segun el servicio
+        $certis=Certificacion::PlacaVehiculo($this->placa)        
+        ->orderBy('created_at','desc')
+        ->get();
+
+        $certs=$certis->whereBetween("tipo_servicio",[1,2]);
+                      
+        if($certs->count() > 0){
+            $this->busquedaCert=true;           
+            $this->certificaciones=$certs;
+        }else{
+            $this->emit("minAlert",["titulo"=>"AVISO DEL SISTEMA","mensaje"=>"No se encontro ningúna certificación con la placa ingresada","icono"=>"warning"]);
+        }
+       
+    }
+
+    
+
     public function seleccionaVehiculo($id){
         $this->pasaDatosVehiculo($this->vehiculos[$id]);
         $this->formularioVehiculo=false;
@@ -607,6 +719,26 @@ class Servicio extends Component
         $this->cantEquipos=$this->cuentaEquipos();
         $this->vehiculos=null;
         $this->busqueda=false;
+    }
+
+    public function seleccionaCertificacion($id){
+        $certi=$this->certificaciones[$id];
+        $this->servicioCertificado=$certi;
+        $this->fechaCerti=$this->calculaFecha($this->servicioCertificado->created_at);       
+        $this->certificaciones=null;
+        $this->busquedaCert=false;
+        $this->reset(['placa']);
+      
+    }
+
+    public function calculaFecha($fecha){
+        $dif=null;
+
+        $hoy=Carbon::now();
+
+        $dif=$fecha->diffInDays($hoy);
+        
+        return $dif;
     }
 
     public function cuentaEquipos(){
@@ -647,9 +779,46 @@ class Servicio extends Component
 
     }
 
-    public function procesaFormato($numSerieFormato){
+
+    //selecciona una hoja segun el tipo de servicio
+    public function seleccionaHojaSegunServicio($serie,$tipo){
+        $hoja=null;
+        switch ($tipo) {
+            case 1:
+                $hoja=Material::where([['numSerie',$serie],['idTipoMaterial',1],['estado',3],['idUsuario',Auth::id()]])->first();
+                return $hoja;
+            break;
+
+            case 2:
+                $hoja=Material::where([['numSerie',$serie],['idTipoMaterial',1],['estado',3],['idUsuario',Auth::id()]])->first();
+                return $hoja;
+            break;
+
+            case 3:
+                $hoja=Material::where([['numSerie',$serie],['idTipoMaterial',3],['estado',3],['idUsuario',Auth::id()]])->first();
+                return $hoja;
+            break;
+
+            case 4:
+                $hoja=Material::where([['numSerie',$serie],['idTipoMaterial',3],['estado',3],['idUsuario',Auth::id()]])->first();
+                return $hoja;
+            break;
+
+            case 8:
+                $hoja=Material::where([['numSerie',$serie],['idTipoMaterial',1],['estado',3],['idUsuario',Auth::id()]])->first();
+                return $hoja;
+            break;
+            
+            default:
+                return $hoja;
+                break;
+        }
+    }
+
+    //valida el formato antes de enviarlo
+    public function procesaFormato($numSerieFormato,$servicio){
         if($numSerieFormato){
-            $hoja=Material::where([['numSerie',$numSerieFormato],['estado',3],['idUsuario',Auth::id()]])->first();            
+            $hoja=$this->seleccionaHojaSegunServicio($numSerieFormato,$servicio);            
             if($hoja!=null){               
                 return $hoja;
             }else{
@@ -718,17 +887,19 @@ class Servicio extends Component
             $certificacion=Certificacion::find($id);
             $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
             $fechaCert=$certificacion->created_at;
-            $fecha=$fechaCert->format('d').' días del mes de '.$meses[$fechaCert->format('m')-1].' del '.$fechaCert->format('Y').'.';                 
+            $fecha=$fechaCert->format('d').' días del mes de '.$meses[$fechaCert->format('m')-1].' del '.$fechaCert->format('Y').'.';     
+            $hoja=$certificacion->Hoja;           
             $data=[
             "fecha"=>$fecha,
             "empresa"=>"MOTORGAS COMPANY S.A.",
             "carro"=>$certificacion->Vehiculo,
             "taller"=>$certificacion->Taller, 
-            "hoja"=>$certificacion->Materiales->first(), 
+            "hoja"=>$hoja, 
+            "fechaCert"=>$fechaCert,
             ];                 
             $pdf = App::make('dompdf.wrapper');
             $pdf->loadView('anualGnv',$data);        
-            return $pdf->stream($id.'-'.date('d-m-Y').'-cargo.pdf');
+            return $pdf->stream($certificacion->Vehiculo->placa.'-'.$hoja->numSerie.'-anual.pdf');
         }else{
             return abort(404);
         }
@@ -773,11 +944,12 @@ class Servicio extends Component
             "hoja"=>$hoja, 
             "equipos"=>$equipos,
             "chip"=>$chip,
+            "fechaCert"=>$fechaCert,
             ];                 
             $pdf = App::make('dompdf.wrapper');
             $pdf->loadView('conversionGnv',$data);        
             //return $pdf->stream($id.'-'.date('d-m-Y').'-cargo.pdf');
-            return  $pdf->stream($certificacion->Vehiculo->placa.'-'.$hoja->numSerie.'.pdf');
+            return  $pdf->stream($certificacion->Vehiculo->placa.'-'.$hoja->numSerie.'-inicial.pdf');
         }else{
             return abort(404);
         }

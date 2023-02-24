@@ -29,6 +29,8 @@ class Certificacion extends Model
     protected $appends = [
         'serie_formato',
         'placa',
+        'tipo_servicio',
+        
 
     ];
 
@@ -81,6 +83,7 @@ class Certificacion extends Model
         });
         }
     }
+    
 
            
     
@@ -94,6 +97,12 @@ class Certificacion extends Model
     public function getplacaAttribute(){
         return $this->Vehiculo->placa;
     }
+
+    public function gettipoServicioAttribute(){
+        return $this->Servicio->tipoServicio->id;
+    }
+
+
     public function getserieFormatoAttribute(){
         //$hoja=Certificacion::find($this->attributes['id'])->Materiales->where('idTipoMaterial',1)->first();
         //return $hoja;

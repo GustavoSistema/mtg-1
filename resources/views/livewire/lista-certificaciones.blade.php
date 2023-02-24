@@ -85,6 +85,18 @@
                                             </p>
                                         @break
 
+                                        @case(8)
+                                            <p class="text-sm leading-none text-gray-600 ml-2 p-2 bg-green-200 rounded-full">
+                                                Duplicado GNV
+                                            </p>
+                                        @break
+
+                                        @case(9)
+                                            <p class="text-sm leading-none text-gray-600 ml-2 p-2 bg-orange-200 rounded-full">
+                                                Duplicado GNV
+                                            </p>
+                                        @break
+
                                         @default
                                             <p class="text-sm leading-none text-gray-600 ml-2">
                                                 No se encontro datos

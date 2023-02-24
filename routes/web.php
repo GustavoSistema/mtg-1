@@ -57,6 +57,13 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get('/Solicitud/{soliId}',VistaSolicitud::class)->name('vistaSolicitud');
     
 
+    //RUTAS PARA STREAM Y DESCARGA DE PDFS
+    Route::get("certificado-anual/{id}","App\Http\Controllers\PdfController@generaPdfAnualGnv")->name("certificadoAnualGnv");   
+    Route::get("certificado-anual/{id}/descargar","App\Http\Controllers\PdfController@descargarPdfAnualGnv")->name("descargarCertificadoAnualGnv"); 
+    Route::get("duplicado-anual/{idAntiguo}/{idNuevo}","App\Http\Controllers\PdfController@generaDuplicadoAnualGnv")->name("duplicadoAnualGnv");
+    Route::get("certificado-inicial/{id}","App\Http\Controllers\PdfController@generaPdfInicialGnv")->name("certificadoInicialGnv");
+    Route::get("duplicado-inicial/{idAntiguo}/{idNuevo}","App\Http\Controllers\PdfController@generaDuplicadoInicialGnv")->name("duplicadoInicialGnv");
+    Route::get("certificado-inicial/{id}/descargar","App\Http\Controllers\PdfController@descargarPdfInicialGnv")->name("descargarCertificadoInicialGnv");
     Route::get("fichaTecnicaGnv/{idCert}","App\Http\Controllers\PdfController@generarFichaTecnica")->name("fichaTecnicaGnv");    
     Route::get("fichaTecnicaGnv/{idCert}/download","App\Http\Controllers\PdfController@descargarFichaTecnica")->name("descargarFichaTecnicaGnv");
     Route::get("checkListArriba/{idCert}","App\Http\Controllers\PdfController@generarCheckListArribaGnv")->name("checkListArribaGnv");
@@ -70,6 +77,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
         $am= new AsignacionMateriales();
         return  $am->enviar($id);
     })->name('cargoPdf');
+    
     Route::get('/Certificado/{id}', function ($id) {
         $ser= new Servicio();
         return  $ser->generaPdfAnualGnv($id);
@@ -86,4 +94,5 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
         $ser= new Servicio();
         return  $ser->descargaPdfInicialGnv($id);
     })->name('descargarInicial'); 
+    
 });

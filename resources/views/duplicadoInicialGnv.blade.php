@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>    
-    <title>CERTIFICADO DE INSPECCIÓN ANUAL DEL VEHÍCULO A GNV</title>
+    <title>DUPLICADO DE CONVERSIÓN DEL VEHÍCULO A GNV</title>
     <style>        
         @page {
             margin: 0cm 0cm;
@@ -20,7 +20,8 @@
             height: 3.5cm;            
             color: black;
             font-weight: bold;      
-            text-align: center;             
+            text-align: center; 
+            
         }
         
        
@@ -81,10 +82,12 @@
        
     </header>  
     <main>        
-        <h3>CERTIFICADO DE INSPECCIÓN ANUAL DEL VEHÍCULO A GNV</h3>
+        <h3>CERTIFICADO DE CONFORMIDAD DE CONVERSIÓN A GNV</h3>
         <h5>{{ "Certificado N° ".$hoja->numSerie." - ".date("Y") }}</h5>
         <h4> {{"LA ENTIDAD CERTIFICADORA ".$empresa." CERTIFICA:"}}</h4>     
-        <p>Haber  efectuado la  evaluación  de las  condiciones  de seguridad del sistema  de combustión a Gas Natural Vehicular  –  GNV del  siguiente   vehículo (*):</p>        
+        <p>Haber efectuado la evaluación de las condiciones de seguridad respecto de la conversión del sistema de combustión a 
+            Gas Natural Vehicular – GNV efectuada  por  el taller de  Conversión  Autorizado: {{$taller->nombre}}</p>        
+        <!-- DATOS VEHICULO -->
         <table>
             <tr>
                 <td style="padding: 0 5px 0 5px; text-align:center;">1</td>
@@ -151,33 +154,76 @@
                 <td>{{(isset($carro->pesoBruto)? $carro->pesoBruto : '0.00')}}</td>
             </tr>
         </table>
-        <p>Habiendose verificado que:</p>
-            <ol>
-                <li>El equipo completo instalado en el vehículo está compuesto con los elementos, partes o piezas registradas en la base de datos del Sistema de Control de Carga de GNV.</li>
-                <li>El cilindro y el kit de montaje no han sido alterados ni se encuentren deteriorados por el uso, ni han sido cambiados.</li>
-                <li>Cada uno de los componentes están instalados de manera segura, incluyendo las tuberías de alta y baja presión, y que dichos componentes estén ubicados en los sitios originales.</li>
-                <li>No existen fugas en los empalmes o uniones.</li>
-                <li>Los elementos de cierre actúan herméticamente.</li>
-                <li>El sistema de combustión a GNV responde a las características originales recomendadas  por el fabricante del vehículo o el Proveedor de Equipos Completos-PEC.</li>
-                <li>Los controles ubicados en el tablero del vehículo respondan a las exigencias para los cuales fueron montados.</li>
-                <li>Las exigencias sobre ventilación en las distintas zonas de instalación no han sido alteradas, y demás exigencias establecidas por la normativa vigente en la materia.</li>
-            </ol>
+        <p>Habiéndose instalado al mismo los siguientes componentes:</p>
+        <!-- DATOS DE LOS EQUIPOS -->
+        <p>Chip de identificacion: {{$chip->numSerie}}</p>
+            <table>
+                <tr>
+                    <td style="text-align:center;">Componente</td>
+                    <td style="text-align:center;">Marca</td>
+                    <td style="text-align:center;">N°Serie</td>
+                    <td style="text-align:center;">Modelo</td>
+                    <td style="text-align:center;">Capacidad</td>                    
+                </tr>
+                @foreach ($equipos as $key=>$item)
+                    @switch($item->idTipoEquipo)
+                        @case(2)
+                            <tr>                        
+                                <td style="text-align:center;">{{$item->tipo->nombre}}</td>
+                                <td style="text-align:center;">{{$item->marca}}</td>
+                                <td style="text-align:center;">{{$item->numSerie}}</td>
+                                <td style="text-align:center;">{{$item->modelo}}</td>
+                                <td style="text-align:center;">N/A</td>                    
+                            </tr>
+                        @break
+                        @case(3)
+                            <tr>                        
+                                <td style="text-align:center;">{{$item->tipo->nombre}}</td>
+                                <td style="text-align:center;">{{$item->marca}}</td>
+                                <td style="text-align:center;">{{$item->numSerie}}</td>
+                                <td style="text-align:center;">N/A</td>
+                                <td style="text-align:center;">{{$item->capacidad}}</td>                    
+                            </tr>
+                        @break
+                        @default                            
+                    @endswitch               
+                @endforeach                
+            </table>
+        <p>
+            Como consecuencia de la conversion del sistema de combustion a Gas Natural Vehicular - GNV, las caracteristicas originales del vehiculo 
+            se han modificado de la siguiente manera:
+        </p>
+            <table>
+                <tr>
+                    <td style="text-align:center;">17</td>
+                    <td style="text-align:center;">Combustible</td>
+                    <td style="text-align:center;">BI COMBUSTIBLE GNV</td>                   
+                </tr>
+                <tr>
+                    <td style="text-align:center;">18</td>
+                    <td style="text-align:center;">Peso neto(kg)</td>
+                    <td style="text-align:center;">{{$carro->pesoNeto+60}}</td>                   
+                </tr>
+            </table>
         <p>Consiste por el presente documento que el sistema de combustible  a Gas Natural Vehicular GNV, del vehículo antes referido, no afectaran negativamente la seguridad
              del mismo(**), el tránsito terrestre, el medio ambiente o incumplen con las condiciones técnicas establecidas en la normativa vigente en la materia(***),según el
-              expediente técnico   N° {{$hoja->numSerie}} - 2023,  habilitándose al mismo para cargar  Gas  Natural  vehicular-GNV,  hasta  el: {{$fechaCert->format("d/m/").($fechaCert->format("Y")+1)}} 
+              expediente técnico   N° {{$hojaAntiguo->numSerie}} - 2023,  habilitándose al mismo para cargar  Gas  Natural  vehicular-GNV,  hasta  el: {{$fechaAntiguo->format("d/m/").($fechaAntiguo->format("Y")+1)}} 
         </p>
         <h6>OBSERVACIONES</h6>
             <ul>
-                <li>(*) Los datos de los numerales 1 al 16, provienen de la tarjeta de propiedad del vehículo y/o han sido suministrados por el cliente, por tal motivo deberán ser verificados por el cliente antes de iniciar cualquier trámite con este certificado.</li>
-                <li>(**) y (***) Las condiciones técnicas y de seguridad verificadas en el vehículo, corresponden a las expuestas en la Resolución Directoral 365-2021-MTC/17.03</li>
-                <li>Este documento no es válido en caso de presentar cualquier tipo de alteración o enmendadura.</li>
-                <li>Este documento es válido únicamente en original, con firma y sello del representante y del ingeniero supervisor.</li>
-                <li>Las abreviaturas: S/V significa “Sin Versión”, NE significa “No Especificado en los documentos presentes”</li>
+                <li>(*) Los datos de los numerales 1 al 18, provienen de la tarjeta de propiedad del vehículo y/o han sido suministrados por el cliente, por tal motivo deberán 
+                    ser verificados por el cliente antes de iniciar cualquier trámite con este certificado.
+                </li>
+                <li>
+                    (**) y (***) Las condiciones técnicas y de seguridad verificadas en el vehículo, corresponden a las expuestas en la Resolución Directoral 3990 -2005-MTC/f5.
+                </li>
+                <li> Este documento no es válido en caso de presentar cualquier tipo de alteración o enmendadura.</li>
+                <li>Este documento es válido únicamente en original, con firma y sello del representante y del ingeniero supervisor</li>
+                <li>Las abreviaturas: S/V significa “Sin Versión”, NE significa “No Especificado en los documentos presentes” </li>
+                <li>Este certificado es <strong>DUPLICADO</strong> a pedido del cliente porque se le perdió y es <strong>COPIA FIEL DEL ORIGINAL</strong>. </li>
                 <li>De acuerdo a la normatividad vigente, el resultado de la prueba de emisiones contaminantes del vehiculó es aprobatorio.</li>
-            </ul>
-        <p>Inspeccion realizada en el taller: {{$taller->nombre}} </p>
+            </ul>       
         <p>Se expide el presente en la ciudad de Lima, a los {{$fecha}}</p>
-        
         
     </main>
     
