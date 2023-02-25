@@ -49,7 +49,7 @@
                 </thead>
                 <tbody>
                     @foreach ($certificaciones as $certificacion)
-                        <tr tabindex="0" class="focus:outline-none h-16 border border-slate-300 rounded">
+                        <tr tabindex="0" class="focus:outline-none h-16 border border-slate-300 rounded hover:bg-gray-200">
                             <td class="pl-5">
                                 <div class="flex items-center">
                                     <div
@@ -95,6 +95,18 @@
                                         @case(4)
                                             <p class="text-sm leading-none text-gray-600 ml-2 p-2 bg-orange-200 rounded-full">
                                                 Revision anual GLP
+                                            </p>
+                                        @break
+
+                                        @case(8)
+                                        <p class="text-sm leading-none text-gray-600 ml-2 p-2 bg-green-200 rounded-full">
+                                            Duplicado GNV
+                                        </p>
+                                        @break
+
+                                        @case(9)
+                                            <p class="text-sm leading-none text-gray-600 ml-2 p-2 bg-orange-200 rounded-full">
+                                                Duplicado GNV
                                             </p>
                                         @break
 

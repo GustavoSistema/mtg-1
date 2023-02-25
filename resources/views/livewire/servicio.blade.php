@@ -636,22 +636,24 @@
 
             @case(8)
                 @if (!isset($servicioCertificado))
-                    <div
-                        class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4 py-4 px-8 flex flex-row justify-center items-center">
-                        <div class="w-3/6 flex justify-center items-center space-x-2">
-                            <div class="flex items-center space-x-2">
+                    <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4 py-4 px-8 flex flex-row justify-center items-center ">
+                        <div class="w-3/6 block justify-center items-center space-x-2 md:flex">
+                            <div class="flex items-center justify-center space-x-2 ">
                                 <x-jet-label value="Placa:" for="placa" />
-                                <x-jet-input type="text" wire:model="placa" type="text" maxlength="6"
-                                    wire:keydown.enter="buscarCertificacion" />
+                                <x-jet-input type="text" wire:model="placa" type="text" maxlength="6" wire:keydown.enter="buscarCertificacion" />
                             </div>
-                            <div>
+                            <div class="pt-2 md:pt-0 flex m-auto w-full justify-center">
                                 <button wire:click="buscarCertificacion"
-                                    class="p-2 bg-indigo-400 rounded-lg border border-indigo-300 hover:bg-indigo-500 text-white hover:text-gray-200 shadow-lg">
+                                    class="p-2 bg-indigo-400 rounded-lg border m-auto border-indigo-300 hover:bg-indigo-500 text-white hover:text-gray-200 shadow-lg">
                                     <i class="fas fa-search"></i>&nbsp;Buscar
                                 </button>
                             </div>
+                            <div class="md:pt-2 w-full">
+                                <x-jet-input-error for="placa" />
+                            </div>
+                            
                         </div>
-                        <x-jet-input-error for="placa" />
+                        
                     </div>
                 @endif
 
@@ -671,7 +673,7 @@
                                         </h2>
                                         <p class=" font-bold">
                                             <i class="fas fa-file"></i>&nbsp; 
-                                            <span class="text-red-600 font-bold">{{$servicioCertificado->serieFormato}} - {{$servicioCertificado->Hoja->añoActivo}}</span>
+                                            <span class="text-red-500 font-bold">{{$servicioCertificado->serieFormato}} - {{$servicioCertificado->Hoja->añoActivo}}</span>
                                         </p>
                                     </div>
                                    
@@ -697,8 +699,8 @@
                                    
                                 </div>
                                 @if(!$certDuplicado)                                
-                                    <div class="p-2 border-t flex items-center justify-center " wire:click="reseteaBusquedaCert">
-                                        <i class="fas fa-times-circle fa-2x hover:cursor-pointer hover: shadow-lg rounded-full" style="color:#6366f1;"></i>
+                                    <div class="p-2 border-t flex items-center justify-center " >
+                                        <i class="fas fa-times-circle fa-2x hover:cursor-pointer hover: shadow-lg rounded-full text-red-400 hover:text-red-500 hover:shadow-sm hover:shadow-red-500" wire:click="reseteaBusquedaCert"></i>
                                     </div>
                                 @endif
 
@@ -713,7 +715,7 @@
                         <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4 py-4">
                             <div class="my-2 flex flex-row justify-evenly items-center">
                                 <a wire:click="duplicarCertificado"
-                                    class="hover:cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-cyan-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-cyan-400 hover:bg-cyan-500 focus:outline-none rounded">
+                                    class="hover:cursor-pointer border border-indigo-500 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-indigo-400 hover:bg-indigo-500 focus:outline-none rounded">
                                     <p class="text-sm font-medium leading-none text-white"><i class="far fa-copy"></i>
                                         &nbsp;Duplicar</p>
                                 </a>
@@ -724,7 +726,7 @@
                     <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4 py-4">
                         <div class="my-2 flex flex-row justify-evenly items-center">
                             <a href="{{ $ruta }}" target="__blank"
-                                class="hover:cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-indigo-400 hover:bg-indigo-500 focus:outline-none rounded">
+                                class="hover:cursor-pointer  focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-indigo-400 hover:bg-indigo-500 focus:outline-none rounded">
                                 <p class="text-sm font-medium leading-none text-white"><i class="far fa-eye"></i> &nbsp;Ver
                                     Duplicado</p>
                             </a>

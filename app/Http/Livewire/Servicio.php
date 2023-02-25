@@ -604,7 +604,7 @@ class Servicio extends Component
             $hoja=$this->procesaFormato($this->numSugerido,$this->tipoServicio->id);
             $cert=Certificacion::create([
                 "idVehiculo"=>$this->servicioCertificado->Vehiculo->id,
-                "idTaller"=>$this->servicioCertificado->Taller->id,
+                "idTaller"=>$this->taller,
                 "idInspector"=>Auth::id(),
                 "idServicio"=>$this->serv,
                 "estado"=>1,
@@ -689,7 +689,7 @@ class Servicio extends Component
     }
 
     public function buscarCertificacion(){
-        $this->validate(['placa'=>'min:6|max:6']);
+        $this->validate(['placa'=>'required|min:6|max:6']);
 
         //implementar un switch o if else segun el servicio
         $certis=Certificacion::PlacaVehiculo($this->placa)        
