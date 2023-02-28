@@ -34,7 +34,7 @@ class PdfController extends Controller
             $pdf = App::make('dompdf.wrapper');
             $pdf->loadView('fichaTecnicaGnv',$data);        
             //return $pdf->stream($id.'-'.date('d-m-Y').'-cargo.pdf');
-            return  $pdf->stream($certificacion->Vehiculo->placa.'-'.$hoja->numSerie.'.pdf');
+            return  $pdf->stream("FT-".$certificacion->Vehiculo->placa.'-'.$hoja->numSerie.'.pdf');
         }else{
             return abort(404);
         }
@@ -137,6 +137,7 @@ class PdfController extends Controller
                     "carro"=>$certificacion->Vehiculo,
                     "taller"=>$certificacion->Taller, 
                     "hoja"=>$hoja, 
+                    "fechaCert"=>$fechaCert,
                     ];                 
                     $pdf = App::make('dompdf.wrapper');
                     $pdf->loadView('anualGnv',$data);        
@@ -163,6 +164,7 @@ class PdfController extends Controller
                     "carro"=>$certificacion->Vehiculo,
                     "taller"=>$certificacion->Taller, 
                     "hoja"=>$hoja, 
+                    "fechaCert"=>$fechaCert,
                     ];                 
                     $pdf = App::make('dompdf.wrapper');
                     $pdf->loadView('anualGnv',$data);        
@@ -193,6 +195,7 @@ class PdfController extends Controller
                     "hoja"=>$hoja, 
                     "equipos"=>$equipos,
                     "chip"=>$chip,
+                    "fechaCert"=>$fechaCert,
                     ];                 
                     $pdf = App::make('dompdf.wrapper');
                     $pdf->loadView('conversionGnv',$data);        
@@ -225,6 +228,7 @@ class PdfController extends Controller
                     "hoja"=>$hoja, 
                     "equipos"=>$equipos,
                     "chip"=>$chip,
+                    "fechaCert"=>$fechaCert,
                     ];                 
                     $pdf = App::make('dompdf.wrapper');
                     $pdf->loadView('conversionGnv',$data);        

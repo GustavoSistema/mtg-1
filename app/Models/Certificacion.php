@@ -124,12 +124,107 @@ class Certificacion extends Model
 
     public function getReductorAttribute(){
         return $this->Vehiculo->Equipos->where('idTipoEquipo',2)->first();
-    }
-
-    
+    }    
 
     public function getCilindrosAttribute(){
         return $this->Vehiculo->Equipos->where('idTipoEquipo',3);
+    }
+
+
+    public function getRutaVistaCertificadoAttribute(){
+        $ruta=null;
+        switch ($this->Servicio->tipoServicio->id) {
+            case 1: //tipo servicio = inicial gnv
+                $ruta= route('certificadoInicialGnv', ['id' => $this->attributes['id']]);                    
+            break; 
+            case 2://tipo servicio = anual gnv
+                $ruta= route('certificadoAnualGnv', ['id' => $this->attributes['id']]);
+            break;     
+
+            default:
+                $ruta=null;
+                break;
+        }
+
+        return $ruta;
+    }
+
+    public function getRutaDescargaCertificadoAttribute(){
+        $ruta=null;
+        switch ($this->Servicio->tipoServicio->id) {
+            case 1: //tipo servicio = inicial gnv
+                $ruta= route('descargarCertificadoInicialGnv', ['id' => $this->attributes['id']]);                    
+            break; 
+            case 2://tipo servicio = anual gnv
+                $ruta= route('descargarCertificadoAnualGnv', ['id' => $this->attributes['id']]);
+            break;     
+                       
+            default:
+                $ruta=null;
+                break;
+        }
+
+        return $ruta;
+    }
+
+    public function getRutaVistaFtAttribute(){
+        $ruta=null;
+        switch ($this->Servicio->tipoServicio->id) {
+            case 1:
+                $ruta= route('fichaTecnicaGnv', ['idCert' => $this->attributes['id']]);                    
+            break; 
+            case 2:
+                $ruta= route('fichaTecnicaGnv', ['idCert' => $this->attributes['id']]);
+            break;                
+            default:
+                $ruta=null;
+                break;
+        }
+
+        return $ruta;
+    }
+
+    public function getRutaDescargaFtAttribute(){
+        $ruta=null;
+        switch ($this->Servicio->tipoServicio->id) {
+            case 1:
+                $ruta= route('descargarFichaTecnicaGnv', ['idCert' => $this->attributes['id']]);                    
+            break; 
+            case 2:
+                $ruta= route('descargarFichaTecnicaGnv', ['idCert' => $this->attributes['id']]);
+            break;                
+            default:
+                $ruta=null;
+                break;
+        }
+
+        return $ruta;
+    }
+
+
+    public static function certificarGnv(Taller $taller,Servicio $servicio,Material $hoja,vehiculo $vehiculo,User $inspector){
+        $cert=Certificacion::create([
+            "idVehiculo"=>$vehiculo->id,
+            "idTaller"=>$taller->id,
+            "idInspector"=>$inspector->id,
+            "idServicio"=>$servicio->id,
+            "estado"=>1,
+            "precio"=>$servicio->precio,
+            "pagado"=>0,
+        ]);
+        if($cert){
+            //cambia el estado de la hoja a consumido
+            $hoja->update(["estado"=>4,"ubicacion"=>"En poder del cliente"]);
+            //crea y guarda el servicio y material usado en esta certificacion 
+            $servM=ServicioMaterial::create([
+                "idMaterial"=>$hoja->id,
+                "idCertificacion"=>$cert->id
+            ]);
+            //retorna el certificado
+            return $cert;
+        }else{
+            return null;
+        }        
     }
     
 }

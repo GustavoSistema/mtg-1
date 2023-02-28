@@ -43,4 +43,27 @@ class vehiculo extends Model
         return $this->belongsToMany(Equipo::class, 'equiposvehiculo','idVehiculo','idEquipo');
     }
 
+    public function cuentaDis($tipo){
+        $cuenta=0;        
+            if($this->Equipos->count() >0){
+                foreach($this->Equipos as $eq){
+                    if($eq->idTipoEquipo == $tipo){
+                        $cuenta++;
+                    }
+                }
+            }        
+        return $cuenta;
+    }
+
+    public function getEsCertificableAttribute(){
+        $estado=false;
+        $chips=$this->cuentaDis(1);
+        $reg=$this->cuentaDis(2);       
+        $cil=$this->cuentaDis(3);
+            if($chips>0 && $reg>0 && $cil >0){                
+                $estado=true;                
+            }
+        return $estado;
+    }
+
 }

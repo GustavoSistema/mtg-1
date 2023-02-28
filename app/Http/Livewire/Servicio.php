@@ -474,7 +474,7 @@ class Servicio extends Component
                 }
             }            
         }
-        $this->cantEquipos=$this->cuentaEquipos();
+        //$this->cantEquipos=$this->cuentaDis();
         $this->tiposDisponibles=$aux;
         $this->tipoEquipo="";
         //return $aux;
