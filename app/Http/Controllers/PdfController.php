@@ -240,11 +240,11 @@ class PdfController extends Controller
         }
     }
 
-    public function generaDuplicadoAnualGnv($idAntiguo,$idNuevo){
+    public function generaDuplicadoAnualGnv($id){
 
-        if(Certificacion::findOrFail($idNuevo)){
-            $duplicado=Certificacion::find($idNuevo);
-            $antiguo=Certificacion::find($idAntiguo);
+        if(Certificacion::findOrFail($id)){
+            $duplicado=Certificacion::find($id);
+            $antiguo=Certificacion::find($duplicado->Duplicado->idAnterior);
             if($duplicado->Servicio->tipoServicio->id){
                 if($antiguo->Servicio->tipoServicio->id==2){
                     $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
@@ -275,10 +275,10 @@ class PdfController extends Controller
     }
 
 
-    public function generaDuplicadoInicialGnv($idAntiguo,$idNuevo){
-        if(Certificacion::findOrFail($idNuevo)){
-            $duplicado=Certificacion::find($idNuevo);
-            $antiguo=Certificacion::find($idAntiguo);
+    public function generaDuplicadoInicialGnv($id){
+        if(Certificacion::findOrFail($id)){
+            $duplicado=Certificacion::find($id);
+            $antiguo=Certificacion::find($duplicado->Duplicado->idAnterior);
             if($antiguo->Servicio->tipoServicio->id){
                 if($antiguo->Servicio->tipoServicio->id==1){
                     $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");

@@ -22,8 +22,9 @@ class Certificacion extends Model
         "estado",
         "precio",
         "pagado",
+        "idDuplicado",
         "created_at",
-        "updated_at"
+        "updated_at",
     ];
 
     protected $appends = [
@@ -42,6 +43,10 @@ class Certificacion extends Model
 
     public function Taller(){
         return $this->belongsTo(Taller::class,'idTaller');
+    }
+
+    public function Duplicado(){
+        return $this->belongsTo(Duplicado::class,'idDuplicado');
     }
 
     public function Inspector(){
@@ -139,13 +144,38 @@ class Certificacion extends Model
             break; 
             case 2://tipo servicio = anual gnv
                 $ruta= route('certificadoAnualGnv', ['id' => $this->attributes['id']]);
-            break;     
+            break;  
+            
+            case 8://tipo servicio = anual gnv
+                $dupli=Duplicado::findOrfail($this->attributes["idDuplicado"]);               
+                $ruta= $this->generaRutaDuplicado($dupli);
+            break; 
 
             default:
                 $ruta=null;
                 break;
         }
 
+        return $ruta;
+    }
+
+
+    public function generaRutaDuplicado(Duplicado $duplicado){
+        $ruta=null;
+        
+        switch ($duplicado->servicio) {
+
+            case 1:
+                $ruta= route('duplicadoInicialGnv',['id' => $this->attributes['id']]);                
+            break;
+            case 2:
+                $ruta= route('duplicadoAnualGnv',['id' => $this->attributes['id']]);
+            break;
+            
+            default:
+            
+            break;
+        }
         return $ruta;
     }
 
@@ -225,6 +255,69 @@ class Certificacion extends Model
         }else{
             return null;
         }        
+    }
+
+
+    
+
+    public static function duplicarCertificadoExternoGnv(User $inspector,Vehiculo $vehiculo,Servicio $servicio,Taller $taller,Material $hoja,Duplicado $duplicado){
+
+        $cert=Certificacion::create([
+            "idVehiculo"=>$vehiculo->id,
+            "idTaller"=>$taller->id,
+            "idInspector"=>$inspector->id,
+            "idServicio"=>$servicio->id,
+            "estado"=>1,
+            "precio"=>$servicio->precio,
+            "pagado"=>0,
+            "idDuplicado"=>$duplicado->id
+        ]);
+        if($cert){
+            //cambia el estado de la hoja a consumido
+            $hoja->update(["estado"=>4,"ubicacion"=>"En poder del cliente"]);
+            //crea y guarda el servicio y material usado en esta certificacion 
+            $servM=ServicioMaterial::create([
+                "idMaterial"=>$hoja->id,                
+                "idCertificacion"=>$cert->id
+            ]);
+            //retorna el certificado
+            return $cert;
+        }else{
+            return null;
+        } 
+
+
+    }
+
+
+    public static function duplicarCertificadoGnv(Duplicado $duplicado,Taller $taller,User $inspector,Servicio $servicio,Material $hoja){
+        $anterior=Certificacion::find($duplicado->idAnterior);
+        $cert=Certificacion::create([
+            "idVehiculo"=>$anterior->Vehiculo->id,
+            "idTaller"=>$taller->id,
+            "idInspector"=>$inspector->id,
+            "idServicio"=>$servicio->id,
+            "estado"=>1,
+            "precio"=>$servicio->precio,
+            "pagado"=>0,  
+            "idDuplicado"=>$duplicado->id         
+        ]);
+
+        if($cert){
+            //cambia el estado de la hoja a consumido
+            $hoja->update(["estado"=>4,"ubicacion"=>"En poder del cliente"]);
+            //crea y guarda el servicio y material usado en esta certificacion 
+            $servM=ServicioMaterial::create([
+                "idMaterial"=>$hoja->id,                
+                "idCertificacion"=>$cert->id
+            ]);
+            //retorna el certificado
+            return $cert;
+        }else{
+            return null;
+        } 
+
+
     }
     
 }

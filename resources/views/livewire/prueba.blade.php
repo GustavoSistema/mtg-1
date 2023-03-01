@@ -227,16 +227,36 @@
                     @livewire('form-vehiculo', ['tipoServicio' => $tipoServicio])
                     
                     <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4 py-4 px-8 flex flex-row justify-center items-center ">
-                        <div class="w-full block justify-center items-center space-x-2 md:flex">                           
-                                <div class="flex items-center lg:mb-4">
+                        <div class="w-full block justify-center items-center space-x-2 md:flex">   
+
+                                <div class="flex items-center w-full mb-0 sm: mb-2 ">
+                                    <x-jet-label value="Servicio:" for="servicioExterno" />
+                                    <select wire:model="servicioExterno"
+                                        class="bg-gray-50 border-indigo-500 rounded-md outline-none block w-full -mr-2">
+                                        <option value="0">Seleccione</option>                                       
+                                        <option value="1">Conversión a GNV</option>
+                                        <option value="2">Inspeccion anual GNV</option>                                        
+                                    </select>
+                                    
+                                </div>   
+                                <div class="flex items-center w-full mb-0 sm: mb-2 ">
                                     <x-jet-label value="Taller:" for="tallerExterno" />
-                                    <x-jet-input type="text" wire:model="tallerExterno" />
+                                    <x-jet-input type="text" wire:model="tallerExterno" class="w-full" />
+                                    
                                 </div>      
-                                <div class="flex items-center ">
+                                <div class="flex items-center w-full mb-0 sm: mb-2">
                                     <x-jet-label value="Fecha:" for="fecha" />
-                                    <x-jet-input type="date" wire:model="fechaExterno" />
+                                    <x-jet-input type="date" wire:model="fechaExterno" class="w-full" />
+                                    
                                 </div>                         
                         </div>
+
+                        
+                    </div>
+                    <div class="w-full block items-center text-center">
+                        <x-jet-input-error for="servicioExterno"/>
+                        <x-jet-input-error for="tallerExterno" />
+                        <x-jet-input-error for="fechaExterno" />
                     </div>
 
 
@@ -292,7 +312,7 @@
                         </div>
                     @endif
                 @endif
-
+                {{--
                 @if(!$duplicado)
                     <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4 py-4">
                         <div class="my-2 flex flex-row justify-evenly items-center">
@@ -319,6 +339,46 @@
                             </a>
                         </div>
                     </div>
+                @endif
+                    --}}
+                @if ($estado)
+                    @switch($estado)
+                        @case('esperando')
+                            <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4 py-4">
+                                <div class="my-2 flex flex-row justify-evenly items-center">
+                                    <a wire:click="duplicar"
+                                        class="hover:cursor-pointer border border-indigo-500 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-indigo-400 hover:bg-indigo-500 focus:outline-none rounded">
+                                        <p class="text-sm font-medium leading-none text-white"><i class="far fa-copy"></i>
+                                            &nbsp;Duplicar</p>
+                                    </a>
+                                </div>
+                            </div>
+                        @break
+
+                        @case('certificado')
+                            @if ($certificacion)
+                                <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4 py-4">
+                                    <div class="my-2 flex flex-row justify-evenly items-center">
+                                        <a href="{{ $certificacion->rutaVistaCertificado }}" target="__blank" rel="noopener noreferrer"
+                                            class="hover:cursor-pointer border border-indigo-500 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-indigo-400 hover:bg-indigo-500 focus:outline-none rounded">
+                                            <p class="text-sm font-medium leading-none text-white"><i class="far fa-eye"></i>
+                                                &nbsp;Ver Certificado</p>
+                                        </a>
+
+                                                                              
+                                        <a href="{{ route('pruebas') }}"
+                                            class="hover:cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-amber-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-red-400 hover:bg-red-500 focus:outline-none rounded">
+                                            <p class="text-sm font-medium leading-none text-white">
+                                                <i class="fas fa-archive"></i>&nbsp;Finalizar
+                                            </p>
+                                        </a>
+                                    </div>
+                                </div>
+                            @endif
+                        @break
+
+                        @default
+                    @endswitch
                 @endif
             @break
 
