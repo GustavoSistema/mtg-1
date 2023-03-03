@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Certificacion;
+use App\Models\Duplicado;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
 use Spatie\FlareClient\Http\Exceptions\NotFound;
 
@@ -309,6 +311,84 @@ class PdfController extends Controller
                 }
                 return abort(404);
             }
+        }else{
+            return abort(404);
+        }
+    }
+
+
+    public function generaDuplicadoExternoAnualGnv($id){
+        if(Certificacion::findOrFail($id)){
+            $duplicado=Certificacion::find($id);
+            $dupli=Duplicado::find($duplicado->idDuplicado);
+           // $fec=$dupli->fecha;
+            //$hojaAntiguo=$antiguo->Hoja; 
+           // dd($dupli->fecha->format("d/m/Y"));
+            //dd($duplicado);
+            //$antiguo=Certificacion::find($duplicado->Duplicado->idAnterior);            
+                if($dupli->servicio==2){
+                    $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+                    $fechaCert=$duplicado->created_at;
+                    //$fechaAntiguo=$antiguo->created_at;
+                    $fecha=$fechaCert->format('d').' días del mes de '.$meses[$fechaCert->format('m')-1].' del '.$fechaCert->format('Y').'.';  
+                    $hoja=$duplicado->Hoja;     
+                    //$fec=$dupli->fecha;
+                    //$hojaAntiguo=$antiguo->Hoja; 
+                    
+                    $data=[
+                    "fecha"=>$fecha,
+                    "empresa"=>"MOTORGAS COMPANY S.A.",
+                    "carro"=>$duplicado->Vehiculo,
+                    "taller"=>$duplicado->Duplicado->taller, 
+                    "hoja"=>$hoja, 
+                    "fechaCert"=>$fechaCert,
+                    "fechaAntiguo"=>Carbon::parse($dupli->fecha),
+                    //"hojaAntiguo"=>$hojaAntiguo,
+                    ];                 
+                    $pdf = App::make('dompdf.wrapper');
+                    $pdf->loadView('duplicadoExternoAnualGnv',$data);        
+                    return $pdf->stream($duplicado->Vehiculo->placa.'-'.$hoja->numSerie.'-duplicadoEx-anual.pdf');
+                }
+                return abort(404);
+            
+        }else{
+            return abort(404);
+        }
+    }
+
+    public function generaDuplicadoExternoInicialGnv($id){
+        if(Certificacion::findOrFail($id)){
+            $duplicado=Certificacion::find($id);
+            $dupli=Duplicado::find($duplicado->idDuplicado);           
+                if($dupli->servicio==1){
+                    $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+                    $fechaCert=$duplicado->created_at;
+                    //$fechaAntiguo=$antiguo->created_at;
+                    $fecha=$fechaCert->format('d').' días del mes de '.$meses[$fechaCert->format('m')-1].' del '.$fechaCert->format('Y').'.';              
+                    $chip=$duplicado->vehiculo->Equipos->where("idTipoEquipo",1)->first();           
+                    $equipos=$duplicado->vehiculo->Equipos->where("idTipoEquipo","!=",1)->sortBy("idTipoEquipo");                     
+                    //dd($equipos); 
+                    $hoja=$duplicado->Hoja;
+                   // $hojaAntiguo=$antiguo->Hoja;
+ 
+                    $data=[
+                    "fecha"=>$fecha,
+                    "empresa"=>"MOTORGAS COMPANY S.A.",
+                    "carro"=>$duplicado->Vehiculo,
+                    "taller"=>$duplicado->Duplicado->taller, 
+                    "hoja"=>$hoja, 
+                    "equipos"=>$equipos,
+                    "chip"=>$chip,
+                    "fechaAntiguo"=>Carbon::parse($dupli->fecha),
+                    
+                    ];                 
+                    $pdf = App::make('dompdf.wrapper');
+                    $pdf->loadView('duplicadoExternoInicialGnv',$data);        
+                    //return $pdf->stream($id.'-'.date('d-m-Y').'-cargo.pdf');
+                    return  $pdf->stream($duplicado->Vehiculo->placa.'-'.$hoja->numSerie.'-duplicado-inicial.pdf');
+                }
+                return abort(404);
+            
         }else{
             return abort(404);
         }

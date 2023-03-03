@@ -205,9 +205,9 @@
                                         wire:keydown.enter="buscarCertificacion" />
                                 </div>
                                 <div class="pt-2 md:pt-0 flex m-auto w-full justify-center">
-                                    <button wire:click="buscarCertificacion"
+                                    <button wire:click="buscarCertificacion" wire:loading.attr="disabled" wire:target="externo"
                                         class="p-2 bg-indigo-400 rounded-lg border m-auto border-indigo-300 hover:bg-indigo-500 text-white hover:text-gray-200 shadow-lg">
-                                        <i class="fas fa-search"></i>&nbsp;Buscar
+                                        <i class="fas fa-search"></i>&nbsp;Buscar 
                                     </button>
                                 </div>
                                 <div class="md:pt-2 w-full">
@@ -413,8 +413,9 @@
         <x-slot name="content">
             @if (isset($certificaciones))
                 <p class="text-indigo-900">Se encontrarón
-                    <span class="px-2 bg-indigo-400 rounded-full"><a
-                            class="text-white">{{ $certificaciones->count() }}</a></span> certificaciones
+                    <span class="px-2 bg-indigo-400 rounded-full">
+                        <a class="text-white">{{ $certificaciones->count() }}</a>
+                    </span> certificaciones
                 </p>
                 <div class="my-5">
                     @foreach ($certificaciones as $key => $certi)

@@ -63,14 +63,21 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get("certificado-anual/{id}","App\Http\Controllers\PdfController@generaPdfAnualGnv")->name("certificadoAnualGnv");   
     Route::get("certificado-anual/{id}/descargar","App\Http\Controllers\PdfController@descargarPdfAnualGnv")->name("descargarCertificadoAnualGnv"); 
     Route::get("duplicado-anual/{id}","App\Http\Controllers\PdfController@generaDuplicadoAnualGnv")->name("duplicadoAnualGnv");
+    Route::get("duplicado-anual-ex/{id}","App\Http\Controllers\PdfController@generaDuplicadoExternoAnualGnv")->name("duplicadoExternoAnualGnv");
+
+
     Route::get("certificado-inicial/{id}","App\Http\Controllers\PdfController@generaPdfInicialGnv")->name("certificadoInicialGnv");
     Route::get("duplicado-inicial/{id}","App\Http\Controllers\PdfController@generaDuplicadoInicialGnv")->name("duplicadoInicialGnv");
+    Route::get("duplicado-inicial-ex/{id}","App\Http\Controllers\PdfController@generaDuplicadoExternoInicialGnv")->name("duplicadoExternoInicialGnv");
     Route::get("certificado-inicial/{id}/descargar","App\Http\Controllers\PdfController@descargarPdfInicialGnv")->name("descargarCertificadoInicialGnv");
+
     Route::get("fichaTecnicaGnv/{idCert}","App\Http\Controllers\PdfController@generarFichaTecnica")->name("fichaTecnicaGnv");    
     Route::get("fichaTecnicaGnv/{idCert}/download","App\Http\Controllers\PdfController@descargarFichaTecnica")->name("descargarFichaTecnicaGnv");
     Route::get("checkListArriba/{idCert}","App\Http\Controllers\PdfController@generarCheckListArribaGnv")->name("checkListArribaGnv");
     Route::get("checkListAbajo/{idCert}","App\Http\Controllers\PdfController@generarCheckListAbajoGnv")->name("checkListAbajoGnv");
     Route::get("Notification/{idNoti}/{idSoli}","App\Http\Controllers\NotificationController@marcarUnaNotificación")->name("leerNotificacion");
+
+    Route::get("expediente-fotos/{id}/download","App\Http\Controllers\ZipController@descargaFotosExpediente")->name("descargaFotosExp");
     
 
     Route::get('download/{path}', function($path) { return Illuminate\Support\Facades\Storage::download($path);})->where('path','.*');

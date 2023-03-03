@@ -61,9 +61,7 @@ class Certificacion extends Model
         return $this->belongsToMany(Material::class, 'serviciomaterial','idCertificacion','idMaterial');
     }
 
-    //scopes para busquedas
-
-    
+    //scopes para busquedas    
 
     public function scopeIdInspector(Builder $query, string $search): void
     {   
@@ -161,21 +159,40 @@ class Certificacion extends Model
 
 
     public function generaRutaDuplicado(Duplicado $duplicado){
-        $ruta=null;
-        
-        switch ($duplicado->servicio) {
+        $ruta=null;      
 
-            case 1:
-                $ruta= route('duplicadoInicialGnv',['id' => $this->attributes['id']]);                
+        switch ($duplicado->externo) {
+            case 0:
+                switch ($duplicado->servicio) {
+
+                    case 1:
+                        $ruta= route('duplicadoInicialGnv',['id' => $this->attributes['id']]);                
+                    break;
+                    case 2:
+                        $ruta= route('duplicadoAnualGnv',['id' => $this->attributes['id']]);
+                    break;                   
+                    
+                }                
             break;
-            case 2:
-                $ruta= route('duplicadoAnualGnv',['id' => $this->attributes['id']]);
+            case 1:
+                switch ($duplicado->servicio) {
+
+                    case 1:
+                        $ruta= route('duplicadoExternoInicialGnv',['id' => $this->attributes['id']]);                
+                    break;
+                    case 2:
+                        $ruta= route('duplicadoExternoAnualGnv',['id' => $this->attributes['id']]);
+                    break;                   
+                    
+                } 
+                
             break;
             
             default:
-            
-            break;
+                # code...
+                break;
         }
+
         return $ruta;
     }
 

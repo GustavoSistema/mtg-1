@@ -337,8 +337,19 @@
                            
                         @endforeach                        
                     </div>
+                </div>                
+            </section>  
+            @hasrole('administrador')  
+            <div class="w-full my-4 p-2 rounded-lg border border-gray-200">
+                <div class="my-2 flex flex-row justify-center items-center">
+                    <a href="{{route("descargaFotosExp",["id"=>$expediente->id])}}"
+                        class="hover:cursor-pointer border border-indigo-500 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-indigo-400 hover:bg-indigo-500 focus:outline-none rounded">
+                        <p class="text-sm font-medium leading-none text-white"><i class="fas fa-download animate-bounce"></i>
+                            &nbsp;Descargar Fotos</p>
+                    </a>
                 </div>
-            </section>                     
+            </div>     
+            @endhasrole             
         @else
             <section class="h-full overflow-auto p-8 w-full h-full flex flex-col">
                 <ul id="gall-{{ $identificador }}" class="flex flex-1 flex-wrap -m-1">

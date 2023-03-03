@@ -50,6 +50,7 @@ class Prueba extends Component
         if ($this->certificado) {
             $this->certificado = null;
         }
+        $this->reset(["tallerExterno","fechaExterno","servicioExterno"]);
     }
 
     public function carga($id)
