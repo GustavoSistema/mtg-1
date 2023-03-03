@@ -20,7 +20,7 @@ class ZipController extends Controller
         $fileName = $expediente->placa.'.zip';        
         $imagenes=Imagen::where('Expediente_idExpediente','=',$expediente->id)->whereIn('extension',['jpg','jpeg','png','gif','tif','tiff','bmp'])->get();
         foreach($imagenes as $imagen){
-            $ruta=storage_path("app/public/expedientes/".$imagen->nombre.'.'.$imagen->extension);
+            $ruta=storage_path("app/".$imagen->ruta);
             array_push($fotos,$ruta);            
         }
         return Zip::create($fileName,$fotos);    	
