@@ -42,7 +42,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
 ->group(function () {
         
     Route::get('/Expedientes',Expedientes::class)->middleware('can:expedientes')->name('expedientes');
-    Route::get('/Servicio',Servicio::class)->middleware('can:servicio')->name('servicio');
+    //Route::get('/Servicio',Servicio::class)->middleware('can:servicio')->name('servicio');
     Route::get('/Talleres',Talleres::class)->middleware('can:talleres')->name('talleres');
     Route::get('/Ingresos',Ingresos::class)->middleware('can:ingresos')->name('ingresos');
     Route::get('/Salidas',Salidas::class)->middleware('can:salidas')->name('salidas');
@@ -56,7 +56,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get('/Listado-Certificaciones',ListaCertificaciones::class)->middleware('can:certificaciones')->name('certificaciones');
     Route::get('/Administracion-de-certificaciones',AdministracionCertificaciones::class)->middleware('can:admin.certificaciones')->name('admin.certificaciones');
     Route::get('/Solicitud/{soliId}',VistaSolicitud::class)->name('vistaSolicitud');
-    Route::get('/Pruebas',Prueba::class)->name('pruebas');
+    Route::get('/Servicio',Prueba::class)->middleware('can:servicio')->name('servicio');
     
 
     //RUTAS PARA STREAM Y DESCARGA DE PDFS
