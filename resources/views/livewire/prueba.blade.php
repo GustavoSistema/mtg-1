@@ -366,7 +366,7 @@
                                         </a>
 
                                                                               
-                                        <a href="{{ route('pruebas') }}"
+                                        <a href="{{ route('servicio') }}"
                                             class="hover:cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-amber-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-red-400 hover:bg-red-500 focus:outline-none rounded">
                                             <p class="text-sm font-medium leading-none text-white">
                                                 <i class="fas fa-archive"></i>&nbsp;Finalizar
