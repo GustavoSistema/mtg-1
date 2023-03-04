@@ -63,7 +63,7 @@ class Ingresos extends Component
         $this->eliminaMateriales($ingres);
         $ingres->delete();
         
-        $this->emitTo('Ingresos','render');
+        $this->emitTo('ingresos','render');
     }
 
     public function validaEstadoMateriales(Ingreso $ingreso){

@@ -32,7 +32,7 @@ class CreateIngreso extends Component
         //$this->open=false;
         $this->tiposMaterial=TipoMaterial::all()->sortBy("descripcion");
         $this->anioActivo=Date('Y');
-        $this->mensaje="Procesando su solicitud espere un momento";
+        $this->mensaje="";
         //$this->prefijo=0;
     }
 
@@ -62,16 +62,17 @@ class CreateIngreso extends Component
                             "estado"=>1,//ESTADO DE MATERIAL: EN STOCK 
                             //"numSerie"=>((string)$this->prefijo.(string)$i),
                             "numSerie"=>$i,
-                            "anioActivo"=>$this->anioActivo,
+                            "añoActivo"=>$this->anioActivo,
                             "grupo"=>$this->numguia,                
                             "idTipoMaterial"=>$this->tipoMat,
                             "ubicacion"=>'MOTORGAS COMPANY S.A.', 
                             "idUsuario"=>Auth::id(),               
                         ]);
-                        
+                       // $this->mensaje=$i;                        
                         array_push($aux,$formato->id);           
                     }      
-                    $this->mensaje="se termino de crear ".$this->cantidad." formatos";     
+                    
+                    
                     foreach ($aux  as $key=>$id){
                         $detalleIng=IngresoDetalle::create([
                             "idIngreso"=>$ingreso->id,
@@ -166,7 +167,7 @@ class CreateIngreso extends Component
         if($this->tipoMat==1 || $this->tipoMat==3){
             if($this->numInicio && $this->anioActivo){
                 $series=$this->creaColeccion($this->numInicio,$this->numFinal);
-                $materiales=Material::where([['idTipoMaterial',$this->tipoMat],['anioActivo',$this->anioActivo]])->pluck('numSerie');
+                $materiales=Material::where([['idTipoMaterial',$this->tipoMat],['añoActivo',$this->anioActivo]])->pluck('numSerie');
                 $result=$materiales->intersect($series);
             }
         }           

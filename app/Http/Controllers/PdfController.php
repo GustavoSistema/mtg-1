@@ -259,7 +259,7 @@ class PdfController extends Controller
                     "fecha"=>$fecha,
                     "empresa"=>"MOTORGAS COMPANY S.A.",
                     "carro"=>$duplicado->Vehiculo,
-                    "taller"=>$duplicado->Taller, 
+                    "taller"=>$antiguo->Taller, 
                     "hoja"=>$hoja, 
                     "fechaCert"=>$fechaCert,
                     "fechaAntiguo"=>$fechaAntiguo,

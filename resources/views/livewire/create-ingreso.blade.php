@@ -65,11 +65,13 @@
                     <h1>Selecciona un tipo de articulo</h1>
             @endswitch                 
         </div>
-        @if($mensaje)
-            <p wire:model="mensaje">{{$mensaje}}</p>
-        @endif
-        <div wire:loading wire:target="save" class="bg-indigo-400 p-4 text-center w-full rounded-lg border border-indigo-500 shadow-lg">
-           Creando materiales por favor espere...            
+            
+           
+            
+       
+        <div wire:loading  wire:target="save" class="bg-indigo-400 p-4 text-center w-full rounded-lg border border-indigo-500 shadow-lg">
+            <p><i class="fas fa-fan animate-spin text-white"></i></p>            
+            <p> Creando materiales por favor espere...</p>                   
         </div>
         
         @if ($temp)
