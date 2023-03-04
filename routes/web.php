@@ -16,6 +16,7 @@ use App\Models\Ingreso;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PdfController;
 use App\Http\Livewire\AdministracionCertificaciones;
+use App\Http\Livewire\Arreglando;
 use App\Http\Livewire\ListaCertificaciones;
 use App\Http\Livewire\ListaServicios;
 use App\Http\Livewire\Prueba;
@@ -57,6 +58,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get('/Administracion-de-certificaciones',AdministracionCertificaciones::class)->middleware('can:admin.certificaciones')->name('admin.certificaciones');
     Route::get('/Solicitud/{soliId}',VistaSolicitud::class)->name('vistaSolicitud');
     Route::get('/Servicio',Prueba::class)->middleware('can:servicio')->name('servicio');
+    Route::get('/Solucion',Arreglando::class)->name('solucion');
     
 
     //RUTAS PARA STREAM Y DESCARGA DE PDFS

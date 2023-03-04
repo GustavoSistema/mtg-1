@@ -33,6 +33,7 @@ class Prueba extends Component
     {
         $this->talleres = Taller::all()->sortBy('nombre');
         $this->estado = "esperando";
+        //$this->certificacion=new Certificacion();
     }
 
 
@@ -74,9 +75,13 @@ class Prueba extends Component
         if ($val) {
             $this->tipoServicio = Servicio::find($val)->tipoServicio;
             $this->sugeridoSegunTipo($this->tipoServicio->id);
+           // $this->certificacion=new Certificacion();
+           
         } else {
             $this->tipoServicio = null;
         }
+        
+        
     }
 
 
