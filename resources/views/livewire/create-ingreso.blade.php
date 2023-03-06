@@ -75,7 +75,7 @@
         </div>
         
         @if ($temp)
-            @if ($temp->count() > 1)
+            @if ($temp->count() >= 1)
                 <div class="p-4 bg-red-400 items-center text-align-center rounded-lg shadow-xl border border-red-500">
                     <p>⚠ <strong class="text-yellow-200">Error.</strong></p>
                     <p >Se encontrarón {{ $temp->count()}} formatos existentes en el rango de series que ingresaste, por favor ingresa un rango de series válido.</p>            

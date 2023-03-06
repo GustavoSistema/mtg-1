@@ -31,7 +31,6 @@ class CreateIngreso extends Component
     public function mount(){
         //$this->open=false;
         $this->tiposMaterial=TipoMaterial::all()->sortBy("descripcion");
-        $this->anioActivo=Date('Y');
         $this->mensaje="";
         //$this->prefijo=0;
     }
@@ -47,7 +46,7 @@ class CreateIngreso extends Component
         $this->validate(); 
         $this->temp=$this->validaSeries();
 
-        if($this->validaSeries()->count() <= 0){
+        if($this->temp->count() <= 0){
             $aux=[];          
             $ingreso=Ingreso::create([
                 "motivo"=>$this->motivo,
@@ -70,8 +69,7 @@ class CreateIngreso extends Component
                         ]);
                        // $this->mensaje=$i;                        
                         array_push($aux,$formato->id);           
-                    }      
-                    
+                    }                          
                     
                     foreach ($aux  as $key=>$id){
                         $detalleIng=IngresoDetalle::create([
@@ -115,8 +113,10 @@ class CreateIngreso extends Component
 
     public function updated($propertyName){
         if($propertyName=="numInicio" && $this->cantidad>0){
+            
             if($this->numInicio){               
                 $this->numFinal=$this->numInicio+($this->cantidad-1);
+                $this->reset(["temp"]);
             }
         }
         if($propertyName=="cantidad" && $this->numInicio>0){
@@ -125,6 +125,10 @@ class CreateIngreso extends Component
             }else{
                 $this->numFinal=0;
             }
+        }
+
+        if($propertyName=="open"){
+            $this->anioActivo=Date('Y');
         }
         if($propertyName=="tipoMat"){
             switch ($this->tipoMat) {
