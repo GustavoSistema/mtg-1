@@ -15,10 +15,7 @@
                     <tr>
                         <th scope="col" class="text-sm font-medium font-semibold text-white px-6 py-4 text-left">
                             #
-                        </th>
-                        <th scope="col" class="text-sm font-medium font-semibold text-white px-6 py-4 text-left">
-                            Inspector
-                        </th>
+                        </th>                        
                         <th scope="col" class="text-sm font-medium font-semibold text-white px-6 py-4 text-left">
                             Servicio
                         </th>
@@ -35,7 +32,10 @@
                             Fecha
                         </th>
                         <th scope="col" class="text-sm font-medium font-semibold text-white px-6 py-4 text-left">
-                            Acciones
+                            Estado
+                        </th>
+                        <th scope="col" class="text-sm font-medium font-semibold text-white px-6 py-4 text-left">
+                            
                         </th>
 
                     </tr>
@@ -50,14 +50,7 @@
                                         {{ $certificacion->id }}
                                     </div>
                                 </div>
-                            </td>
-                            <td class="pl-2">
-                                <div class="flex items-center">
-                                    <p class="text-sm font-medium leading-none text-gray-600 mr-2">
-                                        {{ $certificacion->inspector->name }}
-                                    </p>
-                                </div>
-                            </td>
+                            </td>                            
                             <td class="pl-2">
                                 <div class="flex items-center">
                                     @switch($certificacion->Servicio->tipoServicio->id)
@@ -117,15 +110,102 @@
                                         {{ $certificacion->placa }}</p>
                                 </div>
                             </td>
+
+                            @if(isset($certificacion->Hoja->numSerie))
+                                <td class="">
+                                    <div class="flex items-center justify-center">
+                                        <p class="text-sm font-semibold  text-gray-600 p-1 bg-orange-100 rounded-full">{{ $certificacion->Hoja->numSerie}}</p>
+                                    </div>
+                                </td>
+                            @else
+                                <td class="">
+                                    <div class="flex items-center justify-center">
+                                        <p class="text-sm font-semibold  text-gray-600 p-1 bg-orange-100 rounded-full">Sin datos</p>
+                                    </div>
+                                </td>
+                            @endif
+
+                            <td class="pl-2">                                
+                                <p class="text-gray-600 ">{{ $certificacion->created_at->format('d/m/Y  h:m:s') }}</p>                                
+                            </td>
                             <td class="">
                                 <div class="flex items-center justify-center">
-                                    <p class="text-sm font-semibold  text-gray-600 p-1 bg-orange-100 rounded-full">{{ $certificacion->serieFormato }}</p>
+                                    @switch( $certificacion->estado)
+                                        @case(1)
+                                            
+                                            <i class="far fa-check-circle fa-lg" style="color: forestgreen;"></i>
+                                            @break
+                                        @case(2)
+                                        <i class="far fa-times-circle fa-lg" style="color: red;"></i>
+                                            @break
+                                        @default                                            
+                                    @endswitch
                                 </div>
                             </td>
-                            <td class="pl-2">
-                                <button
-                                    class="py-3 px-3 text-sm focus:outline-none leading-none text-sky-700 bg-sky-100 rounded">{{ $certificacion->created_at }}</button>
+                            <td>
+                                <div class="relative px-5 text-center" x-data="{ menu: false }">
+                                    {{--
+                                    <button class="focus:ring-2 rounded-md focus:outline-none" x-on:click="menu = ! menu" type="button" id="menu-button" aria-expanded="true" aria-haspopup="true">
+                                        <svg class="dropbtn" onclick="dropdownFunction(this)" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <path d="M4.16667 10.8332C4.62691 10.8332 5 10.4601 5 9.99984C5 9.5396 4.62691 9.1665 4.16667 9.1665C3.70643 9.1665 3.33334 9.5396 3.33334 9.99984C3.33334 10.4601 3.70643 10.8332 4.16667 10.8332Z" stroke="#9CA3AF" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M10 10.8332C10.4602 10.8332 10.8333 10.4601 10.8333 9.99984C10.8333 9.5396 10.4602 9.1665 10 9.1665C9.53976 9.1665 9.16666 9.5396 9.16666 9.99984C9.16666 10.4601 9.53976 10.8332 10 10.8332Z" stroke="#9CA3AF" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M15.8333 10.8332C16.2936 10.8332 16.6667 10.4601 16.6667 9.99984C16.6667 9.5396 16.2936 9.1665 15.8333 9.1665C15.3731 9.1665 15 9.5396 15 9.99984C15 10.4601 15.3731 10.8332 15.8333 10.8332Z" stroke="#9CA3AF" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                    </button>
+                                    --}}
+                                    <button type="button" x-on:click="menu = ! menu" id="menu-button" aria-expanded="true" aria-haspopup="true" data-te-ripple-init data-te-ripple-color="light" class="hover:animate-pulse inline-block rounded-full bg-amber-400 p-2 uppercase leading-normal text-white shadow-md transition duration-150 ease-in-out hover:bg-amber-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-amber-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-amber-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4">
+                                            <path fill-rule="evenodd" d="M19.5 21a3 3 0 003-3V9a3 3 0 00-3-3h-5.379a.75.75 0 01-.53-.22L11.47 3.66A2.25 2.25 0 009.879 3H4.5a3 3 0 00-3 3v12a3 3 0 003 3h15zm-6.75-10.5a.75.75 0 00-1.5 0v4.19l-1.72-1.72a.75.75 0 00-1.06 1.06l3 3a.75.75 0 001.06 0l3-3a.75.75 0 10-1.06-1.06l-1.72 1.72V10.5z"
+                                            clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
+                                    <div x-show="menu" x-on:click.away="menu = false" class="origin-top-right absolute right-12 mt-2 w-56 rounded-md shadow-lg bg-gray-300 ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none z-40" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                                        <div class="" role="none">
+                                            <a  href="{{$certificacion->rutaVistaCertificado}}" target="__blank" rel="noopener noreferrer"
+                                                class="flex px-4 py-2 text-sm text-indigo-700 hover:bg-slate-600 hover:text-white justify-between items-center rounded-t-md hover:cursor-pointer">
+                                                <i class="fas fa-eye"></i> 
+                                                <span>Ver Certificado.</span>
+                                            </a>
+                                            
+                                                @if($certificacion->Servicio->tipoServicio->id!=8) 
+                                                <a  href="{{$certificacion->rutaDescargaCertificado}}" target="__blank" rel="noopener noreferrer"
+                                                class="flex px-4 py-2 text-sm text-indigo-700 hover:bg-slate-600 hover:text-white justify-between items-center hover:cursor-pointer">
+                                                @else
+                                                <a  href="{{$certificacion->rutaDescargaCertificado}}" target="__blank" rel="noopener noreferrer"
+                                                    class="flex px-4 py-2 text-sm text-indigo-700 hover:bg-slate-600 hover:text-white justify-between rounded-b-md items-center hover:cursor-pointer">
+                                                @endif
+                                                <i class="fas fa-download"></i> 
+                                                <span>desc. Certificado</span>
+                                            </a>
+
+                                            @if($certificacion->Servicio->tipoServicio->id!=8)                                         
+                                                <a  href="{{$certificacion->rutaVistaFt}}" target="__blank" rel="noopener noreferrer"
+                                                    class="flex px-4 py-2 text-sm text-indigo-700 hover:bg-slate-600 hover:text-white justify-between items-center hover:cursor-pointer">
+                                                    <i class="fas fa-eye"></i> 
+                                                    <span>Ver Ficha Tec.</span>
+                                                </a>
+                                                <a  href="{{$certificacion->rutaDescargaFt}}" target="__blank" rel="noopener noreferrer"
+                                                    class="flex px-4 py-2 text-sm text-indigo-700 hover:bg-slate-600 hover:text-white justify-between items-center hover:cursor-pointer">
+                                                    <i class="fas fa-download"></i> 
+                                                    <span>desc. Ficha Tec.</span>
+                                                </a>
+                                                <a  href="{{ route('checkListArribaGnv',[$certificacion->id])}}" target="__blank" rel="noopener noreferrer"
+                                                    class="flex px-4 py-2 text-sm text-indigo-700 hover:bg-slate-600 hover:text-white justify-between items-center hover:cursor-pointer">
+                                                    <i class="fas fa-eye"></i> 
+                                                    <span>CheckList Arriba</span>
+                                                </a>
+                                                <a  href="{{ route('checkListAbajoGnv',[$certificacion->id])}}" target="__blank" rel="noopener noreferrer"
+                                                    class="flex px-4 py-2 text-sm text-indigo-700 hover:bg-slate-600 hover:text-white rounded-b-md justify-between items-center hover:cursor-pointer">
+                                                    <i class="fas fa-eye"></i> 
+                                                    <span>CheckList Abajo</span>                                                
+                                                </a>
+                                            @endif
+                                           
+                                        </div>                                        
+                                    </div>
+                                </div>
                             </td>
+                            {{--
                             <td class="pl-4">
                                 <div class="relative flex justify-center px-5">
                                     <div x-data="{ dropdownMenu: false }" class="relative">
@@ -169,6 +249,7 @@
                                     </div>
                                 </div>
                             </td>
+                            --}}
                         </tr>
                         <tr class="h-3"></tr>
                     @endforeach

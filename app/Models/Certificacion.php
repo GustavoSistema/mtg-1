@@ -109,7 +109,15 @@ class Certificacion extends Model
     public function getserieFormatoAttribute(){
         //$hoja=Certificacion::find($this->attributes['id'])->Materiales->where('idTipoMaterial',1)->first();
         //return $hoja;
-        return $this->Materiales->where('idTipoMaterial',1)->first()->numSerie;
+        $serie=null;
+        
+            $numero=$this->Materiales->where('idTipoMaterial',1)->first()->numSerie;
+       
+        
+        if($numero){
+            $serie=$numero;
+        }
+        return $serie;
         
     }
 
@@ -145,8 +153,12 @@ class Certificacion extends Model
             break;  
             
             case 8://tipo servicio = anual gnv
-                $dupli=Duplicado::findOrfail($this->attributes["idDuplicado"]);               
-                $ruta= $this->generaRutaDuplicado($dupli);
+                $dupli=Duplicado::find($this->attributes["idDuplicado"]);    
+                if($dupli){
+                    $ruta= $this->generaRutaDuplicado($dupli);
+                }else{
+                    $ruta=null;
+                }                 
             break; 
 
             default:
@@ -196,6 +208,44 @@ class Certificacion extends Model
         return $ruta;
     }
 
+    public function generaRutaDescargaDuplicado(Duplicado $duplicado){
+        $ruta=null;      
+
+        switch ($duplicado->externo) {
+            case 0:
+                switch ($duplicado->servicio) {
+
+                    case 1:
+                        $ruta= route('descargarDuplicadoInicialGnv',['id' => $this->attributes['id']]);                
+                    break;
+                    case 2:
+                        $ruta= route('descargarDuplicadoAnualGnv',['id' => $this->attributes['id']]);
+                    break;                   
+                    
+                }                
+            break;
+            case 1:
+                switch ($duplicado->servicio) {
+
+                    case 1:
+                        $ruta= route('descargarDuplicadoExternoInicialGnv',['id' => $this->attributes['id']]);                
+                    break;
+                    case 2:
+                        $ruta= route('descargarDuplicadoExternoAnualGnv',['id' => $this->attributes['id']]);
+                    break;                   
+                    
+                } 
+                
+            break;
+            
+            default:
+                # code...
+                break;
+        }
+
+        return $ruta;
+    }
+
     public function getRutaDescargaCertificadoAttribute(){
         $ruta=null;
         switch ($this->Servicio->tipoServicio->id) {
@@ -204,7 +254,16 @@ class Certificacion extends Model
             break; 
             case 2://tipo servicio = anual gnv
                 $ruta= route('descargarCertificadoAnualGnv', ['id' => $this->attributes['id']]);
-            break;     
+            break;  
+            
+            case 8://tipo servicio = anual gnv
+                $dupli=Duplicado::find($this->attributes["idDuplicado"]);    
+                if($dupli){
+                    $ruta= $this->generaRutaDescargaDuplicado($dupli);
+                }else{
+                    $ruta=null;
+                }                 
+            break;
                        
             default:
                 $ruta=null;
@@ -248,6 +307,16 @@ class Certificacion extends Model
         return $ruta;
     }
 
+    public function getCalculaPesosAttribute(){
+        $peso=0;
+        $equipos=$this->Vehiculo->Equipos->where('idTipoEquipo',3);
+        foreach($equipos as $eq){
+            if($eq->peso >0){
+                $peso+=$eq->peso;
+            }
+        }
+        return $peso;
+    }
 
     public static function certificarGnv(Taller $taller,Servicio $servicio,Material $hoja,vehiculo $vehiculo,User $inspector){
         $cert=Certificacion::create([
@@ -272,13 +341,9 @@ class Certificacion extends Model
         }else{
             return null;
         }        
-    }
-
-
-    
+    }    
 
     public static function duplicarCertificadoExternoGnv(User $inspector,Vehiculo $vehiculo,Servicio $servicio,Taller $taller,Material $hoja,Duplicado $duplicado){
-
         $cert=Certificacion::create([
             "idVehiculo"=>$vehiculo->id,
             "idTaller"=>$taller->id,
@@ -305,7 +370,6 @@ class Certificacion extends Model
 
 
     }
-
 
     public static function duplicarCertificadoGnv(Duplicado $duplicado,Taller $taller,User $inspector,Servicio $servicio,Material $hoja){
         $anterior=Certificacion::find($duplicado->idAnterior);
@@ -336,5 +400,7 @@ class Certificacion extends Model
 
 
     }
+
+   
     
 }

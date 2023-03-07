@@ -89,13 +89,21 @@ class AdministracionCertificaciones extends Component
     }
 
     public function delete(Certificacion $certificacion){
-           if($certificacion->Hoja->update(['estado'=>3])){
-            $certificacion->delete();
-            $this->emitTo('administracion-certificaciones','render');
-           } else{
-            $this->emit("minAlert",["titulo"=>"AVISO DEL SISTEMA","mensaje"=>"Ocurrio un error al cambiar el estado de este certificado","icono"=>"warning"]);
-           }
            
+           
+           if($certificacion->Hoja){
+               if($certificacion->Hoja->update(['estado'=>3])){
+                $certificacion->delete();          
+                $this->emitTo('administracion-certificaciones','render');
+               } else{
+                $this->emit("minAlert",["titulo"=>"AVISO DEL SISTEMA","mensaje"=>"Ocurrio un error al cambiar el estado de este certificado","icono"=>"warning"]);
+               }
+           }else{
+                if($certificacion->delete()){
+                    $this->emitTo('administracion-certificaciones','render');
+                    $this->emit("minAlert",["titulo"=>"AVISO DEL SISTEMA","mensaje"=>"Se elimino tu servicio pero no se cambio el estado de su formato","icono"=>"warning"]);
+                }          
+           }
     }
 
    

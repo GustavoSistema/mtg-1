@@ -202,7 +202,7 @@
                 <tr>
                     <td style="text-align:center;">18</td>
                     <td style="text-align:center;">Peso neto(kg)</td>
-                    <td style="text-align:center;">{{$carro->pesoNeto+60}}</td>                   
+                    <td style="text-align:center;">{{$carro->pesoNeto+$pesos}}</td>                   
                 </tr>
             </table>
         <p>Consiste por el presente documento que el sistema de combustible  a Gas Natural Vehicular GNV, del vehículo antes referido, no afectaran negativamente la seguridad

@@ -88,6 +88,7 @@
         <p>Haber efectuado la evaluación de las condiciones de seguridad respecto de la conversión del sistema de combustión a 
             Gas Natural Vehicular – GNV efectuada  por  el taller de  Conversión  Autorizado: {{$taller->nombre}}</p>        
         <!-- DATOS VEHICULO -->
+        
         <table>
             <tr>
                 <td style="padding: 0 5px 0 5px; text-align:center;">1</td>
@@ -202,7 +203,7 @@
                 <tr>
                     <td style="text-align:center;">18</td>
                     <td style="text-align:center;">Peso neto(kg)</td>
-                    <td style="text-align:center;">{{$carro->pesoNeto+60}}</td>                   
+                    <td style="text-align:center;">{{$carro->pesoNeto+$pesos}}</td>                   
                 </tr>
             </table>
         <p>Consiste por el presente documento que el sistema de combustible  a Gas Natural Vehicular GNV, del vehículo antes referido, no afectaran negativamente la seguridad

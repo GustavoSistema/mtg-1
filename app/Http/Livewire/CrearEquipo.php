@@ -81,7 +81,7 @@ class CrearEquipo extends Component
 
     public function updatedEquipoCapacidad($var){
         if($var!=null && $var!='e'){
-            $this->equipoPeso=$var+(mt_rand(5,8));
+            $this->equipoPeso=$var+(mt_rand(1,5));
         }else{
             $this->equipoPeso=null;
         }   

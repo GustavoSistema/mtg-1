@@ -28,6 +28,7 @@
                         <p>TODOS</p>
                     </div>
                 </a>
+                {{--
                 <a class="rounded-full focus:outline-none focus:ring-2 focus:bg-indigo-50 focus:ring-indigo-800 ml-4 sm:ml-8"
                     href="javascript:void(0)">
                     <div class="py-2 px-8 text-gray-600 hover:text-indigo-700 hover:bg-indigo-100 rounded-full ">
@@ -39,7 +40,8 @@
                     <div class="py-2 px-8 text-gray-600 hover:text-indigo-700 hover:bg-indigo-100 rounded-full ">
                         <p>GNV</p>
                     </div>
-                </a>
+                </a>                
+                --}}
             </div>     
             <div class="flex bg-gray-300 items-center lg:w-3/6 p-2 ">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20"
