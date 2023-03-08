@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Certificacion;
 use App\Models\Duplicado;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
@@ -560,30 +561,50 @@ class PdfController extends Controller
     public function generarPreConversionGnv($id){
         if(Certificacion::findOrFail($id)){
             $certificacion=Certificacion::find($id);
-            $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-            $chip=$certificacion->vehiculo->Equipos->where("idTipoEquipo",1)->first();           
-            $equipos=$certificacion->vehiculo->Equipos->where("idTipoEquipo","!=",1)->sortBy("idTipoEquipo");                     
-            //dd($equipos); 
-            $hoja=$certificacion->Materiales->where('idTipoMaterial',1)->first();
-            $fechaCert=$certificacion->created_at;
-            $fec=$fechaCert->format("d/m/Y");
-            $data=[
-            "fecha"=>$fec,
-            "empresa"=>"MOTORGAS COMPANY S.A.",
-            "carro"=>$certificacion->Vehiculo,
-            "taller"=>$certificacion->Taller,
-            "servicio"=>$certificacion->Servicio, 
-            "hoja"=>$hoja, 
-            "equipos"=>$equipos,
-            "chip"=>$chip,
-            ];                 
-            $pdf = App::make('dompdf.wrapper');
-            $pdf->loadView('constanciaPreConvercion',$data);        
-            //return $pdf->stream($id.'-'.date('d-m-Y').'-cargo.pdf');
-            return  $pdf->stream("FT-".$certificacion->Vehiculo->placa.'-'.$hoja->numSerie.'.pdf');
+            if($certificacion->Servicio->tipoServicio->id){
+                if($certificacion->Servicio->tipoServicio->id==1){                    
+                    $chip=$certificacion->vehiculo->Equipos->where("idTipoEquipo",1)->first();           
+                    $equipos=$certificacion->vehiculo->Equipos->where("idTipoEquipo","!=",1)->sortBy("idTipoEquipo");                     
+                    //dd($equipos); 
+                    $hoja=$certificacion->Materiales->where('idTipoMaterial',1)->first();
+                    $fechaCert=$certificacion->created_at;
+                    $fec=$fechaCert->format("d/m/Y");
+                    $data=[
+                    "fecha"=>$fec,
+                    "empresa"=>"MOTORGAS COMPANY S.A.",
+                    "carro"=>$certificacion->Vehiculo,
+                    "taller"=>$certificacion->Taller,
+                    "servicio"=>$certificacion->Servicio, 
+                    "hoja"=>$hoja, 
+                    "equipos"=>$equipos,
+                    "chip"=>$chip,
+                    "cilindros"=>$this->estadoCilindrosMotor($certificacion->Vehiculo->cilindros),
+                    ];                 
+                    $pdf = App::make('dompdf.wrapper');
+                    $pdf->loadView('preConversion',$data);        
+                    //return $pdf->stream($id.'-'.date('d-m-Y').'-cargo.pdf');
+                    return  $pdf->stream("FT-".$certificacion->Vehiculo->placa.'-'.$hoja->numSerie.'.pdf');
+                }
+            }
         }else{
             return abort(404);
         }
+    }
+
+    public function estadoCilindrosMotor($cilindros){
+        $cil=new Collection();
+
+        for ($i=1; $i<=$cilindros ; $i++) {
+            $presion=mt_rand(145,175);
+            $data=
+            [
+                "numeracion"=>"Cilindro ".$i,
+                "presion"=>$presion,
+            ];
+            $cil->push($data);
+        }
+
+        return $cil;
     }
 
     public function descargarPreConversionGnv($idCert){
@@ -616,3 +637,4 @@ class PdfController extends Controller
 
 
 }
+ 
