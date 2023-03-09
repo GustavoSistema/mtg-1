@@ -19,11 +19,14 @@ class ZipController extends Controller
         $fotos=[];
         $fileName = $expediente->placa.'.zip';        
         $imagenes=Imagen::where('Expediente_idExpediente','=',$expediente->id)->whereIn('extension',['jpg','jpeg','png','gif','tif','tiff','bmp'])->get();
-        foreach($imagenes as $imagen){
-            $ruta=["/".$imagen->placa=>storage_path("app/".$imagen->ruta)];
-            array_push($fotos,$ruta);            
+
+        $zip=Zip::create($fileName);
+        foreach($imagenes as $key=>$imagen){            
+            $ruta=storage_path("app/".$imagen->ruta);
+            $nombre=$imagen->nombre.'.'.$imagen->extension;
+                $zip->add($ruta,$expediente->placa."/".$nombre);
         }
-        return Zip::create($fileName,$fotos);   	
+        return $zip;   	
     }
 
     public function descargaFotosAprobados(){

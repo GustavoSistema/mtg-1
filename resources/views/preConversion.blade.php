@@ -270,7 +270,7 @@
                                 @for($i=0;$i<=7;$i++)
                                     <tr>
                                         <td>{{$cilindros[$i]["numeracion"]}}</td>
-                                        <td>{{$cilindros[$i]["presion"]}}</td>
+                                        <td style="text-align: right;">{{$cilindros[$i]["presion"]}}</td>
                                     </tr>
                                 @endfor
                             </table>
@@ -301,18 +301,26 @@
                         <br>
                         <br>
                         <br>                                       
-                    @else
+                    @else                        
                         <table style="width: 40%; margin: 5px auto">
                             <thead>
                                 <td> N° Cilindro</td>
                                 <td> Compresión obtenida (PSI)</td>
                             </thead>
-                            @foreach($cilindros as $cilindro)
-                                <tr>
-                                    <td>{{$cilindro["numeracion"]}}</td>
-                                    <td>{{$cilindro["presion"]}}</td>
-                                </tr>
-                            @endforeach
+                            @if($cilindros->count()>0)
+                                @foreach($cilindros as $cilindro)
+                                    <tr>
+                                        <td>{{$cilindro["numeracion"]}}</td>
+                                        <td style="text-align: right;">{{$cilindro["presion"]}}</td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                    <tr>
+                                        <td colspan="2">
+                                            NO SE ENCONTRARON DATOS EN LA TARJETA DEL VEHÍCULO
+                                        </td>
+                                    </tr>
+                            @endif
                         </table>                       
                     @endif                   
                                       

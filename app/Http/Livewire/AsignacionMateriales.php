@@ -73,9 +73,14 @@ class AsignacionMateriales extends Component
         $this->reset(['articulos','inspector']);
     }
     
+
+
+
     public function identificaSeries($articulos){
         
     }
+
+    
     
     public function asignarMaterial($art,Salida $salida){
         switch ($art["tipo"]) {

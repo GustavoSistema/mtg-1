@@ -558,6 +558,7 @@ class PdfController extends Controller
         }
     }
 
+     //vista y descarga de FICHAS DE PRECONVERSION GNV
     public function generarPreConversionGnv($id){
         if(Certificacion::findOrFail($id)){
             $certificacion=Certificacion::find($id);
@@ -583,7 +584,7 @@ class PdfController extends Controller
                     $pdf = App::make('dompdf.wrapper');
                     $pdf->loadView('preConversion',$data);        
                     //return $pdf->stream($id.'-'.date('d-m-Y').'-cargo.pdf');
-                    return  $pdf->stream("FT-".$certificacion->Vehiculo->placa.'-'.$hoja->numSerie.'.pdf');
+                    return  $pdf->stream("PreConver-".$certificacion->Vehiculo->placa.'-'.$hoja->numSerie.'.pdf');
                 }
             }
         }else{
@@ -591,6 +592,40 @@ class PdfController extends Controller
         }
     }
 
+    public function descargarPreConversionGnv($id){
+        if(Certificacion::findOrFail($id)){
+            $certificacion=Certificacion::find($id);
+            if($certificacion->Servicio->tipoServicio->id){
+                if($certificacion->Servicio->tipoServicio->id==1){                    
+                    $chip=$certificacion->vehiculo->Equipos->where("idTipoEquipo",1)->first();           
+                    $equipos=$certificacion->vehiculo->Equipos->where("idTipoEquipo","!=",1)->sortBy("idTipoEquipo");                     
+                    //dd($equipos); 
+                    $hoja=$certificacion->Materiales->where('idTipoMaterial',1)->first();
+                    $fechaCert=$certificacion->created_at;
+                    $fec=$fechaCert->format("d/m/Y");
+                    $data=[
+                    "fecha"=>$fec,
+                    "empresa"=>"MOTORGAS COMPANY S.A.",
+                    "carro"=>$certificacion->Vehiculo,
+                    "taller"=>$certificacion->Taller,
+                    "servicio"=>$certificacion->Servicio, 
+                    "hoja"=>$hoja, 
+                    "equipos"=>$equipos,
+                    "chip"=>$chip,
+                    "cilindros"=>$this->estadoCilindrosMotor($certificacion->Vehiculo->cilindros),
+                    ];                 
+                    $pdf = App::make('dompdf.wrapper');
+                    $pdf->loadView('preConversion',$data);        
+                    //return $pdf->stream($id.'-'.date('d-m-Y').'-cargo.pdf');
+                    return  $pdf->download("PreConver-".$certificacion->Vehiculo->placa.'-'.$hoja->numSerie.'.pdf');
+                }
+            }
+        }else{
+            return abort(404);
+        }
+    }
+
+    //FUNCION PARA PRESION DE CILINDROS
     public function estadoCilindrosMotor($cilindros){
         $cil=new Collection();
 
@@ -607,33 +642,7 @@ class PdfController extends Controller
         return $cil;
     }
 
-    public function descargarPreConversionGnv($idCert){
-        if(Certificacion::findOrFail($idCert)){
-            $certificacion=Certificacion::find($idCert);                         
-            $chip=$certificacion->vehiculo->Equipos->where("idTipoEquipo",1)->first();           
-            $equipos=$certificacion->vehiculo->Equipos->where("idTipoEquipo","!=",1)->sortBy("idTipoEquipo");                     
-            //dd($equipos); 
-            $hoja=$certificacion->Materiales->where('idTipoMaterial',1)->first();
-            $fechaCert=$certificacion->created_at;
-            $fec=$fechaCert->format("d/m/Y");
-            $data=[
-            "fecha"=>$fec,
-            "empresa"=>"MOTORGAS COMPANY S.A.",
-            "carro"=>$certificacion->Vehiculo,
-            "taller"=>$certificacion->Taller,
-            "servicio"=>$certificacion->Servicio, 
-            "hoja"=>$hoja, 
-            "equipos"=>$equipos,
-            "chip"=>$chip,
-            ];                 
-            $pdf = App::make('dompdf.wrapper');
-            $pdf->loadView('fichaTecnicaGnv',$data);        
-            //return $pdf->stream($id.'-'.date('d-m-Y').'-cargo.pdf');
-            return  $pdf->download('FT-'.$certificacion->Vehiculo->placa.'-'.$hoja->numSerie.'.pdf');
-        }else{
-            return abort(404);
-        }
-    }
+    
 
 
 }
