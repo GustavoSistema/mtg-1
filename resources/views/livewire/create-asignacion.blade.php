@@ -40,7 +40,7 @@
                             class="bg-gray-50 border-indigo-500 rounded-md outline-none block w-full ">
                             <option value="0">Seleccione</option>
                             @foreach ($grupos as $key=>$gr)
-                                <option value="{{ $gr->id }}">VALOR</option>
+                                <option value="{{ $key}}">{{$gr->grupo." - ".$gr->stock}}</option>
                             @endforeach
                         </select>
                         <x-jet-input-error for="grupo" />

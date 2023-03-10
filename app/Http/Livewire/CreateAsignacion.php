@@ -53,9 +53,9 @@ class CreateAsignacion extends Component
     public function updated($propertyName){
         switch ($this->tipoM) {
             case 1:
-                $this->rules+=["cantidad"=>'required|numeric|min:1|max:'.$this->stocks["FORMATO GNV"]];
+                
                 $this->grupos=DB::table('material')
-                ->select(DB::raw('count(*) as stock'))
+                ->select(DB::raw(' grupo,count(*) as stock'))
                 ->where([
                     ['estado',1],
                     ['idTipoMaterial',1]
@@ -73,7 +73,7 @@ class CreateAsignacion extends Component
             default:
                 $this->rules+=["cantidad"=>'required|numeric|min:1'];
             break;
-           }      
+           }     
         $this->validateOnly($propertyName);
     }
 
