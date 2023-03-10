@@ -25,6 +25,7 @@
                     <option value="L1">L1</option>
                     <option value="L2">L2</option>
                     <option value="L3">L3</option>
+                    <option value="L5">L5</option>
                     <option value="O1">O1</option>
                     <option value="O2">O2</option>
                     <option value="O3">O3</option>

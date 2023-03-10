@@ -48,10 +48,10 @@ class Arreglando extends Component
     }
 
     public function calculaCorrelativos(){
-        $this->encuentraCorte($this->recortados);
+        $this->encuentraSeries($this->recortados);
     }
 
-    public function encuentraCorte($arreglo){
+    public function encuentraSeries($arreglo){
         $inicio=$arreglo[0]["numSerie"];
         $final=$arreglo[0]["numSerie"];
         $nuevos=[];
@@ -62,17 +62,14 @@ class Arreglando extends Component
                 }else{
                     array_push($nuevos,["inicio"=>$inicio,"final"=>$final]);
                     $inicio=$this->recortados[$key+1]["numSerie"];
-                    $final=$this->recortados[$key+1]["numSerie"];
-                    
+                    $final=$this->recortados[$key+1]["numSerie"];                    
                 }
             }else{
                 $final=$this->recortados[$key]["numSerie"];
                 array_push($nuevos,["inicio"=>$inicio,"final"=>$final]);
             }
         }
-
-        $this->emit("minAlert",["titulo"=>"Buen Trabajo!","mensaje"=>json_encode($nuevos),"icono"=>"success",]);
-        
+        $this->rec=$nuevos;        
     }
 
         

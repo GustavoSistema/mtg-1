@@ -33,7 +33,7 @@ class CreateTaller extends Component
     protected $rules=[
         'nombre'=>'required|min:5|max:110',      
         'direccion'=>'required|min:5|max:110',
-        'ruc'=>'required|digits:11|unique:taller,ruc',
+        'ruc'=>'required|digits:11',
         'precios'=>'array|min:1|required',
         'logo'=>'nullable|mimes:jpg,bmp,png,jpeg,tif,tiff',
         'firma'=>'nullable|mimes:jpg,bmp,png,jpeg,tif,tiff',

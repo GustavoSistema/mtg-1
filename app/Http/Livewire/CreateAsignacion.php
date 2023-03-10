@@ -6,13 +6,15 @@ use App\Models\Material;
 use App\Models\TipoMaterial;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class CreateAsignacion extends Component
 {
 
     public $open=false;
-    public $inspectores,$inspector,$tiposMateriales,$cantidad,$nombre,$motivo,$nombreTipo;
+    public $inspectores,$inspector,$tiposMateriales,$cantidad,$nombre,$motivo,$nombreTipo,$grupo;
+    public $grupos;
     public $tipoM=0;
     public $stocks=[];   
 
@@ -52,6 +54,15 @@ class CreateAsignacion extends Component
         switch ($this->tipoM) {
             case 1:
                 $this->rules+=["cantidad"=>'required|numeric|min:1|max:'.$this->stocks["FORMATO GNV"]];
+                $this->grupos=DB::table('material')
+                ->select(DB::raw('count(*) as stock'))
+                ->where([
+                    ['estado',1],
+                    ['idTipoMaterial',1]
+                    ])
+                ->groupBy('grupo')
+                ->get();
+
                 break;
             case 2:
                 $this->rules+=["cantidad"=>'required|numeric|min:1|max:'.$this->stocks["CHIP"]];
@@ -83,7 +94,6 @@ class CreateAsignacion extends Component
                 $rule=["cantidad"=>'required|numeric|min:1'];
             break;
         } 
-
         $this->validate($rule);        
         $articulo= array("tipo"=>$this->tipoM,"nombreTipo"=>$this->nombreTipo,"cantidad"=>$this->cantidad,"motivo"=>$this->motivo);
         $this->emit('agregarArticulo',$articulo);
@@ -91,8 +101,7 @@ class CreateAsignacion extends Component
         $this->open=false;
     }      
 
-    public function updatedOpen(){
-        
+    public function updatedOpen(){        
         $this->reset(['tipoM','motivo','cantidad','stocks']);
         $this->listaStock();
     }

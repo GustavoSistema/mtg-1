@@ -32,6 +32,7 @@ class AsignacionMateriales extends Component
         ->orderBy('name')->get();
         
     }
+    
     public function render()    {
         
         return view('livewire.asignacion-materiales');
@@ -43,6 +44,7 @@ class AsignacionMateriales extends Component
         array_push($this->articulos,$articulo);
         $this->emit('render');   
     }
+
     public function deleteArticulo($id){
         unset($this->articulos[$id]);
     }
@@ -76,8 +78,25 @@ class AsignacionMateriales extends Component
 
 
 
-    public function identificaSeries($articulos){
-        
+    public function identificaSeries($arreglo){
+        $inicio=$arreglo[0]["numSerie"];
+        $final=$arreglo[0]["numSerie"];
+        $nuevos=[];
+        foreach($this->recortados as $key=>$rec){
+            if($key+1 < count($this->recortados) ){
+                if($this->recortados[$key+1]["numSerie"] - $rec["numSerie"]==1){
+                    $final=$this->recortados[$key+1]["numSerie"];
+                }else{
+                    array_push($nuevos,["inicio"=>$inicio,"final"=>$final]);
+                    $inicio=$this->recortados[$key+1]["numSerie"];
+                    $final=$this->recortados[$key+1]["numSerie"];                    
+                }
+            }else{
+                $final=$this->recortados[$key]["numSerie"];
+                array_push($nuevos,["inicio"=>$inicio,"final"=>$final]);
+            }
+        }
+        return $nuevos;
     }
 
     

@@ -10,10 +10,10 @@
             <h1 class="text-xl font-bold">Agregar Articulo</h1>
         </x-slot>
         <x-slot name="content">
-            <div class="mb-4  -mr-2">
+            <div>
                 <x-jet-label value="articulo:" />
                 <select wire:model="tipoM"
-                    class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full ">
+                    class="bg-gray-50 border-indigo-500 rounded-md outline-none block w-full ">
                     <option value="0">Seleccione</option>
                     @foreach ($tiposMateriales as $tipo)
                         <option value="{{ $tipo->id }}">{{ $tipo->descripcion.' - ( '.$stocks[$tipo->descripcion].' )'}}</option>
@@ -21,35 +21,36 @@
                 </select>
                 <x-jet-input-error for="tipoM" />
             </div>  
+
+            {{-- 
             <div class="mb-4 -mr-2">
                 <x-jet-label value="Cantidad:" />
                 <x-jet-input type="number" class="w-full" wire:model="cantidad"/>
                 <x-jet-input-error for="cantidad" />
             </div> 
-            <div class="mb-4">
-                <x-jet-label value="Motivo:" />
-                <select wire:model="motivo"
-                    class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full ">
-                    <option value="0">Seleccione</option>
-                    <option value="1">Solicitud de material</option>
-                    <option value="2">Cambio</option>  
-                    <option value="3">Otro</option>                   
-                </select>
-                <x-jet-input-error for="motivo" />
-            </div>    
-            {{--     
-            @switch($mostrar)
+             --}}
+              
+
+                
+            @switch($tipoM)
                 @case(1)
+                    <div>
+                        <x-jet-label value="Grupo:" />
+                        <select wire:model="grupo"
+                            class="bg-gray-50 border-indigo-500 rounded-md outline-none block w-full ">
+                            <option value="0">Seleccione</option>
+                            @foreach ($grupos as $key=>$gr)
+                                <option value="{{ $gr->id }}">VALOR</option>
+                            @endforeach
+                        </select>
+                        <x-jet-input-error for="grupo" />
+                    </div>  
+    
                     <div>
                         <x-jet-label value="Cantidad:" />
                         <x-jet-input type="number" class="w-full" wire:model="cantidad" />
                         <x-jet-input-error for="cantidad" />
-                    </div>
-                    <div>
-                        <x-jet-label value="Prefijo:" />
-                        <x-jet-input type="number" class="w-full" wire:model="prefijo" />
-                        <x-jet-input-error for="prefijo" />
-                    </div>
+                    </div>                   
                     <div>
                         <x-jet-label value="N° de inicio" />
                         <x-jet-input type="number" class="w-full" wire:model="numInicio" />
@@ -60,6 +61,17 @@
                         <x-jet-input type="number" class="w-full" wire:model="numFinal" enable />
                         <x-jet-input-error for="numFinal" />
                     </div>
+                     <div class="mb-4">
+                        <x-jet-label value="Motivo:" />
+                        <select wire:model="motivo"
+                            class="bg-gray-50 border-indigo-500 rounded-md outline-none  block w-full ">
+                            <option value="0">Seleccione</option>
+                            <option value="1">Solicitud de material</option>
+                            <option value="2">Cambio</option>  
+                            <option value="3">Otro</option>                   
+                        </select>
+                        <x-jet-input-error for="motivo" />
+                    </div> 
                 @break
                 @case(2)
                     <div>
@@ -71,7 +83,7 @@
                 @default
                     <h1 class="text-center text-red-500">Selecciona un tipo de articulo</h1>
             @endswitch
-            --}}
+           
         </x-slot>
 
         <x-slot name="footer">

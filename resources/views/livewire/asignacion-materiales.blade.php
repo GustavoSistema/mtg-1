@@ -1,8 +1,6 @@
 <div>
     <div class="container block justify-center m-auto py-12" >
-        <h1 class="text-2xl text-center">Asignacion de Materiales</h1>
-
-        
+        <h1 class="text-2xl text-center">Asignacion de Materiales</h1>        
             <div class="rounded-xl m-4 bg-white p-8 mx-auto max-w-max shadow-lg">
                 <div class="flex flex-row">
                     <div class="w-5/6">

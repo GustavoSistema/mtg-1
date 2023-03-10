@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Material extends Model
 {
@@ -28,6 +30,20 @@ class Material extends Model
 
     public function tipo(){
         return $this->belongsTo(TipoMaterial::class,'idTipoMaterial');
+    }
+
+    public static function formatosGnvEnStock($tipo){
+        $res=new Collection();
+        $aux=DB::table('material')
+            ->select('material.idTipoMaterial','tipomaterial.descripcion')            
+            ->join('tipomaterial','material.idTipoMaterial',"=",'tipomaterial.id')
+            ->where([
+                ['material.idTipoMaterial',$tipo],   
+                ['material.estado',1],             
+            ])            
+            ->get();
+        $res=$aux;
+        return $res->count();
     }
     
     public function scopeSearchSerieFormmato($query,$search){

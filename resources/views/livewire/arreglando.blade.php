@@ -16,7 +16,15 @@
             </div>
             
         @endif
-        
+
+        @if($rec)
+        <ol>
+            @foreach ($rec as $item)
+               <li>{{$item["inicio"]." - ".$item["final"]}}</li>
+            @endforeach
+        </ol>
+            
+        @endif
         
     </div>
 </div>
