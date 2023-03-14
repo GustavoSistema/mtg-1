@@ -57,6 +57,19 @@ class Material extends Model
                 ->get();
         return $grupos;
     }
+
+    public static function materialPorGrupo($grupo){
+        $grupo=DB::table('material')
+                ->select("material.*")
+                ->where([
+                    ['estado',1],
+                    ['idTipoMaterial',1],
+                    ['grupo',$grupo],
+                    ])                
+                ->get();              
+                
+        return $grupo;
+    }
     
     public function scopeSearchSerieFormmato($query,$search){
         if($search){

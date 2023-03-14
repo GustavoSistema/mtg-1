@@ -265,10 +265,10 @@ class FormVehiculo extends Component
     }
 
     public function retornaNulo($value){
-        if(isset($value)){
-            return $value;
+        if($value){
+            return $value;                       
         }else{
-            return $value=null;
+            return Null; 
         }
     }
 

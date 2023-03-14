@@ -167,9 +167,15 @@
                 class="hover:cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-amber-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-gray-400 hover:bg-gray-500 focus:outline-none rounded">
                 <p class="text-sm font-medium leading-none text-white">Cancelar</p>
             </a>
-            <a wire:click="actualizarVehiculo"
+            <a wire:click="actualizarVehiculo" wire:loading.attr="disabled" wire:target="actualizarVehiculo"
                 class="hover:cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-amber-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-green-400 hover:bg-green-500 focus:outline-none rounded">
-                <p class="text-sm font-medium leading-none text-white">Actualizar vehículo</p>
+                <p class="text-sm font-medium leading-none text-white">
+                    <span wire:loading wire:target="actualizarVehiculo">
+                        <i class="fas fa-spinner animate-spin"></i>
+                        &nbsp;
+                    </span>
+                    Actualizar vehículo
+                </p>
             </a>           
         </div>
 

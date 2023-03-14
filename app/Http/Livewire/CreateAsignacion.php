@@ -96,7 +96,6 @@ class CreateAsignacion extends Component
     }
 
     public function updatedCantidad(){
-
         //Muestra el formato con el numeroSerie mas bajo segun el Tipo de Material y Grupo Seleccionado
         if($this->validateOnly("cantidad")){
             $num=Material::where([
@@ -107,6 +106,7 @@ class CreateAsignacion extends Component
                 $this->numInicio=$num;
         }
     }    
+
 
     public function creaColeccion($inicio,$fin){
         $cole= new Collection();
@@ -158,13 +158,8 @@ class CreateAsignacion extends Component
             //$this->reset(["grupo"]);
         }else{
             $this->emit("minAlert",["titulo"=>"ERROR","mensaje"=>"Las series ingresadas no pertenecen al grupo seleccionado o no existen ","icono"=>"error"]); 
-            $this->reset(['tipoM','motivo','cantidad','grupo','numInicio','numFinal']);
-            
-        }
-            
-           
-        
-        
+            $this->reset(['tipoM','motivo','cantidad','grupo','numInicio','numFinal']);            
+        }          
     }      
 
     public function updatedOpen(){        
