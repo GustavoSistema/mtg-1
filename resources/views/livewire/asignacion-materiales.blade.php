@@ -37,6 +37,14 @@
                                                     class="text-sm font-medium font-semibold text-gray-900 px-6 py-4 text-left">
                                                     Cantidad
                                                 </th>
+                                                <th scope="col"
+                                                    class="text-sm font-medium font-semibold text-gray-900 px-6 py-4 text-left">
+                                                    Series
+                                                </th>    
+                                                <th scope="col"
+                                                    class="text-sm font-medium font-semibold text-gray-900 px-6 py-4 text-left">
+                                                    Motivo
+                                                </th>                                            
                                                 <th scope="col" class="text-sm font-medium font-semibold text-gray-900 px-6 py-4 text-left">
                                                     Acción
                                                 </th>
@@ -45,22 +53,24 @@
                                         <tbody>
                                             @foreach ($articulos as $key => $articulo)
                                                 <tr class="bg-gray-100 border-b">
-                                                    <td
-                                                        class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                                         {{ $key + 1 }}
                                                     </td>
-                                                    <td
-                                                        class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                                         {{$articulo['nombreTipo']}}
                                                     </td>
-                                                    <td
-                                                        class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                                         {{$articulo['cantidad']}}
                                                     </td>
-                                                    <td
-                                                        class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                        <a wire:click="deleteArticulo({{$key}})" class="hover: cursor-pointer p-4" ><i class="fas fa-times" ></i>
-                                                        </td></a>
+                                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                        {{$articulo['inicio']." - ".$articulo['final']}}
+                                                    </td>
+                                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                        {{$articulo['motivo']}}
+                                                    </td>
+                                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                        <a wire:click="deleteArticulo({{$key}})" class="hover: cursor-pointer p-4" ><i class="fas fa-times hover:text-red-500" ></i></a>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>

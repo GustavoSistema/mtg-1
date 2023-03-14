@@ -38,10 +38,12 @@
                         <x-jet-label value="Grupo:" />
                         <select wire:model="grupo"
                             class="bg-gray-50 border-indigo-500 rounded-md outline-none block w-full ">
-                            <option value="0">Seleccione</option>
-                            @foreach ($grupos as $key=>$gr)
-                                <option value="{{ $key}}">{{$gr->grupo." - ".$gr->stock}}</option>
-                            @endforeach
+                            <option value="">Seleccione</option>    
+                                                 
+                                @foreach ($grupos as $key=>$gr)
+                                    <option value="{{ $gr->grupo }}">{{$gr->grupo." - ".$gr->stock}}</option>
+                                @endforeach
+                            
                         </select>
                         <x-jet-input-error for="grupo" />
                     </div>  
@@ -66,9 +68,9 @@
                         <select wire:model="motivo"
                             class="bg-gray-50 border-indigo-500 rounded-md outline-none  block w-full ">
                             <option value="0">Seleccione</option>
-                            <option value="1">Solicitud de material</option>
-                            <option value="2">Cambio</option>  
-                            <option value="3">Otro</option>                   
+                            <option value="Solicitud de material">Solicitud de material</option>
+                            <option value="Cambio">Cambio</option>  
+                            <option value="Otro">Otro</option>                   
                         </select>
                         <x-jet-input-error for="motivo" />
                     </div> 
@@ -80,8 +82,19 @@
                         <x-jet-input-error for="cantidad" />
                     </div>
                 @break
+
+                @case(3)
+                <div class="mb-4 -mr-2">
+                    <x-jet-label value="Cantidad:" />
+                    <x-jet-input type="number" class="w-full" wire:model="cantidad"/>
+                    <x-jet-input-error for="cantidad" />
+                </div> 
+                @break
                 @default
-                    <h1 class="text-center text-red-500">Selecciona un tipo de articulo</h1>
+                <div class="p-4 bg-indigo-300 rounded-md my-4">
+                    <h1 class="text-center font-bold text-red-600">Selecciona un tipo de articulo</h1>
+                </div>
+                   
             @endswitch
            
         </x-slot>

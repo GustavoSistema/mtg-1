@@ -45,6 +45,18 @@ class Material extends Model
         $res=$aux;
         return $res->count();
     }
+
+    public static function stockPorGruposGnv(){
+        $grupos=DB::table('material')
+                ->select(DB::raw(' grupo,count(*) as stock'))
+                ->where([
+                    ['estado',1],
+                    ['idTipoMaterial',1]
+                    ])
+                ->groupBy('grupo')
+                ->get();
+        return $grupos;
+    }
     
     public function scopeSearchSerieFormmato($query,$search){
         if($search){
