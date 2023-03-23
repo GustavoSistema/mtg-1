@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Certificacion;
 use App\Models\Duplicado;
+use App\Models\Salida;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -640,6 +641,89 @@ class PdfController extends Controller
         }
 
         return $cil;
+    }
+
+    public function generaCargo($id){
+        $sal=Salida::find($id);
+
+        $materiales=$this->materialesPorAsigancion($sal);
+        $cambios=$this->materialesPorCambio($sal);
+        //$series=$this->encuentraSeries($materiales->all());
+        $inspector=$sal->usuarioAsignado;
+        $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+        $fecSal=$sal->created_at;
+        $fecha=$fecSal->format('d').' de '.$meses[$fecSal->format('m')-1].' del '.$fecSal->format('Y').'.';               
+        $data=[
+        "date"=>$fecha,
+        "empresa"=>"MOTORGAS COMPANY S.A.",
+        "inspector"=>$inspector->name,
+        "materiales"=>$materiales,
+        "cambios"=>$cambios,
+        "salida"=>$sal,
+        ];                 
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadView('cargoPDF',$data);        
+        return $pdf->stream(date('d-m-Y').'_'.$inspector->name.'-cargo.pdf');
+    }
+
+    public function materialesPorAsigancion(Salida $salida){
+        $materiales=new Collection();
+        $gnvs=$salida->porAsignacion->where("idTipoMaterial",1);
+        $glps=$salida->porAsignacion->where("idTipoMaterial",3);
+        $chips=$salida->porAsignacion->where("idTipoMaterial",2);
+        
+        dd($gnvs->get()->pluck("numSerie")->all());
+        if($gnvs->count()>0){
+            $materiales->push(["series"=>$this->encuentraSeries($gnvs->get()->sortBy("numSerie")->all()),"tipo"=>$gnvs->first()->tipo->descripcion,"cantidad"=>$gnvs->count(),"motivo"=>$gnvs->first()->detalle->motivo]);
+        }       
+        if($glps->count()>0){
+            $materiales->push(["series"=>$this->encuentraSeries($glps->get()->all()),"tipo"=>$glps->first()->tipo->descripcion,"cantidad"=>$glps->count(),"motivo"=>$glps->first()->detalle->motivo]);
+        }
+        if($chips->count()>0){
+            $materiales->push(["series"=>$this->encuentraSeries($chips->get()->all()),"tipo"=>$chips->first()->tipo->descripcion,"cantidad"=>$chips->count(),"motivo"=>$chips->first()->detalle->motivo]);
+        }
+        return $materiales;
+    }
+
+    public function materialesPorCambio(Salida $salida){
+        $materiales=new Collection();
+        $gnvs=$salida->porCambio->where("idTipoMaterial",1);
+        $glps=$salida->porCambio->where("idTipoMaterial",3);
+        $chips=$salida->porCambio->where("idTipoMaterial",2);
+ 
+       // dd($gnvs->get());
+        if($gnvs->count()>0){
+            $materiales->push(["series"=>$this->encuentraSeries($gnvs->get()->all()),"tipo"=>$gnvs->first()->tipo->descripcion,"cantidad"=>$gnvs->count(),"motivo"=>$gnvs->first()->detalle->motivo]);
+        }       
+        if($glps->count()>0){
+            $materiales->push(["series"=>$this->encuentraSeries($glps->get()->all()),"tipo"=>$glps->first()->tipo->descripcion,"cantidad"=>$glps->count(),"motivo"=>$glps->first()->detalle->motivo]);
+        }
+        if($chips->count()>0){
+            $materiales->push(["series"=>$this->encuentraSeries($chips->get()->all()),"tipo"=>$chips->first()->tipo->descripcion,"cantidad"=>$chips->count(),"motivo"=>$chips->first()->detalle->motivo]);
+        }
+        return $materiales;
+    }
+
+    public function encuentraSeries($arreglo){
+        //dd($arreglo);
+        $inicio = $arreglo[0]["numSerie"];
+        $final = $arreglo[0]["numSerie"];
+        $nuevos=[];
+        foreach($arreglo as $key=>$rec){
+            if($key+1 < count($arreglo) ){
+                if($arreglo[$key+1]["numSerie"] - $rec["numSerie"]==1){
+                    $final=$arreglo[$key+1]["numSerie"];
+                }else{
+                    array_push($nuevos,["inicio"=>$inicio,"final"=>$final]);
+                    $inicio=$arreglo[$key+1]["numSerie"];
+                    $final=$arreglo[$key+1]["numSerie"];                    
+                }
+            }else{
+                $final=$arreglo[$key]["numSerie"];
+                array_push($nuevos,["inicio"=>$inicio,"final"=>$final]);
+            }
+        }
+        return $nuevos;        
     }
 
     

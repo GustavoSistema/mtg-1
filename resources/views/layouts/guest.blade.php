@@ -11,9 +11,12 @@
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
 
-        <!-- Scripts -->
-        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <!-- Scripts 
+        <link rel="stylesheet" href="">
+        -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        @livewireStyles
        
     {{--@vite(['resources/css/app.css', 'resources/js/app.js'])--}}
     </head>
@@ -21,5 +24,6 @@
         <div class="font-sans text-gray-900 antialiased">
             {{ $slot }}
         </div>
+        @livewireScripts
     </body>
 </html>

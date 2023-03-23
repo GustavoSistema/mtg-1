@@ -15,7 +15,7 @@ class SalidaDetalle extends Model
     ['id',
     'idSalida',
     'idMaterial',
-    'cantidad',  
+    'motivo',  
     'estado',
     'grupo', 
     'created_at',

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 
 class CreateNewUser implements CreatesNewUsers
@@ -29,6 +30,7 @@ class CreateNewUser implements CreatesNewUsers
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
             'rol'=>['required'],
+            'taller'=>['numeric'],
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
         
@@ -36,8 +38,13 @@ class CreateNewUser implements CreatesNewUsers
             'name' => $input['name'],
             'email' => $input['email'],            
             'password' => Hash::make($input['password'])           
-        ]);       
+        ]);
+        if($input['rol']=="Administrador taller"){
+            $user->update(["taller"=>$input["taller"]]);
+        }      
+        //$rol=Role::find($input['rol']); 
         $user->assignRole($input['rol']);
+        //$user->assignRole($rol->name);
         return $user;
     }
 }

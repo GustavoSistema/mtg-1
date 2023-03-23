@@ -23,7 +23,11 @@
                         </th>
                         <th scope="col" class="text-sm font-medium font-semibold text-white px-6 py-4 text-left">
                             Servicio
-                        </th>                        
+                        </th> 
+                        <th scope="col" class="text-sm font-medium font-semibold text-white px-6 py-4 text-left">
+                            Precio
+                        </th> 
+
                         <th scope="col" class="text-sm font-medium font-semibold text-white px-6 py-4 text-left">
                             Placa
                         </th>
@@ -118,7 +122,13 @@
 
                                 </div>
                             </td>
-                            
+                            <td class="">
+                                <div class="flex items-center">  
+                                    <p class="text-sm leading-none text-gray-600 ml-2">
+                                        {{ "S/. ".$certificacion->precio}}
+                                    </p>                                 
+                                </div>
+                            </td>
                             <td class="pl-2">
                                 <div class="flex items-center">
                                     <p class="text-sm font-bold  text-indigo-700 ml-2">
@@ -140,7 +150,7 @@
                             @endif
                             
                             <td class="pl-2">                                
-                                <p class="text-gray-600 ">{{ $certificacion->created_at->format('d/m/Y  h:m:s') }}</p>                                
+                                <p class="text-gray-600 "> {{ $certificacion->created_at->format('d/m/Y  h:m:s') }} </p>                                
                             </td>
 
                             <td class="">

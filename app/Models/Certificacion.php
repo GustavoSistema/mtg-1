@@ -30,9 +30,7 @@ class Certificacion extends Model
     protected $appends = [
         'serie_formato',
         'placa',
-        'tipo_servicio',
-        
-
+        'tipo_servicio',      
     ];
 
     

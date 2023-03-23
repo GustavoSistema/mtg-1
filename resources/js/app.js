@@ -1,15 +1,18 @@
-import './bootstrap';
+import Alpine from "alpinejs";
+import flatpickr from "flatpickr";
+import Quill from "quill";
+import * as FilePond from "filepond";
+import { createPopper } from "@popperjs/core";
+import focus from "@alpinejs/focus";
 
+Alpine.plugin(focus);
 
-import Alpine from 'alpinejs';
-
-
-
+window.flatpickr = flatpickr;
+window.FilePond = FilePond;
+window.Quill = Quill;
+window.createPopper = createPopper;
 window.Alpine = Alpine;
-Alpine.start();
 
+window.Alpine.start();
 
-import * as pikaday from  'pikaday';
-
-
-//console.log(Pikaday);
+// Create a FilePond instance

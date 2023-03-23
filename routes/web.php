@@ -15,11 +15,13 @@ use App\Http\Livewire\VistaSolicitud;
 use App\Models\Ingreso;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\uploadController;
 use App\Http\Livewire\AdministracionCertificaciones;
 use App\Http\Livewire\Arreglando;
 use App\Http\Livewire\ListaCertificaciones;
 use App\Http\Livewire\ListaServicios;
 use App\Http\Livewire\Prueba;
+use App\Http\Livewire\TallerRevision;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,7 +61,13 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get('/Solicitud/{soliId}',VistaSolicitud::class)->name('vistaSolicitud');
     Route::get('/Servicio',Prueba::class)->middleware('can:servicio')->name('servicio');
     Route::get('/Solucion',Arreglando::class)->name('solucion');
+    Route::get('/Talleres/Revision',TallerRevision::class)->name('talleres.revision');
     
+
+    Route::post('/Solucion/upload-images',[uploadController::class,'uploadImagesExpediente'])->name('expediente.upload-images');
+    
+
+
     //RUTAS PARA STREAM Y DESCARGA DE PDFS
     Route::controller(PdfController::class)->group(function () {
         Route::get('/certificado-anual/{id}', 'generaPdfAnualGnv')->name("certificadoAnualGnv");
@@ -79,6 +87,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
         Route::get('/duplicado-inicial/{id}/descargar', 'descargarDuplicadoInicialGnv')->name("descargarDuplicadoInicialGnv");
         Route::get('/duplicado-inicial-ex/{id}/descargar', 'descargarDuplicadoExternoInicialGnv')->name("descargarDuplicadoExternoInicialGnv");
 
+        Route::get('/cargo/{id}','generaCargo')->name('generaCargo');
 
         Route::get('/fichaTecnicaGnv/{idCert}', 'generarFichaTecnica')->name("fichaTecnicaGnv");
         Route::get('/fichaTecnicaGnv/{idCert}/download', 'descargarFichaTecnica')->name("descargarFichaTecnicaGnv");
@@ -86,11 +95,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
         Route::get('/checkListArriba/{idCert}', 'generarCheckListArribaGnv')->name("checkListArribaGnv");
         Route::get('/checkListAbajo/{idCert}', 'generarCheckListAbajoGnv')->name("checkListAbajoGnv");       
     });
-
-
-    
-   
-    
 
     //RUTAS PARA STREAM Y DESCARGA DE PDFS
     /*
@@ -116,11 +120,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get("fichaTecnicaGnv/{idCert}/download","App\Http\Controllers\PdfController@descargarFichaTecnica")->name("descargarFichaTecnicaGnv");
     Route::get("checkListArriba/{idCert}","App\Http\Controllers\PdfController@generarCheckListArribaGnv")->name("checkListArribaGnv");
     Route::get("checkListAbajo/{idCert}","App\Http\Controllers\PdfController@generarCheckListAbajoGnv")->name("checkListAbajoGnv");
-*/
-  
-
-    
-
+    */
 
     Route::get("expediente-fotos/{id}/download","App\Http\Controllers\ZipController@descargaFotosExpediente")->name("descargaFotosExp");
     Route::get("Notification/{idNoti}/{idSoli}","App\Http\Controllers\NotificationController@marcarUnaNotificación")->name("leerNotificacion");

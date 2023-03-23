@@ -65,14 +65,61 @@
         <p>Asunto:</p>        
         <p>Le enviamos el siguiente material de trabajo por parte de la empresa <strong>{{$empresa}}</strong> </p>
         <ol>        
-            @foreach ($materiales as $material)
+            @foreach ($materiales as $key=>$material)                
+                @if ($material["tipo"]=="FORMATO GNV" || $material["tipo"]=="FORMATO GLP")
+                    <li>{{$material["tipo"]}} - {{$material["cantidad"]." Unds"}} - 
+                    (
+                        @if(count($material["series"]))
+                            @if(count($material["series"])>1)
+                                @foreach ($material["series"] as $key=>$serie)
+                                    {{$serie["inicio"]." - ".$serie["final"]."/"}}
+                                @endforeach
+                                
+                            @else
+                                {{$material["series"][0]["inicio"]}} - {{$material["series"][0]["final"]}}
+                            @endif
+                        
+                        @else
+                            SIN DATOS DE SERIES
+                        @endif
+                    ) - por motivo de <strong>{{$material["motivo"]}}</strong>
+                    </li>
+                @else
+                    <li>{{$material["tipo"]}} - {{$material["cantidad"]}}</li>
+                @endif               
+            @endforeach  
+            @foreach ($cambios as $key=>$cambio)
+            <li>
+                @if ($cambio["tipo"]=="FORMATO GNV" || $cambio["tipo"]=="FORMATO GLP")                    
+                    {{$cambio["tipo"]}} - {{$cambio["cantidad"]." Unds"}} - 
+                    (
+                        @if(count($cambio["series"]))
+                            @if(count($cambio["series"])>1)
+                                @foreach ($cambio["series"] as $key=>$serie)
+                                    {{$serie["inicio"]." - ".$serie["final"]." / "}}
+                                @endforeach                            
+                            @else
+                                {{$cambio["series"][0]["inicio"]}} - {{$cambio["series"][0]["final"]}}
+                            @endif                        
+                        @else
+                            SIN DATOS DE SERIES 
+                        @endif
+                    ) - por motivo de <strong>{{$cambio["motivo"]}}</strong>                     
+                @else
+                    <li>{{$cambio["tipo"]}} - {{$cambio["cantidad"]}}</li>
+                @endif 
+            </li>
+            
+            {{--
             @if ($material["tipo"]=="FORMATO GNV" || $material["tipo"]=="FORMATO GLP")
-                <li>{{$material["tipo"]}} - {{$material["cantidad"]}} {{'('.$material["inicio"].' - '.$material["fin"].').'}}</li>
+                <li>{{$material->detalle->motivo}}</li>
             @else
                 <li>{{$material["tipo"]}} - {{$material["cantidad"]}}</li>
             @endif
-                
+            --}}
             @endforeach  
+
+           
                                          
         </ol>
         

@@ -76,8 +76,7 @@ class CreateAsignacion extends Component
             break;
            }     
            
-        if($propertyName=="numInicio" && $this->cantidad>0){
-            
+        if($propertyName=="numInicio" && $this->cantidad>0){            
             if($this->numInicio){               
                 $this->numFinal=$this->numInicio+($this->cantidad-1);                
             }

@@ -62,7 +62,7 @@ class AsignacionMateriales extends Component
                 "numero"=>date('dmY').Auth::id().rand(),
                 "idUsuarioSalida"=>Auth::id(),
                 "idUsuarioAsignado"=>$this->inspector,
-                "motivo"=>"Asignación de Materiales",
+                //"motivo"=>"Asignación de Materiales",
                 "estado"=>1                
             ]
         );  
@@ -104,16 +104,14 @@ class AsignacionMateriales extends Component
     public function asignarMaterial($art,Salida $salida){
         switch ($art["tipo"]) {
             case 1:
-                $items=$this->asignarFormatos($art["cantidad"],$art["tipo"],$salida->idUsuarioAsignado);
-                $this->guardaDetalles($items,$salida->id);
+                $items=$this->asignarFormatos($art,$salida);                
                 break;
             case 2:
-                $items=$this->asignarChips($art["cantidad"],$salida->idUsuarioAsignado);
-                $this->guardaDetalles($items,$salida->id);
+                $items=$this->asignarChips($art,$salida->idUsuarioAsignado);
+                //$this->guardaDetalles($items,$salida->id);
                 break;
             case 3:
-                $items=$this->asignarFormatos($art["cantidad"],$art["tipo"],$salida->idUsuarioAsignado);
-                $this->guardaDetalles($items,$salida->id);
+                $items=$this->asignarFormatos($art,$salida);
                 break;           
             default:
                 
@@ -121,48 +119,57 @@ class AsignacionMateriales extends Component
         }
     }
 
-    public function guardaDetalles($articulos,$idSalida){
-        foreach($articulos as $articulo){
+    public function guardaDetalles($articulo,$idSalida,$motivo){        
             $detalleSal=SalidaDetalle::create([
                 "idSalida"=>$idSalida,
                 "idMaterial"=>$articulo->id,
-                "estado"=>1
-            ]);
-        }
+                "estado"=>1,
+                "motivo"=>$motivo
+            ]);        
     }
 
-    public function asignarChips($cantidad,$idUsuario){
+    public function asignarChips($art,Salida $salida){
         $asignados=[];
         $materialTipoChip=2;
-        $usuario=User::find($idUsuario);
+        $usuario=User::find($salida->idUsuarioAsignado);
         $chips=Material::where([
                                 ["idTipoMaterial",$materialTipoChip],
                                 ["estado",1]
                               ])
                         ->orderBy('id','asc')
-                        ->paginate($cantidad);                                              
+                        ->paginate($art["cantidad"]);                                              
         foreach($chips as $chip){
             $chip->update(['idUsuario'=>null,'ubicacion'=>'En proceso de envio a '.$usuario->name,'estado'=>2]);
+            $this->guardaDetalles($chip,$salida->id,$art["motivo"]);
             array_push($asignados,$chip);
         }
         return $asignados;
     }
 
-    public function asignarFormatos($cantidad,$tipo,$idUsuario){
-        $usuario=User::find($idUsuario);
+    public function asignarFormatos($art,Salida $salida){
+        $usuario=User::find($salida->idUsuarioAsignado);
         $aux=[];        
         $formatos=Material::where([
-            ["idTipoMaterial",$tipo],
-            ["estado",1]
+            ["idTipoMaterial",$art["tipo"]],
+            ["estado",1],
         ])
-        ->orderBy('numSerie','asc')
-        ->paginate($cantidad);  
+        ->whereBetween('numSerie', [$art["inicio"],$art["final"]])
+        ->get();
 
+        foreach($formatos as $formato){
+            $formato->update(['idUsuario'=>null,'ubicacion'=>'En proceso de envio a '.$usuario->name,'estado'=>2]);
+            $this->guardaDetalles($formato,$salida->id,$art["motivo"]);
+            array_push($aux,$formato);
+        }
+        return $aux;          
+       // $this->emit("minAlert",["titulo"=>"ERROR","mensaje"=>"Datos :" .$formatos,"icono"=>"error"]); 
+            /*
         foreach($formatos as $formato){
             $formato->update(['idUsuario'=>null,'ubicacion'=>'En proceso de envio a '.$usuario->name,'estado'=>2]);
             array_push($aux,$formato);
         }
         return $aux;
+        */
     }
     
     public function cuentaMateriales($materiales){

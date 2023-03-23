@@ -2,19 +2,34 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Imagen;
 use App\Models\Material;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\File;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Collection ;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
 class Arreglando extends Component
 {
+    use WithFileUploads;
     use WithPagination;
     
+    public $idExpediente;
     public $formatos,$recortados,$rec;
+  
 
-    protected $listernes=["seleccionaFormatos"];
+
+
+    public $imagenes;
+
+    protected $rules=["imagenes"=>"required"];
+
+    protected $listernes=["addImg"=>"agregarImagen"];
 
     public function mount(){        
         $formatos=Material::where([
@@ -23,6 +38,13 @@ class Arreglando extends Component
         ])
         ->orderBy('numSerie','asc')->get();
         $this->formatos= $formatos;
+        
+        
+    }
+
+    public function agregarImagen(){
+        //$this->imagenes->push($img);
+        $this->emit("minAlert",["titulo"=>"ERROR","mensaje"=>"Debe completar los datos de equipos para poder certificar","icono"=>"error"]); 
     }
 
     public function render()
@@ -72,5 +94,11 @@ class Arreglando extends Component
         $this->rec=$nuevos;        
     }
 
-        
+    public function upload(){
+        $this->emit("minAlert",["titulo"=>"ERROR","mensaje"=>"Debe completar los datos de equipos para poder certificar","icono"=>"error"]); 
+    }
+
+    
+
+      
 }
