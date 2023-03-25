@@ -70,8 +70,7 @@ class AsignacionMateriales extends Component
         foreach($this->articulos as $key=>$articulo){
                 $this->asignarMaterial($articulo,$salida);
         }
-        $this->ruta=route('cargoPdf', ['id' => $salida->id]);
-        
+        $this->ruta=route('generaCargo', ['id' => $salida->id]);
         $this->reset(['articulos','inspector']);
     }
     

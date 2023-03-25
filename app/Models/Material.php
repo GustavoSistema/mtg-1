@@ -48,14 +48,26 @@ class Material extends Model
 
     public static function stockPorGruposGnv(){
         $grupos=DB::table('material')
-                ->select(DB::raw(' grupo,count(*) as stock'))
+                ->select(DB::raw('grupo as guia,count(*) as stock'))
                 ->where([
                     ['estado',1],
                     ['idTipoMaterial',1]
                     ])
                 ->groupBy('grupo')
                 ->get();
-        return $grupos;
+        return json_encode($grupos);
+    }
+
+    public static function stockPorGruposGlp(){
+        $grupos=DB::table('material')
+                ->select(DB::raw('grupo as guia,count(*) as stock'))
+                ->where([
+                    ['estado',1],
+                    ['idTipoMaterial',3]
+                    ])
+                ->groupBy('grupo')
+                ->get();
+        return json_encode($grupos);
     }
 
     public static function materialPorGrupo($grupo){

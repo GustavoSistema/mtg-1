@@ -672,7 +672,7 @@ class PdfController extends Controller
         $glps=$salida->porAsignacion->where("idTipoMaterial",3);
         $chips=$salida->porAsignacion->where("idTipoMaterial",2);
         
-        dd($gnvs->get()->pluck("numSerie")->all());
+        //dd($gnvs->get()->pluck("numSerie")->all());
         if($gnvs->count()>0){
             $materiales->push(["series"=>$this->encuentraSeries($gnvs->get()->sortBy("numSerie")->all()),"tipo"=>$gnvs->first()->tipo->descripcion,"cantidad"=>$gnvs->count(),"motivo"=>$gnvs->first()->detalle->motivo]);
         }       

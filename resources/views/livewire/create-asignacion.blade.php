@@ -12,14 +12,13 @@
         <x-slot name="content">
             <div>
                 <x-jet-label value="articulo:" />
-                <select wire:model="tipoM"
-                    class="bg-gray-50 border-indigo-500 rounded-md outline-none block w-full ">
-                    <option value="0">Seleccione</option>
-                    @foreach ($tiposMateriales as $tipo)
-                        <option value="{{ $tipo->id }}">{{ $tipo->descripcion.' - ( '.$stocks[$tipo->descripcion].' )'}}</option>
-                    @endforeach
-                </select>
-                <x-jet-input-error for="tipoM" />
+                    <select wire:model="tipoM" class="bg-gray-50 border-indigo-500 rounded-md outline-none block w-full">
+                        <option value="">Seleccione</option>
+                        @foreach ($tiposMateriales as $tipo)
+                            <option value="{{ $tipo->id }}">{{ $tipo->descripcion.' - ( '.$stocks[$tipo->descripcion].' )'}}</option>
+                        @endforeach
+                    </select>             
+                 <x-jet-input-error for="tipoM" />
             </div>  
 
             {{-- 
@@ -34,23 +33,38 @@
                 
             @switch($tipoM)
                 @case(1)
+                {{--
                     <div>
-                        <x-jet-label value="Grupo:" />
-                        <select wire:model="grupo"
-                            class="bg-gray-50 border-indigo-500 rounded-md outline-none block w-full ">
-                            <option value="">Seleccione</option>    
-                                                 
-                                @foreach ($grupos as $key=>$gr)
-                                    <option value="{{ $gr->grupo }}">{{$gr->grupo." - ".$gr->stock}}</option>
-                                @endforeach
-                            
-                        </select>
-                        <x-jet-input-error for="grupo" />
+                        <x-jet-label value="Grupo:" for="guia" />
+                        <select wire:model="guia" class="bg-gray-50 border-indigo-500 rounded-md outline-none block w-full " wire:loading.attr="disabled" wire:target="tipoM">
+                            <option value="">Seleccione</option>   
+                            @if($guias->count()>1)            
+                                    @foreach ($guias as $key=>$item)
+                                        <option wire:ignore value="{{ $item->grupo }}">{{$item->grupo." - ( stock: ".$item->stock.' )'}}</option>                                  
+                                    @endforeach
+                            @endif                       
+                        </select>                      
+                        <x-jet-input-error for="guia" />
                     </div>  
-    
+                --}}
+
+
+                    
+                    <div>
+                        <x-jet-label value="Grupo:" wire:loading.attr="disabled" wire:target="tipoM"/>
+                        <select wire:model="guia" class="bg-gray-50 border-indigo-500 rounded-md outline-none w-full">
+                            <option value="null">Seleccione</option>
+                            @if(count($guias))
+                            @foreach ($guias as $item)
+                                <option value="{{ $item['guia'] }}">{{ $item['guia'].' -  ( '.$item['stock'] .' )'}}</option>
+                            @endforeach
+                            @endif
+                        </select>
+                        <x-jet-input-error for="guia"/>
+                    </div>                             
                     <div>
                         <x-jet-label value="Cantidad:" />
-                        <x-jet-input type="number" class="w-full" wire:model="cantidad" />
+                            <x-jet-input type="number" class="w-full" wire:model="cantidad" />
                         <x-jet-input-error for="cantidad" />
                     </div>                   
                     <div>
