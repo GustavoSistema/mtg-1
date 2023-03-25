@@ -59,7 +59,7 @@ class RecepcionMateriales extends Component
         $materiales=$this->recepcion->materiales;
         foreach($materiales as $material){
             $material->update(['idUsuario'=>Auth::id(),'ubicacion'=>'En poder de '.$usuario->name,'estado'=>3]);
-            $this->recepcion->update(["estado"=>3]);
+            $this->recepcion->update(["estado"=>3]);//se cambia estado a recepcionado
         }
         $this->open=false;
         $this->emit("render");

@@ -18,8 +18,11 @@ use Livewire\Component;
 
 class AsignacionMateriales extends Component
 {
+
+    
+
     public $open=false;
-    public $inspectores,$inspector,$stockGlp,$stockGnv,$stockChips,$ruta;
+    public $inspectores,$inspector,$stockGlp,$stockGnv,$stockChips,$ruta,$estado ,$envio;
     public  $articulos=[];
     
 
@@ -30,7 +33,7 @@ class AsignacionMateriales extends Component
         $this->inspectores=User::role(['inspector','supervisor'])
         //->where('id','!=',Auth::id())
         ->orderBy('name')->get();
-        
+        $this->estado=1;
     }
     
     public function render()    {
@@ -63,13 +66,15 @@ class AsignacionMateriales extends Component
                 "idUsuarioSalida"=>Auth::id(),
                 "idUsuarioAsignado"=>$this->inspector,
                 //"motivo"=>"Asignación de Materiales",
-                "estado"=>1                
+                "estado"=>1   //se asigna estado de salida como envio             
             ]
         );  
 
         foreach($this->articulos as $key=>$articulo){
                 $this->asignarMaterial($articulo,$salida);
         }
+        $this->envio=$salida;
+        $this->estado=2;        
         $this->ruta=route('generaCargo', ['id' => $salida->id]);
         $this->reset(['articulos','inspector']);
     }

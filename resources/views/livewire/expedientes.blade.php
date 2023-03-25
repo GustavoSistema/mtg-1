@@ -100,7 +100,11 @@
                                                 </div>
                                             </td>
                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                <p class="text-gray-900 whitespace-no-wrap">{{ $item->created_at }}</p>
+                                                <p class="text-gray-900 whitespace-no-wrap">
+                                                    {{
+                                                    date("d/m/Y  h:i a", strtotime($item->created_at)) 
+                                                    }}
+                                                    </p>
                                             </td>
                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 <div class="flex items-center">

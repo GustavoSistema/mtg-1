@@ -126,7 +126,7 @@
                             @endif
 
                             <td class="pl-2">                                
-                                <p class="text-gray-600 ">{{ $certificacion->created_at->format('d/m/Y  h:m:s') }}</p>                                
+                                <p class="text-gray-600 ">{{ $certificacion->created_at->format('d/m/Y  h:i a') }}</p>                                
                             </td>
                             <td class="">
                                 <div class="flex items-center justify-center">

@@ -55,11 +55,7 @@
                                         </th>
                                         <th scope="col" class="text-sm font-medium font-semibold px-6 py-4 text-left">
                                             Asignado a:
-                                        </th>
-                                        <th scope="col"
-                                            class="text-sm font-medium font-semibold px-6 py-4 text-left">
-                                            Motivo
-                                        </th>
+                                        </th>                                        
                                         <th scope="col"
                                             class="text-sm font-medium font-semibold px-6 py-4 text-left">
                                             Estado
@@ -69,7 +65,7 @@
                                             Fecha
                                         </th>
                                         <th scope="col" class="text-sm font-medium font-semibold px-6 py-4 text-left">
-                                            Acción
+                                            Cargo
                                         </th>
                                         <th scope="col" class="text-sm font-medium font-semibold px-6 py-4 text-left">
                                             Acción
@@ -100,20 +96,27 @@
                                             <div class="flex items-center">                                                
                                                 <p class="text-sm leading-none text-gray-600 ml-2">{{$salida->usuarioAsignado->name}}</p>
                                             </div>
-                                        </td>
-                                        <td class="pl-2">
-                                            <div class="flex items-center">                                                
-                                                <p class="text-sm leading-none text-gray-600 ml-2">{{$salida->motivo}}</p>
-                                            </div>
-                                        </td>
-                                        <td class="pl-2">
-                                            <div class="flex items-center">                                                
-                                                <p class="text-sm leading-none text-gray-600 ml-2">{{$salida->estado}}</p>
+                                        </td>                                       
+                                        <td class=" text-center mx-auto">
+                                            <div class="flex items-center tex-center justify-center">                                               
+                                                @switch($salida->estado)
+                                                    @case(1)
+                                                        <p class="text-sm rounded-md leading-none p-2 text-blue-700 bg-blue-200">En envio</p>
+                                                        @break
+                                                    @case(2)
+                                                        <p class="text-sm rounded-md leading-none p-2 text-white bg-red-400">Rechazado</p>
+                                                        @break
+                                                    @case(3)
+                                                        <p class="text-sm rounded-md leading-none p-2 text-green-700 bg-green-200">Recepcionado</p>
+                                                        @break
+                                                    @default
+                                                        <p class="text-sm rounded-md leading-none text-gray-600 ml-2">Sin datos</p>
+                                                @endswitch
                                             </div>
                                         </td>
                                         <td class="pl-2">
                                             <p class="py-1  text-sm  leading-none text-amber-700 bg-amber-100 rounded text-center">
-                                                {{ $salida->created_at->format('d/m/Y  h:m') }}</p>
+                                                {{ $salida->created_at->format('d/m/Y  h:i a') }}</p>
                                         </td>
                                         <td class="pl-4">
                                             <a 
@@ -145,11 +148,11 @@
                                                 <div x-show="menu" x-on:click.away="menu = false" class="dropdown-content bg-white shadow w-56 absolute z-30 right-0 mr-6">
                                                     <div tabindex="0"
                                                         class="focus:outline-none focus:text-amber-500 text-xs w-full hover:bg-slate-700 py-2 px-6 cursor-pointer hover:text-white">
-                                                        <p>Ver Expediente</p>
+                                                        <p>Eliminar Salida</p>
                                                     </div>
                                                     <div tabindex="1"
                                                         class="focus:outline-none focus:text-amber-500 text-xs w-full hover:bg-slate-700 py-2 px-6 cursor-pointer hover:text-white">
-                                                        <p>Delete</p>
+                                                        <p>Ver detalle</p>
                                                     </div>
                                                 </div>
                                             </div>

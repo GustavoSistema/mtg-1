@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
+use Nette\Utils\Json;
 use Spatie\FlareClient\Http\Exceptions\NotFound;
 
 class PdfController extends Controller
@@ -690,10 +691,14 @@ class PdfController extends Controller
         $gnvs=$salida->porCambio->where("idTipoMaterial",1);
         $glps=$salida->porCambio->where("idTipoMaterial",3);
         $chips=$salida->porCambio->where("idTipoMaterial",2);
- 
-       // dd($gnvs->get());
+
+        //$gnvOrdenado=$gnvs->pluck('numSerie')->sortBy('numSerie')->all();
+
+
+        //$primero=current($gnvOrdenado);
+        //dd($gnvOrdenado);
         if($gnvs->count()>0){
-            $materiales->push(["series"=>$this->encuentraSeries($gnvs->get()->all()),"tipo"=>$gnvs->first()->tipo->descripcion,"cantidad"=>$gnvs->count(),"motivo"=>$gnvs->first()->detalle->motivo]);
+            $materiales->push(["series"=>$this->encuentraSeries($gnvs->get()->sortBy("numSerie")->all()),"tipo"=>$gnvs->first()->tipo->descripcion,"cantidad"=>$gnvs->count(),"motivo"=>$gnvs->first()->detalle->motivo]);
         }       
         if($glps->count()>0){
             $materiales->push(["series"=>$this->encuentraSeries($glps->get()->all()),"tipo"=>$glps->first()->tipo->descripcion,"cantidad"=>$glps->count(),"motivo"=>$glps->first()->detalle->motivo]);
@@ -706,12 +711,16 @@ class PdfController extends Controller
 
     public function encuentraSeries($arreglo){
         //dd($arreglo);
+        //$arreglo=json_decode($arr);
         $inicio = $arreglo[0]["numSerie"];
         $final = $arreglo[0]["numSerie"];
         $nuevos=[];
+        
         foreach($arreglo as $key=>$rec){
-            if($key+1 < count($arreglo) ){
+            if($key+1 < count($arreglo) ){            
                 if($arreglo[$key+1]["numSerie"] - $rec["numSerie"]==1){
+                //if($rec["numSerie"]+1 == next($arreglo)['numSerie']){
+                        //$final=next($arreglo)["numSerie"];
                     $final=$arreglo[$key+1]["numSerie"];
                 }else{
                     array_push($nuevos,["inicio"=>$inicio,"final"=>$final]);
