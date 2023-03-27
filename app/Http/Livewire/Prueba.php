@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Certificacion;
 use App\Models\Duplicado;
+use App\Models\Expediente;
 use App\Models\Material;
 use App\Models\Servicio;
 use App\Models\ServicioMaterial;
@@ -243,6 +244,14 @@ class Prueba extends Component
                     if ($certi) {
                         $this->estado = "certificado";
                         $this->certificacion = $certi;
+                        $expe=Expediente::create([
+                            "placa"=>$this->vehiculo->placa,
+                            "certificado"=>$hoja->numSerie,
+                            "estado"=>1,
+                            "idTaller"=>$taller->id,
+                            'usuario_idusuario'=>Auth::id(),
+                            'servicio_idservicio'=>$servicio->id,
+                        ]);
                         $this->emit("minAlert", ["titulo" => "¡EXCELENTE TRABAJO!", "mensaje" => "Tu certificado N°: " . $certi->Hoja->numSerie . " esta listo.", "icono" => "success"]);
                     } else {
                         $this->emit("minAlert", ["titulo" => "AVISO DEL SISTEMA", "mensaje" => "No fue posible certificar", "icono" => "warning"]);

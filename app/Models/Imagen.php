@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Imagen extends Model
 {
+
+    use InteractsWithMedia;
     use HasFactory;
 
     protected $table = 'imagenes';
@@ -18,4 +21,5 @@ class Imagen extends Model
     'estado',
     'Expediente_idExpediente'    
     ];
+    
 }

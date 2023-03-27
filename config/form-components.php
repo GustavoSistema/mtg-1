@@ -240,7 +240,7 @@ return [
 
             // Limit multiple file uploads to a certain number of files by default.
             // Set to null to allow unlimited files.
-            'max_files' => 20,
+            'max_files' => 25,
 
             // Configure FilePond options by default.
             'options' => [

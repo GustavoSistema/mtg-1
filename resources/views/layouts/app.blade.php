@@ -23,7 +23,7 @@
     @stack('styles')
 
     @livewireStyles
-
+    @livewireScripts    
 
     <!-- Scripts
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.0.1/dist/chart.umd.min.js"></script>
@@ -55,28 +55,17 @@
     @vite(['resources/css/app.css','resources/js/app.js'])
     @stack('modals')
 
-    @livewireScripts
-    @fcScripts
+    
+    
 
-    @stack('js')
-    @push('js')
-        
-            
-            <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
-  
-            <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
-            <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
-            <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
-            <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
-            <script>
-                FilePond.registerPlugin(FilePondPluginFileValidateType);
-                FilePond.registerPlugin(FilePondPluginFileValidateSize);
-                FilePond.registerPlugin(FilePondPluginImagePreview);
-            </script>
+    
+           
        
     <script src="https://kit.fontawesome.com/2e81971293.js" crossorigin="anonymous"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-   
+
+    @fcScripts
+    @stack('js')
     <script>
         livewire.on('alert', function(message) {
             Swal.fire(

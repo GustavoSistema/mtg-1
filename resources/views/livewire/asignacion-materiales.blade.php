@@ -115,7 +115,7 @@
                     @if($envio)
                         <div class="">
                             <p> Enviado a: {{$envio->usuarioAsignado->name}}</p>
-                            <p> Fecha: {{$envio->created_at->format('d/m/Y h:mm')}}</p>
+                            <p> Fecha: {{$envio->created_at->format('d/m/Y h:i')}}</p>
                         </div>                        
                     @endif   
                 </div>

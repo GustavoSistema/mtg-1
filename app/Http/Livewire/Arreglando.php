@@ -25,11 +25,12 @@ class Arreglando extends Component
 
 
 
-    public $imagenes;
+    public $imagenes=[];
+    public $fotos=[];
 
     protected $rules=["imagenes"=>"required"];
 
-    protected $listernes=["addImg"=>"agregarImagen"];
+    protected $listernes=["addImg"];
 
     public function mount(){        
         $formatos=Material::where([
@@ -42,10 +43,7 @@ class Arreglando extends Component
         
     }
 
-    public function agregarImagen(){
-        //$this->imagenes->push($img);
-        $this->emit("minAlert",["titulo"=>"ERROR","mensaje"=>"Debe completar los datos de equipos para poder certificar","icono"=>"error"]); 
-    }
+   
 
     public function render()
     {
@@ -96,6 +94,16 @@ class Arreglando extends Component
 
     public function upload(){
         $this->emit("minAlert",["titulo"=>"ERROR","mensaje"=>"Debe completar los datos de equipos para poder certificar","icono"=>"error"]); 
+    }
+
+    public function updatedImagenes($value){
+        if($value){
+            if(in_array($value,$this->fotos)){
+                array_unshift($value);
+            }else{
+                array_push($this->fotos,$value);
+            }
+        }
     }
 
     

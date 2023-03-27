@@ -6,8 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+
 class Expediente extends Model
 {
+    
+
     use HasFactory;
     protected $fillable=
     ['placa',
@@ -20,8 +23,8 @@ class Expediente extends Model
     'servicio_idservicio'
     ];
 
-   /*
-
+   
+/*
     protected $appends=
     [
         "nombre_taller",   
@@ -56,4 +59,6 @@ class Expediente extends Model
         return $this->Servicio->tipoServicio->descripcion;
     }
 */
+    
+
 }

@@ -10,15 +10,27 @@
             @elseif ($hasXModel())
                 __value: {{ $attributes->first('x-model') }},
             @endif
-
+            {{--
             options: {{ \Illuminate\Support\Js::from($options) }},
-
+            --}}
             __config(instance, options, pondOptions) {
                 return {  {{ $config ?? '' }} };
-            },
-
+            },           
+            
+            options:{'allowMultiple':true,
+                     'AllowImagePreview':true,
+                     'labelIdle': 'Arrastre aquí sus archivos o Seleccione',
+                    'labelFileProcessing': 'Cargando archivo',
+                    'labelFileProcessingComplete': 'Cargado completamente',
+                    'labelInvalidField': 'Tipo de archivo invalido',
+                    'labelFileTypeNotAllowed': 'Tipo de archivo invalido',                    
+                    'AcceptedFileTypes': {{ $attributes->get('acceptedFileTypes') ?? 'null'}},               
+                    },
+            
+            
             id: {{ \Illuminate\Support\Js::from($id) }},
         })"
+        
         
         x-cloak
         x-on:file-pond-clear.window="__clear($event.detail.id)"

@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Certificacion;
 use App\Models\Equipo;
 use App\Models\EquiposVehiculo;
+use App\Models\Expediente;
 use App\Models\Material;
 use App\Models\Servicio as ModelServicio;
 use App\Models\ServicioMaterial;
@@ -564,6 +565,8 @@ class Servicio extends Component
                                                     "idCertificacion"=>$cert->id
                                                     ]);
                    //$this->asignaEquiposVehiculo($this->salvaEquipos(),$this->vehiculoServicio);
+
+                    
                     $this->ruta=$this->generarRuta($cert);
                     $this->rutaDes=$this->generarRutaDescarga($cert);
                     $this->emit("minAlert",["titulo"=>"Buen Trabajo!","mensaje"=>"Tu certificado esta listo!","icono"=>"success",]);
