@@ -2,9 +2,11 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Controllers\PdfController;
 use App\Models\Certificacion;
 use App\Models\Duplicado;
 use App\Models\Expediente;
+use App\Models\Imagen;
 use App\Models\Material;
 use App\Models\Servicio;
 use App\Models\ServicioMaterial;
@@ -14,14 +16,18 @@ use Illuminate\Queue\Listener;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Prueba extends Component
 {
+    use WithFileUploads;
 
     //VARIABLES DEL SERVICIO
     public $talleres, $servicios, $taller, $servicio, $tipoServicio, $numSugerido, $estado, $busquedaCert, $placa, $certificaciones, $fechaCerti, $certificado;
 
     public $externo = false;
+
+    public $imagenes=[];
 
     public $servicioExterno, $tallerExterno, $fechaExterno;
 
@@ -252,6 +258,7 @@ class Prueba extends Component
                             'usuario_idusuario'=>Auth::id(),
                             'servicio_idservicio'=>$servicio->id,
                         ]);
+                        $this->guardarFotos($expe);
                         $this->emit("minAlert", ["titulo" => "¡EXCELENTE TRABAJO!", "mensaje" => "Tu certificado N°: " . $certi->Hoja->numSerie . " esta listo.", "icono" => "success"]);
                     } else {
                         $this->emit("minAlert", ["titulo" => "AVISO DEL SISTEMA", "mensaje" => "No fue posible certificar", "icono" => "warning"]);
@@ -263,6 +270,32 @@ class Prueba extends Component
                 $this->emit("minAlert", ["titulo" => "AVISO DEL SISTEMA", "mensaje" => "Debes ingresar un vehículo valido para poder certificar", "icono" => "warning"]);
             }
         }
+    }
+
+    
+
+    public function guardarFotos(Expediente $expe){
+        $this->validate(["imagenes"=>"nullable|array","imagenes.*"=>"image"]);
+        if(count($this->imagenes)){
+            foreach($this->imagenes as $key => $file){          
+                $nombre=$expe->placa.'-foto'.($key+1).'-'.$expe->certificado;
+                $file_save=Imagen::create([                
+                    'nombre'=>$nombre,
+                    'ruta'=>$file->storeAs('public/expedientes',$nombre.'.'.$file->extension()),
+                    'extension'=>$file->extension(),
+                    'Expediente_idExpediente'=>$expe->id,
+                ]);
+            
+            }
+        }
+
+       $this->reset(["imagenes"]);
+      
+    }
+
+
+    public function guardaDocumentos(){
+        
     }
 
     public function refrescaVe()

@@ -296,7 +296,15 @@
                         @default
                     @endswitch
                 @endif
-
+                 
+                <div class="w-4/6 mx-auto my-8">
+                    <x-jet-label value="Fotos reglamentarias:"/>
+                    <x-file-pond name="imagenes" id="imagenes" wire:model="imagenes" multiple acceptedFileTypes="['image/*',]"  >   
+                          
+                    </x-file-pond>          
+                    <x-jet-input-error for="imagenes"/>
+                   
+                </div>
 
                 {{-- BOTONES --}}
 
@@ -590,7 +598,15 @@
                         @default
                     @endswitch
                 @endif
-
+                
+                <div class="w-4/6 mx-auto my-8">
+                    <x-jet-label value="Fotos reglamentarias:"/>
+                    <x-file-pond name="imagenes" id="imagenes" wire:model="imagenes" multiple acceptedFileTypes="['image/*',]"  >   
+                          
+                    </x-file-pond>          
+                    <x-jet-input-error for="imagenes"/>
+                   
+                </div>
 
                 {{-- BOTONES --}}
 

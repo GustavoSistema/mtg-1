@@ -28,7 +28,8 @@ class Arreglando extends Component
     public $imagenes=[];
     public $fotos=[];
 
-    protected $rules=["imagenes"=>"required"];
+    protected $rules=["imagenes"=>"nullable|array",
+                        "fotos"=>"nullable|array"];
 
     protected $listernes=["addImg"];
 
@@ -96,14 +97,23 @@ class Arreglando extends Component
         $this->emit("minAlert",["titulo"=>"ERROR","mensaje"=>"Debe completar los datos de equipos para poder certificar","icono"=>"error"]); 
     }
 
-    public function updatedImagenes($value){
-        if($value){
-            if(in_array($value,$this->fotos)){
-                array_unshift($value);
-            }else{
-                array_push($this->fotos,$value);
-            }
+    
+
+    public function guardar(){
+        $this->validate();
+        foreach($this->imagenes as $key => $file){          
+            $nombre="Prueba";
+            $file_save=Imagen::create([                
+                'nombre'=>$nombre,
+                'ruta'=>$file->storeAs('public/expedientes',$nombre.$key.'.'.$file->extension()),
+                'extension'=>$file->extension(),
+                'Expediente_idExpediente'=>3167,
+            ]);
+            array_push($this->fotos,$file_save);
         }
+
+       $this->emit("minAlert",["titulo"=>"BUEN TRABAJO!","mensaje"=>"Todo bien","icono"=>"success"]);
+      
     }
 
     

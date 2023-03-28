@@ -18,8 +18,8 @@
             },           
             
             options:{'allowMultiple':true,
-                     'AllowImagePreview':true,
-                     'labelIdle': 'Arrastre aquí sus archivos o Seleccione',
+                    'AllowImagePreview':true,
+                    'labelIdle': 'Arrastre aquí sus archivos o <span class={{"filepond--label-action font-bold"}}>Seleccione</span>',
                     'labelFileProcessing': 'Cargando archivo',
                     'labelFileProcessingComplete': 'Cargado completamente',
                     'labelInvalidField': 'Tipo de archivo invalido',

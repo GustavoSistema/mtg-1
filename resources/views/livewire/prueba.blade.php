@@ -49,9 +49,20 @@
             @case(1)
                 @livewire('form-vehiculo', ['tipoServicio' => $tipoServicio])
 
+                
+
                 @if ($estado)
                     @switch($estado)
                         @case('esperando')
+                            <div class="max-w-5xl m-auto  bg-white rounded-lg shadow-md dark:bg-gray-300 p-4 mt-4">
+                                <x-jet-label value="Fotos reglamentarias:" class="font-bold text-xl py-4"/>
+                                <x-file-pond name="imagenes" id="imagenes" wire:model="imagenes" multiple acceptedFileTypes="['image/*',]"  >   
+                                    
+                                </x-file-pond>          
+                                <x-jet-input-error for="imagenes"/>
+                            
+                            </div>
+
                             <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4 py-4">
                                 <div class="my-2 flex flex-row justify-evenly items-center">
                                     <a wire:click="certificar"
@@ -90,7 +101,7 @@
                                             class="hover:cursor-pointer border border-emerald-500 focus:ring-2 focus:ring-offset-2 focus:ring-emerald-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-emerald-400 hover:bg-emerald-500 focus:outline-none rounded">
                                             <p class="text-sm font-medium leading-none text-white"><i
                                                     class="fas fa-download animate-bounce"></i>
-                                                &nbsp;Ver F.T.</p>
+                                                &nbsp;Descargar F.T.</p>
                                         </a>
                                         <a href="{{ route('servicio') }}"
                                             class="hover:cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-amber-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-red-400 hover:bg-red-500 focus:outline-none rounded">
@@ -106,14 +117,23 @@
                         @default
                     @endswitch
                 @endif
+                
             @break
 
             @case(2)
                 @livewire('form-vehiculo', ['tipoServicio' => $tipoServicio])
 
+                    
+
                 @if ($estado)
                     @switch($estado)
                         @case('esperando')
+                            <div class="max-w-5xl m-auto  bg-white rounded-lg shadow-md dark:bg-gray-300 p-4 mt-4">
+                                <x-jet-label value="Fotos reglamentarias:" class="font-bold text-xl py-4"/>
+                                <x-file-pond name="imagenes" id="imagenes" wire:model="imagenes" multiple acceptedFileTypes="['image/*',]"  >  
+                                </x-file-pond>          
+                                <x-jet-input-error for="imagenes"/>                            
+                            </div>
                             <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4 py-4">
                                 <div class="my-2 flex flex-row justify-evenly items-center">
                                     <a wire:click="certificar"
@@ -152,7 +172,7 @@
                                             class="hover:cursor-pointer border border-emerald-500 focus:ring-2 focus:ring-offset-2 focus:ring-emerald-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-emerald-400 hover:bg-emerald-500 focus:outline-none rounded">
                                             <p class="text-sm font-medium leading-none text-white"><i
                                                     class="fas fa-download animate-bounce"></i>
-                                                &nbsp;Ver F.T.</p>
+                                                &nbsp;Descagar F.T.</p>
                                         </a>
                                         <a href="{{ route('servicio') }}"
                                             class="hover:cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-amber-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-red-400 hover:bg-red-500 focus:outline-none rounded">
@@ -174,8 +194,7 @@
                 {{--
                 @livewire('form-vehiculo', ['tipoServicio' => $tipoServicio])
                 --}}
-                <div
-                    class="max-w-5xl m-auto bg-indigo-300 rounded-lg shadow-md my-4 py-4 px-8 flex flex-row justify-center items-center">
+                <div class="max-w-5xl m-auto bg-indigo-300 rounded-lg shadow-md my-4 py-4 px-8 flex flex-row justify-center items-center">
                     <div class="items-center">
                         <h1 class="font-bold">Este servicio aún no esta disponible pero estamos trabajando en ello. 🤝</h1>
                     </div>
