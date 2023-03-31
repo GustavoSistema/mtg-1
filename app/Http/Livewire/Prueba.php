@@ -3,6 +3,8 @@
 namespace App\Http\Livewire;
 
 use App\Http\Controllers\PdfController;
+use App\Jobs\guardarArchivosEnExpediente;
+use App\Models\CertifiacionExpediente;
 use App\Models\Certificacion;
 use App\Models\Duplicado;
 use App\Models\Expediente;
@@ -12,6 +14,7 @@ use App\Models\Servicio;
 use App\Models\ServicioMaterial;
 use App\Models\Taller;
 use App\Models\vehiculo;
+use App\Traits\pdfTrait;
 use Illuminate\Queue\Listener;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +23,7 @@ use Livewire\WithFileUploads;
 
 class Prueba extends Component
 {
+    use pdfTrait;
     use WithFileUploads;
 
     //VARIABLES DEL SERVICIO
@@ -257,8 +261,10 @@ class Prueba extends Component
                             "idTaller"=>$taller->id,
                             'usuario_idusuario'=>Auth::id(),
                             'servicio_idservicio'=>$servicio->id,
-                        ]);
+                        ]);                        
                         $this->guardarFotos($expe);
+                        guardarArchivosEnExpediente::dispatch($expe,$certi);                       
+                        $certEx=CertifiacionExpediente::create(["idCertificacion"=>$certi->id,"idExpediente"=>$expe->id]);
                         $this->emit("minAlert", ["titulo" => "¡EXCELENTE TRABAJO!", "mensaje" => "Tu certificado N°: " . $certi->Hoja->numSerie . " esta listo.", "icono" => "success"]);
                     } else {
                         $this->emit("minAlert", ["titulo" => "AVISO DEL SISTEMA", "mensaje" => "No fue posible certificar", "icono" => "warning"]);
@@ -284,13 +290,10 @@ class Prueba extends Component
                     'ruta'=>$file->storeAs('public/expedientes',$nombre.'.'.$file->extension()),
                     'extension'=>$file->extension(),
                     'Expediente_idExpediente'=>$expe->id,
-                ]);
-            
+                ]);            
             }
         }
-
-       $this->reset(["imagenes"]);
-      
+       $this->reset(["imagenes"]);      
     }
 
 

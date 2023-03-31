@@ -56,7 +56,7 @@
                             <option value="null">Seleccione</option>
                             @if(count($guias))
                             @foreach ($guias as $item)
-                                <option value="{{ $item['guia'] }}">{{ $item['guia'].' -  ( '.$item['stock'] .' )'}}</option>
+                                <option value="{{ $item['guia'] }}">{{ $item['guia'].' | '.$item['minimo'].' - '.$item['maximo'].' | -  ( '.$item['stock'] .' )'}}</option>
                             @endforeach
                             @endif
                         </select>

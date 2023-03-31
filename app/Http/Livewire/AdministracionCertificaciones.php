@@ -2,10 +2,14 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\CertifiacionExpediente;
 use App\Models\Certificacion;
+use App\Models\Expediente;
+use App\Models\Imagen;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -92,6 +96,18 @@ class AdministracionCertificaciones extends Component
            
            
            if($certificacion->Hoja){
+                $certExp=CertifiacionExpediente::where('idCertificacion',$certificacion->id)->first();
+                if($certExp){
+                    $expe=Expediente::find($certExp->idExpediente);
+                    if($expe){
+
+                        $imgs=Imagen::where('Expediente_idExpediente','=',$expe->id)->get();
+                        foreach($imgs as $img ){
+                            Storage::delete($img->ruta);
+                        }
+                        $expe->delete();
+                    }
+                }
                if($certificacion->Hoja->update(['estado'=>3])){
                 $certificacion->delete();          
                 $this->emitTo('administracion-certificaciones','render');

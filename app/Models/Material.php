@@ -48,7 +48,7 @@ class Material extends Model
 
     public static function stockPorGruposGnv(){
         $grupos=DB::table('material')
-                ->select(DB::raw('grupo as guia,count(*) as stock'))
+                ->select(DB::raw('grupo as guia,count(*) as stock,min(numSerie) as minimo,Max(numSerie) as maximo'))
                 ->where([
                     ['estado',1],
                     ['idTipoMaterial',1]

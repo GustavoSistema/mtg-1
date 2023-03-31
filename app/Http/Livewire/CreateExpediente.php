@@ -32,7 +32,7 @@ class CreateExpediente extends Component
         'placa'=>'required|min:6|max:6',        
         'servicio'=>'required',
         'files'=>'required',       
-        'documentos'=>'array|max:20',
+        'documentos'=>'array|max:25',
         'tallerSeleccionado'=>'required',    
         'certificado'=>'required|min:7,max:7',            
     ];
@@ -89,7 +89,7 @@ class CreateExpediente extends Component
     public function updatedFiles()
     {
         $this->validate( [
-            'files'=>'required|max:20',
+            'files'=>'required|max:25',
             'files.*'=>'mimes:jpg,jpeg,png,tif|max:10010',
         ]);
     }

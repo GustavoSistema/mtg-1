@@ -80,7 +80,7 @@
 <body>
     <header>
         <article>           
-            <img style="float:left; padding-left: 3cm; margin-top: 20px" src="{{'.'.Storage::url($taller->rutaLogo)}}" width="90" height="90"/>
+            <img style="float:left; padding-left: 3cm; margin-top: 20px" src="{{$taller->rutaLogo ? '.'.Storage::url($taller->rutaLogo) : ''}}" width="130" height="130"/>
             <h2 style="margin-top: 40px">{{$taller->nombre}}</h2>
             <p>{{$taller->direccion}}</p>            
         </article>        
@@ -134,7 +134,7 @@
                 <td>{{$carro->version}}</td>
                 <td style="padding: 0 5px 0 5px; text-align:center;">13</td>
                 <td>Largo / Ancho / Alto(m)</td>
-                <td>{{(isset($carro->largo)? $carro->largo : 'NE').' / '.(isset($carro->ancho)? $carro->ancho : 'NE').' / '.(isset($carro->altura)? $carro->altura : 'NE')}}</td>
+                <td>{{(isset($carro->largo)?  bcdiv($carro->largo, '1', 2) : 'NE').' / '.(isset($carro->ancho)? bcdiv($carro->ancho, '1', 2) : 'NE').' / '.(isset($carro->altura)? bcdiv($carro->altura, '1', 2) : 'NE')}}</td>
             </tr>
             <tr>
                 <td style="padding: 0 5px 0 5px; text-align:center;">6</td>
@@ -210,7 +210,7 @@
                             <br>                        
                         </td>
                         <td style="width: 50%;">
-                            <img  src="{{'.'.Storage::url($taller->rutaFirma)}}" width="180" height="90"/>                       
+                            <img  src="{{$taller->rutaFirma ? '.'.Storage::url($taller->rutaFirma) : '' }}" width="180" height="90"/>                       
                         </td>
                     </tr>
                     <tr>

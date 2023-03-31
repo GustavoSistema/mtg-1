@@ -47,9 +47,8 @@ class PdfController extends Controller
         }
     }
 
-    public function descargarFichaTecnica($idCert){
-        if(Certificacion::findOrFail($idCert)){
-            $certificacion=Certificacion::find($idCert);                         
+    public function datosParaFichaTecnica($id){
+        $certificacion=Certificacion::find($id);                         
             $chip=$certificacion->vehiculo->Equipos->where("idTipoEquipo",1)->first();           
             $equipos=$certificacion->vehiculo->Equipos->where("idTipoEquipo","!=",1)->sortBy("idTipoEquipo");                     
             //dd($equipos); 
@@ -57,6 +56,7 @@ class PdfController extends Controller
             $fechaCert=$certificacion->created_at;
             $fec=$fechaCert->format("d/m/Y");
             $data=[
+            "certificacion"=>$certificacion,
             "fecha"=>$fec,
             "empresa"=>"MOTORGAS COMPANY S.A.",
             "carro"=>$certificacion->Vehiculo,
@@ -65,11 +65,17 @@ class PdfController extends Controller
             "hoja"=>$hoja, 
             "equipos"=>$equipos,
             "chip"=>$chip,
-            ];                 
+            ]; 
+
+            return $data;
+    }
+
+    public function descargarFichaTecnica($idCert){
+        if(Certificacion::findOrFail($idCert)){
+            $data=$this->datosParaFichaTecnica($idCert);
             $pdf = App::make('dompdf.wrapper');
-            $pdf->loadView('fichaTecnicaGnv',$data);        
-            //return $pdf->stream($id.'-'.date('d-m-Y').'-cargo.pdf');
-            return  $pdf->download('FT-'.$certificacion->Vehiculo->placa.'-'.$hoja->numSerie.'.pdf');
+            $pdf->loadView('fichaTecnicaGnv',$data);       
+            return  $pdf->download('FT-'.$data['carro']->placa.'-'.$data['hoja']->numSerie.'.pdf');            
         }else{
             return abort(404);
         }
@@ -482,7 +488,6 @@ class PdfController extends Controller
             return abort(404);
         }
     }
-
     //vista y descarga de DUPLICADOS EXTERNOS INICIALES GNV
 
     public function generaDuplicadoExternoInicialGnv($id){
