@@ -1,14 +1,62 @@
 <div>
     <x-table-administracion-certificaciones>
-        
-        @if ($certificaciones->count())
-        {{--
-            @foreach ($certificaciones as $certificacion)
-            <div>
-                <p>{{json_encode($certificacion)}}</p>
+        <div class="bg-white md:py-7 w-full">
+            <div class="sm:flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <div class="flex bg-gray-200 items-center p-2 rounded-md mb-4 ">
+                        <span>Inspector: </span>
+                        <select wire:model="ins" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full truncate">
+                            <option value="">SELECCIONE</option>
+                            @isset($inspectores)
+                            @foreach($inspectores as $inspector)
+                                <option value="{{$inspector->id}}">{{$inspector->name}}</option>
+                            @endforeach
+                            @endisset
+                        </select>               
+                    </div>
+                    
+                    <div class="flex bg-gray-200 items-center p-2 rounded-md mb-4 ">
+                        <span>Servicio: </span>
+                        <select wire:model="servicio" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full truncate">
+                            <option value="">SELECCIONE</option>
+                            @isset($tipos)
+                            @foreach($tipos as $tipo)
+                                <option class="" value="{{$tipo->id}}">{{$tipo->descripcion}}</option>
+                            @endforeach
+                            @endisset
+                        </select>                
+                    </div>
+
+                    <div class="flex bg-gray-200 items-center p-2 rounded-md mb-4 ">
+                        <span>Taller: </span>
+                        <select wire:model="ta" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full truncate">
+                            <option value="">SELECCIONE</option>
+                            @isset($talleres)
+                            @foreach($talleres as $taller)
+                                <option class="" value="{{$taller->id}}">{{$taller->nombre}}</option>
+                            @endforeach
+                            @endisset
+                        </select>                
+                    </div>
+
+                    <div class="flex bg-gray-200 items-center p-2 w-48 rounded-md mb-4 ">
+                        <span>Desde: </span>
+                        <x-date-picker wire:model="fecIni" placeholder="Fecha de inicio" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full truncate"/>             
+                    </div>
+
+                    <div class="flex bg-gray-200 items-center p-2 w-48 rounded-md mb-4 ">
+                        <span>Hasta: </span>
+                        <x-date-picker wire:model="fecFin" placeholder="Fecha de Fin" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full truncate"/>             
+                    </div>
+                    
+                    
+                    
+                </div>
             </div>
-            @endforeach
-        --}}
+        </div>
+        
+        @if ($certificaciones->count())      
+            
             <table class="w-full whitespace-nowrap">
                 <thead class="bg-slate-600 border-b font-bold text-white">
                     <tr>

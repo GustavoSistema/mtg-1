@@ -61,13 +61,10 @@ class Certificacion extends Model
 
     //scopes para busquedas    
 
-    public function scopeIdInspector(Builder $query, string $search): void
-    {   
-        if($search){
-            $query->where('idInspector', $search);
-        }
-       
-    }
+    
+
+    
+   
 
     public function scopeNumFormato($query,$search): void{
         if($search){
@@ -84,7 +81,40 @@ class Certificacion extends Model
         });
         }
     }
+
+    public function scopeIdInspector(Builder $query, string $search): void
+    {   
+        if($search){
+            $query->where('idInspector', $search);
+        }
+       
+    }
+    public function scopeRangoFecha(Builder $query, string $desde, string $hasta): void
+    {   
+        if($desde && $hasta){
+            $query->whereBetween('created_at', [$desde,$hasta]);
+        }
+       
+    }
+
+
+    public function scopeTipoServicio($query,$search): void{
+        if($search){           
+        $query->whereHas('Servicio', function (Builder $query) use ($search) {
+            $query->where('tipoServicio_idtipoServicio',$search);
+        });               
+       }
+        
+    }
     
+    public function scopeIdTaller($query,$search): void{
+        if($search){           
+        $query->whereHas('Taller', function (Builder $query) use ($search) {
+            $query->where('id',$search);
+        });               
+       }
+        
+    }
 
            
     

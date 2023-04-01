@@ -6,6 +6,9 @@ use App\Models\CertifiacionExpediente;
 use App\Models\Certificacion;
 use App\Models\Expediente;
 use App\Models\Imagen;
+use App\Models\Taller;
+use App\Models\TipoServicio;
+use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
@@ -19,7 +22,7 @@ class AdministracionCertificaciones extends Component
 
     use WithPagination;
 
-    public $search,$sort,$direction,$cant,$user,$fechaFin,$dateOptions;
+    public $search,$sort,$direction,$cant,$user,$fechaFin,$dateOptions,$inspectores,$ins,$servicio,$tipos,$talleres,$ta,$fecIni,$fecFin;
     
 
     protected $listeners=['render','delete','anular'];
@@ -43,6 +46,14 @@ class AdministracionCertificaciones extends Component
         $this->sort='certificacion.id';
         $this->direction="desc";
         $this->fechaFin=date('d/m/Y');
+        $this->inspectores=User::role(['inspector','supervisor'])->where('id','!=',Auth::id())->orderBy('name')->get();
+        $this->talleres=Taller::all()->sortBy('nombre');
+        $this->tipos=TipoServicio::all();
+        $this->ins='';
+        $this->fecIni='';
+        $this->fecFin='';
+        $this->servicio='';
+        $this->ta='';
         $this->dateOptions=json_encode("minDate: '1920-01-01',  
         locale: {
           firstDayOfWeek: 1,
@@ -62,7 +73,10 @@ class AdministracionCertificaciones extends Component
         $certificaciones=Certificacion::            
             numFormato($this->search)
             ->placaVehiculo($this->search)
-            ->idInspector('')
+            ->idInspector($this->ins)
+            ->tipoServicio($this->servicio)
+            ->idTaller($this->ta)
+            ->rangoFecha($this->fecIni,$this->fecFin)
             //->where('created_at',$this->fechaFin)
             //->where('nombre','hola')
             ->orderBy($this->sort,$this->direction)

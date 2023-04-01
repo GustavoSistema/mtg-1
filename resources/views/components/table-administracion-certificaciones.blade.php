@@ -5,6 +5,7 @@
                 <p tabindex="0" class="focus:outline-none text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-normal text-gray-800">
                     TODAS LAS CERTIFICACIONES
                 </p>
+            
             <div
                 class="py-3 px-4 flex items-center text-sm font-medium leading-none text-gray-600 bg-gray-200 hover:bg-gray-300 cursor-pointer rounded">
                 <p>mostrar :</p>
@@ -22,7 +23,7 @@
     <div class="bg-white py-4 md:py-7 px-4 md:px-8 xl:px-10">
         <div class="sm:flex items-center justify-between">
             <div class="flex items-center xl:mb-2">
-               {{--
+                               {{--
                 @once
 
                     @push('styles')
@@ -49,11 +50,7 @@
                 <x-date-picker  model="fechaFin"/>
                 --}} 
                
-                
-                
-                
-                
-            </div>     
+            </div>   
             <div class="flex bg-gray-300 items-center lg:w-3/6 p-2 ">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20"
                     fill="currentColor">
