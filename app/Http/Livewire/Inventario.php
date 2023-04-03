@@ -14,6 +14,21 @@ class Inventario extends Component
 
 
     public function mount(){
+        $this->listaStock();
+    }
+    
+    public function render()
+    {         
+
+        return view('livewire.inventario');
+    }
+
+
+    public function listaStock(){
+        $user=Auth::user();
+
+
+
         $this->disponiblesGnv=Material::where([
             ['estado',3], //FORMATOS EN STOCK
             ['idUsuario',Auth::id()],
@@ -32,17 +47,5 @@ class Inventario extends Component
             ['idTipoMaterial',1],
             ])
             ->count();
-    }
-    
-    public function render()
-    {
-        $materiales=Material::where([
-            ['estado',3],
-            ['idUsuario',Auth::id()],
-            ['idTipoMaterial',1],
-            ])
-            ->get();       
-
-        return view('livewire.inventario');
     }
 }
