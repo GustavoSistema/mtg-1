@@ -26,9 +26,6 @@ class Inventario extends Component
 
     public function listaStock(){
         $user=Auth::user();
-
-
-
         $this->disponiblesGnv=Material::where([
             ['estado',3], //FORMATOS EN STOCK
             ['idUsuario',Auth::id()],

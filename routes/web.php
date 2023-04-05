@@ -61,7 +61,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get('/Solicitud/{soliId}',VistaSolicitud::class)->name('vistaSolicitud');
     Route::get('/Servicio',Prueba::class)->middleware('can:servicio')->name('servicio');
     Route::get('/Solucion',Arreglando::class)->name('solucion');
-    Route::get('/Talleres/Revision',TallerRevision::class)->name('talleres.revision');
+    Route::get('/TalleresRevision',TallerRevision::class)->name('talleres.revision');
     
 
     Route::post('/Solucion/upload-images',[uploadController::class,'uploadImagesExpediente'])->name('expediente.upload-images');

@@ -3,6 +3,9 @@
         <div class="bg-white md:py-7 w-full">
             <div class="sm:flex items-center justify-between">
                 <div class="flex items-center space-x-2">
+                    
+                    
+
                     <div class="flex bg-gray-200 items-center p-2 rounded-md mb-4 ">
                         <span>Inspector: </span>
                         <select wire:model="ins" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full truncate">
@@ -14,6 +17,8 @@
                             @endisset
                         </select>               
                     </div>
+
+
                     
                     <div class="flex bg-gray-200 items-center p-2 rounded-md mb-4 ">
                         <span>Servicio: </span>
@@ -446,7 +451,7 @@
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, eliminar'
+                    confirmButtonText: 'Si, anular'
                 }).then((result) => {
                     if (result.isConfirmed) {
 

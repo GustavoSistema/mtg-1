@@ -35,6 +35,7 @@ class Expedientes extends Component
     public $direction='desc';
     public $readyToLoad=false;
     public $editando=false;
+    public $ta;
 
     protected $listeners=['render','delete','deleteFile'];
 
@@ -74,7 +75,10 @@ class Expedientes extends Component
         $this->identificador=rand();        
         $this->expediente= new Expediente();
         $this->cant="10";
-        $this->talleres=Taller::all();         
+        $this->talleres=Taller::all();     
+        $this->search='';
+        $this->es='';
+            
     }
 
 
@@ -82,14 +86,16 @@ class Expedientes extends Component
 
     public function render()
     {
+        /*
         $filtros1=[['expedientes.placa','like','%'.$this->search.'%'],['expedientes.usuario_idusuario', '=', Auth::id()]];  
         $filtros2=[['expedientes.certificado','like','%'.$this->search.'%'],['expedientes.usuario_idusuario', '=', Auth::id()]];  
+
         if($this->es!=null){
            array_push($filtros1,['expedientes.estado','like','%'.$this->es.'%']);
            array_push($filtros2,['expedientes.estado','like','%'.$this->es.'%']);
         }
 
-        if($this->readyToLoad){            
+                 
             $expedientes= DB::table('expedientes') 
             ->select('expedientes.*', 'tiposervicio.descripcion')             
             ->join('servicio', 'expedientes.servicio_idservicio', '=', 'servicio.id')
@@ -98,10 +104,19 @@ class Expedientes extends Component
             ->orWhere($filtros2)           
             ->orderBy($this->sort,$this->direction)
             ->paginate($this->cant);                 
+        
+
+        */
+        
+        if($this->readyToLoad){  
+        $expedientes=Expediente::
+        placaOcertificado($this->search)   
+        ->estado($this->es)
+        ->orderBy($this->sort,$this->direction)
+        ->paginate($this->cant);  
         }else{
             $expedientes=[];
-        }
-
+        }                
         return view('livewire.expedientes',compact('expedientes'));
     }
 

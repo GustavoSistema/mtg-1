@@ -31,6 +31,10 @@ class Certificacion extends Model
         'serie_formato',
         'placa',
         'tipo_servicio',      
+        'ruta_vista_certificado',
+        'ruta_descarga_certificado',
+        'ruta_vista_ft',
+        'ruta_descarga_ft',
     ];
 
     
@@ -196,7 +200,6 @@ class Certificacion extends Model
 
         return $ruta;
     }
-
 
     public function generaRutaDuplicado(Duplicado $duplicado){
         $ruta=null;      
