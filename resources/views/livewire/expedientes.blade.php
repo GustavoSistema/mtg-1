@@ -50,9 +50,9 @@
                                         @endif
                                     </th>
                                     <th class="cursor-pointer hover:font-bold hover:text-indigo-500 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                        wire:click="order('descripcion')">
+                                        wire:click="order('servicio_idservicio')">
                                         Servicio
-                                        @if ($sort == 'descripcion')
+                                        @if ($sort == 'servicio_idservicio')
                                             @if ($direction == 'asc')
                                                 <i class="fas fa-sort-alpha-up-alt float-right mt-0.5"></i>
                                             @else
