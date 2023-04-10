@@ -16,13 +16,17 @@ class RoleSeed extends Seeder
      */
     public function run()
     {
-        /* Creando Roles
+        /*
+         Creando Roles
         $admin=Role::create(['name'=>'administrador']);
-        $inspector=Role::create(['name'=>'inspector']);
-        */
+        $inspector=Role::create(['name'=>'inspector']);        
         $admin=Role::find(5);
         $inspector=Role::find(6);
         $supervisor=Role::find(7);
+        */
+
+
+        $adminTaller=Role::create(['name'=>'Administrador taller']);;
 
         //Permission::find(4)->syncRoles([$supervisor,$admin,$inspector]);
        // Permission::find(5)->syncRoles([$supervisor,$admin]);       
@@ -38,12 +42,12 @@ class RoleSeed extends Seeder
 
         */
 
-       $talleres=Permission::create(["name"=>"talleres"]);
-       $adminCert=Permission::create(['name'=>"admin.certificaciones"]);
+       $revisionTalleres=Permission::create(["name"=>"talleres.revision"]);
+       
 
 
-       $talleres->syncRoles([$admin]);
-       $adminCert->syncRoles([$admin]);
+       $revisionTalleres->syncRoles([$adminTaller]);
+     
        
 
     }

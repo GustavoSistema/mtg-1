@@ -1,7 +1,7 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100" id="navigate">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
+        <div class="flex justify-between h-16 w-full">
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
@@ -26,7 +26,7 @@
                     @endcan
                 </div>
                 --}}
-                
+                @hasanyrole('inspector|administrador|supervisor')
                     <div class="hidden pt-4 space-x-8 sm:-my-px sm:ml-10 sm:flex">
                         <x-jet-dropdown align="right" width="48">
                             <x-slot name="trigger">                            
@@ -63,8 +63,9 @@
                             </x-slot>
                         </x-jet-dropdown>
                     </div>
+                @endhasanyrole
                 
-                @hasrole('administrador') 
+                @hasrole('administrador|Administrador taller') 
                     <div class="hidden pt-4 space-x-8 sm:-my-px sm:ml-10 sm:flex">
                         <x-jet-dropdown align="right" width="48">
                             <x-slot name="trigger">                            
@@ -83,28 +84,19 @@
                                     <x-jet-dropdown-link href="{{ route('talleres') }}" :active="request()->routeIs('talleres')">
                                         {{ __('Listado talleres') }}
                                     </x-jet-dropdown-link>
-                                @endcan                                                                           
-                            </x-slot>
+                                @endcan     
+                                <div class="border-t border-gray-100"></div>
+                                @can('talleres.revision')
+                                <x-jet-dropdown-link href="{{ route('talleres.revision') }}" :active="request()->routeIs('talleres.revision')">
+                                    {{ __('Expedientes de taller') }}
+                                </x-jet-dropdown-link>
+                                @endcan
+                            </x-slot>                          
                         </x-jet-dropdown>
                     </div>
-                 @endhasrole
+                @endhasrole
                
-                {{--
-                @can('expedientes')
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('expedientes') }}" :active="request()->routeIs('expedientes')">
-                        Expedientes
-                    </x-jet-nav-link>
-                </div>
-                @endcan
-                @can('revisionExpedientes')
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('revisionExpedientes') }}" :active="request()->routeIs('revisionExpedientes')">
-                        Revisión Expedientes
-                    </x-jet-nav-link>
-                </div>
-                @endcan
-                --}}
+                @hasanyrole('inspector|administrador|supervisor')
                 <div class="hidden pt-4 space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-jet-dropdown align="right" width="48">
                         <x-slot name="trigger">                            
@@ -134,6 +126,10 @@
                         </x-slot>
                     </x-jet-dropdown>
                 </div>
+                @endhasanyrole
+                
+
+                @hasanyrole('inspector|administrador|supervisor')
                 <div class="hidden pt-4 space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-jet-dropdown align="right" width="48">
                         <x-slot name="trigger">                            
@@ -147,9 +143,7 @@
                                 </span>
                             
                         </x-slot>
-
-                        <x-slot name="content">      
-                            
+                        <x-slot name="content">     
                             @can('inventario')
                             <x-jet-dropdown-link href="{{ route('inventario') }}">
                                 {{ __('Inventario') }}
@@ -163,15 +157,13 @@
                                 </x-jet-dropdown-link>
                                 <div class="border-t border-gray-100"></div>                                
                             @endcan
-                            
 
                             @can('salidas')
                                 <x-jet-dropdown-link href="{{ route('salidas') }}">
                                     {{ __('Salida de materiales') }}
                                 </x-jet-dropdown-link>                          
                                 <div class="border-t border-gray-100"></div>
-                            @endcan
-                            
+                            @endcan                            
 
                             @can('asignacion')
                                 <x-jet-dropdown-link href="{{ route('asignacion') }}">
@@ -197,6 +189,7 @@
                     </x-jet-dropdown>
                 </div>
             </div>
+            @endhasanyrole
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <!-- Teams Dropdown -->
@@ -269,8 +262,7 @@
                                 <div class="flex items-center justify-center text-center">
                                   <i class="fas fa-bell fa-lg"></i>
                                 </div>
-                              </div>
-                            
+                              </div>                           
                               
                         </x-slot>
 
@@ -310,7 +302,6 @@
                                 <span class="inline-flex rounded-md">
                                     <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition">
                                         {{ Auth::user()->name }}
-
                                         <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                         </svg>
@@ -370,21 +361,7 @@
                 {{ __('Inicio') }}
             </x-jet-responsive-nav-link>
         </div>       
-        {{--
-        <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="flex items-center px-4">
-                <div>
-                    <div class="font-medium text-base text-indigo-800">prueba</div>                    
-                </div>
-            </div>
-
-            <div class="mt-3 space-y-1">
-                <x-jet-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
-                    {{ __('link Prueba') }}
-                </x-jet-responsive-nav-link>
-            </div>
-        </div>
-        --}}
+        
         @hasanyrole('inspector|supervisor') 
         <div x-data="{ open: false }" class="border-t border-indigo-200 ">
             <div  @click="open = ! open" class="p-4 bg-gray-100 flex w-full hover:bg-gray-200">

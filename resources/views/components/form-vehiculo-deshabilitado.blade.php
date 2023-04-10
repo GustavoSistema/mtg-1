@@ -29,6 +29,12 @@
                     <option value="O1">O1</option>
                     <option value="O2">O2</option>
                     <option value="O3">O3</option>
+                    <option value="M2-C1">M2-C1</option>
+                    <option value="M2-C2">M2-C2</option>
+                    <option value="M2-C3">M2-C3</option>
+                    <option value="M3-C1">M3-C1</option>
+                    <option value="M3-C2">M3-C2</option>
+                    <option value="M3-C3">M3-C3</option>
                 </select>
                 <x-jet-input-error for="categoria" />
             </div>
