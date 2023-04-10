@@ -90,6 +90,13 @@ class Expediente extends Model
         }       
     }
 
+    public function scopeidInspector(Builder $query, string $search): void
+    {   
+        if($search){
+            $query->where('usuario_idusuario',$search);
+        }       
+    }
+
 
     public function scopeidTaller(Builder $query, string $search): void
     {   

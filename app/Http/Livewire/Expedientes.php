@@ -111,6 +111,7 @@ class Expedientes extends Component
         if($this->readyToLoad){  
         $expedientes=Expediente::
         placaOcertificado($this->search)   
+        ->idInspector(Auth::id())
         ->estado($this->es)
         ->orderBy($this->sort,$this->direction)
         ->paginate($this->cant);  
