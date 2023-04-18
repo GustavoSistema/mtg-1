@@ -7,12 +7,15 @@ import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import { createPopper } from "@popperjs/core";
 import focus from "@alpinejs/focus";
+import Chart from 'chart.js/auto';
+
 
 Alpine.plugin(focus);
 
 window.flatpickr = flatpickr;
 window.FilePond = FilePond;
 window.Quill = Quill;
+window.Chart = Chart;
 window.createPopper = createPopper;
 
 // Register the plugin with FilePond

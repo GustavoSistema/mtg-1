@@ -19,11 +19,9 @@ class ResumenExpedientes extends Component
     protected $listeners = [
         'enviaDatos',
     ];
-
-
     
 
-    public function mount(){      
+    public function mount(){     
       
        $this->cargaDatos();
        $this->formateaChart();
@@ -97,8 +95,7 @@ class ResumenExpedientes extends Component
     {     
         $this->emit('updateChart', [
             'datasets' => $this->dataset,
-            'labels' => $this->labels,
-            
+            'labels' => $this->labels,            
         ]);
     }
 

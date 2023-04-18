@@ -11,15 +11,19 @@ class Taller extends Model
 
     protected $table = 'taller';
     protected $fillable=
-    ['nombre',
+    [
+     'id',   
+    'nombre',
     'direccion',
     'ruc',
     'representante',
     'idDistrito',
     'rutaLogo',
     'rutaFirma',
-
     ];
+
+
+
 
     public function servicios(){
         return $this->hasMany(Servicio::class,'taller_idtaller');
@@ -27,6 +31,10 @@ class Taller extends Model
 
     public function Distrito(){
         return $this->belongsTo(Distrito::class,'idDistrito');
+    }
+
+    public function Documentos(){
+        return $this->belongsToMany(Documento::class,'documentostaller','idTaller','idDocumento');
     }
     
    

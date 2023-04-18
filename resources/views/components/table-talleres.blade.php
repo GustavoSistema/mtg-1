@@ -1,8 +1,7 @@
 <div class="bg-gray-200  p-8 rounded-xl w-full">
-    <div class=" items-center pb-6 md:block sm:block">
+    <div class=" items-center md:block sm:block">
         <div class="px-2 w-64 mb-4 md:w-full">
-            <h2 class="text-gray-600 font-semibold font-2xl">Talleres</h2>
-            <span class="text-xs">Todos los Talleres</span>
+            <h2 class="text-indigo-900 font-bold text-3xl">TALLERES</h2>            
         </div>
         <div class="w-full items-center md:flex  md:justify-between">
             <div class="flex bg-gray-50 items-center p-2 rounded-md mb-4">

@@ -107,12 +107,14 @@
             )
         });
     </script>
+    
     <script>
         Livewire.on('updateChart', data => {
             chart.data = data;
             chart.update();
         });
     </script>
+    
 </body>
 
 </html>

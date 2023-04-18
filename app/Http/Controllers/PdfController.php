@@ -153,6 +153,9 @@ class PdfController extends Controller
                     "taller"=>$certificacion->Taller, 
                     "hoja"=>$hoja, 
                     "fechaCert"=>$fechaCert,
+                    "largo"=>$this->devuelveDatoParseado($certificacion->Vehiculo->largo),
+                    "ancho"=>$this->devuelveDatoParseado($certificacion->Vehiculo->ancho),
+                    "altura"=>$this->devuelveDatoParseado($certificacion->Vehiculo->altura),
                     ];                 
                     $pdf = App::make('dompdf.wrapper');
                     $pdf->loadView('anualGnv',$data);        
@@ -163,6 +166,16 @@ class PdfController extends Controller
         }else{
             return abort(404);
         }
+    }
+
+    public function devuelveDatoParseado($num){
+        $str=(string) $num;
+        if(substr($num, -1) != 0){
+            return rtrim($num);
+        }else{
+            return  bcdiv($num, '1', 2);
+        }        
+        
     }
 
     public function descargarPdfAnualGnv($id){
@@ -180,6 +193,9 @@ class PdfController extends Controller
                     "taller"=>$certificacion->Taller, 
                     "hoja"=>$hoja, 
                     "fechaCert"=>$fechaCert,
+                    "largo"=>$this->devuelveDatoParseado($certificacion->Vehiculo->largo),
+                    "ancho"=>$this->devuelveDatoParseado($certificacion->Vehiculo->ancho),
+                    "altura"=>$this->devuelveDatoParseado($certificacion->Vehiculo->altura),
                     ];                 
                     $pdf = App::make('dompdf.wrapper');
                     $pdf->loadView('anualGnv',$data);        
@@ -214,6 +230,9 @@ class PdfController extends Controller
                     "chip"=>$chip,
                     "fechaCert"=>$fechaCert,
                     "pesos"=>$certificacion->calculaPesos,
+                    "largo"=>$this->devuelveDatoParseado($certificacion->Vehiculo->largo),
+                    "ancho"=>$this->devuelveDatoParseado($certificacion->Vehiculo->ancho),
+                    "altura"=>$this->devuelveDatoParseado($certificacion->Vehiculo->altura),
                     ];                 
                     $pdf = App::make('dompdf.wrapper');
                     $pdf->loadView('conversionGnv',$data);        
@@ -226,6 +245,7 @@ class PdfController extends Controller
             return abort(404);
         }
     }
+  
 
     public function descargarPdfInicialGnv($id){
         if(Certificacion::findOrFail($id)){
@@ -247,11 +267,13 @@ class PdfController extends Controller
                     "chip"=>$chip,
                     "fechaCert"=>$fechaCert,
                     "pesos"=>$certificacion->calculaPesos,
+                    "largo"=>$this->devuelveDatoParseado($certificacion->Vehiculo->largo),
+                    "ancho"=>$this->devuelveDatoParseado($certificacion->Vehiculo->ancho),
+                    "altura"=>$this->devuelveDatoParseado($certificacion->Vehiculo->altura),
                     ];                 
                     $pdf = App::make('dompdf.wrapper');
                     $pdf->loadView('conversionGnv',$data);       
-                    return  $pdf->download($certificacion->Vehiculo->placa.'-'.$hoja->numSerie.'-inicial.pdf');
-               
+                    return  $pdf->download($certificacion->Vehiculo->placa.'-'.$hoja->numSerie.'-inicial.pdf');               
         }else{
             return abort(404);
         }
@@ -742,8 +764,22 @@ class PdfController extends Controller
     }
 
     
-    public static function guardaDocumentoExpediente(Expediente $ex,Certificacion $cert){
-        
+    
+
+
+    public function generaBoletoDeAnalizador($id){
+        $archivo=fopen("storage/voucherTalleres/plantilla_JR.txt", "r+");
+         /*
+        fwrite($archivo, "HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAA".$id);
+       
+        fclose($archivo);
+        echo("todo oK");
+        */
+        while (!feof($archivo)){
+            $leer=fgets($archivo);
+            $saltodelinea=nl2br($leer);
+            echo $saltodelinea;
+        }
     }
 
 }

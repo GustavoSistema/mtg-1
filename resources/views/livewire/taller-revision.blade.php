@@ -21,11 +21,8 @@
                         @endisset
                     </select>                
                 </div>
-            </x-slot>
+            </x-slot>           
             
-            
-
-
             @if(count($expedientes))
             <div wire:loading wire:target="es,servicio,fecIni,fecFin,search" class=" w-full px-6 py-4 text-center font-bold bg-indigo-200 rounded-md">
                 <i class="fas fa-circle-notch animate-spin text-indigo-700"></i>  &nbsp;  Cargando datos espere por favor.

@@ -17,14 +17,16 @@
                 return {  {{ $config ?? '' }} };
             },           
             
-            options:{'allowMultiple':true,
+            options:{
+                    'allowMultiple':  {{ $attributes["aceptaVarios"] ?? 'false' }},
                     'AllowImagePreview':true,
                     'labelIdle': 'Arrastre aquí sus archivos o <span class={{"filepond--label-action font-bold"}}>Seleccione</span>',
                     'labelFileProcessing': 'Cargando archivo',
                     'labelFileProcessingComplete': 'Cargado completamente',
-                    'labelInvalidField': 'Tipo de archivo invalido',
+                    'labelInvalidField': 'Error de Archivo',
                     'labelFileTypeNotAllowed': 'Tipo de archivo invalido',                    
-                    'AcceptedFileTypes': {{ $attributes->get('acceptedFileTypes') ?? 'null'}},               
+                    'AcceptedFileTypes': {{ $attributes->get('acceptedFileTypes') ?? 'null'}},   
+                    'fileValidateTypeLabelExpectedTypes' :'Se esperaba un {lastType}',          
                     },
             
             
@@ -48,7 +50,5 @@
             @if ($name) name="{{ $name }}" @endif
             @if ($id) id="{{ $id }}" @endif {{ $attributes }}
         />
-    </div>
-
-    
+    </div>    
 </div>

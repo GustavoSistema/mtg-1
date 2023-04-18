@@ -135,15 +135,19 @@
                                                         <span class="group-hover:opacity-100 transition-opacity bg-gray-800 px-1 text-sm text-gray-100 rounded-md absolute left-1/2-translate-x-1/2 translate-y-full opacity-0 m-4 mx-auto">
                                                             Agregar servicios
                                                         </span>
-                                                    </button>
-                                                    
-                                                    @endif                                                    
+                                                    </button>                                                  
+                                                    @endif   
+
+                                                    @livewire('create-documento-taller', ['taller' => $item], key($item->id))         
+                                                         
                                                     <a class="group flex py-4 px-4 text-center rounded-md bg-indigo-300 font-bold text-white cursor-pointer hover:bg-indigo-400  hover:animate-pulse">
                                                         <i class="fas fa-trash"></i>
                                                         <span class="group-hover:opacity-100 transition-opacity bg-gray-800 px-1 text-sm text-gray-100 rounded-md absolute left-1/2-translate-x-1/2 translate-y-full opacity-0 m-4 mx-auto">
                                                            Eliminar
                                                         </span>
-                                                    </a>                                                   
+                                                    </a>         
+
+                                                   
                                                 </div>
 
                                             </td>
@@ -352,7 +356,105 @@
         </div>
       @endif 
     @endif   
-             
+    <div>
+        @if(isset($taller->Documentos))
+           @if($taller->Documentos->count() > 0)
+           <h1 class="font-bold text-lg"> Documentos</h1>
+           <hr class="my-4">
+           <div class="space-y-4">
+
+           
+           @foreach($taller->Documentos as $doc)
+           {{--
+            <div class="block p-6 bg-green-100 text-center shadow-lg rounded-md">
+                  <div class="flex justify-between items-center">
+                        <h1>{{$doc->TipoDocumento->nombreTipo}}</h1>
+                        <button>
+                            <i class="fas fa-chevron-down fa-lg text-green-600"></i>
+                        </button>
+                        
+                  </div>
+            </div>
+            --}}
+            <div x-data="{ open: false }"
+                class=" bg-green-200 flex flex-col items-center justify-center relative overflow-hidden w-full border shadow-md rounded-md hover:cursor-pointer ">
+                <div @click="open = ! open" class="bg-green-100 p-4 w-full flex justify-between items-center">
+                    <div class="flex items-center gap-2 ">                        
+                        <p class="ml-4 text-lg text-green-600 leading-7 font-semibold" >
+                            {{$doc->TipoDocumento->nombreTipo}}
+                        </p>
+                    </div>
+                    <i class="fas fa-chevron-down fa-lg text-green-600"></i>
+                </div>
+                <div x-show="open" @click.outside="open = false" x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 translate-y-0" x-transition:enter-end="opacity-100 translate-y-0"
+                    x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100 translate-y-10"
+                    x-transition:leave-end="opacity-0 translate-y-0" class="w-full bg-white">
+                    <div class="flex flex-row w-full divide-x divide-gray-400/20">
+                        <div class="px-8 py-4 bg-green-100/30 w-2/3 ">
+                            @if($doc->tipoDocumento==9)
+                            <p class="text-gray-500 text-xs"> 
+                                <i class="fas fa-user"></i>
+                                Empleado: 
+                                <span class="font-bold"> {{$doc->nombreEmpleado}} </span> 
+                            </p>
+                            @endif
+                            <p class="text-gray-500 text-xs"> 
+                                <i class="fas fa-calendar-check"></i>
+                                fecha de inicio: 
+                                <span class="font-bold"> {{date('d-m-Y',strtotime($doc->fechaInicio))}} </span> 
+                            </p>
+                            <p class="text-gray-500 text-xs">
+                                <i class="fas fa-calendar-times"></i>
+                                fecha de expiración: 
+                                <span class="font-bold"> 
+                                    {{date('d-m-Y',strtotime($doc->fechaExpiracion))}} 
+                                </span> 
+                            </p>
+                        </div>
+
+                        <div class="bg-green-100/30 w-1/3 flex justify-center space-x-2 items-center px-3">
+                            <button class="group flex py-2 px-2 text-center items-center rounded-md bg-blue-300 font-bold text-white cursor-pointer hover:bg-blue-400 hover:animate-pulse">
+                                <i class="fas fa-eye"></i>
+                                <span class="group-hover:opacity-100 transition-opacity bg-gray-800 px-1 text-sm text-gray-100 rounded-md absolute left-1/2-translate-x-1/2 translate-y-full opacity-0 m-4 mx-auto z-50">
+                                    ver
+                                </span>
+                            </button>
+
+                            <button class="group flex py-2 px-2 text-center items-center rounded-md bg-indigo-300 font-bold text-white cursor-pointer hover:bg-indigo-400 hover:animate-pulse">
+                                <i class="fas fa-download"></i>
+                                <span class="group-hover:opacity-100 transition-opacity bg-gray-800 px-1 text-sm text-gray-100 rounded-md absolute left-1/2-translate-x-1/2 translate-y-full opacity-0 m-4 mx-auto z-50">
+                                    Descargar
+                                </span>
+                            </button>
+
+                            <button class="group flex py-2 px-2 text-center items-center rounded-md bg-amber-300 font-bold text-white cursor-pointer hover:bg-amber-400 hover:animate-pulse">
+                                <i class="fas fa-pen"></i>
+                                <span class="group-hover:opacity-100 transition-opacity bg-gray-800 px-1 text-sm text-gray-100 rounded-md absolute left-1/2-translate-x-1/2 translate-y-full opacity-0 m-4 mx-auto z-50">
+                                    Editar
+                                </span>
+                            </button>
+
+                            <button class="group flex py-2 px-2 text-center items-center rounded-md bg-red-500 font-bold text-white cursor-pointer hover:bg-red-700 hover:animate-pulse">
+                                <i class="fas fa-times-circle"></i>
+                                <span class="group-hover:opacity-100 transition-opacity bg-gray-800 px-1 text-sm text-gray-100 rounded-md absolute  translate-y-full opacity-0 m-4 mx-auto z-50">
+                                    Eliminar
+                                </span>
+                            </button>
+                        </div>
+                    </div>                   
+                </div>
+            </div>
+           @endforeach
+            </div>
+           @else
+            <hr>
+            <div class="w-full items-center mt-2 justify-center text-center py-2 ">
+                <h1 class="text-xs text-gray-500 ">Aun no se ha cargado ningún documento del taller</h1>
+            </div>
+           @endif      
+        @endif
+    </div>
     </x-slot>
 
     <x-slot name="footer">
@@ -414,6 +516,7 @@
             @endforeach
         @endif
              
+       
     </x-slot>
 
     <x-slot name="footer">
