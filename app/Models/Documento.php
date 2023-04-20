@@ -19,7 +19,7 @@ class Documento extends Model
         "extension",
         "ruta",
         "nombre",
-        "estado",
+        "estadoDocumento",
     ];
 
     public function TipoDocumento(){

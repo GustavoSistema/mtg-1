@@ -413,6 +413,7 @@
                             </p>
                         </div>
 
+                        {{--
                         <div class="bg-green-100/30 w-1/3 flex justify-center space-x-2 items-center px-3">
                             <button class="group flex py-2 px-2 text-center items-center rounded-md bg-blue-300 font-bold text-white cursor-pointer hover:bg-blue-400 hover:animate-pulse">
                                 <i class="fas fa-eye"></i>
@@ -442,6 +443,8 @@
                                 </span>
                             </button>
                         </div>
+                    --}}
+                    @livewire('comandos-documento', ['idDocumento' => $doc->id], key($doc->id)) 
                     </div>                   
                 </div>
             </div>

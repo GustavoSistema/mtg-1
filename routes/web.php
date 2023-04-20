@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\DocumentosController;
 use App\Http\Livewire\AsignacionMateriales;
 use App\Http\Livewire\CreateSolicitud;
 use App\Http\Livewire\Expedientes;
@@ -18,6 +20,7 @@ use App\Http\Controllers\PdfController;
 use App\Http\Controllers\uploadController;
 use App\Http\Livewire\AdministracionCertificaciones;
 use App\Http\Livewire\Arreglando;
+use App\Http\Livewire\EditarTaller;
 use App\Http\Livewire\ListaCertificaciones;
 use App\Http\Livewire\ListaServicios;
 use App\Http\Livewire\Prueba;
@@ -62,9 +65,13 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get('/Servicio',Prueba::class)->middleware('can:servicio')->name('servicio');
     Route::get('/Solucion',Arreglando::class)->name('solucion');
     Route::get('/TalleresRevision',TallerRevision::class)->name('talleres.revision');
+    Route::get('/Taller/edit/{idTaller}',EditarTaller::class)->name('editar-taller');
     
 
     Route::post('/Solucion/upload-images',[uploadController::class,'uploadImagesExpediente'])->name('expediente.upload-images');
+
+    Route::get('/Taller/Documents/{id}/download',[DocumentosController::class,'downloadDocumentoTaller'])->name('download_doctaller');
+    Route::get('/Taller/Documents/{id}/ver',[DocumentosController::class,'streamDocumentoTaller'])->name('stream_doctaller');
     
 
 

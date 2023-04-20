@@ -110,12 +110,9 @@ class Talleres extends Component
         }
         if($tal->rutaLogo){
             $this->logoTaller=$tal->rutaLogo;
-        }
-
-        
-
+        }      
           $this->taller=$tal;
-          $this->editando=true;          
+          $this->editando=true;         
        
     }
 
