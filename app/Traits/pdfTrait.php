@@ -75,6 +75,16 @@ trait pdfTrait
         }
     }
 
+
+    public function devuelveDatoParseado($num){
+        $str=(string) $num;
+        if(substr($num, -1) != 0){
+            return rtrim($num);
+        }else{
+            return  bcdiv($num, '1', 2);
+        }        
+        
+    }
     public function guardarPdfAnualGnv(Certificacion $certificacion,Expediente $expe){        
             
                     $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
@@ -88,6 +98,9 @@ trait pdfTrait
                     "taller"=>$certificacion->Taller, 
                     "hoja"=>$hoja, 
                     "fechaCert"=>$fechaCert,
+                    "largo"=>$this->devuelveDatoParseado($certificacion->Vehiculo->largo),
+                    "ancho"=>$this->devuelveDatoParseado($certificacion->Vehiculo->ancho),
+                    "altura"=>$this->devuelveDatoParseado($certificacion->Vehiculo->altura),
                     ];                 
                     $pdf = App::make('dompdf.wrapper');
                     $pdf->loadView('anualGnv',$data);        
@@ -119,6 +132,9 @@ trait pdfTrait
                     "chip"=>$chip,
                     "fechaCert"=>$fechaCert,
                     "pesos"=>$certificacion->calculaPesos,
+                    "largo"=>$this->devuelveDatoParseado($certificacion->Vehiculo->largo),
+                    "ancho"=>$this->devuelveDatoParseado($certificacion->Vehiculo->ancho),
+                    "altura"=>$this->devuelveDatoParseado($certificacion->Vehiculo->altura),
                     ];                 
                     $pdf = App::make('dompdf.wrapper');
                     $pdf->loadView('conversionGnv',$data);       
