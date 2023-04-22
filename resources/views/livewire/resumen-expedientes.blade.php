@@ -153,7 +153,7 @@
                         'labels' : @json($labels),            
                     ];
                     chart.update();                          
-                    //Livewire.emitTo('resumen-expedientes', 'enviaDatos'); 
+                    Livewire.emitTo('resumen-expedientes', 'enviaDatos'); 
                     
                 });
 

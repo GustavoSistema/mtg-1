@@ -26,7 +26,7 @@ class RoleSeed extends Seeder
         */
 
 
-        $adminTaller=Role::create(['name'=>'Administrador taller']);;
+        $adminTaller=Role::find(8);
 
         //Permission::find(4)->syncRoles([$supervisor,$admin,$inspector]);
        // Permission::find(5)->syncRoles([$supervisor,$admin]);       
@@ -42,11 +42,11 @@ class RoleSeed extends Seeder
 
         */
 
-       $revisionTalleres=Permission::create(["name"=>"talleres.revision"]);
+       $editTaller=Permission::create(["name"=>"editar-taller"]);
        
 
 
-       $revisionTalleres->syncRoles([$adminTaller]);
+       $editTaller->syncRoles([$adminTaller]);
      
        
 

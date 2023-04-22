@@ -123,7 +123,10 @@
                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 {{-- @livewire('edit-usuario', ['usuario' => $usuario], key($usuario->id)) --}}
                                                 <div class="flex justify-end space-x-2">
-                                                    <a class="group flex py-4 px-4 text-center rounded-md bg-lime-300 font-bold text-white cursor-pointer hover:bg-lime-400 hover:animate-pulse" wire:click="edit({{ $item }})">
+                                                    <a 
+                                                    wire:click="edit({{ $item }})"
+                                                   {{--href="{{ route('editar-taller',$item->id)}}"--}}
+                                                    class="group flex py-4 px-4 text-center rounded-md bg-lime-300 font-bold text-white cursor-pointer hover:bg-lime-400 hover:animate-pulse" >
                                                         <i class="fas fa-edit"></i>
                                                         <span class="group-hover:opacity-100 transition-opacity bg-gray-800 px-1 text-sm text-gray-100 rounded-md absolute left-1/2-translate-x-1/2 translate-y-full opacity-0 m-4 mx-auto">
                                                             Editar
@@ -145,9 +148,7 @@
                                                         <span class="group-hover:opacity-100 transition-opacity bg-gray-800 px-1 text-sm text-gray-100 rounded-md absolute left-1/2-translate-x-1/2 translate-y-full opacity-0 m-4 mx-auto">
                                                            Eliminar
                                                         </span>
-                                                    </a>         
-
-                                                   
+                                                    </a>        
                                                 </div>
 
                                             </td>
@@ -358,9 +359,10 @@
     @endif   
     <div>
         @if(isset($taller->Documentos))
-           @if($taller->Documentos->count() > 0)
-           <h1 class="font-bold text-lg"> Documentos</h1>
+        <h1 class="font-bold text-lg"> Documentos</h1>
            <hr class="my-4">
+           @if($taller->Documentos->count() > 0)
+           
            <div class="space-y-4">
 
            
@@ -413,22 +415,23 @@
                             </p>
                         </div>
 
-                        {{--
+                        
                         <div class="bg-green-100/30 w-1/3 flex justify-center space-x-2 items-center px-3">
-                            <button class="group flex py-2 px-2 text-center items-center rounded-md bg-blue-300 font-bold text-white cursor-pointer hover:bg-blue-400 hover:animate-pulse">
+                            <a href="{{Storage::url($doc->ruta)}}" rel="nonopener nonreferer" target="__blank"
+                                 class="group flex py-2 px-2 text-center items-center rounded-md bg-blue-300 font-bold text-white cursor-pointer hover:bg-blue-400 hover:animate-pulse">
                                 <i class="fas fa-eye"></i>
                                 <span class="group-hover:opacity-100 transition-opacity bg-gray-800 px-1 text-sm text-gray-100 rounded-md absolute left-1/2-translate-x-1/2 translate-y-full opacity-0 m-4 mx-auto z-50">
                                     ver
                                 </span>
-                            </button>
+                            </a>
 
-                            <button class="group flex py-2 px-2 text-center items-center rounded-md bg-indigo-300 font-bold text-white cursor-pointer hover:bg-indigo-400 hover:animate-pulse">
+                            <a href="{{route('download_doctaller',$doc->id)}}" class="group flex py-2 px-2 text-center items-center rounded-md bg-indigo-300 font-bold text-white cursor-pointer hover:bg-indigo-400 hover:animate-pulse">
                                 <i class="fas fa-download"></i>
                                 <span class="group-hover:opacity-100 transition-opacity bg-gray-800 px-1 text-sm text-gray-100 rounded-md absolute left-1/2-translate-x-1/2 translate-y-full opacity-0 m-4 mx-auto z-50">
                                     Descargar
                                 </span>
-                            </button>
-
+                            </a>
+                            {{-- 
                             <button class="group flex py-2 px-2 text-center items-center rounded-md bg-amber-300 font-bold text-white cursor-pointer hover:bg-amber-400 hover:animate-pulse">
                                 <i class="fas fa-pen"></i>
                                 <span class="group-hover:opacity-100 transition-opacity bg-gray-800 px-1 text-sm text-gray-100 rounded-md absolute left-1/2-translate-x-1/2 translate-y-full opacity-0 m-4 mx-auto z-50">
@@ -442,16 +445,17 @@
                                     Eliminar
                                 </span>
                             </button>
+                            --}}
                         </div>
-                    --}}
-                    @livewire('comandos-documento', ['idDocumento' => $doc->id], key($doc->id)) 
+                    
+                    
                     </div>                   
                 </div>
             </div>
            @endforeach
             </div>
            @else
-            <hr>
+            
             <div class="w-full items-center mt-2 justify-center text-center py-2 ">
                 <h1 class="text-xs text-gray-500 ">Aun no se ha cargado ningún documento del taller</h1>
             </div>

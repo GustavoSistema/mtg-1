@@ -10,7 +10,7 @@
     @endcan
     <hr>
     @livewire('resumen-servicios')
-    --}}
+    
 <div class="divide-y-2 divide-indigo-400">
     <div x-data="{ open: true }"
         class=" bg-white flex flex-col items-center justify-center relative overflow-hidden w-full border ">
@@ -49,5 +49,5 @@
             @livewire('resumen-expedientes')
         </div>
     </div>
-
+--}}
 </div>

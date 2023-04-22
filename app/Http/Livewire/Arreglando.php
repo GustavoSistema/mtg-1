@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Certificacion;
 use App\Models\Imagen;
 use App\Models\Material;
 use App\Models\User;
@@ -23,6 +24,10 @@ class Arreglando extends Component
     public $formatos,$recortados,$rec;
   
 
+    public $certificaciones;
+
+
+
 
 
     public $imagenes=[];
@@ -33,14 +38,17 @@ class Arreglando extends Component
 
     protected $listernes=["addImg"];
 
-    public function mount(){        
+    public function mount(){    
+        /*    
         $formatos=Material::where([
             ["idTipoMaterial",1],
             ["estado",1]
         ])
         ->orderBy('numSerie','asc')->get();
         $this->formatos= $formatos;
-        
+        */
+        $this->certificaciones=Certificacion::all();
+
         
     }
 
@@ -50,6 +58,14 @@ class Arreglando extends Component
     {
         
         return view('livewire.arreglando');
+    }
+
+    public function cambiar(){
+        foreach($this->certificaciones as $certi){
+            $certi->created_at=$certi->updated_at;
+            $certi->save();
+        }
+        $this->emit("minAlert", ["titulo" => "AVISO DEL SISTEMA", "mensaje" => "Todo OK", "icono" => "success"]);
     }
 
 

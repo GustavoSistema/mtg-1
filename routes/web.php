@@ -65,13 +65,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get('/Servicio',Prueba::class)->middleware('can:servicio')->name('servicio');
     Route::get('/Solucion',Arreglando::class)->name('solucion');
     Route::get('/TalleresRevision',TallerRevision::class)->name('talleres.revision');
-    Route::get('/Taller/edit/{idTaller}',EditarTaller::class)->name('editar-taller');
-    
-
+    Route::get('/Taller/edit/{idTaller}',EditarTaller::class)->name('editar-taller');   
     Route::post('/Solucion/upload-images',[uploadController::class,'uploadImagesExpediente'])->name('expediente.upload-images');
-
     Route::get('/Taller/Documents/{id}/download',[DocumentosController::class,'downloadDocumentoTaller'])->name('download_doctaller');
-    Route::get('/Taller/Documents/{id}/ver',[DocumentosController::class,'streamDocumentoTaller'])->name('stream_doctaller');
     
 
 
