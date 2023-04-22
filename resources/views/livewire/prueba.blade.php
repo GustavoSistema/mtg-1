@@ -68,7 +68,7 @@
                                     <button wire:click="certificar"  wire:loading.attr="disabled" wire.target="certificar"
                                         class="hover:cursor-pointer border border-indigo-500 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-indigo-400 hover:bg-indigo-500 focus:outline-none rounded">
                                         <p class="text-sm font-medium leading-none text-white">
-                                            <span wire:loading wire:target="actualizarVehiculo">
+                                            <span wire:loading wire:target="certificar">
                                                 <i class="fas fa-spinner animate-spin"></i>
                                                 &nbsp;
                                             </span>
@@ -171,7 +171,7 @@
                                     <button wire:click="certificar" wire:loading.attr="disabled" wire.target="certificar"
                                         class="hover:cursor-pointer border border-indigo-500 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-indigo-400 hover:bg-indigo-500 focus:outline-none rounded">
                                         <p class="text-sm font-medium leading-none text-white">
-                                            <span wire:loading wire:target="actualizarVehiculo">
+                                            <span wire:loading wire:target="certificar">
                                                 <i class="fas fa-spinner animate-spin"></i>
                                                 &nbsp;
                                             </span>
