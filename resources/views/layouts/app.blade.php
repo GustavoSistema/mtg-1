@@ -110,8 +110,8 @@
     
     <script>
         Livewire.on('updateChart', data => {
-            chart.data = data;
-            chart.update();
+            chart1.data = data;
+            chart1.update();
         });
     </script>
     

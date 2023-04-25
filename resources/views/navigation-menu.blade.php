@@ -91,6 +91,11 @@
                                     {{ __('Expedientes de taller') }}
                                 </x-jet-dropdown-link>
                                 @endcan
+                                @can('editar-taller')
+                                <x-jet-dropdown-link href="{{ route('editar-taller', Auth::user()->taller ) }}" :active="request()->routeIs('editar-taller')">
+                                    {{ __('Datos del taller') }}
+                                </x-jet-dropdown-link>
+                                @endcan
                             </x-slot>                          
                         </x-jet-dropdown>
                     </div>
@@ -362,7 +367,7 @@
             </x-jet-responsive-nav-link>
         </div>       
         
-        @hasanyrole('inspector|supervisor') 
+        @hasanyrole('inspector|supervisor|administrador') 
         <div x-data="{ open: false }" class="border-t border-indigo-200 ">
             <div  @click="open = ! open" class="p-4 bg-gray-100 flex w-full hover:bg-gray-200">
               <div class="flex gap-2 w-full justify-between items-center">                  
@@ -391,7 +396,15 @@
                   @can('certificaciones')
                     <div class="space-y-1">
                         <x-jet-responsive-nav-link href="{{ route('certificaciones') }}" :active="request()->routeIs('certificaciones')">
-                            Listado Servicios
+                            Listado de Servicios
+                        </x-jet-responsive-nav-link>
+                    </div>
+                  @endcan
+
+                  @can('admin.certificaciones')
+                    <div class="space-y-1">
+                        <x-jet-responsive-nav-link href="{{ route('admin.certificaciones') }}" :active="request()->routeIs('admin.certificaciones')">
+                            Admin. Servicios
                         </x-jet-responsive-nav-link>
                     </div>
                   @endcan
@@ -400,6 +413,8 @@
             </div>
         </div>
         @endhasanyrole
+
+        ta
 
         @hasrole('administrador') 
         <div x-data="{ open: false }" class="border-t border-indigo-200 ">
@@ -426,6 +441,14 @@
                         </x-jet-responsive-nav-link>
                     </div>
                   @endcan
+                  @can('editar-taller')
+                    <div class="space-y-1 border-b border-t">
+                        <x-jet-responsive-nav-link href="{{ route('editar-taller', Auth::user()->taller ) }}" :active="request()->routeIs('edtiar-taller')">
+                           Datos de taller
+                        </x-jet-responsive-nav-link>
+                    </div>
+                  @endcan
+                  
                   
                  
             {{--FIN OPCIONES--}}

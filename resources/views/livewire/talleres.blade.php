@@ -141,7 +141,7 @@
                                                     </button>                                                  
                                                     @endif   
 
-                                                    @livewire('create-documento-taller', ['taller' => $item], key($item->id))         
+                                                    @livewire('create-documento-taller', ['idTaller' => $item->id], key($item->id))         
                                                          
                                                     <a class="group flex py-4 px-4 text-center rounded-md bg-indigo-300 font-bold text-white cursor-pointer hover:bg-indigo-400  hover:animate-pulse">
                                                         <i class="fas fa-trash"></i>

@@ -1,11 +1,11 @@
 <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2">
     <div class="p-6">
         {{--
-    <div class="flex items-center">
-        <i class="fas fa-file-archive pl-5"></i>
-        <div class="ml-4 text-lg text-gray-600 leading-7 font-semibold"><a href="{{ route('expedientes') }}">Expedientes</a></div>
-    </div>
-    --}}
+        <div class="flex items-center">
+            <i class="fas fa-file-archive pl-5"></i>
+            <div class="ml-4 text-lg text-gray-600 leading-7 font-semibold"><a href="{{ route('expedientes') }}">Expedientes</a></div>
+        </div>
+        --}}
         <div class="ml-12">
             <div class="mt-2 text-sm text-gray-500">
                 <div class="flex flex-row justify-between">
@@ -100,67 +100,36 @@
     </div>
 
     <div class="p-6 border-t border-gray-200 md:border-t-0 md:border-l text-center">
-        <p>RESUMEN GRÁFICO DE EXPEDIENTES</p>
+        <p class="font-bold text-xs text-indigo-600">RESUMEN GRÁFICO DE EXPEDIENTES</p>
         <div style="position: relative; height:30vh; width:100%">
-            <canvas id="chart" class="w-full m-auto"
-            
-            >
+            <canvas id="chartId1" class="w-full m-auto">
             </canvas>
         </div>
     </div>
-
-
-   
-    {{--
-    @once
+  
     @push('js')
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    @endpush
-    @endonce
-    --}}
-   
-    @once
-        @push('js')
-            <script defer>
-                
-               window.addEventListener("load", (event) => { 
-                    const chart = new Chart(
-                    document.getElementById('chart'), {
-                            type: 'doughnut',
-                            /*
-                            data: {
-                                labels: @json($labels),
-                                datasets: [{
-                                    label: 'Expedientes',
-                                    data: @json($dataset),
-                                    borderWidth: 1,
-                                }]
+        <script defer>
+            
+            window.addEventListener("load", (event) => {
+                const chart1 = new Chart(document.getElementById('chartId1'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: @json($labels),
+                        datasets: @json($dataset)
+                    },
+                    options: {
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
                             },
-                            */
-                            options: {
-                                plugins: {
-                                    legend: {
-                                        position: 'bottom'
-                                    },
-                                },
-                                responsive: true,
-
-                            }
-                        }
-                    );      
-                    chart.data = [
-                        'datasets': @json($dataset) ,
-                        'labels' : @json($labels),            
-                    ];
-                    chart.update();                          
-                    Livewire.emitTo('resumen-expedientes', 'enviaDatos'); 
-                    
+                        },
+                        responsive: true,
+                    }
                 });
+            });
+        </script>
+    @endpush
+      {{--
+    --}}
 
-                
-            </script>
-        @endpush
-    @endonce
-     {{--
-            --}}
 </div>

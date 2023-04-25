@@ -3,6 +3,7 @@
         <h1 class="text-2xl font-bold my-6 text-indigo-500 text-center"><i class="fas fa-pen pr-2"></i>  DATOS DEL TALLER </h1>  
     </div>
     
+    
 
     <div class="bg-indigo-300 bg-opacity-25 md:p-4 m-4 grid grid-cols-1 md:grid-cols-2 space-x-4  rounded-md shadow-md border ">
         
@@ -172,23 +173,26 @@
     </div>
 
     <div class="w-full px-4 py-8 flex justify-center space-x-4 ">
+        @hasanyrole('administrador')
         <x-jet-secondary-button wire:click="cancelar" class="mx-2">
             Cancelar
-        </x-jet-secondary-button>
+        </x-jet-secondary-button>     
+        @endhasanyrole   
         <x-jet-button wire:click="actualizar" wire:loading.attr="disabled" wire:target="update">
             Actualizar
         </x-jet-button>
+        
     </div>
 
     <div class="px-4 w-full mt-8 md:mt-6 pb-6">
         <div class="flex flex-row  justify-between items-center">
             <h1 class="font-bold text-lg text-green-600"> DOCUMENTOS DE TALLER</h1>
-            @livewire('create-documento-taller', ['taller' => $taller])
+            @livewire('create-documento-taller', ['idTaller' => $taller->id])
         </div>
         <hr class="my-4">
         @if (isset($taller->Documentos))
             <div>
-                @livewire('documentos-taller', ['taller' => $taller], key($taller->id))
+                @livewire('documentos-taller', ['idTaller' => $taller->id], key($taller->nombre.'-'.$taller->id))
             </div>
         @endif
     </div>

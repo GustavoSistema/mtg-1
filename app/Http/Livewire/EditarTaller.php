@@ -7,6 +7,7 @@ use App\Models\Distrito;
 use App\Models\Documento;
 use App\Models\Provincia;
 use App\Models\Taller;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -115,11 +116,24 @@ class EditarTaller extends Component
         
        
        
-        return redirect()->route('talleres');
+        //return redirect()->route('talleres');
 
     }
 
     public function cancelar(){
-        return redirect()->route('talleres');
+        
+       
+        
+        switch (Auth::user()->roles->first()->id) {
+            //case 5= administrador
+            case 5:
+                return redirect()->route('talleres');
+                break;
+            case 8:
+                return redirect()->route('dashboard');
+            default:
+                # code...
+                break;
+        }
     }
 }

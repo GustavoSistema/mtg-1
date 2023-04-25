@@ -16,9 +16,7 @@ class ResumenExpedientes extends Component
     public array $labels = [];  
     public array $colores = [];  
 
-    protected $listeners = [
-        'enviaDatos',
-    ];
+   
     
 
     public function mount(){     
@@ -31,46 +29,24 @@ class ResumenExpedientes extends Component
 
     public function cargaDatos(){
         $user=User::find(Auth::id());
+        
         if($user->hasRole('inspector')){
             $this->expedientes=Expediente::where('usuario_idusuario',Auth::id())->get();
-            foreach($this->expedientes as $item){
-                switch($item->estado){
-                    case 1:
-                        $this->porRevisar++;                    
-                    break;
-                    case 2:
-                        $this->observados++;                    
-                    break;
-                    case 3:
-                        $this->aprobados++;                    
-                    break;
-                    case 4:
-                        $this->desaprobados++;                    
-                    break;
-                }
-            }
+            $this->expedientesFiltrados($this->expedientes);
             $this->total=Expediente::where('usuario_idusuario',Auth::id())->count();
-        } elseif($user->hasRole('administrador')){
+        } 
+        elseif($user->hasRole('administrador')){
             $this->expedientes=Expediente::all();
-            foreach($this->expedientes as $item){
-                switch($item->estado){
-                    case 1:
-                        $this->porRevisar++;                    
-                    break;
-                    case 2:
-                        $this->observados++;                    
-                    break;
-                    case 3:
-                        $this->aprobados++;                    
-                    break;
-                    case 4:
-                        $this->desaprobados++;                    
-                    break;
-                }
-            }
+            $this->expedientesFiltrados($this->expedientes);
             $this->total=Expediente::All()->count();
                       
-        }      
+        }    
+        elseif($user->hasRole('Administrador taller')){  
+            $this->expedientes=Expediente::where('idTaller',Auth::user()->taller)->get();
+            $this->expedientesFiltrados($this->expedientes);
+            $this->total=$this->expedientes->count();
+        }           
+          
     }
 
     public function formateaChart(){
@@ -91,13 +67,28 @@ class ResumenExpedientes extends Component
         ];  
     }
 
-    public function enviaDatos()
-    {     
-        $this->emit('updateChart', [
-            'datasets' => $this->dataset,
-            'labels' => $this->labels,            
-        ]);
+
+    public function expedientesFiltrados($expedientes){
+        foreach($expedientes as $item){
+            switch($item->estado){
+                case 1:
+                    $this->porRevisar++;                    
+                break;
+                case 2:
+                    $this->observados++;                    
+                break;
+                case 3:
+                    $this->aprobados++;                    
+                break;
+                case 4:
+                    $this->desaprobados++;                    
+                break;
+            }
+        }
+        $this->total=$expedientes->count();
     }
+
+   
 
     public function render()
     {

@@ -14,7 +14,7 @@ class CreateDocumentoTaller extends Component
 {
     use WithFileUploads;
 
-    public Taller $taller;
+    public  $taller,$idTaller;
     public $addDocument=false;
 
     public $tiposDocumentos,$tipoSel,$documento,$fechaInicial,$fechaCaducidad,$tiposDisponibles,$empleado;    
@@ -32,6 +32,7 @@ class CreateDocumentoTaller extends Component
     }
 
     public function mount(){
+        $this->taller=Taller::find($this->idTaller);
        // $this->tiposDocumentos=TipoDocumento::all();
         $this->listaDisponibles();    
     }
@@ -57,7 +58,7 @@ class CreateDocumentoTaller extends Component
         if($this->tipoSel==9){
             $this->validate(["empleado"=>"required|string"]);
         }
-        $nombre= $this->taller->id.'-doc-'.rand();
+        $nombre= $this->idTaller.'-doc-'.rand();
         $documento_guardado=Documento::create([
             'tipoDocumento'=>$this->tipoSel, 
             'fechaInicio'=>$this->fechaInicial,
@@ -72,7 +73,7 @@ class CreateDocumentoTaller extends Component
 
         $docTaller=DocumentoTaller::create([
             'idDocumento'=>$documento_guardado->id,
-            'idTaller'=>$this->taller->id,
+            'idTaller'=>$this->idTaller,
             'estado'=>1,
         ]);
         $this->emitTo('editar-taller','refrescaTaller'); 

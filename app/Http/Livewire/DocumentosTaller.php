@@ -12,9 +12,9 @@ class DocumentosTaller extends Component
 {
     use WithFileUploads;
 
-    public Taller $taller;
+    public  $taller;
 
-    public $openEdit,$documento,$nuevoPdf;
+    public $openEdit,$documento,$nuevoPdf,$idTaller;
 
     
 
@@ -27,6 +27,10 @@ class DocumentosTaller extends Component
     ];
 
     protected $listeners=["eliminar"=>"delete","resetTaller"=>"refrescaTaller"];
+
+    public function mount(){
+        $this->taller=Taller::find($this->idTaller);
+    }
 
     public function render()
     {

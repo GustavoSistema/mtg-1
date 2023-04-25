@@ -5,8 +5,12 @@
 
 
     <x-jet-dialog-modal wire:model="open">
+        
         <x-slot name="title">
             <h1 class="text-xl font-bold">Crear nuevo Taller</h1>
+            @if(isset($taller))
+            <p>{{$taller->nombre}}</p>
+            @endif
         </x-slot>
         <x-slot name="content">
 
