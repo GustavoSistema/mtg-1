@@ -9,8 +9,7 @@
     <title>MOTORGAS</title>
 
     <!-- Fonts -->
-    <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+  
    
     <!-- Styles -->
 
@@ -59,7 +58,7 @@
 
     @fcScripts
     @stack('js')
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+   
     
    
     <script>
