@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Motorgas Company'),
+    'name' => env('APP_NAME', 'MOTORGAS COMPANY'),
 
     /*
     |--------------------------------------------------------------------------

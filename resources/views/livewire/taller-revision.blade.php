@@ -203,7 +203,7 @@
                                                 class="absolute inset-0 bg-red-200 opacity-50 rounded-full"></span>
                                             <span class="relative">Desaprobado</span>
                                         </span>
-                                   
+                                @break
 
                                 @default
                                    
@@ -212,6 +212,7 @@
                                                 class="absolute inset-0 bg-gray-200 opacity-50 rounded-full"></span>
                                             <span class="relative">Aprobado</span>
                                         </span>
+                                @break
                                     
                             @endswitch
 

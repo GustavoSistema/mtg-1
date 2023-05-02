@@ -6,7 +6,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="icon" type="image/png" href="{{ asset('images/mtg.png') }}"/>
 
-        <title>Motorgas Company®</title>
+        <title>MOTORGAS COMPANY®</title>
 
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
@@ -23,7 +23,12 @@
     <body>
         <div class="font-sans text-gray-900 antialiased">
             {{ $slot }}
+            <div class="text-xs text-slate-700 -mt-4 float-right">
+                Powered by ECRDEV ®
+            </div>
         </div>
         @livewireScripts
+        
     </body>
+    
 </html>

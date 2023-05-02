@@ -48,6 +48,7 @@ class Arreglando extends Component
         $this->formatos= $formatos;
         */
         $this->certificaciones=Certificacion::all();
+        
 
         
     }
@@ -61,11 +62,12 @@ class Arreglando extends Component
     }
 
     public function cambiar(){
-        foreach($this->certificaciones as $certi){
-            $certi->created_at=$certi->updated_at;
-            $certi->save();
+        foreach($this->certificaciones as $certi){            
+            $ubicacion="En poder del cliente";
+            $usuario=$certi->Inspector->id;
+            $certi->Hoja->update(["idUsuario"=>$usuario,"ubicacion"=>$ubicacion,"estado"=>4]);
         }
-        $this->emit("minAlert", ["titulo" => "AVISO DEL SISTEMA", "mensaje" => "Todo OK", "icono" => "success"]);
+      $this->emit("minAlert", ["titulo" => "AVISO DEL SISTEMA", "mensaje" => "Todo OK", "icono" => "success"]);
     }
 
 

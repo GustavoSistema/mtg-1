@@ -24,13 +24,16 @@
                                         <td class="whitespace-nowrap px-6 py-4"><span class="font-bold text-green-600"> <i class="fas fa-check-circle"></i> Vigente</span></td>
                                         @break
                                     @case(2)
-                                        
+                                        <td class="whitespace-nowrap px-6 py-4"><span class="font-bold text-orange-600"> <i class="fas fa-exclamation-circle"></i> Vence pronto</span></td>
+                                        @break
+                                    @case(3)
+                                        <td class="whitespace-nowrap px-6 py-4"><span class="font-bold text-red-600"> <i class="fas fa-times-circle"></i> Vencido</span></td>
                                         @break
                                     @default
                                         
                                 @endswitch
                                 <td class="whitespace-nowrap px-6 py-4">{{$doc->fechaExpiracion}}</td>
-                                <td class="whitespace-nowrap px-6 py-4 text-center"><i class="fas fa-download text-slate-700"></i></td>
+                                <td class="whitespace-nowrap px-6 py-4 text-center"><i class="fas fa-file-download"></i></td>
                             </tr>  
                         @endforeach
                                                   

@@ -176,7 +176,7 @@
                 No se encontro ningun registro.
             </div>
         @endif   
-        </x-table>        
+    </x-table-talleres>        
    </div> 
 
 {{-- MODAL PARA EDITAR TALLER --}}

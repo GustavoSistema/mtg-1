@@ -1,11 +1,10 @@
 @props(['id' => null, 'maxWidth' => null])
 
 <x-jet-modal :id="$id" :maxWidth="$maxWidth" {{ $attributes }}>
-    <div class="px-6 py-4">
-        <div class="text-lg">
-            {{ $title }}
-        </div>
-
+    <div class="text-lg bg-indigo-900 text-white p-4">
+        {{ $title }}
+    </div>
+    <div class="px-6 py-4">       
         <div class="mt-4">
             {{ $content }}
         </div>
