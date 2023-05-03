@@ -14,10 +14,10 @@
  
     <hr>
     @livewire('resumen-servicios')
- --}}
 
 
- 
+
+    
    
     <div class="divide-y-2 divide-indigo-400">
         @hasanyrole("administrador")
@@ -85,5 +85,5 @@
             </div>
         </div>
         @endhasanyrole
-
+ --}}
     </div>
