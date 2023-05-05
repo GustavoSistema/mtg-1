@@ -19,6 +19,8 @@ class AdminPermisos extends Component
         "permiso.descripcion"=>"nullable|string"
     ];
 
+    protected $listeners=["render"];
+
     public function mount(){
         $this->direction='desc';
         $this->sort='id';       

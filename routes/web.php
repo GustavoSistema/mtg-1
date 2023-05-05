@@ -73,7 +73,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::post('/Solucion/upload-images',[uploadController::class,'uploadImagesExpediente'])->name('expediente.upload-images');
     Route::get('/Taller/Documents/{id}/download',[DocumentosController::class,'downloadDocumentoTaller'])->name('download_doctaller');
     
-    Route::get('/Inventario-revision',RevisionInventario::class)->middleware('inventario.revision')->name('inventario.revision');
+    Route::get('/Inventario-revision',RevisionInventario::class)->middleware('can:inventario.revision')->name('inventario.revision');
 
 
     Route::get('/Usuarios',Usuarios::class)->name('usuarios');

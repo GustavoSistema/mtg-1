@@ -9,9 +9,7 @@
             </x-slot>
 
             <x-slot name="btnAgregar">
-                <button  class="bg-indigo-600 px-6 py-4 rounded-md text-white font-semibold tracking-wide cursor-pointer"> 
-                    Nuevo Permiso &nbsp;<i class="fas fa-plus"></i>
-               </button>
+                @livewire('create-permiso')
             </x-slot>
             
             <x-slot name="contenido">
@@ -147,8 +145,7 @@
                     No se encontro ningun registro.
                 </div>
             @endif
-            </x-slot>
-            
+            </x-slot>            
        </x-custom-table>
     </div>
    
