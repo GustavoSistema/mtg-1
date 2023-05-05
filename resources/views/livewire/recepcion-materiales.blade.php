@@ -1,4 +1,4 @@
-<div class="mt-8 w-full items-center">
+<div class="mt-12 pt-8 w-full items-center">
     <h1 class="w-full m-auto text-center font-bold text-2xl">Listado de recepciones pendientes</h1>
     @if (count($recepciones))
         <div class="block m-auto pt-12 items-center justify-center w-96">

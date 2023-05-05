@@ -13,17 +13,17 @@
                         <div class="mt-4">
                             <div class="mx-auto w-full flex flex-row justify-between items-center">
                                 <p class="mt-2 text-md text-gray-600 dark:text-gray-300">Formatos GLP:</p> <span
-                                    class=" mr-2 bg-indigo-200 px-1 rounded-full">...</span>
+                                    class=" mr-2 bg-indigo-200 px-1 rounded-full">{{$stockGLP}}</span>
                             </div>
                             <hr>
                             <div class="mx-auto w-full flex flex-row justify-between items-center">
                                 <p class="mt-2 text-md text-gray-600 dark:text-gray-300">Formatos GNV:</p> <span
-                                    class=" mr-2 bg-amber-200 px-1 rounded-full">...</span>
+                                    class=" mr-2 bg-amber-200 px-1  text-black rounded-full">{{$stockGNV}}</span>
                             </div>
                             <hr>
                             <div class="mx-auto w-full flex flex-row justify-between items-center">
                                 <p class="mt-2 text-md text-gray-600 dark:text-gray-300">Chips:</p> <span
-                                    class=" mr-2 bg-indigo-200 px-1 rounded-full">...</span>
+                                    class=" mr-2 bg-indigo-200 px-1 rounded-full">{{$stockCHIP}}</span>
                             </div>
                         </div>
                     </div>

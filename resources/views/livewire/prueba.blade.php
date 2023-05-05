@@ -1,4 +1,4 @@
-<div class="block justify-center mt-8 max-h-max pb-8">
+<div class="block justify-center mt-12 pt-8 max-h-max pb-8">
     <h1 class="text-center text-xl my-4 font-bold text-indigo-900"> REALIZAR NUEVO SERVICIO</h1>
     <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4">
         <div class=" bg-indigo-200 rounded-lg py-4 px-2 grid grid-cols-1 gap-8 sm:grid-cols-2">

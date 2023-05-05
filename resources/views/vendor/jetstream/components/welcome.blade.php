@@ -16,7 +16,7 @@
     @livewire('resumen-servicios')
 
 
-
+ --}}
     
    
     <div class="divide-y-2 divide-indigo-400">
@@ -85,5 +85,5 @@
             </div>
         </div>
         @endhasanyrole
- --}}
+
     </div>

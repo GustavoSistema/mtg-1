@@ -141,20 +141,20 @@ class RevisionExpedientes extends Component
         $filtros1=[array('expedientes.placa','like','%'.$this->search.'%'),['expedientes.usuario_idusuario', '!=', Auth::id()]];  
         $filtros2=[array('expedientes.certificado','like','%'.$this->search.'%'),['expedientes.usuario_idusuario', '!=', Auth::id()]];  
         if($this->es!=null){
-           array_push($filtros1,['expedientes.estado','like','%'.$this->es.'%']);
-           array_push($filtros2,['expedientes.estado','like','%'.$this->es.'%']);
+           array_push($filtros1,['expedientes.estado',$this->es]);
+           array_push($filtros2,['expedientes.estado',$this->es]);
         }
         if($this->ins!=null){
-            array_push($filtros1,['users.id','like','%'.$this->ins.'%']);
-            array_push($filtros2,['users.id','like','%'.$this->ins.'%']);
+            array_push($filtros1,['users.id',$this->ins]);
+            array_push($filtros2,['users.id',$this->ins]);
         }
         if($this->ta!=null){
-            array_push($filtros1,['taller.id','like','%'.$this->ta.'%']);
-            array_push($filtros2,['taller.id','like','%'.$this->ta.'%']);
+            array_push($filtros1,['taller.id',$this->ta]);
+            array_push($filtros2,['taller.id',$this->ta]);
         }
         if($this->tipoSer!=null){
-            array_push($filtros1,['tiposervicio.descripcion','like','%'.$this->tipoSer.'%']);
-            array_push($filtros2,['tiposervicio.descripcion','like','%'.$this->tipoSer.'%']);
+            array_push($filtros1,['tiposervicio.descripcion',$this->tipoSer]);
+            array_push($filtros2,['tiposervicio.descripcion',$this->tipoSer]);
         }
         
         if($this->readyToLoad){            

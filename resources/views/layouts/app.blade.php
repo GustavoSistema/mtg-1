@@ -8,8 +8,10 @@
     <link rel="icon" type="image/png" href="{{ asset('images/mtg.png') }}" />
     <title>MOTORGAS</title>
 
-    <!-- Fonts -->
-  
+    <!-- Fonts 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+    -->
+    <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">   
    
     <!-- Styles -->
 
@@ -28,6 +30,7 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.0.1/dist/chart.umd.min.js"></script>
 
          -->
+        
    
 </head>
 
@@ -38,9 +41,10 @@
         {{-- 
         
            
-        @livewire('custom-nav-menu')
-        --}}
         @livewire('navigation-menu')
+        --}}
+        
+        @livewire('custom-nav-menu')
 
         <!-- Page Content -->
         <main class="mt-12">

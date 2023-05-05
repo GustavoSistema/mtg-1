@@ -1,4 +1,4 @@
-<div class="flex  w-full  justify-center">
+<div class="flex  w-full mt-12  justify-center">
     <section class="bg-white dark:bg-gray-900 mt-2">
         <div class="container px-6 py-10 mx-auto">
             <h1 class="text-3xl font-semibold text-center text-gray-800  lg:text-4xl dark:text-white">Inventario de <span class="text-indigo-500">Materiales</span></h1>

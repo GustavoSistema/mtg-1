@@ -2,10 +2,10 @@
 <!--
 Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide any of your page content!
 -->
-
+<div>
 <style>
     ul.breadcrumb li+li::before {
-        content: "\276F";
+        content: "";
         padding-left: 8px;
         padding-right: 4px;
         color: inherit;
@@ -32,7 +32,7 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
 
 <!-- Navbar start -->
 <nav id="navbar"
-    class="fixed top-0 z-40 flex w-full flex-row justify-end bg-gray-500 px-4 sm:justify-between shadow-lg">
+    class="fixed top-0 z-40 flex w-full flex-row justify-between bg-gray-500 px-4 shadow-lg border-b border-gray-200">
     {{--
     <ul class="breadcrumb hidden flex-row items-center py-4 text-lg text-white sm:flex">
         <li class="inline">
@@ -43,7 +43,7 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
         </li>
     </ul>
     --}}
-    <button id="btnSidebarToggler" type="button" class="py-4 text-2xl text-white hover:text-indigo-600">
+    <button id="btnSidebarToggler" type="button" class="py-4 text-2xl text-white hover:text-black">
         <svg id="navClosed" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
             stroke="currentColor" class="h-8 w-8">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
@@ -58,7 +58,7 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
     </a>
 
 
-    <div class="flex items-center">
+    <div class="hidden  md:flex  md:items-center">
         <x-jet-dropdown width="48">
             <x-slot name="trigger">
                 <div class="m-4 inline-flex relative w-fit">
@@ -75,10 +75,9 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                     @else
                     @endif
                     <div class="flex items-center justify-center text-center">
-                        <i class="fas fa-bell fa-xl text-white hover:text-indigo-600"></i>
+                        <i class="fas fa-bell fa-xl text-white hover:text-black"></i>
                     </div>
                 </div>
-
             </x-slot>
 
             <x-slot name="content">
@@ -113,8 +112,8 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                 @else
                     <span class="inline-flex rounded-md">
                         <button type="button"
-                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white  hover:text-indigo-700 focus:outline-none transition">
-                            {{ Auth::user()->name }}
+                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white  hover:text-black focus:outline-none transition">
+                            <i class="fa-solid fa-user-gear fa-lg"></i>
                             <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                 fill="currentColor">
                                 <path fill-rule="evenodd"
@@ -149,7 +148,7 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                     @csrf
 
                     <x-jet-dropdown-link href="{{ route('logout') }}" @click.prevent="$root.submit();">
-                        {{ __('Cerrar') }}
+                        {{ __('Salir') }}
                     </x-jet-dropdown-link>
                 </form>
             </x-slot>
@@ -172,14 +171,14 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                 <ul class="mb-8 text-sm font-medium">
                     <li>
                         <a class="flex items-center rounded py-3 pl-3 pr-4  space-x-6 text-gray-50 hover:bg-gray-600"
-                            href="{{ route('dashboard') }}" >
-                            <i class="fas fa-home fas-xl -mt-1"></i>
+                            href="{{ route('dashboard') }}">
+                            <i class="fas fa-home -mt-1"></i>
                             <span class="select-none">Inicio</span>
                         </a>
                     </li>
 
                     {{--                     OPCIONES PARA SERVICIOS                    --}}
-                    @hasanyrole('inspector|supervisor|administrador')
+                    @hasanyrole('inspector|administrador|supervisor')
                         <li class="text-gray-50 py-3 pl-3 pr-4 hover:bg-gray-600 focus:bg-gray-600 rounded"
                             x-data="{ Open: false }">
                             <div class="inline-flex  items-center justify-between w-full transition-colors duration-150 text-gray-500  cursor-pointer"
@@ -236,7 +235,7 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
 
 
                     {{--                     OPCIONES PARA EXPEDIENTES                  --}}
-                    @hasanyrole('administrador|Administrador taller')
+                    @hasanyrole('inspector|administrador|supervisor')
                         <li class="text-gray-50 py-3 pl-3 pr-4 hover:bg-gray-600 focus:bg-gray-600 rounded"
                             x-data="{ Open: false }">
                             <div class="inline-flex  items-center justify-between w-full  transition-colors duration-150 text-gray-500  cursor-pointer"
@@ -257,17 +256,19 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                                     x-transition:leave-start="opacity-100 max-h-xl"
                                     x-transition:leave-end="opacity-0 max-h-0"
                                     class="mt-2 divide-y-2 divide-gray-600 overflow-hidden text-sm font-medium bg-gray-600 text-white shadow-inner"
-                                    aria-label="submenu">                                    
-                                    @can('expedientes')                                    
-                                        <x-jet-responsive-nav-link class="text-sm" href="{{ route('expedientes') }}" :active="request()->routeIs('expedientes')">
+                                    aria-label="submenu">
+                                    @can('expedientes')
+                                        <x-jet-responsive-nav-link class="text-sm" href="{{ route('expedientes') }}"
+                                            :active="request()->routeIs('expedientes')">
                                             Listado Expedientes
-                                        </x-jet-responsive-nav-link>                                   
+                                        </x-jet-responsive-nav-link>
                                     @endcan
-                                    
-                                    @can('revisionExpedientes')                                    
-                                        <x-jet-responsive-nav-link href="{{ route('revisionExpedientes') }}" :active="request()->routeIs('revisionExpedientes')">
+
+                                    @can('revisionExpedientes')
+                                        <x-jet-responsive-nav-link href="{{ route('revisionExpedientes') }}"
+                                            :active="request()->routeIs('revisionExpedientes')">
                                             Revisión Expedientes
-                                        </x-jet-responsive-nav-link>                                    
+                                        </x-jet-responsive-nav-link>
                                     @endcan
                                 </ul>
 
@@ -318,7 +319,7 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                     @endhasanyrole
 
                     {{--                    OPCIONES PARA MATERIALES                    --}}
-                    @hasanyrole('administrador|Administrador taller')
+                    @hasanyrole('inspector|administrador|supervisor')
                         <li class="text-gray-50 py-3 pl-3 pr-4 hover:bg-gray-600 focus:bg-gray-600 rounded "
                             x-data="{ Open: false }">
                             <div class="inline-flex  items-center justify-between w-full transition-colors duration-150 text-gray-500  cursor-pointer"
@@ -385,6 +386,49 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                         </li>
                     @endhasanyrole
 
+                    {{--                     OPCIONES PARA USUARIOS Y ROLES                  --}}
+                    @hasanyrole('administrador')
+                        <li class="text-gray-50 py-3 pl-3 pr-4 hover:bg-gray-600 focus:bg-gray-600 rounded"
+                            x-data="{ Open: false }">
+                            <div class="inline-flex  items-center justify-between w-full  transition-colors duration-150 text-gray-500  cursor-pointer"
+                                x-on:click="Open = !Open">
+                                <span class="inline-flex items-center space-x-6  text-sm  text-white ">
+                                    <i class="fa-solid fa-user-shield font-thin"></i>
+                                    <span class="select-none font-semibold">Usuarios y roles</span>
+                                </span>
+                                <i class="fa-solid fa-caret-down ml-1  text-white w-4 h-4" x-show="!Open"></i>
+
+                                <i class="fa-solid fa-caret-up ml-1  text-white w-4 h-4" x-show="Open"></i>
+                            </div>
+                            <div x-show.transition="Open" style="display:none;">
+                                <ul x-transition:enter="transition-all ease-in-out duration-300"
+                                    x-transition:enter-start="opacity-25 max-h-0"
+                                    x-transition:enter-end="opacity-100 max-h-xl"
+                                    x-transition:leave="transition-all ease-in-out duration-300"
+                                    x-transition:leave-start="opacity-100 max-h-xl"
+                                    x-transition:leave-end="opacity-0 max-h-0"
+                                    class="mt-2 divide-y-2 divide-gray-600 overflow-hidden text-sm font-medium bg-gray-600 text-white shadow-inner"
+                                    aria-label="submenu">
+
+                                    <x-jet-responsive-nav-link class="text-sm" href="{{ route('usuarios') }}"
+                                        :active="request()->routeIs('usuarios')">
+                                        Usuarios
+                                    </x-jet-responsive-nav-link>
+                                    <x-jet-responsive-nav-link class="text-sm" href="{{ route('usuarios.roles') }}"
+                                        :active="request()->routeIs('usuarios.roles')">
+                                        Roles
+                                    </x-jet-responsive-nav-link>
+                                    <x-jet-responsive-nav-link class="text-sm" href="{{ route('usuarios.permisos') }}"
+                                        :active="request()->routeIs('usuarios.permisos')">
+                                        Permisos
+                                    </x-jet-responsive-nav-link>
+
+                                </ul>
+
+                            </div>
+                        </li>
+                    @endhasanyrole
+
 
                 </ul>
             </div>
@@ -392,55 +436,36 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
             <!-- navigation group end-->
 
             <!-- example copies start -->
-            <div class="px-4 pb-6">
+            <div class="md:hidden block fixed bottom-0 left-0 px-4 w-full">
                 <h3 class="mb-2 text-xs font-medium uppercase text-gray-500">
-                    Legal
+                    Opciones de la cuenta
                 </h3>
-                <ul class="mb-8 text-sm font-medium">
+                <ul class="mb-8 text-sm font-medium ">
                     <li>
-                        <a class="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-gray-600"
-                            href="#tc">
-                            <span class="select-none">Terms and Condition</span>
+                        <a class="flex items-center rounded py-3 pl-3 pr-4  space-x-6 text-gray-50 hover:bg-gray-600 "
+                            href="{{ route('profile.show') }}">
+                            <i class="fa-solid fa-user-gear -mt-1"></i>
+                            <span class="select-none">Configurar Perfil</span>
                         </a>
                     </li>
                     <li>
-                        <a class="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-gray-600"
-                            href="#privacy">
-                            <span class="select-none">Privacy policy</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-gray-600"
-                            href="#imprint">
-                            <span class="select-none">Imprint</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
 
-            <div class="px-4 pb-6">
-                <h3 class="mb-2 text-xs font-medium uppercase text-gray-500">
-                    Others
-                </h3>
-                <ul class="mb-8 text-sm font-medium">
-                    <li>
-                        <a class="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-gray-600"
-                            href="#ex1">
-                            <span class="select-none">...</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-gray-600"
-                            href="#ex2">
-                            <span class="select-none">...</span>
-                        </a>
+
+                        <form method="POST" action="{{ route('logout') }}" x-data>
+                            @csrf
+                            <a class="flex items-center rounded py-3 pl-3 pr-4  space-x-6 text-gray-50 hover:bg-gray-600 "
+                                href="{{ route('logout') }}" @click.prevent="$root.submit();">                                
+                                <i class="fa-solid fa-arrow-right-from-bracket -mt-1"></i>
+                                <span class="select-none">Salir</span>
+                            </a>
+                        </form>
                     </li>
                 </ul>
             </div>
             <!-- example copies end -->
         </nav>
     </div>
-    <div class="mx-auto lg:ml-80"></div>
+
 </div>
 <!-- Sidebar end -->
 
@@ -466,3 +491,4 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
         sidebar.style.top = parseInt(navbar.clientHeight) - 1 + "px";
     });
 </script>
+</div>

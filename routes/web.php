@@ -19,11 +19,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\uploadController;
 use App\Http\Livewire\AdministracionCertificaciones;
+use App\Http\Livewire\AdminPermisos;
+use App\Http\Livewire\AdminRoles;
 use App\Http\Livewire\Arreglando;
 use App\Http\Livewire\EditarTaller;
 use App\Http\Livewire\ListaCertificaciones;
 use App\Http\Livewire\ListaServicios;
 use App\Http\Livewire\Prueba;
+use App\Http\Livewire\RevisionInventario;
 use App\Http\Livewire\TallerRevision;
 use App\Http\Livewire\Usuarios;
 
@@ -69,7 +72,13 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get('/Taller/edit/{idTaller}',EditarTaller::class)->name('editar-taller');   
     Route::post('/Solucion/upload-images',[uploadController::class,'uploadImagesExpediente'])->name('expediente.upload-images');
     Route::get('/Taller/Documents/{id}/download',[DocumentosController::class,'downloadDocumentoTaller'])->name('download_doctaller');
+    
+    Route::get('/Inventario-revision',RevisionInventario::class)->middleware('inventario.revision')->name('inventario.revision');
+
+
     Route::get('/Usuarios',Usuarios::class)->name('usuarios');
+    Route::get('/Roles',AdminRoles::class)->name('usuarios.roles');
+    Route::get('/Permisos',AdminPermisos::class)->name('usuarios.permisos');
     
 
 

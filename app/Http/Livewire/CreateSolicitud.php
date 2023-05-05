@@ -14,7 +14,7 @@ use Livewire\Component;
 class CreateSolicitud extends Component
 {
 
-    public $gnvs, $glps, $chips, $open, $stock, $tiposMateriales, $tipoM, $cantidad;
+    public $gnvs, $glps, $chips, $open, $stock,$stockGNV,$stockGLP,$stockCHIP, $tiposMateriales, $tipoM, $cantidad;
 
     public $articulos = [];
 
@@ -25,10 +25,25 @@ class CreateSolicitud extends Component
     ];
 
     public function mount(){
-        $stock = Material::where([
+        $this->stock = Material::where([
             ["idUsuario", Auth::id()],
             ["estado", 3]
         ])->get();
+        $this->stockGNV=Material::where([            
+            ["idTipoMaterial",1],// 1= TIPO - FORMATO DE GNV
+            ["idUsuario",Auth::id()],
+            ["estado",3]
+        ])->get()->count();
+        $this->stockGLP=Material::where([            
+            ["idTipoMaterial",3],// 1= TIPO - FORMATO DE GLP
+            ["idUsuario",Auth::id()],
+            ["estado",3]
+        ])->get()->count();
+        $this->stockCHIP=Material::where([            
+            ["idTipoMaterial",2],// 1= TIPO - FORMATO DE CHIPS
+            ["idUsuario",Auth::id()],
+            ["estado",3]
+        ])->get()->count();
 
         $this->listaMaterialesDisponibles();
         $this->open = false;
