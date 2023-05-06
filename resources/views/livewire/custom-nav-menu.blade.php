@@ -233,7 +233,6 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                         </li>
                     @endhasanyrole
 
-
                     {{--                     OPCIONES PARA EXPEDIENTES                  --}}
                     @hasanyrole('inspector|administrador|supervisor')
                         <li class="text-gray-50 py-3 pl-3 pr-4 hover:bg-gray-600 focus:bg-gray-600 rounded"
@@ -275,7 +274,6 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                             </div>
                         </li>
                     @endhasanyrole
-
 
                     {{--                     OPCIONES PARA TALLERES                    --}}
                     @hasanyrole('administrador|Administrador taller')
@@ -347,6 +345,12 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                                         <x-jet-responsive-nav-link class="text-sm" href="{{ route('inventario') }}"
                                             :active="request()->routeIs('inventario')">
                                             {{ __('Inventario') }}
+                                        </x-jet-responsive-nav-link>
+                                    @endcan
+                                    @can('inventario.revision')
+                                        <x-jet-responsive-nav-link class="text-sm" href="{{ route('inventario.revision') }}"
+                                            :active="request()->routeIs('inventario.revision')">
+                                            {{ __('Revision de Inventarios') }}
                                         </x-jet-responsive-nav-link>
                                     @endcan
                                     @can('ingresos')

@@ -38,19 +38,8 @@ class Arreglando extends Component
 
     protected $listernes=["addImg"];
 
-    public function mount(){    
-        /*    
-        $formatos=Material::where([
-            ["idTipoMaterial",1],
-            ["estado",1]
-        ])
-        ->orderBy('numSerie','asc')->get();
-        $this->formatos= $formatos;
-        */
-        $this->certificaciones=Certificacion::all();
-        
-
-        
+    public function mount(){  
+        $this->certificaciones=Certificacion::all();       
     }
 
    

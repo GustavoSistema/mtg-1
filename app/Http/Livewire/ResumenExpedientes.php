@@ -20,7 +20,6 @@ class ResumenExpedientes extends Component
     
 
     public function mount(){     
-      
        $this->cargaDatos();
        $this->formateaChart();
 
