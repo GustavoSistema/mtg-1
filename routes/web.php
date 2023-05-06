@@ -111,32 +111,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
         
         Route::get('/boletoAnalizadorDeGases/{id}', 'generaBoletoDeAnalizador')->name("analizadorGnv"); 
     });
-
-    //RUTAS PARA STREAM Y DESCARGA DE PDFS
-    /*
-    Route::get("certificado-anual/{id}","App\Http\Controllers\PdfController@generaPdfAnualGnv")->name("certificadoAnualGnv");       
-    Route::get("duplicado-anual/{id}","App\Http\Controllers\PdfController@generaDuplicadoAnualGnv")->name("duplicadoAnualGnv");
-    Route::get("duplicado-anual-ex/{id}","App\Http\Controllers\PdfController@generaDuplicadoExternoAnualGnv")->name("duplicadoExternoAnualGnv");
-
-    Route::get("certificado-anual/{id}/descargar","App\Http\Controllers\PdfController@descargarPdfAnualGnv")->name("descargarCertificadoAnualGnv"); 
-    Route::get("duplicado-anual/{id}/descargar","App\Http\Controllers\PdfController@descargarDuplicadoAnualGnv")->name("descargarDuplicadoAnualGnv");
-    Route::get("duplicado-anual-ex/{id}/descargar","App\Http\Controllers\PdfController@descargarDuplicadoExternoAnualGnv")->name("descargarDuplicadoExternoAnualGnv");
-  
-
-
-    Route::get("certificado-inicial/{id}","App\Http\Controllers\PdfController@generaPdfInicialGnv")->name("certificadoInicialGnv");
-    Route::get("duplicado-inicial/{id}","App\Http\Controllers\PdfController@generaDuplicadoInicialGnv")->name("duplicadoInicialGnv");
-    Route::get("duplicado-inicial-ex/{id}","App\Http\Controllers\PdfController@generaDuplicadoExternoInicialGnv")->name("duplicadoExternoInicialGnv");
-  
-    Route::get("certificado-inicial/{id}/descargar","App\Http\Controllers\PdfController@descargarPdfInicialGnv")->name("descargarCertificadoInicialGnv");
-    Route::get("duplicado-inicial/{id}/descargar","App\Http\Controllers\PdfController@descargarDuplicadoInicialGnv")->name("descargaDuplicadoInicialGnv");
-    Route::get("duplicado-inicial-ex/{id}/descargar","App\Http\Controllers\PdfController@descargarDuplicadoExternoInicialGnv")->name("descargaDuplicadoExternoInicialGnv");
-
-    Route::get("fichaTecnicaGnv/{idCert}","App\Http\Controllers\PdfController@generarFichaTecnica")->name("fichaTecnicaGnv");    
-    Route::get("fichaTecnicaGnv/{idCert}/download","App\Http\Controllers\PdfController@descargarFichaTecnica")->name("descargarFichaTecnicaGnv");
-    Route::get("checkListArriba/{idCert}","App\Http\Controllers\PdfController@generarCheckListArribaGnv")->name("checkListArribaGnv");
-    Route::get("checkListAbajo/{idCert}","App\Http\Controllers\PdfController@generarCheckListAbajoGnv")->name("checkListAbajoGnv");
-    */
+    
 
     Route::get("expediente-fotos/{id}/download","App\Http\Controllers\ZipController@descargaFotosExpediente")->name("descargaFotosExp");
     Route::get("Notification/{idNoti}/{idSoli}","App\Http\Controllers\NotificationController@marcarUnaNotificación")->name("leerNotificacion");

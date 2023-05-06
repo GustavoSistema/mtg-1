@@ -1,24 +1,10 @@
-<div class="p-6 sm:px-20 bg-white border-b border-gray-200">
-    <div class="mt-8 text-2xl">
-        Hola, {{ Auth::user()->name }} 👋.
-        <span> </span>
+<div>
+    <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
+        <div class="mt-8 text-2xl">
+            Hola, {{ Auth::user()->name }} 👋.
+            <span> </span>
+        </div>
     </div>
-</div>
-{{--  
-    @can('expedientes')
-    @livewire('resumen-expedientes')
-    @endcan
-    @can('talleres.revision')
-    @livewire('resumen-expedientes')
-    @endcan
- 
-    <hr>
-    @livewire('resumen-servicios')
-
-
- 
-    
-   
     <div class="divide-y-2 divide-indigo-400">
         @hasanyrole("administrador")
         <div x-data="{ open: true }"
@@ -85,5 +71,22 @@
             </div>
         </div>
         @endhasanyrole
---}}
+
     </div>
+</div>
+
+
+{{--  
+    @can('expedientes')
+    @livewire('resumen-expedientes')
+    @endcan
+    @can('talleres.revision')
+    @livewire('resumen-expedientes')
+    @endcan
+ 
+    <hr>
+    @livewire('resumen-servicios')
+    
+   
+    
+    --}}
