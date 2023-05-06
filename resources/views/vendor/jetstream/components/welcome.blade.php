@@ -6,6 +6,7 @@
         </div>
     </div>
     <div class="divide-y-2 divide-indigo-400">
+        {{--
         @hasanyrole("administrador")
         <div x-data="{ open: true }"
             class=" bg-white flex flex-col items-center justify-center relative overflow-hidden w-full border ">
@@ -26,7 +27,7 @@
             </div>
         </div>
         @endhasanyrole
-        
+        --}}
         @hasanyrole('administrador|Administrador taller|inspector')
         <div x-data="{ open: true }"
             class=" bg-white flex flex-col items-center justify-center relative overflow-hidden w-full">
