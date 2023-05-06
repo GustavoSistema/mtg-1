@@ -50,7 +50,7 @@
             </div>
         </div>
         @endhasanyrole
-        {{--
+        
         @hasanyrole('Administrador taller')
         <div x-data="{ open: true }"
             class=" bg-white flex flex-col items-center justify-center relative overflow-hidden w-full">
@@ -73,7 +73,7 @@
             </div>
         </div>
         @endhasanyrole
---}}    
+  
     </div>
 </div>
 
