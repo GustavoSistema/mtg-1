@@ -234,7 +234,7 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                     @endhasanyrole
 
                     {{--                     OPCIONES PARA EXPEDIENTES                  --}}
-                    @hasanyrole('inspector|administrador|supervisor')
+                    @hasanyrole('inspector|administrador|supervisor|Administrador taller')
                         <li class="text-gray-50 py-3 pl-3 pr-4 hover:bg-gray-600 focus:bg-gray-600 rounded"
                             x-data="{ Open: false }">
                             <div class="inline-flex  items-center justify-between w-full  transition-colors duration-150 text-gray-500  cursor-pointer"
@@ -257,16 +257,20 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                                     class="mt-2 divide-y-2 divide-gray-600 overflow-hidden text-sm font-medium bg-gray-600 text-white shadow-inner"
                                     aria-label="submenu">
                                     @can('expedientes')
-                                        <x-jet-responsive-nav-link class="text-sm" href="{{ route('expedientes') }}"
-                                            :active="request()->routeIs('expedientes')">
-                                            Listado Expedientes
+                                        <x-jet-responsive-nav-link class="text-sm" href="{{ route('expedientes') }}" :active="request()->routeIs('expedientes')">
+                                            {{ __('Listado Expedientes') }}
                                         </x-jet-responsive-nav-link>
                                     @endcan
 
                                     @can('revisionExpedientes')
                                         <x-jet-responsive-nav-link href="{{ route('revisionExpedientes') }}"
                                             :active="request()->routeIs('revisionExpedientes')">
-                                            Revisión Expedientes
+                                            {{ __(' Revisión Expedientes') }}
+                                        </x-jet-responsive-nav-link>
+                                    @endcan
+                                    @can('talleres.revision')
+                                        <x-jet-responsive-nav-link class="text-sm"  href="{{ route('talleres.revision') }}" :active="request()->routeIs('talleres.revision')">
+                                            {{ __('Expedientes de taller') }}
                                         </x-jet-responsive-nav-link>
                                     @endcan
                                 </ul>

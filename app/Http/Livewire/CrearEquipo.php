@@ -6,6 +6,7 @@ use App\Models\Equipo;
 use App\Models\EquiposVehiculo;
 use App\Models\TipoEquipo;
 use App\Models\vehiculo;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 
@@ -56,13 +57,10 @@ class CrearEquipo extends Component
                // $this->cantEquipos=$this->cuentaEquipos();
             break;
             case 3:
-                $tanque=$this->salvaTanque();
-                $equipoVehiculo=EquiposVehiculo::create(["idEquipo"=>$tanque->id,"idVehiculo"=>$this->vehiculo->id]);
-               // $this->emit('form-equipos','mount'); 
-                $this->emitTo('form-equipos','render'); 
-               
-               // $this->actualizaListaEquipos();
-               // $this->cantEquipos=$this->cuentaEquipos();
+                if($tanque=$this->salvaTanque()){
+                    $equipoVehiculo=EquiposVehiculo::create(["idEquipo"=>$tanque->id,"idVehiculo"=>$this->vehiculo->id]);              
+                    $this->emitTo('form-equipos','render'); 
+                }                              
             break;
 
             default:
@@ -88,13 +86,16 @@ class CrearEquipo extends Component
     } 
 
     public function salvaTanque(){
-        $this->validate([
-                        "equipoSerie"=>"required|min:1",
-                        "equipoMarca"=>"required|min:1",
-                        "equipoCapacidad"=>"required|numeric|min:1",
-                        "equipoPeso"=>"required|numeric|min:1",
-                        "equipoFechaFab"=>"required|date"
-                        ]);
+        $hoy=Carbon::now()->format('d/m/Y');   
+        $rules= [
+            "equipoSerie"=>"required|min:1",
+            "equipoMarca"=>"required|min:1",
+            "equipoCapacidad"=>"required|numeric|min:1",
+            "equipoPeso"=>"required|numeric|min:1",
+            "equipoFechaFab"=>"required|date_format:Y-m-d|before:".$hoy,
+        ];    
+        $this->validate($rules);
+       
         $equipo=new Equipo();
         $equipo->idTipoEquipo=$this->tipoEquipo;
         $equipo->numSerie=strtoupper($this->equipoSerie);
@@ -193,4 +194,6 @@ class CrearEquipo extends Component
            
       
     }
+
+    protected $messages=["date_format"=>"Por favor ingrese una fecha con el formato: DD/MM/AAAA"];
 }

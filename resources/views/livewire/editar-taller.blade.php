@@ -1,12 +1,8 @@
-<div class="lg:w-5/6 w-full m-auto">
+<div class="lg:w-5/6 pt-4 w-full m-auto">
     <div class="mt-12 w-full">
         <h1 class="text-2xl font-bold my-6 text-indigo-500 text-center"><i class="fas fa-pen pr-2"></i>  DATOS DEL TALLER </h1>  
-    </div>
-    
-    
-
-    <div class="bg-indigo-300 bg-opacity-25 md:p-4 m-4 grid grid-cols-1 md:grid-cols-2 space-x-4  rounded-md shadow-md border ">
-        
+    </div>  
+    <div class="bg-indigo-300 bg-opacity-25 md:p-4 m-4 grid grid-cols-1 md:grid-cols-2 space-x-4  rounded-md shadow-md border ">        
         <div class="px-4 pt-4">
             <div class="mb-4">
                 <x-jet-label value="Nombre:" />

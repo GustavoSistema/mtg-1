@@ -111,7 +111,7 @@ class AdministracionCertificaciones extends Component
                         $expe->delete();
                     }
                 }
-               if($certificacion->Hoja->update(['estado'=>3])){
+               if($certificacion->Hoja->update(['estado'=>3,"ubicacion"=>"En poder de ".$certificacion->Inspector->name])){
                 $certificacion->delete();          
                 $this->emitTo('administracion-certificaciones','render');
                } else{
