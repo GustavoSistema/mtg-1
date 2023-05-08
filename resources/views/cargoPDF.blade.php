@@ -124,10 +124,13 @@
         </ol>
         
         <p>Sin otro particular me despido de usted muy atentamente.</p>
+        <br>      
+        <p>Recibi conforme:</p>
         <br>
         <br>
         <br>
         <p>_________________________</p>
+      
         <p>Nombre:</p>
         <p>DNI:</p>
 

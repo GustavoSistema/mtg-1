@@ -188,12 +188,8 @@ class CrearEquipo extends Component
                     array_push($aux,array("id"=>$tip->id,"nombre"=>$tip->nombre,"estado"=>1));
                 }
             }            
-        } 
-             
-        $this->tiposDisponibles=$aux;   
-           
-      
+        }              
+        $this->tiposDisponibles=$aux;            
     }
-
     protected $messages=["date_format"=>"Por favor ingrese una fecha con el formato: DD/MM/AAAA"];
 }

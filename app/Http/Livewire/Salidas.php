@@ -10,12 +10,51 @@ class Salidas extends Component
 {
 
     use WithPagination;
-        
+    
+    public $sort,$direction,$cant,$search,$rol,$permisos,$cargando;
+    
+    protected $rules=["cargando"=>"nullable"];
+
+    protected $listeners=["eliminaSalida"];
+
     public function render()
     {
-        $salidas=Salida::all();
+        $salidas=Salida::where([["numero","like","%".$this->search."%"]])
+        ->orderBy($this->sort,$this->direction)
+        ->paginate($this->cant);
         return view('livewire.salidas',compact("salidas"));
     }
 
-    
+    public function mount(){
+        $this->direction='desc';
+        $this->sort='id';       
+        $this->cant=10;
+       
+    }
+
+    public function order($sort){
+        if($this->sort=$sort){
+            if($this->direction=='desc'){
+                $this->direction='asc';
+            }else{
+                $this->direction='desc';
+            }
+        }else{
+            $this->sort=$sort;
+            $this->direction='asc';
+        }        
+    }
+
+    public function eliminaSalida(Salida $sal){        
+        
+        if($sal->estado==1){
+            foreach($sal->materiales as $item){
+                $item->update(["ubicacion"=>"MOTORGAS COMPANY S.A","estado"=>1]);
+            }
+        }
+        $sal->delete();
+        $this->emitTo("salidas","render");        
+        $this->emit("minAlert", ["titulo" => "AVISO DEL SISTEMA", "mensaje" => "La salida fue eliminada correctamente", "icono" => "success"]);    
+            
+    }
 }

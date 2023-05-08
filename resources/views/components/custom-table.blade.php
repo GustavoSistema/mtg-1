@@ -22,7 +22,7 @@
             
             <!-- boton agregar -->            
            
-            <div class="mb-4">
+            <div class="flex mb-4">
                 {{-- BOTON PARA AGREGAR --}}
                 {{$btnAgregar}}
             </div>

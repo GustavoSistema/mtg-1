@@ -1,183 +1,295 @@
 <div>
-    <div class="sm:px-6 w-full">
-        <!--- more free and premium Tailwind CSS components at https://tailwinduikit.com/ --->
-        <div class="px-4 md:px-10 py-4 md:py-7">
-            <div class="flex items-center justify-between">
-                <p tabindex="0"
-                    class="focus:outline-none text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-normal text-gray-800">
-                    Lista de Salidas</p>
-                <div
-                    class="py-3 px-4 flex items-center text-sm font-medium leading-none text-gray-600 bg-gray-200 hover:bg-gray-300 cursor-pointer rounded">
-                    <p>ordenar por:</p>
-                    <select aria-label="select" class="focus:text-indigo-600 focus:outline-none bg-transparent ml-1">
-                        <option class="text-sm text-indigo-800">Latest</option>
-                        <option class="text-sm text-indigo-800">Oldest</option>
-                        <option class="text-sm text-indigo-800">Latest</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="bg-white py-4 md:py-7 px-4 md:px-8 xl:px-10">
-            <div class="sm:flex items-center justify-between">
-                <div class="flex items-center">
-                    <a class="rounded-full focus:outline-none focus:ring-2  focus:bg-indigo-50 focus:ring-indigo-800"
-                        href=" javascript:void(0)">
-                        <div class="py-2 px-8 bg-indigo-100 text-indigo-700 rounded-full">
-                            <p>All</p>
-                        </div>
+    <div wire:loading.remove>       
+        <div class="sm:px-6 w-full pt-12 pb-4" >
+            <x-custom-table>
+                <x-slot name="titulo">
+                    <h2 class="text-indigo-600 font-bold text-3xl uppercase">
+                        <i class="fa-solid fa-truck-fast fa-xl text-indigo-600"></i>
+                        &nbsp;Salida de materiales
+                    </h2>                    
+                </x-slot>
+
+                <x-slot name="btnAgregar" class="mt-6 ">
+                    <a class="bg-indigo-500 px-6  py-4 rounded-md text-white font-semibold tracking-wide cursor-pointer"
+                        href="{{ route('asignacion') }}">
+                        Nueva Asignación &nbsp;<i class="fas fa-plus"></i>
                     </a>
-                    <a class="rounded-full focus:outline-none focus:ring-2 focus:bg-indigo-50 focus:ring-indigo-800 ml-4 sm:ml-8"
-                        href="javascript:void(0)">
-                        <div class="py-2 px-8 text-gray-600 hover:text-indigo-700 hover:bg-indigo-100 rounded-full ">
-                            <p>Done</p>
+                </x-slot>
+
+                <x-slot name="contenido">
+                    @if (count($salidas))
+                        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                            <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full leading-normal rounded-md">
+                                        <thead>
+                                            <tr>
+                                                <th class=" w-24 cursor-pointer hover:font-bold hover:text-indigo-500 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                                                    wire:click="order('id')">
+                                                    Id
+                                                    @if ($sort == 'id')
+                                                        @if ($direction == 'asc')
+                                                            <i class="fas fa-sort-numeric-up-alt float-right mt-0.5"></i>
+                                                        @else
+                                                            <i class="fas fa-sort-numeric-down-alt float-right mt-0.5"></i>
+                                                        @endif
+                                                    @else
+                                                        <i class="fas fa-sort float-right mt-0.5"></i>
+                                                    @endif
+                                                </th>
+                                                <th class="cursor-pointer hover:font-bold hover:text-indigo-500  px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                                                    wire:click="order('numero')">
+                                                    Numero
+                                                    @if ($sort == 'numero')
+                                                        @if ($direction == 'asc')
+                                                            <i class="fas fa-sort-alpha-up-alt float-right mt-0.5"></i>
+                                                        @else
+                                                            <i class="fas fa-sort-alpha-down-alt float-right mt-0.5"></i>
+                                                        @endif
+                                                    @else
+                                                        <i class="fas fa-sort float-right mt-0.5"></i>
+                                                    @endif
+                                                </th>
+                                                <th class="cursor-pointer hover:font-bold hover:text-indigo-500  px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                                                    wire:click="order('idUsuarioSalida')">
+                                                    Creado por
+                                                    @if ($sort == 'idUsuarioSalida')
+                                                        @if ($direction == 'asc')
+                                                            <i class="fas fa-sort-alpha-up-alt float-right mt-0.5"></i>
+                                                        @else
+                                                            <i class="fas fa-sort-alpha-down-alt float-right mt-0.5"></i>
+                                                        @endif
+                                                    @else
+                                                        <i class="fas fa-sort float-right mt-0.5"></i>
+                                                    @endif
+                                                </th>
+
+                                                <th class="cursor-pointer hover:font-bold hover:text-indigo-500  px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                                                    wire:click="order('idUsuarioAsignado')">
+                                                    Asignado a
+                                                    @if ($sort == 'idUsuarioAsignado')
+                                                        @if ($direction == 'asc')
+                                                            <i class="fas fa-sort-alpha-up-alt float-right mt-0.5"></i>
+                                                        @else
+                                                            <i class="fas fa-sort-alpha-down-alt float-right mt-0.5"></i>
+                                                        @endif
+                                                    @else
+                                                        <i class="fas fa-sort float-right mt-0.5"></i>
+                                                    @endif
+                                                </th>
+                                                <th class="cursor-pointer hover:font-bold hover:text-indigo-500  px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                                                    wire:click="order('estado')">
+                                                    Estado
+                                                    @if ($sort == 'estado')
+                                                        @if ($direction == 'asc')
+                                                            <i class="fas fa-sort-alpha-up-alt float-right mt-0.5"></i>
+                                                        @else
+                                                            <i class="fas fa-sort-alpha-down-alt float-right mt-0.5"></i>
+                                                        @endif
+                                                    @else
+                                                        <i class="fas fa-sort float-right mt-0.5"></i>
+                                                    @endif
+                                                </th>
+                                                <th class="cursor-pointer hover:font-bold hover:text-indigo-500  px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                                                    wire:click="order('created_at')">
+                                                    Fecha de creación
+                                                    @if ($sort == 'created_at')
+                                                        @if ($direction == 'asc')
+                                                            <i class="fas fa-sort-numeric-up-alt float-right mt-0.5"></i>
+                                                        @else
+                                                            <i class="fas fa-sort-numeric-down-alt float-right mt-0.5"></i>
+                                                        @endif
+                                                    @else
+                                                        <i class="fas fa-sort float-right mt-0.5"></i>
+                                                    @endif
+                                                </th>
+                                                <th
+                                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    Cargo
+                                                </th>
+                                                <th
+                                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    Acciones
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($salidas as $item)
+                                                <tr>
+                                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                        <div class="flex items-center">
+                                                            <p class="text-indigo-900 p-1 bg-indigo-200 rounded-md">
+                                                                {{ $item->id }}
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                        <div class="flex items-center">
+                                                            <p class="text-slate-900 font-semibold whitespace-no-wrap">
+                                                                {{ $item->numero }}
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                        <div class="flex items-center">
+                                                            <p class="whitespace-no-wrap">
+                                                                {{ $item->usuarioCreador->name }}
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                        <div class="flex items-center">
+                                                            <p class="whitespace-no-wrap">
+                                                                {{ $item->usuarioAsignado->name }}
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                        <div class="flex items-center">
+                                                            @switch($item->estado)
+                                                                @case(1)
+                                                                    <p
+                                                                        class="text-xs rounded-full leading-none p-1 font-bold text-blue-700 bg-blue-200">
+                                                                        En envio
+                                                                    </p>
+                                                                @break
+
+                                                                @case(2)
+                                                                    <p
+                                                                        class="text-xs rounded-full leading-none p-1 font-bold text-white bg-red-400">
+                                                                        Rechazado
+                                                                    </p>
+                                                                @break
+
+                                                                @case(3)
+                                                                    <p
+                                                                        class="text-xs rounded-full leading-none p-1 font-bold text-green-700 bg-green-200">
+                                                                        Recepcionado
+                                                                    </p>
+                                                                @break
+
+                                                                @default
+                                                                    <p class="text-xs rounded-full leading-none text-gray-600 ml-2">
+                                                                        Sin datos
+                                                                    </p>
+                                                            @endswitch
+                                                        </div>
+                                                    </td>
+                                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                        <div class="flex items-center">
+                                                            <p class="whitespace-no-wrap uppercase">
+                                                                {{ $item->created_at->format('d-m-Y h:m:i a') }}
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                        <div class="flex items-center">
+                                                            <a class="focus:ring-2 focus:ring-offset-2 focus:ring-gray-600 text-sm leading-none text-white py-3 px-5 bg-amber-400 rounded hover:bg-amber-600 focus:outline-none"
+                                                                target="__blank"
+                                                                href="{{ route('generaCargo', ['id' => $item->id]) }}"
+                                                                rel="noopener noreferrer">Ver cargo <i
+                                                                    class="fas fa-file-pdf"></i>
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                        <div class="flex items-center justify-center"
+                                                            x-data="{ menu: false }">
+                                                            <button
+                                                                class="focus:ring-2 rounded-md focus:outline-none hover:text-indigo-500"
+                                                                role="button" x-on:click="menu = ! menu" id="menu-button"
+                                                                aria-expanded="true" aria-haspopup="true"
+                                                                data-te-ripple-init data-te-ripple-color="light"
+                                                                aria-label="option">
+                                                                <i class="fa-solid fa-ellipsis fa-xl"></i>
+                                                            </button>
+                                                            <div x-show="menu" x-on:click.away="menu = false"
+                                                                class="dropdown-content flex flex-col  bg-white shadow w-48 absolute z-30 right-0 mt-20 mr-6">
+                                                                @if ($item->estado == 1)
+                                                                    <button
+                                                                        wire:click="$emit('deleteSalida',{{ $item->id }})"
+                                                                        class="focus:outline-none flex items-center space-x-4 focus:text-lime-400 text-xs w-full hover:bg-indigo-600 py-2 px-6 cursor-pointer hover:text-white">
+                                                                        <i class="fas fa-trash"></i>
+                                                                        <span>Cancelar envio</span>
+
+                                                                    </button>
+                                                                @endif
+                                                                <a
+                                                                    class="focus:outline-none flex items-center space-x-4  focus:text-indigo-400 text-xs w-full hover:bg-indigo-600 py-2 px-6 cursor-pointer hover:text-white">
+                                                                    <i class="fas fa-eye"></i>
+                                                                    <span>Ver detalle</span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
-                    </a>
-                    <a class="rounded-full focus:outline-none focus:ring-2 focus:bg-indigo-50 focus:ring-indigo-800 ml-4 sm:ml-8"
-                        href="javascript:void(0)">
-                        <div class="py-2 px-8 text-gray-600 hover:text-indigo-700 hover:bg-indigo-100 rounded-full ">
-                            <p>Pending</p>
-                        </div>
-                    </a>
-                </div>
-                <a href="{{ route('asignacion') }}"
-                    class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 mt-4 sm:mt-0 inline-flex items-start justify-start px-6 py-3 bg-amber-400 hover:bg-amber-500 focus:outline-none rounded">
-                    <p class="text-sm font-medium leading-none text-white">Asignar Materiales</p>
-                </a>
-            </div>
-            <div class="mt-7 overflow-x-auto">
-                <table class="w-full whitespace-nowrap">
-                    <thead class="bg-slate-700 border-b font-bold text-white">
-                        <tr>
-                            <th scope="col" class="text-sm font-medium font-semibold px-6 py-4 text-left">
-                                #
-                            </th>
-                            <th scope="col" class="text-sm font-medium font-semibold  px-6 py-4 text-left">
-                                CODIGO
-                            </th>
-                            <th scope="col" class="text-sm font-medium font-semibold px-6 py-4 text-left">
-                                Ingresado por:
-                            </th>
-                            <th scope="col" class="text-sm font-medium font-semibold px-6 py-4 text-left">
-                                Asignado a:
-                            </th>
-                            <th scope="col" class="text-sm font-medium font-semibold px-6 py-4 text-left">
-                                Estado
-                            </th>
-                            <th scope="col" class="text-sm font-medium font-semibold px-6 py-4 text-left">
-                                Fecha
-                            </th>
-                            <th scope="col" class="text-sm font-medium font-semibold px-6 py-4 text-left">
-                                Cargo
-                            </th>
-                            <th scope="col" class="text-sm font-medium font-semibold px-6 py-4 text-left">
-                                Acción
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($salidas as $key => $salida)
-                            <tr tabindex="0" class="focus:outline-none h-16 border border-gray-100 rounded">
-                                <td class="pl-5">
-                                    <div class="flex items-center">
-                                        <div
-                                            class="bg-gray-200 rounded-sm w-5 h-5 flex flex-shrink-0 justify-center items-center relative">
-                                            {{ $key + 1 }}
+
+                        @if ($salidas->hasPages())
+                            <div>
+                                <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-2 overflow-x-auto">
+                                    <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+                                        <div class="px-5 py-5 bg-white border-t">
+                                            {{ $salidas->links() }}
                                         </div>
                                     </div>
-                                </td>
-                                <td class="pl-2">
-                                    <div class="flex items-center">
-                                        <p class="text-base font-medium leading-none text-gray-700 mr-2">
-                                            {{ $salida->numero }}</p>
-                                    </div>
-                                </td>
-                                <td class="pl-2">
-                                    <div class="flex items-center">
-                                        <p class="text-sm leading-none text-gray-600 ml-2">
-                                            {{ $salida->usuarioCreador->name }}</p>
-                                    </div>
-                                </td>
-                                <td class="pl-2">
-                                    <div class="flex items-center">
-                                        <p class="text-sm leading-none text-gray-600 ml-2">
-                                            {{ $salida->usuarioAsignado->name }}</p>
-                                    </div>
-                                </td>
-                                <td class=" text-center mx-auto">
-                                    <div class="flex items-center tex-center justify-center">
-                                        @switch($salida->estado)
-                                            @case(1)
-                                                <p class="text-sm rounded-md leading-none p-2 text-blue-700 bg-blue-200">En
-                                                    envio</p>
-                                            @break
+                                </div>
+                            </div>
+                        @endif
+                    @else
+                        <div class="px-6 py-4 text-center font-bold bg-indigo-200 rounded-md">
+                            No se encontro ningun registro.
+                        </div>
+                    @endif
+                </x-slot>
 
-                                            @case(2)
-                                                <p class="text-sm rounded-md leading-none p-2 text-white bg-red-400">Rechazado
-                                                </p>
-                                            @break
+            </x-custom-table>
+        </div>        
+        @push('js')
+            <script>
+                Livewire.on('deleteSalida', sal => {
+                    Swal.fire({
+                        title: '¿Seguro que quieres eliminar esta salida?',
+                        text: "Luego de eliminar no se podran recuperar los datos",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#dd333f',
+                        confirmButtonText: 'Si, eliminar',
+                        cancelButtonText:'Cancelar',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
 
-                                            @case(3)
-                                                <p class="text-sm rounded-md leading-none p-2 text-green-700 bg-green-200">
-                                                    Recepcionado</p>
-                                            @break
-
-                                            @default
-                                                <p class="text-sm rounded-md leading-none text-gray-600 ml-2">Sin datos</p>
-                                        @endswitch
-                                    </div>
-                                </td>
-                                <td class="pl-2">
-                                    <p
-                                        class="py-1  text-sm  leading-none text-amber-700 bg-amber-100 rounded text-center">
-                                        {{ $salida->created_at->format('d/m/Y  h:i a') }}</p>
-                                </td>
-                                <td class="pl-4">
-                                    <a class="focus:ring-2 focus:ring-offset-2 focus:ring-red-300 text-sm leading-none text-gray-600 py-3 px-5 bg-gray-100 rounded hover:bg-gray-200 focus:outline-none"
-                                        target="__blank" href="{{ route('generaCargo', ['id' => $salida->id]) }}"
-                                        rel="noopener noreferrer">Ver PDF <i class="fas fa-file-pdf"></i>
-                                    </a>
-                                </td>
-                                <td class="text-center">
-                                    <div class="relative  pt-2 items-center" x-data="{ menu: false }">
-                                        <button class="focus:ring-2 rounded-md focus:outline-none" role="button"
-                                            x-on:click="menu = ! menu" id="menu-button" aria-expanded="true"
-                                            aria-haspopup="true" data-te-ripple-init data-te-ripple-color="light"
-                                            aria-label="option">
-                                            <svg class="dropbtn" xmlns="http://www.w3.org/2000/svg" width="20"
-                                                height="20" viewBox="0 0 20 20" fill="none">
-                                                <path
-                                                    d="M4.16667 10.8332C4.62691 10.8332 5 10.4601 5 9.99984C5 9.5396 4.62691 9.1665 4.16667 9.1665C3.70643 9.1665 3.33334 9.5396 3.33334 9.99984C3.33334 10.4601 3.70643 10.8332 4.16667 10.8332Z"
-                                                    stroke="#9CA3AF" stroke-width="1.25" stroke-linecap="round"
-                                                    stroke-linejoin="round"></path>
-                                                <path
-                                                    d="M10 10.8332C10.4602 10.8332 10.8333 10.4601 10.8333 9.99984C10.8333 9.5396 10.4602 9.1665 10 9.1665C9.53976 9.1665 9.16666 9.5396 9.16666 9.99984C9.16666 10.4601 9.53976 10.8332 10 10.8332Z"
-                                                    stroke="#9CA3AF" stroke-width="1.25" stroke-linecap="round"
-                                                    stroke-linejoin="round"></path>
-                                                <path
-                                                    d="M15.8333 10.8332C16.2936 10.8332 16.6667 10.4601 16.6667 9.99984C16.6667 9.5396 16.2936 9.1665 15.8333 9.1665C15.3731 9.1665 15 9.5396 15 9.99984C15 10.4601 15.3731 10.8332 15.8333 10.8332Z"
-                                                    stroke="#9CA3AF" stroke-width="1.25" stroke-linecap="round"
-                                                    stroke-linejoin="round"></path>
-                                            </svg>
-                                        </button>
-                                        <div x-show="menu" x-on:click.away="menu = false"
-                                            class="dropdown-content bg-white shadow w-56 absolute z-30 right-0 mr-6">
-                                            <div tabindex="0"
-                                                class="focus:outline-none focus:text-amber-500 text-xs w-full hover:bg-slate-700 py-2 px-6 cursor-pointer hover:text-white">
-                                                <p>Eliminar Salida</p>
-                                            </div>
-                                            <div tabindex="1"
-                                                class="focus:outline-none focus:text-amber-500 text-xs w-full hover:bg-slate-700 py-2 px-6 cursor-pointer hover:text-white">
-                                                <p>Ver detalle</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="h-3"></tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                            Livewire.emitTo('salidas', 'eliminaSalida', sal);
+                            /*
+                            Swal.fire(
+                                '¡Listo!',
+                                'Salida eliminada correctamente.',
+                                'success'
+                            )
+                            */
+                        }
+                    })
+                });
+            </script>
+        @endpush
     </div>
+
+    <div class="hidden w-full h-screen flex flex-col justify-center items-center bg-gray-200 " wire:loading.remove.class="hidden">     
+        <div class="flex">
+            <img src="{{ asset('images/mtg.png') }}" alt="Logo Motorgas Company" width="150" height="150">
+        </div>
+        <div class="text-center">
+            <i class="fa-solid fa-circle-notch fa-xl animate-spin text-indigo-800 "></i>
+          
+            <p class="text-center text-black font-bold italic">CARGANDO...</p>
+        </div>
+        <div class="flex">
+        </div>
+    </div>     
 </div>

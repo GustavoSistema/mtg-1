@@ -1,5 +1,5 @@
 <div>
-    <div class="container block justify-center m-auto py-12">
+    <div class="container block justify-center m-auto py-12" wire:loading.remove>
         <h1 class="text-2xl text-center">Asignacion de Materiales</h1>
         @switch($estado)
             @case(1)
@@ -141,5 +141,17 @@
             @default
         @endswitch
 
+    </div>
+    <div class="hidden w-full h-screen flex flex-col justify-center items-center bg-gray-200 " wire:loading.remove.class="hidden">     
+        <div class="flex">
+            <img src="{{ asset('images/mtg.png') }}" alt="Logo Motorgas Company" width="150" height="150">
+        </div>
+        <div class="text-center">
+            <i class="fa-solid fa-circle-notch fa-xl animate-spin text-indigo-800 "></i>
+          
+            <p class="text-center text-black font-bold italic">CARGANDO...</p>
+        </div>
+        <div class="flex">
+        </div>
     </div>
 </div>
