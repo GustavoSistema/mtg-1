@@ -165,15 +165,7 @@ class AsignacionMateriales extends Component
             $this->guardaDetalles($formato,$salida->id,$art["motivo"]);
             array_push($aux,$formato);
         }
-        return $aux;          
-       // $this->emit("minAlert",["titulo"=>"ERROR","mensaje"=>"Datos :" .$formatos,"icono"=>"error"]); 
-            /*
-        foreach($formatos as $formato){
-            $formato->update(['idUsuario'=>null,'ubicacion'=>'En proceso de envio a '.$usuario->name,'estado'=>2]);
-            array_push($aux,$formato);
-        }
-        return $aux;
-        */
+        return $aux;         
     }
     
     public function cuentaMateriales($materiales){

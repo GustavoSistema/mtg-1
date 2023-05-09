@@ -25,6 +25,7 @@ use App\Http\Livewire\Arreglando;
 use App\Http\Livewire\EditarTaller;
 use App\Http\Livewire\ListaCertificaciones;
 use App\Http\Livewire\ListaServicios;
+use App\Http\Livewire\PrestamoMateriales;
 use App\Http\Livewire\Prueba;
 use App\Http\Livewire\RevisionInventario;
 use App\Http\Livewire\TallerRevision;
@@ -58,6 +59,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get('/Salidas',Salidas::class)->middleware('can:salidas')->name('salidas');
     Route::get('/Inventario',Inventario::class)->middleware('can:inventario')->name('inventario');
     Route::get('/Asignacion-de-materiales',AsignacionMateriales::class)->middleware('can:asignacion')->name('asignacion');
+
+    Route::get('/Prestamo-de-materiales',PrestamoMateriales::class)->name('materiales.prestamo');
+
+
     Route::get('/Recepcion-de-materiales',RecepcionMateriales::class)->middleware('can:recepcion')->name('recepcion');
     Route::get('/Solicitud-de-materiales',Solicitud::class)->middleware('can:solicitud')->name('solicitud');
     Route::get('/Crear-solicitud',CreateSolicitud::class)->middleware('can:nuevaSolicitud')->name('nuevaSolicitud');

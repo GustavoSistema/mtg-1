@@ -1,5 +1,5 @@
 <div>
-    <div wire:init="loadExpedientes" wire:loading.remove >
+    <div wire:init="loadExpedientes" >
 
 
         <div class="container mx-auto py-12" id="todo">
@@ -537,7 +537,7 @@
         @endpush
     </div>
 
-    {{--PANTALLA DE CARGA--}}
+    {{--PANTALLA DE CARGA
     <div class="hidden w-full h-screen flex flex-col justify-center items-center bg-gray-200 " wire:loading.remove.class="hidden">     
         <div class="flex">
             <img src="{{ asset('images/mtg.png') }}" alt="Logo Motorgas Company" width="150" height="150">
@@ -550,5 +550,6 @@
         <div class="flex">
         </div>
     </div>  
+    --}}
 </div>
 
