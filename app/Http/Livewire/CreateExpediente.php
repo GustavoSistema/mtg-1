@@ -29,7 +29,7 @@ class CreateExpediente extends Component
     public $idus,$placa,$certificado,$servicio,$identificador,$tallerSeleccionado,$regla;
     
     protected $rules=[
-        'placa'=>'required|min:6|max:6',        
+        'placa'=>'required|min:6|max:7',        
         'servicio'=>'required',
         'files'=>'required',       
         'documentos'=>'array|max:25',

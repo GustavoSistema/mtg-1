@@ -48,7 +48,7 @@ class Expedientes extends Component
    ];
 
    protected $rules=[
-        'expediente.placa'=>'required|min:6|max:6',
+        'expediente.placa'=>'required|min:6|max:7',
         'expediente.certificado'=>'required|min:1|max:7',       
         'fotosnuevas'=>'array|max:25',
         'documentosnuevos'=>'array|max:25',

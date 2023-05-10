@@ -280,7 +280,7 @@
             @endif
             <div class="mb-4">
                 <x-jet-label value="Placa:" />
-                <x-jet-input type="text" class="w-full" wire:model="expediente.placa" maxlength="6" />
+                <x-jet-input type="text" class="w-full" wire:model="expediente.placa" maxlength="7" />
                 <x-jet-input-error for="expediente.placa" />
             </div>
             <div class="mb-4">

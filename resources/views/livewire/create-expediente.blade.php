@@ -45,7 +45,7 @@
             @endif
             <div class="mb-4">
                 <x-jet-label value="Placa:" />
-                <x-jet-input type="text" class="w-full" wire:model="placa" maxlength="6" />
+                <x-jet-input type="text" class="w-full" wire:model="placa" maxlength="7" />
                 <x-jet-input-error for="placa" />
             </div>
             <div class="mb-4">

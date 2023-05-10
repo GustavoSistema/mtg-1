@@ -25,7 +25,7 @@ class FormVehiculo extends Component
 
     protected $rules=[
         
-        "placa"=>"required|min:6",
+        "placa"=>"required|min:7",
         "categoria"=>"nullable",
         "marca"=>"required|min:2",
         "modelo"=>"required|min:2",
@@ -80,7 +80,7 @@ class FormVehiculo extends Component
     public function guardaVehiculo(){
         $this->validate(
             [
-                "placa"=>"required|min:6",
+                "placa"=>"required|min:7",
                 "categoria"=>"nullable",
                 "marca"=>"required|min:2",
                 "modelo"=>"required|min:2",
@@ -168,7 +168,7 @@ class FormVehiculo extends Component
     public function actualizarVehiculo(){
         $this->validate(
             [
-                "vehiculo.placa"=>"required|min:6",
+                "vehiculo.placa"=>"required|min:7",
                 "vehiculo.categoria"=>"nullable",
                 "vehiculo.marca"=>"required|min:2",
                 "vehiculo.modelo"=>"required|min:2",
@@ -274,7 +274,7 @@ class FormVehiculo extends Component
 
     //revisa la existencia del vehiculo en nuestra base de datos y los devuelve en caso de encontrarlo
     public function buscarVehiculo(){
-        $this->validate(['placa'=>'min:3|max:6']);
+        $this->validate(['placa'=>'min:3|max:7']);
 
         $vehiculos=vehiculo::where('placa','like','%'.$this->placa.'%')->get();
         if($vehiculos->count() > 0){
