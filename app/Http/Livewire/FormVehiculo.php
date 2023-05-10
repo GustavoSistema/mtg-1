@@ -25,7 +25,7 @@ class FormVehiculo extends Component
 
     protected $rules=[
         
-        "placa"=>"required|min:7",
+        "placa"=>"required|min:6|max:7",
         "categoria"=>"nullable",
         "marca"=>"required|min:2",
         "modelo"=>"required|min:2",
@@ -80,7 +80,7 @@ class FormVehiculo extends Component
     public function guardaVehiculo(){
         $this->validate(
             [
-                "placa"=>"required|min:7",
+                "placa"=>"required|min:6|max:7",
                 "categoria"=>"nullable",
                 "marca"=>"required|min:2",
                 "modelo"=>"required|min:2",
@@ -168,7 +168,7 @@ class FormVehiculo extends Component
     public function actualizarVehiculo(){
         $this->validate(
             [
-                "vehiculo.placa"=>"required|min:7",
+                "vehiculo.placa"=>"required|min:6|max:7",
                 "vehiculo.categoria"=>"nullable",
                 "vehiculo.marca"=>"required|min:2",
                 "vehiculo.modelo"=>"required|min:2",
