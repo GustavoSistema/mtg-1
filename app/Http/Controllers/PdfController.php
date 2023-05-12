@@ -677,6 +677,7 @@ class PdfController extends Controller
 
         $materiales=$this->materialesPorAsigancion($sal);
         $cambios=$this->materialesPorCambio($sal);
+        $prestamos=$this->materialesPorPrestamo($sal);
         //$series=$this->encuentraSeries($materiales->all());
         $inspector=$sal->usuarioAsignado;
         $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
@@ -688,6 +689,7 @@ class PdfController extends Controller
         "inspector"=>$inspector->name,
         "materiales"=>$materiales,
         "cambios"=>$cambios,
+        "prestamos"=>$prestamos,
         "salida"=>$sal,
         ];                 
         $pdf = App::make('dompdf.wrapper');
@@ -719,6 +721,30 @@ class PdfController extends Controller
         $gnvs=$salida->porCambio->where("idTipoMaterial",1);
         $glps=$salida->porCambio->where("idTipoMaterial",3);
         $chips=$salida->porCambio->where("idTipoMaterial",2);
+
+        //$gnvOrdenado=$gnvs->pluck('numSerie')->sortBy('numSerie')->all();
+
+
+        //$primero=current($gnvOrdenado);
+        //dd($gnvOrdenado);
+        if($gnvs->count()>0){
+            $materiales->push(["series"=>$this->encuentraSeries($gnvs->get()->sortBy("numSerie")->all()),"tipo"=>$gnvs->first()->tipo->descripcion,"cantidad"=>$gnvs->count(),"motivo"=>$gnvs->first()->detalle->motivo]);
+        }       
+        if($glps->count()>0){
+            $materiales->push(["series"=>$this->encuentraSeries($glps->get()->all()),"tipo"=>$glps->first()->tipo->descripcion,"cantidad"=>$glps->count(),"motivo"=>$glps->first()->detalle->motivo]);
+        }
+        if($chips->count()>0){
+            $materiales->push(["series"=>$this->encuentraSeries($chips->get()->all()),"tipo"=>$chips->first()->tipo->descripcion,"cantidad"=>$chips->count(),"motivo"=>$chips->first()->detalle->motivo]);
+        }
+        return $materiales;
+    }
+
+    public function materialesPorPrestamo(Salida $salida){
+        $materiales=new Collection();
+        //dd($salida->porPrestamo);
+        $gnvs=$salida->porPrestamo->where("idTipoMaterial",1);
+        $glps=$salida->porPrestamo->where("idTipoMaterial",3);
+        $chips=$salida->porPrestamo->where("idTipoMaterial",2);
 
         //$gnvOrdenado=$gnvs->pluck('numSerie')->sortBy('numSerie')->all();
 

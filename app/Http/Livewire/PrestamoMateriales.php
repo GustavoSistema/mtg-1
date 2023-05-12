@@ -13,8 +13,9 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class PrestamoMateriales extends Component
-{
-    public $inspectores, $inspector;
+{   
+    
+    public $inspectores, $inspector,$envio,$ruta;
     public $estado = 1;    
     public $articulos = [];
 
@@ -39,17 +40,12 @@ class PrestamoMateriales extends Component
         $this->todo = Material::where([
             ["idUsuario", Auth::id()], ["estado", 3]
         ])->get();
-        //$this->listaStock(); 
+        
+        $this->estado=1;
         $this->disponibles = $this->todo;
         $this->seleccionados = new Collection();
 
-        /*
-        $this->selGNV = new Collection();
-        $this->nuevoDispGNV = new Collection();
-        $this->dispGLP = new Collection();
-        $this->selGLP = new Collection();
-        $this->nuevoDispGLP = new Collection();
-        */
+        
     }
 
     public function agregarArticulo($articulo)
@@ -224,13 +220,13 @@ class PrestamoMateriales extends Component
     }
 
     public function guardar(){
+
         $this->validate(
             [
                 "inspector"=>"required|numeric|min:1",                
                 "articulos"=>"required|array|min:1"
             ]  
         );
-
         $salida=Salida::create(
             [
                 "numero"=>date('dmY').Auth::id().rand(),
@@ -240,16 +236,21 @@ class PrestamoMateriales extends Component
                 "estado"=>1   //se asigna estado de salida como envio             
             ]
         ); 
-
         $usuario=User::find($salida->idUsuarioAsignado);
-
         $this->seleccionados->each(function ($item, $key) use($usuario,$salida) {
+            //dd(Material::findOrFail($item->id));
             if (Material::findOrFail($item->id)) {
                 $item->update(['idUsuario'=>null,'ubicacion'=>'En proceso de envio a '.$usuario->name,'estado'=>2]);
                 $this->guardaDetalles($item,$salida->id);
+                //dd($this->guardaDetalles($item,$salida->id));
             }
         });
-        $this->emit("minAlert", ["titulo" => "AVISO DEL SISTEMA", "mensaje" => "TODO OK", "icono" => "success"]);
+
+        $this->envio=$salida;
+        $this->estado=2;        
+        $this->ruta=route('generaCargo', ['id' => $salida->id]);
+        $this->reset(['articulos','inspector']);
+       
         
     }
 
@@ -260,5 +261,8 @@ class PrestamoMateriales extends Component
             "estado"=>1,
             "motivo"=>"Préstamo de materiales"
         ]);        
+        return $detalleSal;
     }
+
+    
 }

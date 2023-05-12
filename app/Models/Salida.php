@@ -64,6 +64,14 @@ class Salida extends Model
         ->wherePivot('motivo', "Cambio");
     }
 
+    public function getPorPrestamoAttribute(){
+        return $this->belongsToMany(Material::class, 'detallesalida','idSalida','idMaterial')
+        ->as("detalle")
+        ->withPivot("motivo")
+        ->wherePivot('motivo',"Prestamo de Materiales");
+    }
+    
+    /*
     public function materialesPorAsigancion(){
         $materiales=new Collection();
         $gnvs=$this->porAsignacion->where("idTipoMaterial",1);
@@ -80,6 +88,42 @@ class Salida extends Model
         }
         return $materiales;
     }
+
+    public function materialesPorCambio(){
+        $materiales=new Collection();
+        $gnvs=$this->porCambio->where("idTipoMaterial",1);
+        $glps=$this->porCambio->where("idTipoMaterial",3);
+        $chips=$this->porCambio->where("idTipoMaterial",2);
+        if($gnvs->count()>0){
+            $materiales->push(["materiales"=>$gnvs,"cantidad"=>$gnvs->count(),"motivo"=>$gnvs->first()->detalle->motivo]);
+        }       
+        if($glps->count()>0){
+            $materiales->push(["materiales"=>$glps,"cantidad"=>$glps->count(),"motivo"=>$glps->first()->detalle->motivo]);
+        }
+        if($chips->count()>0){
+            $materiales->push(["materiales"=>$chips,"cantidad"=>$chips->count(),"motivo"=>$chips->first()->detalle->motivo]);
+        }
+        return $materiales;
+    }
+
+    public function materialesPorPrestamo(){
+        $materiales=new Collection();
+        $gnvs=$this->porPrestamo->where("idTipoMaterial",1);
+        $glps=$this->porPrestamo->where("idTipoMaterial",3);
+        $chips=$this->porPrestamo->where("idTipoMaterial",2);
+        if($gnvs->count()>0){
+            $materiales->push(["materiales"=>$gnvs,"cantidad"=>$gnvs->count(),"motivo"=>$gnvs->first()->detalle->motivo]);
+        }       
+        if($glps->count()>0){
+            $materiales->push(["materiales"=>$glps,"cantidad"=>$glps->count(),"motivo"=>$glps->first()->detalle->motivo]);
+        }
+        if($chips->count()>0){
+            $materiales->push(["materiales"=>$chips,"cantidad"=>$chips->count(),"motivo"=>$chips->first()->detalle->motivo]);
+        }
+        return $materiales;
+    }
+    */
+    
 
 
     public function encuentraSeries($arreglo){

@@ -114,6 +114,37 @@
                     </div>
                 </div>
             @break
+
+            @case(2)
+            <div class="rounded-xl m-4 bg-white p-8 mx-auto max-w-max shadow-lg">
+                <div class="text-center my-4">                    
+                    <i class="fas fa-check-circle fa-4x my-4 animate-bounce text-lime-300"></i>
+                    <p class="font-bold font-md text-amber-500">Asignación realizada correctamente.</p> 
+                    @if($envio)
+                        <div class="">
+                            <p> Enviado a: {{$envio->usuarioAsignado->name}}</p>
+                            <p> Fecha: {{$envio->created_at->format('d/m/Y h:i')}}</p>
+                        </div>                        
+                    @endif   
+                </div>
+                <div class="flex items-center justify-center">
+                    
+                        
+                    @if ($ruta)
+                        <a href="{{ $ruta }}" target="__blank"  rel="noreferrer"
+                            class="p-3 bg-sky-500 rounded-xl text-white text-sm hover:font-bold hover:bg-sky-700 ml-2">
+                            <i class="fas fa-file-pdf"></i>
+                            ver PDF
+                        </a>
+                    @endif
+                    <a href="{{ route('materiales.prestamo') }}"
+                            class="p-3 bg-red-500 rounded-xl text-white text-sm hover:font-bold hover:bg-red-700 ml-2">
+                            <i class="fas fa-external-link-square-alt"></i>
+                            Nuevo Prestamo                         
+                    </a>
+                </div>
+            </div>
+            @break
             
 
             @default

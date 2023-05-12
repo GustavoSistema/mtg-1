@@ -117,6 +117,30 @@
                 <li>{{$material["tipo"]}} - {{$material["cantidad"]}}</li>
             @endif
             --}}
+            @endforeach 
+
+            @foreach ($prestamos as $key=>$material)                
+                @if ($material["tipo"]=="FORMATO GNV" || $material["tipo"]=="FORMATO GLP")
+                    <li>{{$material["tipo"]}} - {{$material["cantidad"]." Unds"}} - 
+                    (
+                        @if(count($material["series"]))
+                            @if(count($material["series"])>1)
+                                @foreach ($material["series"] as $key=>$serie)
+                                    {{$serie["inicio"]." - ".$serie["final"]."/"}}
+                                @endforeach
+                                
+                            @else
+                                {{$material["series"][0]["inicio"]}} - {{$material["series"][0]["final"]}}
+                            @endif
+                        
+                        @else
+                            SIN DATOS DE SERIES
+                        @endif
+                    ) - por motivo de <strong>{{$material["motivo"]}}</strong>
+                    </li>
+                @else
+                    <li>{{$material["tipo"]}} - {{$material["cantidad"]." Unds"}}</li>
+                @endif               
             @endforeach  
 
            

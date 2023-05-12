@@ -136,7 +136,7 @@ class AgregarArticuloPrestamo extends Component
                 $temp = $this->validaSeries();
                 if ($temp->count() > 0) {
                     // $this->emit("minAlert",["titulo"=>"TODO OK","mensaje"=>"BIEN HECHO ".$temp->count(),"icono"=>"success"]); 
-                    $articulo = array("tipo" => $this->tipoM, "nombreTipo" => $this->nombreTipo, "cantidad" => $this->cantidad, "inicio" => $this->numInicio, "final" => $this->numFinal, "motivo" => $this->motivo);
+                    $articulo = array("tipo" => $this->tipoM, "nombreTipo" => $this->nombreTipo, "cantidad" => $this->cantidad, "inicio" => $this->numInicio, "final" => $this->numFinal, "motivo" =>"Prestamo de Materiales");
                     $this->emit('agregarArticulo', $articulo);
                     $this->reset(['tipoM', 'motivo', 'cantidad', 'numInicio', 'numFinal']);
                     $this->open = false;
@@ -151,7 +151,7 @@ class AgregarArticuloPrestamo extends Component
             case 2:
                 $rule = ["cantidad" => 'required|numeric|min:1|max:' . $this->stocks["CHIP"]];
                 if($this->validate($rule)){                    
-                    $articulo = array("tipo" => $this->tipoM, "nombreTipo" => $this->nombreTipo, "cantidad" => $this->cantidad, "inicio" => "N/A", "final" => "N/A", "motivo" => $this->motivo);
+                    $articulo = array("tipo" => $this->tipoM, "nombreTipo" => $this->nombreTipo, "cantidad" => $this->cantidad, "inicio" => "N/A", "final" => "N/A", "motivo" =>"Prestamo de Materiales");
                     $this->emit('agregarArticulo', $articulo);
                     $this->reset(['tipoM', 'motivo', 'cantidad', 'numInicio', 'numFinal']);
                     $this->open = false;
@@ -167,7 +167,7 @@ class AgregarArticuloPrestamo extends Component
                 $temp=$this->validaSeries();
                 if($temp->count()>0){
                    // $this->emit("minAlert",["titulo"=>"TODO OK","mensaje"=>"BIEN HECHO ".$temp->count(),"icono"=>"success"]); 
-                    $articulo= array("tipo"=>$this->tipoM,"nombreTipo"=>$this->nombreTipo,"cantidad"=>$this->cantidad,"inicio"=>$this->numInicio,"final"=>$this->numFinal,"motivo"=>$this->motivo);
+                    $articulo= array("tipo"=>$this->tipoM,"nombreTipo"=>$this->nombreTipo,"cantidad"=>$this->cantidad,"inicio"=>$this->numInicio,"final"=>$this->numFinal,"motivo"=>"Prestamo de Materiales");
                     $this->emit('agregarArticulo',$articulo);
                     $this->reset(['tipoM','motivo','cantidad','numInicio','numFinal']);
                     $this->open=false;
