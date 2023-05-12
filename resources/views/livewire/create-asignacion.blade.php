@@ -95,19 +95,58 @@
                         <x-jet-input type="number" class="w-full" wire:model="cantidad" />
                         <x-jet-input-error for="cantidad" />
                     </div>
+                    <div class="mb-4">
+                        <x-jet-label value="Motivo:" />
+                        <select wire:model="motivo"
+                            class="bg-gray-50 border-indigo-500 rounded-md outline-none  block w-full ">
+                            <option value="0">Seleccione</option>
+                            <option value="Solicitud de material">Solicitud de material</option>
+                            <option value="Cambio">Cambio</option>  
+                            <option value="Otro">Otro</option>                   
+                        </select>
+                        <x-jet-input-error for="motivo" />
+                    </div> 
                 @break
 
                 @case(3)
-                <div class="mb-4 -mr-2">
+                <div>
+                    <x-jet-label value="Grupo:" wire:loading.attr="disabled" wire:target="tipoM"/>
+                    <select wire:model="guia" class="bg-gray-50 border-indigo-500 rounded-md outline-none w-full">
+                        <option value="null">Seleccione</option>
+                        @if(count($guias))
+                        @foreach ($guias as $item)
+                            <option value="{{ $item['guia'] }}">{{ $item['guia'].' | '.$item['minimo'].' - '.$item['maximo'].' | -  ( '.$item['stock'] .' )'}}</option>
+                        @endforeach
+                        @endif
+                    </select>
+                    <x-jet-input-error for="guia"/>
+                </div>                             
+                <div>
                     <x-jet-label value="Cantidad:" />
-                    <x-jet-input type="number" class="w-full" wire:model="cantidad"/>
+                        <x-jet-input type="number" class="w-full" wire:model="cantidad" />
                     <x-jet-input-error for="cantidad" />
-                </div> 
-                @break
-                @default
-                <div class="p-4 bg-indigo-300 rounded-md my-4">
-                    <h1 class="text-center font-bold text-red-600">Selecciona un tipo de articulo</h1>
+                </div>                   
+                <div>
+                    <x-jet-label value="N° de inicio" />
+                    <x-jet-input type="number" class="w-full" wire:model="numInicio" />
+                    <x-jet-input-error for="numInicio" />
                 </div>
+                <div>
+                    <x-jet-label value="N° de Final" />
+                    <x-jet-input type="number" class="w-full" wire:model="numFinal" enable />
+                    <x-jet-input-error for="numFinal" />
+                </div>
+                 <div class="mb-4">
+                    <x-jet-label value="Motivo:" />
+                    <select wire:model="motivo"
+                        class="bg-gray-50 border-indigo-500 rounded-md outline-none  block w-full ">
+                        <option value="0">Seleccione</option>
+                        <option value="Solicitud de material">Solicitud de material</option>
+                        <option value="Cambio">Cambio</option>  
+                        <option value="Otro">Otro</option>                   
+                    </select>
+                    <x-jet-input-error for="motivo" />
+                </div> 
                    
             @endswitch
            

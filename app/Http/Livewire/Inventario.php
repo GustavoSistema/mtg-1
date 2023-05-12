@@ -10,16 +10,19 @@ use PharIo\Manifest\Author;
 class Inventario extends Component
 {
 
-    public $consumidosGnv,$disponiblesGnv,$anuladoGnv;
+    public $consumidosGnv,$disponiblesGnv,$anuladoGnv,$todos;
 
 
     public function mount(){
+        $this->todos=Material::where([
+            ['estado',3], //FORMATOS EN STOCK
+            ['idUsuario',Auth::id()],
+            ])->get();
         $this->listaStock();
     }
     
     public function render()
-    {         
-
+    {   
         return view('livewire.inventario');
     }
 

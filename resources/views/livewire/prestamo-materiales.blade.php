@@ -16,11 +16,12 @@
                             </select>
                             <x-jet-input-error for="inspector" />
                         </div> 
-                        @livewire('agregar-articulo-prestamo')                      
+                        @livewire('agregar-articulo-prestamo',["disponibles"=>$disponibles], key($disponibles->count()))            
+                               
                     </div>
                     <x-jet-input-error for="articulos" />
                     <div class="m-4">
-                        @if ($articulos)
+                        @if (count($articulos))
                             <div class="flex flex-col">
                                 <div class="overflow-x-auto sm:mx-0.5">
                                     <div class="py-2 inline-block min-w-full ">
@@ -71,7 +72,18 @@
                                                             </td>
                                                             <td
                                                                 class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                                {{ $articulo['inicio'] . ' - ' . $articulo['final'] }}
+                                                                @switch($articulo["tipo"])
+                                                                    @case(1)
+                                                                        {{ $articulo['inicio'] . ' - ' . $articulo['final'] }}
+                                                                    @break
+                                                                    @case(2)
+                                                                        N/A
+                                                                    @break
+                                                                    @case(3)
+                                                                        {{ $articulo['inicio'] . ' - ' . $articulo['final'] }}
+                                                                    @break
+                                                                    @default                                                                        
+                                                                @endswitch                                                               
                                                             </td>
                                                             <td
                                                                 class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
@@ -95,13 +107,10 @@
                         @endif
                     </div>
                     <div class="flex items-center justify-center">
-                        <button class="p-3 bg-indigo-500 rounded-xl text-white text-sm hover:font-bold hover:bg-indigo-700"
-                            wire:click="guardar">Aceptar</button>
-                            {{--
-                            <a  target="__blank"
-                                class="p-3 bg-sky-500 rounded-xl text-white text-sm hover:font-bold hover:bg-sky-700 ml-2">ver
-                                PDF</a>
-                                --}}
+                        <button class="p-3 bg-indigo-500 rounded-xl text-white text-sm hover:font-bold hover:bg-indigo-700" 
+                        wire:click="guardar" wire:loading.attribute="disabled" wire:target="guardar">
+                            Aceptar
+                        </button>                           
                     </div>
                 </div>
             @break
@@ -109,7 +118,16 @@
 
             @default
         @endswitch
-                {{var_export($stocks)}}
+                  
+                <p>TODOS: {{var_export($todo->count())}}</p>
+                <br>
+                <p>DISPONIBLES {{var_export($disponibles->count())}}</p>
+                <br>
+                <br>
+                @if(isset($seleccionados))
+                <p>SELECCIONADOS: {{var_export($seleccionados->count())}}</p>
+                @endif
+                <br>                
     </div>
     <div class="hidden w-full h-screen flex flex-col justify-center items-center bg-gray-200 " wire:loading.remove.class="hidden">     
         <div class="flex">

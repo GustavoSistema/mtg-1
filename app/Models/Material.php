@@ -51,7 +51,7 @@ class Material extends Model
                 ->select(DB::raw('grupo as guia,count(*) as stock,min(numSerie) as minimo,Max(numSerie) as maximo'))
                 ->where([
                     ['estado',1],
-                    ['idTipoMaterial',1]
+                    ['idTipoMaterial',1]//TIPO DE MATERIAL: FORMATO GNV
                     ])
                 ->groupBy('grupo')
                 ->get();
@@ -60,10 +60,10 @@ class Material extends Model
 
     public static function stockPorGruposGlp(){
         $grupos=DB::table('material')
-                ->select(DB::raw('grupo as guia,count(*) as stock'))
+                ->select(DB::raw('grupo as guia,count(*) as stock,min(numSerie) as minimo,Max(numSerie) as maximo'))
                 ->where([
                     ['estado',1],
-                    ['idTipoMaterial',3]
+                    ['idTipoMaterial',3]//TIPO DE MATERIAL: FORMATO GLP
                     ])
                 ->groupBy('grupo')
                 ->get();

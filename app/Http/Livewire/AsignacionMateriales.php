@@ -60,15 +60,19 @@ class AsignacionMateriales extends Component
                 "articulos"=>"required|array|min:1"
             ]  
         );
+
+
         $salida=Salida::create(
             [
                 "numero"=>date('dmY').Auth::id().rand(),
                 "idUsuarioSalida"=>Auth::id(),
                 "idUsuarioAsignado"=>$this->inspector,
-                //"motivo"=>"Asignación de Materiales",
+                "motivo"=>"Asignación de Materiales",
                 "estado"=>1   //se asigna estado de salida como envio             
             ]
         );  
+
+        
 
         foreach($this->articulos as $key=>$articulo){
                 $this->asignarMaterial($articulo,$salida);
@@ -111,7 +115,7 @@ class AsignacionMateriales extends Component
                 $items=$this->asignarFormatos($art,$salida);                
                 break;
             case 2:
-                $items=$this->asignarChips($art,$salida->idUsuarioAsignado);
+                $items=$this->asignarChips($art,$salida);
                 //$this->guardaDetalles($items,$salida->id);
                 break;
             case 3:
