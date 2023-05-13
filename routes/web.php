@@ -60,7 +60,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get('/Inventario',Inventario::class)->middleware('can:inventario')->name('inventario');
     Route::get('/Asignacion-de-materiales',AsignacionMateriales::class)->middleware('can:asignacion')->name('asignacion');
 
-    Route::get('/Prestamo-de-materiales',PrestamoMateriales::class)->name('materiales.prestamo');
+    Route::get('/Prestamo-de-materiales',PrestamoMateriales::class)->middleware('can:materiales.prestamo')->name('materiales.prestamo');
 
 
     Route::get('/Recepcion-de-materiales',RecepcionMateriales::class)->middleware('can:recepcion')->name('recepcion');

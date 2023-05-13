@@ -72,11 +72,7 @@
                     <div class="p-4 bg-indigo-300 rounded-md my-4">
                         <h1 class="text-center font-bold text-red-600">Selecciona un tipo de articulo</h1>
                     </div>
-            @endswitch
-            <p>DISPOS: {{var_export($disponibles->count())}}</p>
-                <div class="max-h-24 overflow-y-auto">
-                    {{var_export($disponibles)}}
-                </div>
+            @endswitch            
         </x-slot>
 
         <x-slot name="footer">

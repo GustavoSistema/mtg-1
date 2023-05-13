@@ -1,6 +1,11 @@
 <div>
     <div class="container block justify-center m-auto py-12" wire:loading.remove>
-        <h1 class="text-2xl text-center">Prestamo de materiales</h1>
+        
+       
+        <h1 class="text-3xl text-center font-bold text-indigo-600 uppercase">
+            <i class="fa-regular fa-handshake "></i>
+            Prestamo de materiales
+        </h1>
         @switch($estado)
             @case(1)
                 <div class="rounded-xl m-4 bg-white p-8 mx-auto max-w-max shadow-lg">
@@ -144,21 +149,10 @@
                     </a>
                 </div>
             </div>
-            @break
-            
+            @break           
 
             @default
-        @endswitch
-                  
-                <p>TODOS: {{var_export($todo->count())}}</p>
-                <br>
-                <p>DISPONIBLES {{var_export($disponibles->count())}}</p>
-                <br>
-                <br>
-                @if(isset($seleccionados))
-                <p>SELECCIONADOS: {{var_export($seleccionados->count())}}</p>
-                @endif
-                <br>                
+        @endswitch                 
     </div>
     <div class="hidden w-full h-screen flex flex-col justify-center items-center bg-gray-200 " wire:loading.remove.class="hidden">     
         <div class="flex">

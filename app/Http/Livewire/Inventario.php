@@ -15,7 +15,7 @@ class Inventario extends Component
 
     public function mount(){
         $this->todos=Material::where([
-            ['estado',3], //FORMATOS EN STOCK
+             //FORMATOS EN STOCK
             ['idUsuario',Auth::id()],
             ])->get();
         $this->listaStock();
@@ -27,25 +27,17 @@ class Inventario extends Component
     }
 
 
-    public function listaStock(){
-        $user=Auth::user();
-        $this->disponiblesGnv=Material::where([
-            ['estado',3], //FORMATOS EN STOCK
-            ['idUsuario',Auth::id()],
-            ['idTipoMaterial',1],
-            ])
-            ->count();
-        $this->consumidosGnv=Material::where([
-            ['estado',4], //FORMATOS CONSUMIDOS
-            ['idUsuario',Auth::id()],
-            ['idTipoMaterial',1],
-            ])
-            ->count();
-        $this->anuladoGnv=Material::where([
-            ['estado',5], //FORMATOS ANULADOS
-            ['idUsuario',Auth::id()],
-            ['idTipoMaterial',1],
-            ])
-            ->count();
+    public function listaStock(){        
+        $user=Auth::user(); 
+
+        $disGnv=$this->todos->where("idTipoMaterial",1)->where("estado",3);
+        $consuGnv=$this->todos->where("idTipoMaterial",1)->where("estado",4);
+        $anulGnv=$this->todos->where("idTipoMaterial",1)->where("estado",5);       
+        
+        $this->disponiblesGnv=$disGnv->count();
+        $this->consumidosGnv=$consuGnv->count();
+        $this->anuladoGnv=$anulGnv->count();      
     }
+
+    
 }
