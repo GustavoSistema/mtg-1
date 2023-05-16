@@ -90,7 +90,7 @@ class Prueba extends Component
            if($this->tipoServicio->id==10){
             $this->chip=$this->obtieneChip();
            }
-           
+           $this->reset(["externo"]);
         } else {
             $this->tipoServicio = null;
         }

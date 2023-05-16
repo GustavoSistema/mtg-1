@@ -53,7 +53,6 @@
 
                                 </x-file-pond>
                                 <x-jet-input-error for="imagenes" />
-
                             </div>
 
                             <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4 py-4">
@@ -162,13 +161,14 @@
                 @if ($estado)
                     @switch($estado)
                         @case('esperando')
-                            <div class="max-w-5xl m-auto  bg-white rounded-lg shadow-md dark:bg-gray-300 p-4 mt-4">
-                                <x-jet-label value="Fotos reglamentarias:" class="font-bold text-xl py-4" />
-                                <x-file-pond name="imagenes" id="imagenes" wire:model="imagenes" multiple
-                                    acceptedFileTypes="['image/*',]">
-                                </x-file-pond>
-                                <x-jet-input-error for="imagenes" />
-                            </div>
+                        <div class="max-w-5xl m-auto  bg-white rounded-lg shadow-md dark:bg-gray-300 p-4 mt-4">
+                            <x-jet-label value="Fotos reglamentarias:" class="font-bold text-xl py-4" />
+                            <x-file-pond name="imagenes" id="imagenes" wire:model="imagenes" acceptedFileTypes="['image/*',]"
+                                aceptaVarios="true">
+                            </x-file-pond>
+                            <x-jet-input-error for="imagenes" />
+                        </div>
+
                             <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4 py-4">
                                 <div class="my-2 flex flex-row justify-evenly items-center">
                                     <button wire:click="certificar" wire:loading.attr="disabled" wire.target="certificar"
@@ -296,38 +296,36 @@
             @case(8)
                 <x-formato-sugerido />
                 @if (!$certificado)
-                    <div
-                        class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4 py-4 px-8 flex flex-row justify-center items-center ">
+                    <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4 py-4 px-8 flex flex-row justify-center items-center" id="{{rand()}}">
                         <div class="w-4/6 block justify-center items-center space-x-2 md:flex">
                             @if (!$externo)
                                 <div class="flex items-center justify-center space-x-2 ">
                                     <x-jet-label value="Placa:" for="placa" />
-                                    <x-jet-input type="text" wire:model="placa" type="text" maxlength="6"
-                                        wire:keydown.enter="buscarCertificacion" />
+                                    <x-jet-input type="text" type="text" maxlength="6" wire:model="placa" wire:keydown.enter="buscarCertificacion" />
+                                    
                                 </div>
                                 <div class="pt-2 md:pt-0 flex m-auto w-full justify-center">
-                                    <button wire:click="buscarCertificacion" wire:loading.attr="disabled"
-                                        wire:target="externo"
+                                    <button wire:click="buscarCertificacion" wire:loading.attr="disabled"  wire:target="externo"
                                         class="p-2 bg-indigo-400 rounded-lg border m-auto border-indigo-300 hover:bg-indigo-500 text-white hover:text-gray-200 shadow-lg">
-                                        <i class="fas fa-search"></i>&nbsp;Buscar
+                                        <i class="fas fa-search"></i> Buscar
                                     </button>
                                 </div>
                                 <div class="md:pt-2 w-full">
                                     <x-jet-input-error for="placa" />
                                 </div>
+                                
                             @endif
                             <div class="flex items-center">
                                 <input id="checkbox-2" wire:model="externo" type="checkbox"
                                     class="accent-pink-300 border-indigo-300 focus:ring-3 focus:ring-indigo-300 h-4 w-4 rounded">
                                 <label for="checkbox-2" class="text-sm ml-3 font-medium text-gray-900">Externo</label>
-                            </div>
-                        </div>
-                    </div>
+                            </div>                            
+                        </div>                       
+                    </div>                    
                 @endif
 
                 @if ($externo)
                     @livewire('form-vehiculo', ['tipoServicio' => $tipoServicio])
-
                     <div
                         class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4 py-4 px-8 flex flex-row justify-center items-center ">
                         <div class="w-full block justify-center items-center space-x-2 md:flex">
@@ -412,36 +410,7 @@
                             </div>
                         </div>
                     @endif
-                @endif
-                {{--
-                @if (!$duplicado)
-                    <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4 py-4">
-                        <div class="my-2 flex flex-row justify-evenly items-center">
-                            <a wire:click="duplicarCertificado"
-                                class="hover:cursor-pointer border border-indigo-500 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-indigo-400 hover:bg-indigo-500 focus:outline-none rounded">
-                                <p class="text-sm font-medium leading-none text-white"><i class="far fa-copy"></i>
-                                    &nbsp;Duplicar</p>
-                            </a>
-                        </div>
-                    </div>
-                @else
-                    <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4 py-4">
-                        <div class="my-2 flex flex-row justify-evenly items-center">
-                            <a href="{{ $ruta }}" target="__blank"
-                                class="hover:cursor-pointer  focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-indigo-400 hover:bg-indigo-500 focus:outline-none rounded">
-                                <p class="text-sm font-medium leading-none text-white"><i class="far fa-eye"></i> &nbsp;Ver
-                                    Duplicado</p>
-                            </a>
-                            <a href="{{ route('servicio') }}"
-                                class="hover:cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-amber-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-red-400 hover:bg-red-500 focus:outline-none rounded">
-                                <p class="text-sm font-medium leading-none text-white">
-                                    <i class="fas fa-archive"></i>&nbsp;Finalizar
-                                </p>
-                            </a>
-                        </div>
-                    </div>
-                @endif
-                    --}}
+                @endif               
                 @if ($estado)
                     @switch($estado)
                         @case('esperando')
@@ -616,18 +585,11 @@
             @break
 
         @endswitch
-
-
-
-
-
-
-
     @endif
 
 
     {{-- Modal Busqueda de Certificaciones --}}
-    <x-jet-dialog-modal wire:model="busquedaCert">
+    <x-jet-dialog-modal wire:model="busquedaCert" >
         <x-slot name="title">
             <h1 class="text-3xl font-medium">Certificaciones</h1>
         </x-slot>
