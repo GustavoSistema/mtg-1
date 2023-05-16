@@ -9,6 +9,7 @@ use App\Models\Imagen;
 use App\Models\Taller;
 use App\Models\TipoServicio;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
@@ -95,8 +96,15 @@ class AdministracionCertificaciones extends Component
         $this->emitTo('administracion-certificaciones','render');
     }
 
-    public function delete(Certificacion $certificacion){
-           
+
+    public function cambiaEstadoDeMateriales(Collection $materiales,User $inspector){        
+        $materiales->each(function ($item, $key) use($inspector) {
+            $item->update(['estado'=>3,"ubicacion"=>"En poder de ".$inspector->name]);
+        });
+        
+    }
+
+    public function delete(Certificacion $certificacion){           
            
            if($certificacion->Hoja){
                 $certExp=CertifiacionExpediente::where('idCertificacion',$certificacion->id)->first();
@@ -111,12 +119,10 @@ class AdministracionCertificaciones extends Component
                         $expe->delete();
                     }
                 }
-               if($certificacion->Hoja->update(['estado'=>3,"ubicacion"=>"En poder de ".$certificacion->Inspector->name])){
+               
+                $this->cambiaEstadoDeMateriales($certificacion->Materiales,$certificacion->Inspector);
                 $certificacion->delete();          
-                $this->emitTo('administracion-certificaciones','render');
-               } else{
-                $this->emit("minAlert",["titulo"=>"AVISO DEL SISTEMA","mensaje"=>"Ocurrio un error al cambiar el estado de este certificado","icono"=>"warning"]);
-               }
+                            
            }else{
                 if($certificacion->delete()){
                     $this->emitTo('administracion-certificaciones','render');

@@ -162,7 +162,8 @@ class Certificacion extends Model
     }
     
     public function getChipAttribute(){
-        return $this->Vehiculo->Equipos->where('idTipoEquipo',1)->first();
+        $chip=Certificacion::find($this->attributes['id'])->Materiales->where('idTipoMaterial',2)->first();
+        return $chip;
     }
 
     public function getReductorAttribute(){
@@ -373,6 +374,39 @@ class Certificacion extends Model
             return null;
         }        
     }    
+
+    public static function certificarGnvConChip(Taller $taller,Servicio $servicio,Material $hoja,vehiculo $vehiculo,User $inspector,Material $chip){
+        $cert=Certificacion::create([
+            "idVehiculo"=>$vehiculo->id,
+            "idTaller"=>$taller->id,
+            "idInspector"=>$inspector->id,
+            "idServicio"=>$servicio->id,
+            "estado"=>1,
+            "precio"=>$servicio->precio,
+            "pagado"=>0,
+        ]);
+        if($cert){
+            //cambia el estado de la hoja a consumido
+            $hoja->update(["estado"=>4,"ubicacion"=>"En poder del cliente"]);
+
+            $chip->update(["estado"=>4,"ubicacion"=>"En poder del cliente"]);
+
+            //dd($chip);
+            //crea y guarda el servicio y material usado en esta certificacion 
+            $servM=ServicioMaterial::create([
+                "idMaterial"=>$hoja->id,
+                "idCertificacion"=>$cert->id
+            ]);
+            $servM2=ServicioMaterial::create([
+                "idMaterial"=>$chip->id,
+                "idCertificacion"=>$cert->id
+            ]);
+            //retorna el certificado
+            return $cert;
+        }else{
+            return null;
+        }        
+    }   
 
     public static function duplicarCertificadoExternoGnv(User $inspector,Vehiculo $vehiculo,Servicio $servicio,Taller $taller,Material $hoja,Duplicado $duplicado){
         $cert=Certificacion::create([

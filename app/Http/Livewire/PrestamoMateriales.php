@@ -15,7 +15,7 @@ use Livewire\Component;
 class PrestamoMateriales extends Component
 {   
     
-    public $inspectores, $inspector,$envio,$ruta;
+    public $inspectores,$inspectoresReceptores,$inspectorEmisor, $inspectorReceptor,$envio,$ruta;
     public $estado = 1;    
     public $articulos = [];
 
@@ -27,39 +27,43 @@ class PrestamoMateriales extends Component
 
     protected $listeners = ['agregarArticulo'];
 
-    public function render()
-    {
+    public function render(){
         return view('livewire.prestamo-materiales');
     }
 
-    public function mount()
-    {
+    public function mount(){
         $this->inspectores = User::role(['inspector', 'supervisor'])
             ->where('id', '!=', Auth::id())
             ->orderBy('name')->get();
-        $this->todo = Material::where([
-            ["idUsuario", Auth::id()], ["estado", 3]
-        ])->get();
-        
+            
+               
         $this->estado=1;
-        $this->disponibles = $this->todo;
+       
         $this->seleccionados = new Collection();
-
         
     }
 
-    public function agregarArticulo($articulo)
-    {
+    public function updatedInspectorEmisor($value){
+        if($value!=null){
+            $this->inspectoresReceptores = User::role(['inspector', 'supervisor'])
+            ->where('id', '!=', $value)
+            ->orderBy('name')->get();
+            $this->todo = Material::where([
+                ["idUsuario", $value], ["estado", 3]
+            ])->get();
+        }
+        $this->disponibles = $this->todo;
+    }
+
+    public function agregarArticulo($articulo){
         $tipoMat = TipoMaterial::find($articulo["tipo"]);
         $articulo["nombreTipo"] = $tipoMat->descripcion;
-
         $this->actualizaMaterialesSeleccionados($articulo);
         array_push($this->articulos, $articulo);
         $this->emit('render');
     }
 
-    public function deleteArticulo($id)
-    {
+    public function deleteArticulo($id){
         if($this->articulos[$id]["tipo"]==1 || $this->articulos[$id]["tipo"]==3){
             $formatosSeleccionados = $this->creaColeccion($this->articulos[$id]["inicio"], $this->articulos[$id]["final"]);
             $this->agregaMaterialesAdisponibles($this->buscaMateriales($formatosSeleccionados,$this->articulos[$id]["tipo"]));
@@ -109,8 +113,7 @@ class PrestamoMateriales extends Component
     }
 
 
-    public function quitaArticulosDeStock($articulo)
-    {
+    public function quitaArticulosDeStock($articulo){
         switch ($articulo["tipo"]) {
             case 1:
                 $this->quitaFormato($articulo);
@@ -223,15 +226,16 @@ class PrestamoMateriales extends Component
 
         $this->validate(
             [
-                "inspector"=>"required|numeric|min:1",                
+                "inspectorEmisor"=>"required|numeric|min:1",
+                "inspectorReceptor"=>"required|numeric|min:1",                
                 "articulos"=>"required|array|min:1"
             ]  
         );
         $salida=Salida::create(
             [
                 "numero"=>date('dmY').Auth::id().rand(),
-                "idUsuarioSalida"=>Auth::id(),
-                "idUsuarioAsignado"=>$this->inspector,
+                "idUsuarioSalida"=>$this->inspectorEmisor,
+                "idUsuarioAsignado"=>$this->inspectorReceptor,
                 "motivo"=>"Prestamo de Materiales",
                 "estado"=>1   //se asigna estado de salida como envio             
             ]
@@ -249,7 +253,7 @@ class PrestamoMateriales extends Component
         $this->envio=$salida;
         $this->estado=2;        
         $this->ruta=route('generaCargo', ['id' => $salida->id]);
-        $this->reset(['articulos','inspector']);
+        $this->reset(['articulos','inspectorEmisor','inspectorReceptor']);
        
         
     }

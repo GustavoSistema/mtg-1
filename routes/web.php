@@ -71,7 +71,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get('/Listado-Certificaciones',ListaCertificaciones::class)->middleware('can:certificaciones')->name('certificaciones');
     Route::get('/Administracion-de-certificaciones',AdministracionCertificaciones::class)->middleware('can:admin.certificaciones')->name('admin.certificaciones');
     Route::get('/Solicitud/{soliId}',VistaSolicitud::class)->name('vistaSolicitud');
+   
     Route::get('/Servicio',Prueba::class)->middleware('can:servicio')->name('servicio');
+    
     Route::get('/Solucion',Arreglando::class)->name('solucion');
     Route::get('/TalleresRevision',TallerRevision::class)->name('talleres.revision');
     Route::get('/Taller/edit/{idTaller}',EditarTaller::class)->name('editar-taller');   

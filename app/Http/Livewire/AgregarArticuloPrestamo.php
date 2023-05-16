@@ -116,21 +116,7 @@ class AgregarArticuloPrestamo extends Component
     }
 
     public function addArticulo(){
-        $temp=new Collection();
-        /*
-        $temp=$this->validaSeries();
-        if($temp->count()>0 && $temp->count()==$this->cantidad ){          
-            $articulo= array("tipo"=>$this->tipoM,"nombreTipo"=>$this->nombreTipo,"cantidad"=>$this->cantidad,"inicio"=>$this->numInicio,"final"=>$this->numFinal,"motivo"=>$this->motivo);
-            $this->emit('agregarArticulo',$articulo);
-            $this->reset(['tipoM','motivo','cantidad','numInicio','numFinal']);
-            $this->open=false;
-            $this->emit("minAlert",["titulo"=>"BUEN TRABAJO!","mensaje"=>"El articulo se añadio Correctamente","icono"=>"success"]);
-            //$this->reset(["grupo"]);
-        }else{                      
-            $this->emit("minAlert",["titulo"=>"ERROR","mensaje"=>"Las series ingresadas ya fueron agregadas o no estan en su poder","icono"=>"error"]); 
-            $this->reset(['tipoM','motivo','cantidad','numInicio','numFinal']);
-        }
-        */
+        $temp=new Collection();        
         switch ($this->tipoM) {
             case 1:                
                 $temp = $this->validaSeries();
@@ -143,7 +129,7 @@ class AgregarArticuloPrestamo extends Component
                     $this->emit("minAlert", ["titulo" => "BUEN TRABAJO!", "mensaje" => "El articulo se añadio Correctamente", "icono" => "success"]);
                     //$this->reset(["grupo"]);
                 } else {
-                    $this->emit("minAlert", ["titulo" => "ERROR", "mensaje" => "Las series ingresadas no pertenecen al grupo seleccionado o no existen ", "icono" => "error"]);
+                    $this->emit("minAlert", ["titulo" => "ERROR", "mensaje" => "Las series seleccionadas ya fueron agregadas o no estan en su poder", "icono" => "error"]);
                     $this->reset(['tipoM', 'motivo', 'cantidad', 'numInicio', 'numFinal']);
                 }
             break;
@@ -158,7 +144,7 @@ class AgregarArticuloPrestamo extends Component
                     $this->emit("minAlert", ["titulo" => "BUEN TRABAJO!", "mensaje" => "El articulo se añadio Correctamente", "icono" => "success"]);
                     //$this->reset(["grupo"]);
                 } else {
-                    $this->emit("minAlert", ["titulo" => "ERROR", "mensaje" => "Las series ingresadas no pertenecen al grupo seleccionado o no existen ", "icono" => "error"]);
+                    $this->emit("minAlert", ["titulo" => "ERROR", "mensaje" => "Ocurrio un error a la agregar CHIPS ", "icono" => "error"]);
                     $this->reset(['tipoM', 'motivo', 'cantidad', 'numInicio', 'numFinal']);
                 }
             break;
@@ -174,7 +160,7 @@ class AgregarArticuloPrestamo extends Component
                     $this->emit("minAlert",["titulo"=>"BUEN TRABAJO!","mensaje"=>"El articulo se añadio Correctamente","icono"=>"success"]);
                     //$this->reset(["grupo"]);
                 }else{
-                    $this->emit("minAlert",["titulo"=>"ERROR","mensaje"=>"Las series ingresadas no pertenecen al grupo seleccionado o no existen ","icono"=>"error"]); 
+                    $this->emit("minAlert",["titulo"=>"ERROR","mensaje"=>"Las series seleccionadas ya fueron agregadas o no estan en su poder","icono"=>"error"]); 
                     $this->reset(['tipoM','motivo','cantidad','numInicio','numFinal']);
         
                 }
@@ -187,12 +173,8 @@ class AgregarArticuloPrestamo extends Component
 
     }  
 
-    public function creaColeccion($inicio,$fin){
-        $cole= new Collection();
-        for ($i=$inicio; $i <=$fin; $i++) { 
-            $cole->push($i);
-        }
-        return $cole;
+    public function creaColeccion($inicio,$fin){       
+        return range($inicio, $fin);
     }
 
     public function validaSeries(){
@@ -205,6 +187,7 @@ class AgregarArticuloPrestamo extends Component
             }
         }           
         return $result;
+        //$result = collect();
     }
 
     

@@ -9,20 +9,36 @@
         @switch($estado)
             @case(1)
                 <div class="rounded-xl m-4 bg-white p-8 mx-auto max-w-max shadow-lg">
-                    <div class="flex flex-row">
-                        <div class="w-5/6">
-                            <x-jet-label value="Inspector:" for="Inspector" />
-                            <select wire:model="inspector"
+                    <div class="flex flex-row mb-4">
+                        <div class="w-full">
+                            <x-jet-label value="Inspector que envia:" for="Inspector" />
+                            <select wire:model="inspectorEmisor"
                                 class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full ">
                                 <option value="0">Seleccione</option>
                                 @foreach ($inspectores as $inspector)
                                     <option value="{{ $inspector->id }}" class="uppercase">{{ $inspector->name }}</option>
                                 @endforeach
                             </select>
-                            <x-jet-input-error for="inspector" />
+                            <x-jet-input-error for="inspectorEmisor" />
+                        </div>                               
+                    </div>
+                    <div class="flex flex-row">
+                        <div class="w-5/6">
+                            <x-jet-label value="Inspector que recibe:" for="Inspector" />
+                            <select wire:model="inspectorReceptor"
+                                class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full ">
+                                <option value="">Seleccione un inspector que envia</option>
+                                @if($inspectoresReceptores)
+                                    @foreach ($inspectoresReceptores as $inspecto)
+                                        <option value="{{ $inspecto->id }}" class="uppercase">{{ $inspecto->name }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                            <x-jet-input-error for="inspectorReceptor" />
                         </div> 
-                        @livewire('agregar-articulo-prestamo',["disponibles"=>$disponibles], key($disponibles->count()))            
-                               
+                        @if($disponibles)
+                            @livewire('agregar-articulo-prestamo',["disponibles"=>$disponibles], key($disponibles->count()))            
+                        @endif
                     </div>
                     <x-jet-input-error for="articulos" />
                     <div class="m-4">

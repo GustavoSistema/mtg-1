@@ -166,6 +166,11 @@
                                                 Duplicado GNV
                                             </p>
                                         @break
+                                        @case(10)
+                                            <p class="text-sm leading-none text-gray-600 ml-2 p-2 bg-green-200 rounded-full">
+                                                Conversion a GNV + chip
+                                            </p>
+                                        @break
 
                                         @default
                                             <p class="text-sm leading-none text-gray-600 ml-2">

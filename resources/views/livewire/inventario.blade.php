@@ -131,7 +131,7 @@
                 <div class="border border-indigo-400 w-full max-w-sm px-4 py-3 bg-white rounded-md shadow-md dark:bg-gray-800 dark:shadow-indigo-400">
                     <div class="flex items-center justify-between">
                         <span class="text-sm text-indigo-800 dark:text-gray-400 font-bold"> <i class="fas fa-microchip"></i> CHIPS</span>
-                        <span class="px-3 py-1 text-xs text-green-800 uppercase bg-gray-200 rounded-full dark:bg-blue-300 dark:text-blue-900">próximamente</span>
+                        <span class="px-3 py-1 text-sm text-green-800 uppercase bg-green-200 rounded-full dark:bg-blue-300 dark:text-blue-900"><i class="fa-solid fa-clipboard-check"></i></span>
                     </div>
 
                     <div class="mt-4">     
