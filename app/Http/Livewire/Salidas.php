@@ -15,7 +15,7 @@ class Salidas extends Component
     
     protected $rules=["cargando"=>"nullable"];
 
-    protected $listeners=["eliminaSalida"];
+    protected $listeners=["eliminaSalidaAsignacion","eliminaSalidaPrestamo"];
 
     public function render()
     {
@@ -45,11 +45,22 @@ class Salidas extends Component
         }        
     }
 
-    public function eliminaSalida(Salida $sal){        
+    public function eliminaSalidaAsignacion(Salida $sal){        
         
         if($sal->estado==1){
             foreach($sal->materiales as $item){
                 $item->update(["ubicacion"=>"MOTORGAS COMPANY S.A","estado"=>1]);
+            }
+        }
+        $sal->delete();
+        $this->emitTo("salidas","render");        
+        $this->emit("minAlert", ["titulo" => "AVISO DEL SISTEMA", "mensaje" => "La salida fue eliminada correctamente", "icono" => "success"]);    
+            
+    }
+    public function eliminaSalidaPrestamo(Salida $sal){       
+        if($sal->estado==1){
+            foreach($sal->materiales as $item){
+                $item->update(["ubicacion"=>"En poder de".$sal->usuarioCreador->name,"estado"=>3,"idUsuario"=>$sal->usuarioCreador->id]);
             }
         }
         $sal->delete();

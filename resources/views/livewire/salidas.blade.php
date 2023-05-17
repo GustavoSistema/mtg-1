@@ -91,6 +91,19 @@
                                                     @endif
                                                 </th>
                                                 <th class="cursor-pointer hover:font-bold hover:text-indigo-500  px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                                                    wire:click="order('motivo')">
+                                                    Motivo
+                                                    @if ($sort == 'motivo')
+                                                        @if ($direction == 'asc')
+                                                            <i class="fas fa-sort-alpha-up-alt float-right mt-0.5"></i>
+                                                        @else
+                                                            <i class="fas fa-sort-alpha-down-alt float-right mt-0.5"></i>
+                                                        @endif
+                                                    @else
+                                                        <i class="fas fa-sort float-right mt-0.5"></i>
+                                                    @endif
+                                                </th>
+                                                <th class="cursor-pointer hover:font-bold hover:text-indigo-500  px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
                                                     wire:click="order('created_at')">
                                                     Fecha de creación
                                                     @if ($sort == 'created_at')
@@ -177,13 +190,20 @@
                                                     </td>
                                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                         <div class="flex items-center">
+                                                            <p class="whitespace-no-wrap">
+                                                                {{ $item->motivo ?? "Sin datos" }}
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                        <div class="flex items-center">
                                                             <p class="whitespace-no-wrap uppercase">
                                                                 {{ $item->created_at->format('d-m-Y h:m:i a') }}
                                                             </p>
                                                         </div>
                                                     </td>
                                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                        <div class="flex items-center">
+                                                        <div class="flex items-center" id="{{rand()}}">
                                                             <a class="focus:ring-2 focus:ring-offset-2 focus:ring-gray-600 text-sm leading-none text-white py-3 px-5 bg-amber-400 rounded hover:bg-amber-600 focus:outline-none"
                                                                 target="__blank"
                                                                 href="{{ route('generaCargo', ['id' => $item->id]) }}"
@@ -203,16 +223,30 @@
                                                                 aria-label="option">
                                                                 <i class="fa-solid fa-ellipsis fa-xl"></i>
                                                             </button>
-                                                            <div x-show="menu" x-on:click.away="menu = false"
-                                                                class="dropdown-content flex flex-col  bg-white shadow w-48 absolute z-30 right-0 mt-20 mr-6">
-                                                                @if ($item->estado == 1)
-                                                                    <button
-                                                                        wire:click="$emit('deleteSalida',{{ $item->id }})"
-                                                                        class="focus:outline-none flex items-center space-x-4 focus:text-lime-400 text-xs w-full hover:bg-indigo-600 py-2 px-6 cursor-pointer hover:text-white">
-                                                                        <i class="fas fa-trash"></i>
-                                                                        <span>Cancelar envio</span>
-
-                                                                    </button>
+                                                            <div x-show="menu" x-on:click.away="menu = false" class="dropdown-content flex flex-col  bg-white shadow w-48 absolute z-30 right-0 mt-20 mr-6">
+                                                                @if ($item->estado == 1)                                                                   
+                                                                        @switch($item->motivo)
+                                                                            @case("Asignación de Materiales")
+                                                                                <button wire:click="$emit('deleteSalidaAsignacion',{{ $item->id }})"
+                                                                                    class="focus:outline-none flex items-center space-x-4 focus:text-lime-400 text-xs w-full hover:bg-indigo-600 py-2 px-6 cursor-pointer hover:text-white">
+                                                                                    <i class="fas fa-trash"></i>
+                                                                                    <span>Cancelar envio</span>
+                                                                                </button>
+                                                                            @break
+                                                                            @case("Prestamo de Materiales")
+                                                                                <button wire:click="$emit('deleteSalidaPrestamo',{{ $item->id }})"
+                                                                                    class="focus:outline-none flex items-center space-x-4 focus:text-lime-400 text-xs w-full hover:bg-indigo-600 py-2 px-6 cursor-pointer hover:text-white">
+                                                                                    <i class="fas fa-trash"></i>
+                                                                                    <span>Cancelar prestamo</span>
+                                                                                </button>
+                                                                            @break
+                                                                            @default
+                                                                                <button wire:click="$emit('deleteSalidaAsignacion',{{ $item->id }})"
+                                                                                    class="focus:outline-none flex items-center space-x-4 focus:text-lime-400 text-xs w-full hover:bg-indigo-600 py-2 px-6 cursor-pointer hover:text-white">
+                                                                                    <i class="fas fa-trash"></i>
+                                                                                    <span>Cancelar envio</span>
+                                                                                </button>                                                                            
+                                                                    @endswitch                                                                   
                                                                 @endif
                                                                 <a
                                                                     class="focus:outline-none flex items-center space-x-4  focus:text-indigo-400 text-xs w-full hover:bg-indigo-600 py-2 px-6 cursor-pointer hover:text-white">
@@ -250,34 +284,7 @@
 
             </x-custom-table>
         </div>        
-        @push('js')
-            <script>
-                Livewire.on('deleteSalida', sal => {
-                    Swal.fire({
-                        title: '¿Seguro que quieres eliminar esta salida?',
-                        text: "Luego de eliminar no se podran recuperar los datos",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#dd333f',
-                        confirmButtonText: 'Si, eliminar',
-                        cancelButtonText:'Cancelar',
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-
-                            Livewire.emitTo('salidas', 'eliminaSalida', sal);
-                            /*
-                            Swal.fire(
-                                '¡Listo!',
-                                'Salida eliminada correctamente.',
-                                'success'
-                            )
-                            */
-                        }
-                    })
-                });
-            </script>
-        @endpush
+        
     </div>
 
     <div class="hidden w-full h-screen flex flex-col justify-center items-center bg-gray-200 " wire:loading.remove.class="hidden">     
@@ -291,5 +298,60 @@
         </div>
         <div class="flex">
         </div>
-    </div>     
+    </div>    
+
+    @push('js')
+        <script>
+            Livewire.on('deleteSalidaAsignacion', sal => {
+                Swal.fire({
+                    title: '¿Seguro que quieres eliminar esta salida?',
+                    text: "Luego de eliminar no se podran recuperar los datos",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#dd333f',
+                    confirmButtonText: 'Si, eliminar',
+                    cancelButtonText:'Cancelar',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        Livewire.emitTo('salidas', 'eliminaSalidaAsignacion', sal);
+                        /*
+                        Swal.fire(
+                            '¡Listo!',
+                            'Salida eliminada correctamente.',
+                            'success'
+                        )
+                        */
+                    }
+                })
+            });
+        </script>
+        <script>
+            Livewire.on('deleteSalidaPrestamo', sal => {
+                Swal.fire({
+                    title: '¿Seguro que quieres eliminar esta salida?',
+                    text: "Luego de eliminar no se podran recuperar los datos",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#dd333f',
+                    confirmButtonText: 'Si, eliminar',
+                    cancelButtonText:'Cancelar',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        Livewire.emitTo('salidas', 'eliminaSalidaPrestamo', sal);
+                        /*
+                        Swal.fire(
+                            '¡Listo!',
+                            'Salida eliminada correctamente.',
+                            'success'
+                        )
+                        */
+                    }
+                })
+            });
+        </script>
+    @endpush
 </div>
