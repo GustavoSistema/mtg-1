@@ -31,7 +31,7 @@ class ChipPorDeterioro extends Component
         
         if($chip->update(["estado"=>4,"ubicacion"=>"En poder del cliente ".$this->nombre."/".$this->placa])){
             $this->estado="ChipConsumido";
-            dd($chip);
+            //dd($chip);
             $this->emit("minAlert", ["titulo" => "¡BUEN TRABAJO!", "mensaje" => "El chip fue consumido correctamente", "icono" => "success"]);
         }else{
             $this->emit("minAlert", ["titulo" => "AVISO DEL SISTEMA", "mensaje" => "Ocurrio un error al consumir el chip", "icono" => "warning"]);
