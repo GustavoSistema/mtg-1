@@ -16,6 +16,9 @@
                         @case(4)
                             Datos de los equipos de GLP
                             @break
+                        @case(7)
+                            Datos de los equipos de GNV
+                            @break
                         @default                            
                     @endswitch
                     

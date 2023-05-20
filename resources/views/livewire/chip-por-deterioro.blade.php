@@ -34,9 +34,7 @@
                         </p>
                     </a>
                 </div> 
-            @endif
-        
-        
+            @endif       
     @else
     <div class="rounded-lg py-4 bg-red-400 px-2  w-full text-center text-white font-semibold ">
         NO TINES CHIPS DISPONIBLES PARA REALIZAR ESTE SERVICIO.

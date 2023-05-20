@@ -5,11 +5,12 @@ namespace App\Http\Livewire;
 use App\Models\CertifiacionExpediente;
 use App\Models\Certificacion;
 use App\Models\TipoServicio;
+use Carbon\Carbon;
 use Livewire\Component;
 
 class ResumenServicios extends Component
 {
-    public $servicios,$total,$mensaje,$cantServicios;
+    public $servicios,$total,$mensaje,$cantServicios,$fecha;
 
     public array $dataset = [];
     public array $labels = [];  
@@ -17,9 +18,8 @@ class ResumenServicios extends Component
     public array $colores = [];  
     public array $bordes = [];
 
-    public function mount(){
-        $this->cantServicios=Certificacion::all()->count();
-        $this->total=Certificacion::sum("precio");   
+    public function mount(){       
+        //$this->fecha=$this->inicioFinSemana(Carbon::now()->format('d-m-Y'));
         $this->cargaDatos();
         $this->formateaChart();     
     }
@@ -52,23 +52,42 @@ class ResumenServicios extends Component
         
     }
 
-    public function cargaDatos(){        
-        /*
-        {id: 'Sales',nested: {value: 1500}},
-        {id: 'Purchases',nested: {value: 500}}
-        */
+    public function cargaDatos(){       
       $tipos=TipoServicio::all();
       $data=null;
+      $this->fecha=$this->inicioFinSemana(Carbon::now()->format('d-m-Y'));
 
       foreach($tipos as $tipo){
-        $servicios=Certificacion::tipoServicio($tipo->id)->get();
-        if($servicios->count()>0){
+        $this->servicios=Certificacion::
+            tipoServicio($tipo->id)
+            ->rangoFecha($this->fecha["fechaInicio"],$this->fecha["fechaFin"])
+            ->get();
+
+        if($this->servicios->count()>0){
             array_push($this->labels,$tipo->descripcion);
-            $cantidad=$servicios->count();
-            $monto=$servicios->sum('precio');
+            $cantidad=$this->servicios->count();
+            $monto=$this->servicios->sum('precio');
             array_push($this->data,["id"=>$tipo->descripcion.':  S/ '.$monto,"nested"=>["value"=>$cantidad]]);            
-        }
-        
+        }        
       }
+    }
+
+    public function inicioFinSemana($fecha){
+
+        $diaInicio="Monday";
+        $diaFin="Sunday";
+    
+        $strFecha = strtotime($fecha);
+    
+        $fechaInicio = date('Y-m-d',strtotime('last '.$diaInicio,$strFecha));
+        $fechaFin = date('Y-m-d',strtotime('next '.$diaFin,$strFecha));
+    
+        if(date("l",$strFecha)==$diaInicio){
+            $fechaInicio= date("Y-m-d",$strFecha);
+        }
+        if(date("l",$strFecha)==$diaFin){
+            $fechaFin= date("Y-m-d",$strFecha);
+        }
+        return Array("fechaInicio"=>$fechaInicio,"fechaFin"=>$fechaFin);
     }
 }

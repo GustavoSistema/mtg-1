@@ -9,6 +9,8 @@ use Livewire\Component;
 class FormVehiculo extends Component
 {
 
+    public $nombreDelInvocador;
+
     //VARIABLES DEL VEHICULO
     public $placa,$categoria,$marca,$modelo,$version,$anioFab,$numSerie,$numMotor,
     $cilindros,$cilindrada,$combustible,$ejes,$ruedas,$asientos,$pasajeros,
@@ -157,7 +159,13 @@ class FormVehiculo extends Component
             $this->vehiculo=$vehiculo; 
             $this->estado='cargado';                      
             $this->emit("minAlert",["titulo"=>"¡BUEN TRABAJO!","mensaje"=>'El vehículo con placa '.$vehiculo->placa.' se registro correctamente.',"icono"=>"success"]);
-            $this->emitTo('prueba','cargaVehiculo',$vehiculo->id);
+            if($this->nombreDelInvocador!=null){
+                $this->emitTo($this->nombreDelInvocador,'cargaVehiculo',$vehiculo->id);
+            }else{
+                $this->emitTo('prueba','cargaVehiculo',$vehiculo->id);
+            }
+                
+            
         }else{
             $this->emit("minAlert",["titulo"=>"AVISO DEL SISTEMA","mensaje"=>"Ocurrio un error al guardar los datos del vehículo","icono"=>"warning"]);
         }
@@ -289,7 +297,11 @@ class FormVehiculo extends Component
     public function seleccionaVehiculo(vehiculo $veh){        
         $this->vehiculo=$veh;        
         $this->estado='cargado';
-        $this->emitTo('prueba','cargaVehiculo',$veh->id);
+        if($this->nombreDelInvocador!=null){
+            $this->emitTo($this->nombreDelInvocador,'cargaVehiculo',$veh->id);
+        }else{
+            $this->emitTo('prueba','cargaVehiculo',$veh->id);
+        }
         $this->vehiculos=null;
         $this->busqueda=false;
     }

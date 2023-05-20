@@ -10,7 +10,7 @@ use Livewire\Component;
 
 class FormEquipos extends Component
 {
-
+    public $nombreDelInvocador;
     public $equipo;
     public $open=false;
     
@@ -44,8 +44,13 @@ class FormEquipos extends Component
     public function delete(Equipo $eq){        
         $eq->delete();       
         $this->emitTo('form-equipos','mount'); 
-        $this->emitTo('form-equipos','render');       
-        $this->emitTo('prueba','refrescaVehiculo');  
+        $this->emitTo('form-equipos','render');
+        if($this->nombreDelInvocador!=null){
+            $this->emitTo($this->nombreDelInvocador,'refrescaVehiculo');  
+        }else{
+            $this->emitTo('prueba','refrescaVehiculo');  
+        }       
+       
         $this->emit("minAlert",["titulo"=>"BUEN TRABAJO!","mensaje"=>"Eliminaste un item de tu lista de equipos","icono"=>"success",]); 
     }
 

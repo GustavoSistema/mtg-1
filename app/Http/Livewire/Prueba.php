@@ -42,14 +42,14 @@ class Prueba extends Component
     //variables del certi
     public $vehiculo;
 
+    protected $rules=["placa"=>"required|min:3|max:7"];
+
     public function mount()
     {
         $this->talleres = Taller::all()->sortBy('nombre');
         $this->estado = "esperando";
         //$this->certificacion=new Certificacion();
     }
-
-
 
     protected $listeners = ['cargaVehiculo' => 'carga', "refrescaVehiculo" => "refrescaVe"];
 
@@ -193,7 +193,7 @@ class Prueba extends Component
 
     public function buscarCertificacion()
     {
-        $this->validate(['placa' => 'required|min:3|max:6']);
+        $this->validate(['placa' => 'required|min:3|max:7']);
 
         //implementar un switch o if else segun el servicio
         $certis = Certificacion::PlacaVehiculo($this->placa)

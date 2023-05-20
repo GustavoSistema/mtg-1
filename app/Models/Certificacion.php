@@ -86,8 +86,7 @@ class Certificacion extends Model
         }
     }
 
-    public function scopeIdInspector(Builder $query, string $search): void
-    {   
+    public function scopeIdInspector(Builder $query, string $search): void{   
         if($search){
             $query->where('idInspector', $search);
         }

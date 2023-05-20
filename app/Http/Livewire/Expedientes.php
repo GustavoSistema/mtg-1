@@ -172,10 +172,11 @@ class Expedientes extends Component
     public function actualizar(){       
         
         $this->validate();        
+        
         if(count($this->fotosnuevas)>0){
             foreach($this->fotosnuevas as $key=>$fn){
                 $file_sa= new imagen();
-                $file_sa->nombre=$this->expediente->placa.'-foto'.($key+1).$this->identificador.'-'.$this->expediente->certificado;
+                $file_sa->nombre=trim($this->expediente->placa).'-foto'.($key+1).$this->identificador.'-'.$this->expediente->certificado;
                 $file_sa->extension=$fn->extension();
                 $file_sa->ruta = $fn->storeAs('public/expedientes',$file_sa->nombre.'.'.$fn->extension());
                 $file_sa->Expediente_idExpediente=$this->expediente->id;
@@ -191,7 +192,7 @@ class Expedientes extends Component
 
         foreach($this->documentosnuevos as $key=>$file){
             $file_save= new imagen();
-            $file_save->nombre=$this->expediente->placa.'-doc'.($key+1).$this->identificador.'-'.$this->expediente->certificado;
+            $file_save->nombre=trim($this->expediente->placa).'-doc'.($key+1).$this->identificador.'-'.$this->expediente->certificado;
             $file_save->extension=$file->extension();
             $file_save->ruta = $file->storeAs('public/expedientes',$file_save->nombre.'.'.$file->extension());
             $file_save->Expediente_idExpediente=$this->expediente->id;

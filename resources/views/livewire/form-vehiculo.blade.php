@@ -14,14 +14,12 @@
     @endswitch
    
     @if($vehiculo)
-        @livewire('form-equipos',['vehiculo'=>$vehiculo,"tipoServicio"=>$tipoServicio])
+        @livewire('form-equipos',['vehiculo'=>$vehiculo,"tipoServicio"=>$tipoServicio,"nombreDelInvocador"=>$nombreDelInvocador])
     @endif
 
     <x-jet-dialog-modal wire:model="busqueda">
         <x-slot name="title">
-
             <h1 class="text-3xl font-medium">vehículos</h1>
-
         </x-slot>
         <x-slot name="content">
             @if ($vehiculos)

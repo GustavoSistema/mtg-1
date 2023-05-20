@@ -3,21 +3,18 @@
         <div class="sm:px-6 w-full pt-12 pb-4" >
             <x-custom-table>
                 <x-slot name="titulo">
-                    <h2 class="text-indigo-600 font-bold text-3xl uppercase">
-                        <i class="fa-solid fa-truck-fast fa-xl text-indigo-600"></i>
-                        &nbsp;Salida de materiales
+                    <h2 class="text-indigo-600 font-bold text-3xl uppercase">                        
+                        <i class="fa-solid fa-file-circle-question fa-xl text-indigo-600"></i>
+                        &nbsp;Certificaciones pendientes
                     </h2>                    
                 </x-slot>
 
                 <x-slot name="btnAgregar" class="mt-6 ">
-                    <a class="bg-indigo-500 px-6  py-4 rounded-md text-white font-semibold tracking-wide cursor-pointer"
-                        href="{{ route('asignacion') }}">
-                        Nueva Asignación &nbsp;<i class="fas fa-plus"></i>
-                    </a>
+                    
                 </x-slot>
 
                 <x-slot name="contenido">
-                    @if (count($salidas))
+                    @if (count($certis))
                         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                             <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
                                 <div class="overflow-x-auto">
@@ -38,9 +35,9 @@
                                                     @endif
                                                 </th>
                                                 <th class="cursor-pointer hover:font-bold hover:text-indigo-500  px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                                    wire:click="order('numero')">
-                                                    Numero
-                                                    @if ($sort == 'numero')
+                                                    wire:click="order('idInspector')">
+                                                    Inspector
+                                                    @if ($sort == 'idInspector')
                                                         @if ($direction == 'asc')
                                                             <i class="fas fa-sort-alpha-up-alt float-right mt-0.5"></i>
                                                         @else
@@ -51,9 +48,9 @@
                                                     @endif
                                                 </th>
                                                 <th class="cursor-pointer hover:font-bold hover:text-indigo-500  px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                                    wire:click="order('idUsuarioSalida')">
-                                                    Creado por
-                                                    @if ($sort == 'idUsuarioSalida')
+                                                    wire:click="order('idVehiculo')">
+                                                    Placa
+                                                    @if ($sort == 'idVehiculo')
                                                         @if ($direction == 'asc')
                                                             <i class="fas fa-sort-alpha-up-alt float-right mt-0.5"></i>
                                                         @else
@@ -63,20 +60,7 @@
                                                         <i class="fas fa-sort float-right mt-0.5"></i>
                                                     @endif
                                                 </th>
-
-                                                <th class="cursor-pointer hover:font-bold hover:text-indigo-500  px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                                    wire:click="order('idUsuarioAsignado')">
-                                                    Asignado a
-                                                    @if ($sort == 'idUsuarioAsignado')
-                                                        @if ($direction == 'asc')
-                                                            <i class="fas fa-sort-alpha-up-alt float-right mt-0.5"></i>
-                                                        @else
-                                                            <i class="fas fa-sort-alpha-down-alt float-right mt-0.5"></i>
-                                                        @endif
-                                                    @else
-                                                        <i class="fas fa-sort float-right mt-0.5"></i>
-                                                    @endif
-                                                </th>
+                                                
                                                 <th class="cursor-pointer hover:font-bold hover:text-indigo-500  px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
                                                     wire:click="order('estado')">
                                                     Estado
@@ -89,20 +73,7 @@
                                                     @else
                                                         <i class="fas fa-sort float-right mt-0.5"></i>
                                                     @endif
-                                                </th>
-                                                <th class="cursor-pointer hover:font-bold hover:text-indigo-500  px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                                    wire:click="order('motivo')">
-                                                    Motivo
-                                                    @if ($sort == 'motivo')
-                                                        @if ($direction == 'asc')
-                                                            <i class="fas fa-sort-alpha-up-alt float-right mt-0.5"></i>
-                                                        @else
-                                                            <i class="fas fa-sort-alpha-down-alt float-right mt-0.5"></i>
-                                                        @endif
-                                                    @else
-                                                        <i class="fas fa-sort float-right mt-0.5"></i>
-                                                    @endif
-                                                </th>
+                                                </th>                                                
                                                 <th class="cursor-pointer hover:font-bold hover:text-indigo-500  px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
                                                     wire:click="order('created_at')">
                                                     Fecha de creación
@@ -115,11 +86,7 @@
                                                     @else
                                                         <i class="fas fa-sort float-right mt-0.5"></i>
                                                     @endif
-                                                </th>
-                                                <th
-                                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                                    Cargo
-                                                </th>
+                                                </th>                                                
                                                 <th
                                                     class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                     Acciones
@@ -127,7 +94,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($salidas as $item)
+                                            @foreach ($certis as $item)
                                                 <tr>
                                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                         <div class="flex items-center">
@@ -138,46 +105,32 @@
                                                     </td>
                                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                         <div class="flex items-center">
-                                                            <p class="text-slate-900 font-semibold whitespace-no-wrap">
-                                                                {{ $item->numero }}
-                                                            </p>
-                                                        </div>
-                                                    </td>
-                                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                        <div class="flex items-center">
                                                             <p class="whitespace-no-wrap">
-                                                                {{ $item->usuarioCreador->name }}
+                                                                {{ $item->Inspector->name }}
                                                             </p>
                                                         </div>
                                                     </td>
                                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                         <div class="flex items-center">
-                                                            <p class="whitespace-no-wrap">
-                                                                {{ $item->usuarioAsignado->name }}
+                                                            <p class="p-2 border  rounded-md font-black text-md">
+                                                                {{ $item->Vehiculo->placa}}
                                                             </p>
                                                         </div>
-                                                    </td>
+                                                    </td>                                                    
                                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                        <div class="flex items-center">
+                                                        <div class="flex items-center justify-center">
                                                             @switch($item->estado)
                                                                 @case(1)
                                                                     <p
-                                                                        class="text-xs rounded-full leading-none p-1 font-bold text-blue-700 bg-blue-200">
-                                                                        En envio
+                                                                        class="text-xs rounded-full leading-none p-1 font-bold text-blue-700 bg-blue-200 ">
+                                                                        Pendiente
                                                                     </p>
                                                                 @break
 
                                                                 @case(2)
                                                                     <p
-                                                                        class="text-xs rounded-full leading-none p-1 font-bold text-white bg-red-400">
-                                                                        Rechazado
-                                                                    </p>
-                                                                @break
-
-                                                                @case(3)
-                                                                    <p
-                                                                        class="text-xs rounded-full leading-none p-1 font-bold text-green-700 bg-green-200">
-                                                                        Recepcionado
+                                                                        class="text-xs rounded-full leading-none p-1 font-bold text-green-600 bg-green-200">
+                                                                        Realizada
                                                                     </p>
                                                                 @break
 
@@ -187,31 +140,14 @@
                                                                     </p>
                                                             @endswitch
                                                         </div>
-                                                    </td>
-                                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                        <div class="flex items-center">
-                                                            <p class="whitespace-no-wrap">
-                                                                {{ $item->motivo ?? "Sin datos" }}
-                                                            </p>
-                                                        </div>
-                                                    </td>
+                                                    </td>                                                    
                                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                         <div class="flex items-center">
                                                             <p class="whitespace-no-wrap uppercase">
                                                                 {{ $item->created_at->format('d-m-Y h:m:i a') }}
                                                             </p>
                                                         </div>
-                                                    </td>
-                                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                        <div class="flex items-center" id="{{rand()}}">
-                                                            <a class="focus:ring-2 focus:ring-offset-2 focus:ring-gray-600 text-sm leading-none text-white py-3 px-5 bg-amber-400 rounded hover:bg-amber-600 focus:outline-none"
-                                                                target="__blank"
-                                                                href="{{ route('generaCargo', ['id' => $item->id]) }}"
-                                                                rel="noopener noreferrer">Ver cargo <i
-                                                                    class="fas fa-file-pdf"></i>
-                                                            </a>
-                                                        </div>
-                                                    </td>
+                                                    </td>                                                    
                                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                         <div class="flex items-center justify-center"
                                                             x-data="{ menu: false }">
@@ -224,34 +160,17 @@
                                                                 <i class="fa-solid fa-ellipsis fa-xl"></i>
                                                             </button>
                                                             <div x-show="menu" x-on:click.away="menu = false" class="dropdown-content flex flex-col  bg-white shadow w-48 absolute z-30 right-0 mt-20 mr-6">
-                                                                @if ($item->estado == 1)                                                                   
-                                                                        @switch($item->motivo)
-                                                                            @case("Asignación de Materiales")
-                                                                                <button wire:click="$emit('deleteSalidaAsignacion',{{ $item->id }})"
-                                                                                    class="focus:outline-none flex items-center space-x-4 focus:text-lime-400 text-xs w-full hover:bg-indigo-600 py-2 px-6 cursor-pointer hover:text-white">
-                                                                                    <i class="fas fa-trash"></i>
-                                                                                    <span>Cancelar envio</span>
-                                                                                </button>
-                                                                            @break
-                                                                            @case("Prestamo de Materiales")
-                                                                                <button wire:click="$emit('deleteSalidaPrestamo',{{ $item->id }})"
-                                                                                    class="focus:outline-none flex items-center space-x-4 focus:text-lime-400 text-xs w-full hover:bg-indigo-600 py-2 px-6 cursor-pointer hover:text-white">
-                                                                                    <i class="fas fa-trash"></i>
-                                                                                    <span>Cancelar prestamo</span>
-                                                                                </button>
-                                                                            @break
-                                                                            @default
-                                                                                <button wire:click="$emit('deleteSalidaAsignacion',{{ $item->id }})"
-                                                                                    class="focus:outline-none flex items-center space-x-4 focus:text-lime-400 text-xs w-full hover:bg-indigo-600 py-2 px-6 cursor-pointer hover:text-white">
-                                                                                    <i class="fas fa-trash"></i>
-                                                                                    <span>Cancelar envio</span>
-                                                                                </button>                                                                            
-                                                                    @endswitch                                                                   
+                                                                @if ($item->estado == 1)                                                                  
+                                                                    <button wire:click="certificar({{$item->id}})"
+                                                                        class="focus:outline-none flex items-center space-x-4 focus:text-lime-400 text-xs w-full hover:bg-indigo-600 py-2 px-6 cursor-pointer hover:text-white">
+                                                                        <i class="fa-solid fa-file-signature"></i>
+                                                                        <span>Certificar</span>
+                                                                    </button>                                                                                                                                            
                                                                 @endif
                                                                 <a
                                                                     class="focus:outline-none flex items-center space-x-4  focus:text-indigo-400 text-xs w-full hover:bg-indigo-600 py-2 px-6 cursor-pointer hover:text-white">
-                                                                    <i class="fas fa-eye"></i>
-                                                                    <span>Ver detalle</span>
+                                                                    <i class="fas fa-trash"></i>
+                                                                    <span>Eliminar</span>
                                                                 </a>
                                                             </div>
                                                         </div>
@@ -264,12 +183,12 @@
                             </div>
                         </div>
 
-                        @if ($salidas->hasPages())
+                        @if ($certis->hasPages())
                             <div>
                                 <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-2 overflow-x-auto">
                                     <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
                                         <div class="px-5 py-5 bg-white border-t">
-                                            {{ $salidas->links() }}
+                                            {{ $certis->links() }}
                                         </div>
                                     </div>
                                 </div>
@@ -298,60 +217,5 @@
         </div>
         <div class="flex">
         </div>
-    </div>    
-
-    @push('js')
-        <script>
-            Livewire.on('deleteSalidaAsignacion', sal => {
-                Swal.fire({
-                    title: '¿Seguro que quieres eliminar esta salida?',
-                    text: "Luego de eliminar no se podran recuperar los datos",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#dd333f',
-                    confirmButtonText: 'Si, eliminar',
-                    cancelButtonText:'Cancelar',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-
-                        Livewire.emitTo('salidas', 'eliminaSalidaAsignacion', sal);
-                        /*
-                        Swal.fire(
-                            '¡Listo!',
-                            'Salida eliminada correctamente.',
-                            'success'
-                        )
-                        */
-                    }
-                })
-            });
-        </script>
-        <script>
-            Livewire.on('deleteSalidaPrestamo', sal => {
-                Swal.fire({
-                    title: '¿Seguro que quieres eliminar esta salida?',
-                    text: "Luego de eliminar no se podran recuperar los datos",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#dd333f',
-                    confirmButtonText: 'Si, eliminar',
-                    cancelButtonText:'Cancelar',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-
-                        Livewire.emitTo('salidas', 'eliminaSalidaPrestamo', sal);
-                        /*
-                        Swal.fire(
-                            '¡Listo!',
-                            'Salida eliminada correctamente.',
-                            'success'
-                        )
-                        */
-                    }
-                })
-            });
-        </script>
-    @endpush
+    </div>  
 </div>

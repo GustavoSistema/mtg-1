@@ -215,7 +215,16 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                                         <li class="transition-colors duration-150">
                                             <x-jet-responsive-nav-link class="text-sm" href="{{ route('certificaciones') }}"
                                                 :active="request()->routeIs('certificaciones')">
-                                                Listado de Servicios
+                                                Listado de Certificaciones
+                                            </x-jet-responsive-nav-link>
+                                        </li>
+                                    @endcan
+
+                                    @can('certificaciones.pendientes')
+                                        <li class="transition-colors duration-150">
+                                            <x-jet-responsive-nav-link class="text-sm" href="{{ route('certificaciones.pendientes') }}"
+                                                :active="request()->routeIs('certificaciones.pendientes')">
+                                                Certificaciones pendientes
                                             </x-jet-responsive-nav-link>
                                         </li>
                                     @endcan

@@ -24,6 +24,7 @@ use App\Http\Livewire\AdminRoles;
 use App\Http\Livewire\Arreglando;
 use App\Http\Livewire\EditarTaller;
 use App\Http\Livewire\ListaCertificaciones;
+use App\Http\Livewire\ListaCertificacionesPendientes;
 use App\Http\Livewire\ListaServicios;
 use App\Http\Livewire\PrestamoMateriales;
 use App\Http\Livewire\Prueba;
@@ -70,6 +71,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get('/dashboard', function (){return view('dashboard');})->name('dashboard');
     Route::get('/Listado-Certificaciones',ListaCertificaciones::class)->middleware('can:certificaciones')->name('certificaciones');
     Route::get('/Administracion-de-certificaciones',AdministracionCertificaciones::class)->middleware('can:admin.certificaciones')->name('admin.certificaciones');
+    
+    Route::get('/certificados-pendientes',ListaCertificacionesPendientes::class)->middleware('can:certificaciones.pendientes')->name('certificaciones.pendientes');
+   
     Route::get('/Solicitud/{soliId}',VistaSolicitud::class)->name('vistaSolicitud');
    
     Route::get('/Servicio',Prueba::class)->middleware('can:servicio')->name('servicio');

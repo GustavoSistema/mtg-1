@@ -56,25 +56,25 @@
                                     @switch($certificacion->Servicio->tipoServicio->id)
                                         @case(1)
                                             <p class="text-sm leading-none text-gray-600 ml-2 p-2 bg-green-200 rounded-full">
-                                                Conversion a GNV
+                                                Conversión a GNV
                                             </p>
                                         @break
 
                                         @case(2)
                                             <p class="text-sm leading-none text-gray-600 ml-2 p-2 bg-green-200 rounded-full">
-                                                Revision anual GNV
+                                                Revisión anual GNV
                                             </p>
                                         @break
 
                                         @case(3)
                                             <p class="text-sm leading-none text-gray-600 ml-2 p-2 bg-orange-200 rounded-full">
-                                                Conversion a GLP
+                                                Conversión a GLP
                                             </p>
                                         @break
 
                                         @case(4)
                                             <p class="text-sm leading-none text-gray-600 ml-2 p-2 bg-orange-200 rounded-full">
-                                                Revision anual GLP
+                                                Revisión anual GLP
                                             </p>
                                         @break
 
@@ -86,7 +86,17 @@
 
                                         @case(9)
                                             <p class="text-sm leading-none text-gray-600 ml-2 p-2 bg-orange-200 rounded-full">
-                                                Duplicado GNV
+                                                Duplicado GLP
+                                            </p>
+                                        @break
+                                        @case(10)
+                                            <p class="text-sm leading-none text-gray-600 ml-2 p-2 bg-green-200 rounded-full">
+                                                Conversión a GNV + Chip
+                                            </p>
+                                        @break
+                                        @case(11)
+                                            <p class="text-sm leading-none text-gray-600 ml-2 p-2 bg-green-200 rounded-full">
+                                                Chip por deterioro
                                             </p>
                                         @break
 
@@ -95,7 +105,6 @@
                                                 No se encontro datos
                                             </p>
                                     @endswitch
-
                                 </div>
                             </td>
                             <td class="pl-2">

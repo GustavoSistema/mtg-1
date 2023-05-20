@@ -5,7 +5,7 @@
     <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4">
         <div class=" bg-indigo-200 rounded-lg py-4 px-2 grid grid-cols-1 gap-8 sm:grid-cols-2">
             <div>
-                <x-jet-label value="Taller:" for="serv" />
+                <x-jet-label value="Taller:" />
                 <select wire:model="taller"
                     class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full ">
                     <option value="">Seleccione</option>
@@ -16,7 +16,7 @@
                 <x-jet-input-error for="taller" />
             </div>
             <div>
-                <x-jet-label value="Servicio:" for="serv" />
+                <x-jet-label value="Servicio:" />
                 <select wire:model="servicio" class="bg-gray-50 border-indigo-500 rounded-md outline-none block w-full "
                     wire:loading.attr="disabled" wire:target="taller">
                     @if (isset($servicios))
@@ -33,10 +33,8 @@
 
         </div>
     </div>
+    
     @if ($servicio)
-
-
-
         @switch($tipoServicio->id)
             @case(1)
                 {{-- DIV PARA EL NUMERO DE FORMATO SUGERIDO --}}
@@ -273,8 +271,7 @@
                 {{--
                 @livewire('form-vehiculo', ['tipoServicio' => $tipoServicio])
                 --}}
-                <div
-                    class="max-w-5xl m-auto bg-indigo-300 rounded-lg shadow-md my-4 py-4 px-8 flex flex-row justify-center items-center">
+                <div class="max-w-5xl m-auto bg-indigo-300 rounded-lg shadow-md my-4 py-4 px-8 flex flex-row justify-center items-center">
                     <div class="items-center">
                         <h1 class="font-bold">Este servicio aún no esta disponible pero estamos trabajando en ello. 🤝</h1>
                     </div>
@@ -293,16 +290,21 @@
                 </div>
             @break
 
+            @case(7)            
+            @livewire('activacion-de-chips', ['tipoServicio' => $tipoServicio,'idTaller'=>$this->taller])
+                
+            @break
+
             @case(8)
                 <x-formato-sugerido />
                 @if (!$certificado)
-                    <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4 py-4 px-8 flex flex-row justify-center items-center" id="{{rand()}}">
+                    <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4 py-4 px-8 flex flex-row justify-center items-center" id="1215488">
                         <div class="w-4/6 block justify-center items-center space-x-2 md:flex">
                             @if (!$externo)
                                 <div class="flex items-center justify-center space-x-2 ">
                                     <x-jet-label value="Placa:" for="placa" />
-                                    <x-jet-input type="text" type="text" maxlength="6" wire:model="placa" wire:keydown.enter="buscarCertificacion" />
-                                    
+                                    <x-jet-input type="text" maxlength="7" wire:model="placa" wire:keydown.enter="buscarCertificacion" />
+                                    <x-jet-input-error for="placa" />
                                 </div>
                                 <div class="pt-2 md:pt-0 flex m-auto w-full justify-center">
                                     <button wire:click="buscarCertificacion" wire:loading.attr="disabled"  wire:target="externo"
@@ -317,7 +319,7 @@
                             @endif
                             <div class="flex items-center">
                                 <input id="checkbox-2" wire:model="externo" type="checkbox"
-                                    class="accent-pink-300 border-indigo-300 focus:ring-3 focus:ring-indigo-300 h-4 w-4 rounded">
+                                    class="accent-pink-300 border-indigo-300 focus:ring-3 focus:ring-indigo-300 h-4 w-4 rounded"/>
                                 <label for="checkbox-2" class="text-sm ml-3 font-medium text-gray-900">Externo</label>
                             </div>                            
                         </div>                       
