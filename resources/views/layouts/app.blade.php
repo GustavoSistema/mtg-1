@@ -109,7 +109,8 @@
     
     <script>
         Livewire.on('updateChart', data => {
-            chart1.data = data;
+            const chart1=document.getElementById(data["nombre"]);
+            chart1.data = data["data"];
             chart1.update();
         });
     </script>
