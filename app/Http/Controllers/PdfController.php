@@ -88,6 +88,7 @@ class PdfController extends Controller
             $certificacion=Certificacion::find($idCert);
             //$hoja=$certificacion->Materiales->where('idTipoMaterial',1)->first();    
             $hoja=$certificacion->Hoja;        
+            //dd($certificacion->Chip);
             $data=[
                 'hoja'=>$hoja,
                 "vehiculo"=>$certificacion->Vehiculo,
@@ -96,7 +97,7 @@ class PdfController extends Controller
                 "taller"=>$certificacion->taller,
                 "fecha"=>$certificacion->created_at->format('d/m/Y'), 
                 "reductor"=>$certificacion->Reductor,
-                "chip"=>$certificacion->Chip,
+                "chip"=>$certificacion->Chip,                
                 "cilindros"=>$certificacion->Cilindros,
                 "certificacion"=>$certificacion,               
             ];
@@ -216,9 +217,9 @@ class PdfController extends Controller
                     $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
                     $fechaCert=$certificacion->created_at;
                     $fecha=$fechaCert->format('d').' días del mes de '.$meses[$fechaCert->format('m')-1].' del '.$fechaCert->format('Y').'.';              
-                    $chip=$certificacion->vehiculo->Equipos->where("idTipoEquipo",1)->first();           
-                    $equipos=$certificacion->vehiculo->Equipos->where("idTipoEquipo","!=",1)->sortBy("idTipoEquipo");                     
-                    //dd($equipos); 
+                    $chip=$certificacion->Vehiculo->Equipos->where("idTipoEquipo",1)->first();           
+                    $equipos=$certificacion->Vehiculo->Equipos->where("idTipoEquipo","!=",1)->sortBy("idTipoEquipo");                     
+                    //dd($chip); 
                     $hoja=$certificacion->Materiales->where('idTipoMaterial',1)->first();
                     $data=[
                     "fecha"=>$fecha,

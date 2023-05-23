@@ -29,6 +29,8 @@ class ListaCertificacionesPendientes extends Component
     {
         $certis=CertificacionPendiente::
         placaVehiculo($this->search)
+        ->idInspector(Auth::id())
+        //->placaVehiculo($this->search)
         ->orderBy($this->sort,$this->direction)
         ->paginate($this->cant);;
         return view('livewire.lista-certificaciones-pendientes',compact("certis"));
@@ -53,6 +55,7 @@ class ListaCertificacionesPendientes extends Component
                 "precio"=>$precio,
             ]);                        
             //$this->guardarFotos($expe);
+            $certi->update(["idCertificacion"=>$certif->id]);
             $certEx=CertifiacionExpediente::create(["idCertificacion"=>$certif->id,"idExpediente"=>$expe->id]);
             guardarArchivosEnExpediente::dispatch($expe,$certif);
             $this->cambiaEstado($certi);
@@ -75,5 +78,19 @@ class ListaCertificacionesPendientes extends Component
         ])->orderBy('numSerie', 'asc')
           ->first();        
         return $formato;
+    }
+
+    public function order($sort)
+    {
+        if($this->sort=$sort){
+            if($this->direction=='desc'){
+                $this->direction='asc';
+            }else{
+                $this->direction='desc';
+            }
+        }else{
+            $this->sort=$sort;
+            $this->direction='asc';
+        }        
     }
 }

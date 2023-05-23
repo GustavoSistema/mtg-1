@@ -160,10 +160,13 @@ class Certificacion extends Model
         
     }
     
-    public function getChipAttribute(){
+    public function getChipMaterialAttribute(){
         $chip=Certificacion::find($this->attributes['id'])->Materiales->where('idTipoMaterial',2)->first();
         return $chip;
     }
+    public function getChipAttribute(){
+        return $this->Vehiculo->Equipos->where('idTipoEquipo',1)->first();
+    }  
 
     public function getReductorAttribute(){
         return $this->Vehiculo->Equipos->where('idTipoEquipo',2)->first();

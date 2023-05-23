@@ -19,6 +19,7 @@ class CertificacionPendiente extends Model
     'idServicio',
     'idInspector',
     'estado',
+    'idCertificacion',
     'pagado',    
     'created_at',
     'updated_at',        
@@ -46,5 +47,11 @@ class CertificacionPendiente extends Model
             $query->where('placa', 'like', '%'.$search.'%');
         });
         }
+    }
+    public function scopeIdInspector(Builder $query, string $search): void{   
+        if($search){
+            $query->where('idInspector', $search);
+        }
+       
     }
 }
