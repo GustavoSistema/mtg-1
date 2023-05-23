@@ -1,9 +1,7 @@
 <div>
     @livewire('form-vehiculo', ['tipoServicio' => $tipoServicio,"nombreDelInvocador"=>"activacion-de-chips"])
 
-    <div class="my-4 w-full text-center">
-        {{var_export($idTaller)}}
-    </div>
+    
 
     <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4 py-4">
         <div class="my-2 flex flex-row justify-evenly items-center">

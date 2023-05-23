@@ -1,5 +1,5 @@
 <div class="bg-gray-200 bg-opacity-25 flex flex-col items-center justify-center px-4">
-    <div class="container block justify-center m-auto py-12" wire:loading.remove>
+    <div class="container block justify-center m-auto " wire:loading.remove>
         @if (isset($servicios))
             <div class="text-center mb-8 mt-2">
                 <div class="grid lg:gap-x-12 lg:grid-cols-3">
