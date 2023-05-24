@@ -10,9 +10,7 @@
             </x-slot>
 
             <x-slot name="btnAgregar">
-                <button  class="bg-indigo-600 px-6 py-4 rounded-md text-white font-semibold tracking-wide cursor-pointer"> 
-                    Nuevo rol &nbsp;<i class="fas fa-plus"></i>
-               </button>
+                @livewire('create-rol')
             </x-slot>
             
             <x-slot name="contenido">

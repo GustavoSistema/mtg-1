@@ -179,6 +179,7 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
 
                     {{--                     OPCIONES PARA SERVICIOS                    --}}
                     @hasanyrole('inspector|administrador|supervisor')
+                    
                         <li class="text-gray-50 py-3 pl-3 pr-4 hover:bg-gray-600 focus:bg-gray-600 rounded"
                             x-data="{ Open: false }">
                             <div class="inline-flex  items-center justify-between w-full transition-colors duration-150 text-gray-500  cursor-pointer"
@@ -240,6 +241,7 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
 
                             </div>
                         </li>
+
                     @endhasanyrole
 
                     {{--                     OPCIONES PARA EXPEDIENTES                  --}}

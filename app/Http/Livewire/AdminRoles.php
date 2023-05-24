@@ -23,6 +23,8 @@ class AdminRoles extends Component
 
     ];
 
+    protected $listeners=["render"];
+
     public function mount(){
         $this->direction='desc';
         $this->sort='id';       
