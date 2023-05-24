@@ -213,7 +213,7 @@ class PdfController extends Controller
         if(Certificacion::findOrFail($id)){
             $certificacion=Certificacion::find($id);
             if($certificacion->Servicio->tipoServicio->id){
-                if($certificacion->Servicio->tipoServicio->id==1){
+                if($certificacion->Servicio->tipoServicio->id==1 || $certificacion->Servicio->tipoServicio->id==10){
                     $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
                     $fechaCert=$certificacion->created_at;
                     $fecha=$fechaCert->format('d').' días del mes de '.$meses[$fechaCert->format('m')-1].' del '.$fechaCert->format('Y').'.';              
@@ -250,8 +250,7 @@ class PdfController extends Controller
 
     public function descargarPdfInicialGnv($id){
         if(Certificacion::findOrFail($id)){
-            $certificacion=Certificacion::find($id);
-           
+            $certificacion=Certificacion::find($id);           
                     $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
                     $fechaCert=$certificacion->created_at;
                     $fecha=$fechaCert->format('d').' días del mes de '.$meses[$fechaCert->format('m')-1].' del '.$fechaCert->format('Y').'.';              
@@ -594,7 +593,7 @@ class PdfController extends Controller
         if(Certificacion::findOrFail($id)){
             $certificacion=Certificacion::find($id);
             if($certificacion->Servicio->tipoServicio->id){
-                if($certificacion->Servicio->tipoServicio->id==1){                    
+                if($certificacion->Servicio->tipoServicio->id==1||$certificacion->Servicio->tipoServicio->id==10){                    
                     $chip=$certificacion->vehiculo->Equipos->where("idTipoEquipo",1)->first();           
                     $equipos=$certificacion->vehiculo->Equipos->where("idTipoEquipo","!=",1)->sortBy("idTipoEquipo");                     
                     //dd($equipos); 
@@ -627,7 +626,7 @@ class PdfController extends Controller
         if(Certificacion::findOrFail($id)){
             $certificacion=Certificacion::find($id);
             if($certificacion->Servicio->tipoServicio->id){
-                if($certificacion->Servicio->tipoServicio->id==1){                    
+                if($certificacion->Servicio->tipoServicio->id==1||$certificacion->Servicio->tipoServicio->id==10){                    
                     $chip=$certificacion->vehiculo->Equipos->where("idTipoEquipo",1)->first();           
                     $equipos=$certificacion->vehiculo->Equipos->where("idTipoEquipo","!=",1)->sortBy("idTipoEquipo");                     
                     //dd($equipos); 

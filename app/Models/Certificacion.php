@@ -195,7 +195,40 @@ class Certificacion extends Model
                     $ruta=null;
                 }                 
             break; 
+            case 10: //tipo servicio = inicial gnv
+                $ruta= route('certificadoInicialGnv', ['id' => $this->attributes['id']]);                    
+            break; 
 
+            default:
+                $ruta=null;
+                break;
+        }
+
+        return $ruta;
+    }
+
+    public function getRutaDescargaCertificadoAttribute(){
+        $ruta=null;
+        switch ($this->Servicio->tipoServicio->id) {
+            case 1: //tipo servicio = inicial gnv
+                $ruta= route('descargarCertificadoInicialGnv', ['id' => $this->attributes['id']]);                    
+            break; 
+            case 2://tipo servicio = anual gnv
+                $ruta= route('descargarCertificadoAnualGnv', ['id' => $this->attributes['id']]);
+            break;  
+            
+            case 8://tipo servicio = anual gnv
+                $dupli=Duplicado::find($this->attributes["idDuplicado"]);    
+                if($dupli){
+                    $ruta= $this->generaRutaDescargaDuplicado($dupli);
+                }else{
+                    $ruta=null;
+                }                 
+            break;
+            case 10: //tipo servicio = inicial gnv
+                $ruta= route('descargarCertificadoInicialGnv', ['id' => $this->attributes['id']]);                    
+            break; 
+                       
             default:
                 $ruta=null;
                 break;
@@ -280,32 +313,7 @@ class Certificacion extends Model
         return $ruta;
     }
 
-    public function getRutaDescargaCertificadoAttribute(){
-        $ruta=null;
-        switch ($this->Servicio->tipoServicio->id) {
-            case 1: //tipo servicio = inicial gnv
-                $ruta= route('descargarCertificadoInicialGnv', ['id' => $this->attributes['id']]);                    
-            break; 
-            case 2://tipo servicio = anual gnv
-                $ruta= route('descargarCertificadoAnualGnv', ['id' => $this->attributes['id']]);
-            break;  
-            
-            case 8://tipo servicio = anual gnv
-                $dupli=Duplicado::find($this->attributes["idDuplicado"]);    
-                if($dupli){
-                    $ruta= $this->generaRutaDescargaDuplicado($dupli);
-                }else{
-                    $ruta=null;
-                }                 
-            break;
-                       
-            default:
-                $ruta=null;
-                break;
-        }
-
-        return $ruta;
-    }
+    
 
     public function getRutaVistaFtAttribute(){
         $ruta=null;
@@ -315,7 +323,10 @@ class Certificacion extends Model
             break; 
             case 2:
                 $ruta= route('fichaTecnicaGnv', ['idCert' => $this->attributes['id']]);
-            break;                
+            break;   
+            case 10:
+                $ruta= route('fichaTecnicaGnv', ['idCert' => $this->attributes['id']]);                    
+            break;              
             default:
                 $ruta=null;
                 break;
@@ -332,7 +343,10 @@ class Certificacion extends Model
             break; 
             case 2:
                 $ruta= route('descargarFichaTecnicaGnv', ['idCert' => $this->attributes['id']]);
-            break;                
+            break;   
+            case 1:
+                $ruta= route('descargarFichaTecnicaGnv', ['idCert' => $this->attributes['id']]);                    
+            break;              
             default:
                 $ruta=null;
                 break;

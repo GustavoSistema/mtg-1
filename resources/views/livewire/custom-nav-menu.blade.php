@@ -178,8 +178,8 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                     </li>
 
                     {{--                     OPCIONES PARA SERVICIOS                    --}}
-                    @hasanyrole('inspector|administrador|supervisor')
                     
+                    @can('opciones.servicios')
                         <li class="text-gray-50 py-3 pl-3 pr-4 hover:bg-gray-600 focus:bg-gray-600 rounded"
                             x-data="{ Open: false }">
                             <div class="inline-flex  items-center justify-between w-full transition-colors duration-150 text-gray-500  cursor-pointer"
@@ -241,11 +241,12 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
 
                             </div>
                         </li>
-
-                    @endhasanyrole
-
+                    @endcan
+                    
+                   
                     {{--                     OPCIONES PARA EXPEDIENTES                  --}}
-                    @hasanyrole('inspector|administrador|supervisor|Administrador taller')
+                    
+                    @can('opciones.expedientes')
                         <li class="text-gray-50 py-3 pl-3 pr-4 hover:bg-gray-600 focus:bg-gray-600 rounded"
                             x-data="{ Open: false }">
                             <div class="inline-flex  items-center justify-between w-full  transition-colors duration-150 text-gray-500  cursor-pointer"
@@ -288,10 +289,12 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
 
                             </div>
                         </li>
-                    @endhasanyrole
-
+                    @endcan
+                    
+                   
                     {{--                     OPCIONES PARA TALLERES                    --}}
-                    @hasanyrole('administrador|Administrador taller')
+                    
+                    @can('opciones.talleres')
                         <li class="text-gray-50 py-3 pl-3 pr-4 hover:bg-gray-600 focus:bg-gray-600 rounded"
                             x-data="{ Open: false }">
                             <div class="inline-flex  items-center justify-between w-full  transition-colors duration-150 text-gray-500  cursor-pointer"
@@ -331,10 +334,13 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
 
                             </div>
                         </li>
-                    @endhasanyrole
+                    @endcan
+                   
 
                     {{--                    OPCIONES PARA MATERIALES                    --}}
-                    @hasanyrole('inspector|administrador|supervisor')
+
+                    
+                    @can('opciones.materiales')
                         <li class="text-gray-50 py-3 pl-3 pr-4 hover:bg-gray-600 focus:bg-gray-600 rounded "
                             x-data="{ Open: false }">
                             <div class="inline-flex  items-center justify-between w-full transition-colors duration-150 text-gray-500  cursor-pointer"
@@ -411,10 +417,12 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
 
                             </div>
                         </li>
-                    @endhasanyrole
+                    @endcan
+                    
 
                     {{--                     OPCIONES PARA USUARIOS Y ROLES                  --}}
-                    @hasanyrole('administrador')
+                   
+                    @can('opciones.usuarios')
                         <li class="text-gray-50 py-3 pl-3 pr-4 hover:bg-gray-600 focus:bg-gray-600 rounded"
                             x-data="{ Open: false }">
                             <div class="inline-flex  items-center justify-between w-full  transition-colors duration-150 text-gray-500  cursor-pointer"
@@ -436,27 +444,30 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                                     x-transition:leave-end="opacity-0 max-h-0"
                                     class="mt-2 divide-y-2 divide-gray-600 overflow-hidden text-sm font-medium bg-gray-600 text-white shadow-inner"
                                     aria-label="submenu">
-
+                                    @can('usuarios')
                                     <x-jet-responsive-nav-link class="text-sm" href="{{ route('usuarios') }}"
                                         :active="request()->routeIs('usuarios')">
                                         Usuarios
                                     </x-jet-responsive-nav-link>
+                                    @endcan
+                                    @can('usuarios.roles')
                                     <x-jet-responsive-nav-link class="text-sm" href="{{ route('usuarios.roles') }}"
                                         :active="request()->routeIs('usuarios.roles')">
                                         Roles
                                     </x-jet-responsive-nav-link>
+                                    @endcan
+                                    @can('usuarios.permisos')
                                     <x-jet-responsive-nav-link class="text-sm" href="{{ route('usuarios.permisos') }}"
                                         :active="request()->routeIs('usuarios.permisos')">
                                         Permisos
                                     </x-jet-responsive-nav-link>
-
+                                    @endcan
                                 </ul>
 
                             </div>
                         </li>
-                    @endhasanyrole
-
-
+                    @endcan
+                    
                 </ul>
             </div>
 
