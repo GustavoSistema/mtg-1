@@ -11,10 +11,8 @@ use App\Http\Livewire\Talleres;
 use App\Http\Livewire\RevisionExpedientes;
 use App\Http\Livewire\Salidas;
 use App\Http\Livewire\Servicio;
-use App\Http\Livewire\Servicios;
 use App\Http\Livewire\Solicitud;
 use App\Http\Livewire\VistaSolicitud;
-use App\Models\Ingreso;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\uploadController;
@@ -25,11 +23,11 @@ use App\Http\Livewire\Arreglando;
 use App\Http\Livewire\EditarTaller;
 use App\Http\Livewire\ListaCertificaciones;
 use App\Http\Livewire\ListaCertificacionesPendientes;
-use App\Http\Livewire\ListaServicios;
 use App\Http\Livewire\PrestamoMateriales;
 use App\Http\Livewire\Prueba;
 use App\Http\Livewire\RevisionInventario;
 use App\Http\Livewire\TallerRevision;
+use App\Http\Livewire\Tablas\Tiposservicios;
 use App\Http\Livewire\Usuarios;
 
 /*
@@ -90,6 +88,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get('/Usuarios',Usuarios::class)->name('usuarios');
     Route::get('/Roles',AdminRoles::class)->name('usuarios.roles');
     Route::get('/Permisos',AdminPermisos::class)->name('usuarios.permisos');
+    Route::get('/Tablas/TiposDeServicios',Tiposservicios::class)->name('table.tiposServicio');
+
+    
     
 
 
