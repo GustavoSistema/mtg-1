@@ -44,24 +44,26 @@ class ListaCertificacionesPendientes extends Component
         $hoja=$this->obtieneFormato();
         //dd($hoja);
         if($hoja){
-            $certif= Certificacion::certificarGnv($certi->Taller, $certi->Servicio, $hoja, $certi->Vehiculo, $certi->Inspector);
-            $expe=Expediente::create([
-                "placa"=>$certi->Vehiculo->placa,
-                "certificado"=>$hoja->numSerie,
-                "estado"=>1,
-                "idTaller"=>$certi->Taller->id,
-                'usuario_idusuario'=>$certi->Inspector->id,
-                'servicio_idservicio'=>$certi->Servicio->id,
-                "precio"=>$precio,
-            ]);                        
-            //$this->guardarFotos($expe);
+            //crea una certificacion
+            $certif= Certificacion::certificarGnvPendiente($certi->Taller, $certi->Servicio, $hoja, $certi->Vehiculo, $certi->Inspector,$precio);
+            //Encuentra el expediente y cambia su estado
+            $expe=Expediente::find($certi->idExpediente);
+            if($expe){
+                $expe->update(["servicio_idservicio"=>$certif->idServicio,"certificado"=>$certif->Hoja->id]);
+                //Crea la relacion entre la nueva certificacion y el expediente previamente registrado
+                $certEx=CertifiacionExpediente::create(["idCertificacion"=>$certif->id,"idExpediente"=>$expe->id]);
+            }                                  
+            //agrega la certificacion al registro de certificado pendiente
             $certi->update(["idCertificacion"=>$certif->id]);
-            $certEx=CertifiacionExpediente::create(["idCertificacion"=>$certif->id,"idExpediente"=>$expe->id]);
+            //Se cambia la fecha de certificacion por la fecha en que se registro el certificado pendiente
+            $certif->update(["created_at"=>$certi->created_at]);
+            //Agrega a la cola de trabajo la carga de los archivos de certificacion
             guardarArchivosEnExpediente::dispatch($expe,$certif);
+            //cambia el estado de la certificacion a realizado
             $this->cambiaEstado($certi);
             $this->emit("minAlert", ["titulo" => "¡EXCELENTE TRABAJO!", "mensaje" => "Tu certificado N°: " . $certif->Hoja->numSerie . " esta listo.", "icono" => "success"]);       
         }else{
-            $this->emit("minAlert", ["titulo" => "AVISO DEL SISTEMA", "mensaje" => "No fue posible certificar", "icono" => "warning"]);
+            $this->emit("minAlert", ["titulo" => "AVISO DEL SISTEMA", "mensaje" => "No fue posible encontrar un formato para realizar la certificación", "icono" => "warning"]);
         }
     }
     

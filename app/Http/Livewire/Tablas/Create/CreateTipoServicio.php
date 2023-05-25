@@ -26,9 +26,9 @@ class CreateTipoServicio extends Component
 
     public function crearTipoServicio(){
         $this->validate();
-        $tiposer=TipoServicio::create(["name"=>$this->nombre]);
-        $this->emitTo("tablas.tipos-servicios","render");
-        $this->reset(["nombre","open"]);
+        $tiposer=TipoServicio::create(["descripcion"=>$this->descripcion]);
+        $this->emitTo("tablas.tiposservicios","render");
+        $this->reset(["descripcion","open"]);
         $this->emit("minAlert", ["titulo" => "¡BUEN TRABAJO!", "mensaje" => "Permiso creado Correctamente", "icono" => "success"]); 
     }
 }

@@ -2,132 +2,133 @@
     <div class="sm:px-6 w-full pt-12 pb-4">
         <x-custom-table>
             <x-slot name="titulo">
-                <h2 class="text-indigo-600 font-bold text-3xl">                    
+                <h2 class="text-indigo-600 font-bold text-3xl">
                     <i class="fa-solid fa-table fa-xl"></i>
-                     &nbsp;Tabla tipos de servicios                          
-                </h2> 
+                    &nbsp;Tabla tipos de servicios
+                </h2>
             </x-slot>
 
             <x-slot name="btnAgregar">
                 @livewire('tablas.create.create-tipo-servicio')
             </x-slot>
-            
+
             <x-slot name="contenido">
                 @if (count($tiposDeServicios))
-                <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                    <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full leading-normal rounded-md">
-                                <thead>
-                                    <tr>
-                                        <th class=" w-24 cursor-pointer hover:font-bold hover:text-indigo-500 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                            wire:click="order('id')">
-                                            Id
-                                            @if ($sort == 'id')
-                                                @if ($direction == 'asc')
-                                                    <i class="fas fa-sort-numeric-up-alt float-right mt-0.5"></i>
-                                                @else
-                                                    <i class="fas fa-sort-numeric-down-alt float-right mt-0.5"></i>
-                                                @endif
-                                            @else
-                                                <i class="fas fa-sort float-right mt-0.5"></i>
-                                            @endif
-                                        </th>
-                                        <th class="cursor-pointer hover:font-bold hover:text-indigo-500  px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                            wire:click="order('descripcion')">
-                                            Nombre
-                                            @if ($sort == 'descripcion')
-                                                @if ($direction == 'asc')
-                                                    <i class="fas fa-sort-alpha-up-alt float-right mt-0.5"></i>
-                                                @else
-                                                    <i class="fas fa-sort-alpha-down-alt float-right mt-0.5"></i>
-                                                @endif
-                                            @else
-                                                <i class="fas fa-sort float-right mt-0.5"></i>
-                                            @endif
-                                        </th>  
-                                        <th class="cursor-pointer hover:font-bold hover:text-indigo-500  px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                            wire:click="order('created_at')">
-                                            Fecha de creación
-                                            @if ($sort == 'created_at')
-                                                @if ($direction == 'asc')
-                                                    <i class="fas fa-sort-numeric-up-alt float-right mt-0.5"></i>
-                                                @else
-                                                    <i class="fas fa-sort-numeric-down-alt float-right mt-0.5"></i>
-                                                @endif
-                                            @else
-                                                <i class="fas fa-sort float-right mt-0.5"></i>
-                                            @endif
-                                        </th>                                     
-                                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                            Acciones
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($tiposDeServicios as $item)
+                    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                        <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full leading-normal rounded-md">
+                                    <thead>
                                         <tr>
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                <div class="flex items-center">
-                                                    <p class="text-indigo-900 p-1 bg-indigo-200 rounded-md">
-                                                        {{ $item->id }}
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                <div class="flex items-center">
-                                                    <p
-                                                        class="text-slate-900 font-semibold whitespace-no-wrap">
-                                                        {{ $item->descripcion }}
-                                                    </p>
-                                                </div>
-                                            </td>     
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                <div class="flex items-center">
-                                                    <p
-                                                        class="whitespace-no-wrap uppercase">
-                                                        {{ $item->created_at }}
-                                                    </p>
-                                                </div>
-                                            </td>                                        
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                <div class="flex items-center justify-center">
-                                                    <p class="text-gray-900 whitespace-no-wrap">
-                                                        <button wire:click="editar({{$item->id}})"
-                                                            class="px-2 py-2 bg-indigo-600 rounded-md flex items-center justify-center">
-                                                            <i class="fas fa-pen text-white"></i>
-                                                        </button>
-                                                    </p>
-                                                </div>
-                                            </td>
+                                            <th class=" w-24 cursor-pointer hover:font-bold hover:text-indigo-500 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                                                wire:click="order('id')">
+                                                Id
+                                                @if ($sort == 'id')
+                                                    @if ($direction == 'asc')
+                                                        <i class="fas fa-sort-numeric-up-alt float-right mt-0.5"></i>
+                                                    @else
+                                                        <i class="fas fa-sort-numeric-down-alt float-right mt-0.5"></i>
+                                                    @endif
+                                                @else
+                                                    <i class="fas fa-sort float-right mt-0.5"></i>
+                                                @endif
+                                            </th>
+                                            <th class="cursor-pointer hover:font-bold hover:text-indigo-500  px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                                                wire:click="order('descripcion')">
+                                                Nombre
+                                                @if ($sort == 'descripcion')
+                                                    @if ($direction == 'asc')
+                                                        <i class="fas fa-sort-alpha-up-alt float-right mt-0.5"></i>
+                                                    @else
+                                                        <i class="fas fa-sort-alpha-down-alt float-right mt-0.5"></i>
+                                                    @endif
+                                                @else
+                                                    <i class="fas fa-sort float-right mt-0.5"></i>
+                                                @endif
+                                            </th>
+                                            <th class="cursor-pointer hover:font-bold hover:text-indigo-500  px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                                                wire:click="order('created_at')">
+                                                Fecha de creación
+                                                @if ($sort == 'created_at')
+                                                    @if ($direction == 'asc')
+                                                        <i class="fas fa-sort-numeric-up-alt float-right mt-0.5"></i>
+                                                    @else
+                                                        <i class="fas fa-sort-numeric-down-alt float-right mt-0.5"></i>
+                                                    @endif
+                                                @else
+                                                    <i class="fas fa-sort float-right mt-0.5"></i>
+                                                @endif
+                                            </th>
+                                            <th
+                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                Acciones
+                                            </th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                @if ($tiposDeServicios->hasPages())
-                    <div>
-                        <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-2 overflow-x-auto">
-                            <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
-                                <div class="px-5 py-5 bg-white border-t">
-                                    {{ $tiposDeServicios->links() }}
-                                </div>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($tiposDeServicios as $item)
+                                            <tr>
+                                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                    <div class="flex items-center">
+                                                        <p class="text-indigo-900 p-1 bg-indigo-200 rounded-md">
+                                                            {{ $item->id }}
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                    <div class="flex items-center">
+                                                        <p class="text-slate-900 font-semibold whitespace-no-wrap">
+                                                            {{ $item->descripcion }}
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                    <div class="flex items-center">
+                                                        <p class="whitespace-no-wrap uppercase">
+                                                            {{ $item->created_at }}
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                    <div class="flex items-center justify-center space-x-2">                                                        
+                                                            <button wire:click="editar({{ $item->id }})"
+                                                                class="px-2 py-2 bg-indigo-600 rounded-md flex items-center justify-center">
+                                                                <i class="fas fa-pen text-white"></i>
+                                                            </button>
+                                                            <button wire:click="$emit('deleteRegistro',{{ $item->id }})"
+                                                                class="px-2 py-2 bg-red-600 rounded-md flex items-center justify-center">
+                                                                <i class="fas fa-trash text-white"></i>
+                                                            </button>                                                        
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
+
+                    @if ($tiposDeServicios->hasPages())
+                        <div>
+                            <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-2 overflow-x-auto">
+                                <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+                                    <div class="px-5 py-5 bg-white border-t">
+                                        {{ $tiposDeServicios->links() }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @else
+                    <div class="px-6 py-4 text-center font-bold bg-indigo-200 rounded-md">
+                        No se encontro ningun registro.
+                    </div>
                 @endif
-            @else
-                <div class="px-6 py-4 text-center font-bold bg-indigo-200 rounded-md">
-                    No se encontro ningun registro.
-                </div>
-            @endif
             </x-slot>
-            
-       </x-custom-table>
-    </div> 
+
+        </x-custom-table>
+    </div>
 
     <x-jet-dialog-modal wire:model="editando" wire:loading.attr="disabled">
         <x-slot name="title" class="font-bold">
@@ -139,7 +140,7 @@
                 <x-jet-label value="Nombre:" />
                 <x-jet-input wire:model="tipoServicio.descripcion" type="text" class="w-full" />
                 <x-jet-input-error for="tipoServicio.descripcion" />
-            </div>          
+            </div>
             <x-jet-input-error for="selectedPermisos" />
         </x-slot>
 
@@ -154,4 +155,32 @@
         </x-slot>
 
     </x-jet-dialog-modal>
+
+
+    @push('js')
+        <script>
+            Livewire.on('deleteRegistro', registroId => {
+                Swal.fire({
+                    title: '¿Estas seguro de eliminar este registro?',
+                    text: "una vez eliminado este registro, no podras recuperarlo.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, eliminar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        Livewire.emitTo('tablas.tiposservicios', 'eliminar', registroId);
+
+                        Swal.fire(
+                            '¡Listo!',
+                            'registro eliminado correctamente.',
+                            'success'
+                        )
+                    }
+                })
+            });
+        </script>
+    @endpush
 </div>

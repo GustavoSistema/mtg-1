@@ -583,6 +583,10 @@
                 @livewire('chip-por-deterioro')
             @break
 
+            @case(12)
+                @livewire('form-vehiculo', ['tipoServicio' => $tipoServicio])
+            @break
+
             @default
             @break
 

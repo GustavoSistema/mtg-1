@@ -364,8 +364,8 @@
                             <br>
                             <br>                        
                         </td>
-                        <td style="width: 50%;">
-                            <img  src="{{'.'.Storage::url($taller->rutaFirma)}}" width="180" height="90"/>                       
+                        <td style="width: 50%;">                                  
+                            <img  src="{{$taller->rutaFirma ? '.'.Storage::url($taller->rutaFirma) : '' }}" width="180" height="90"/>               
                         </td>
                     </tr>
                     <tr >

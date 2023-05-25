@@ -1,7 +1,13 @@
 <div>
     @livewire('form-vehiculo', ['tipoServicio' => $tipoServicio,"nombreDelInvocador"=>"activacion-de-chips"])
 
-    
+    <div class="max-w-5xl m-auto  bg-white rounded-lg shadow-md dark:bg-gray-300 p-4 mt-4">
+        <x-jet-label value="Fotos reglamentarias:" class="font-bold text-xl py-4" />
+        <x-file-pond name="imagenes" id="imagenes" wire:model="imagenes" acceptedFileTypes="['image/*',]"
+            aceptaVarios="true">
+        </x-file-pond>
+        <x-jet-input-error for="imagenes" />
+    </div>
 
     <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4 py-4">
         <div class="my-2 flex flex-row justify-evenly items-center">
@@ -26,4 +32,5 @@
             @endif
         </div>
     </div>
+
 </div>

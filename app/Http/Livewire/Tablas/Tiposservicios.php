@@ -10,6 +10,8 @@ class Tiposservicios extends Component
     public $sort,$direction,$cant,$search,$tipoServicio;
     public $editando=false;
 
+    protected $listeners=["render","eliminar"];
+
     protected $rules=[
         "tipoServicio.descripcion"=>"required|min:3",       
     ];
@@ -48,8 +50,7 @@ class Tiposservicios extends Component
 
     public function actualizar(){
         $this->validate();
-        $this->tipoServicio->save();
-       
+        $this->tipoServicio->save();       
         $this->reset(["editando"]);
         $this->emit("minAlert", ["titulo" => "¡BUEN TRABAJO!", "mensaje" => "Se actualizó correctamente el registro", "icono" => "success"]); 
     }
@@ -57,5 +58,10 @@ class Tiposservicios extends Component
     public function editar(TipoServicio $tiposer){
         $this->tipoServicio=$tiposer;        
         $this->editando=true;
+    }
+
+    public function eliminar(TipoServicio $tiposer){
+        $tiposer->delete();       
+        $this->emitTo("tablas.tiposservicios","render");
     }
 }

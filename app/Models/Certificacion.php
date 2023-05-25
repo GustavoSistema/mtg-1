@@ -390,6 +390,30 @@ class Certificacion extends Model
             return null;
         }        
     }    
+    public static function certificarGnvPendiente(Taller $taller,Servicio $servicio,Material $hoja,vehiculo $vehiculo,User $inspector,$precio){
+        $cert=Certificacion::create([
+            "idVehiculo"=>$vehiculo->id,
+            "idTaller"=>$taller->id,
+            "idInspector"=>$inspector->id,
+            "idServicio"=>$servicio->id,
+            "estado"=>1,
+            "precio"=>$precio,
+            "pagado"=>0,
+        ]);
+        if($cert){
+            //cambia el estado de la hoja a consumido
+            $hoja->update(["estado"=>4,"ubicacion"=>"En poder del cliente"]);
+            //crea y guarda el servicio y material usado en esta certificacion 
+            $servM=ServicioMaterial::create([
+                "idMaterial"=>$hoja->id,
+                "idCertificacion"=>$cert->id
+            ]);
+            //retorna el certificado
+            return $cert;
+        }else{
+            return null;
+        }        
+    } 
 
     public static function certificarGnvConChip(Taller $taller,Servicio $servicio,Material $hoja,vehiculo $vehiculo,User $inspector,Material $chip){
         $cert=Certificacion::create([
