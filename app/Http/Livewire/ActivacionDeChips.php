@@ -10,9 +10,12 @@ use App\Models\TipoServicio;
 use App\Models\vehiculo;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class ActivacionDeChips extends Component
 {
+    use WithFileUploads;
+
 
     public $tipoServicio,$vehiculo,$idTaller,$estado;
     public $imagenes=[];
@@ -96,6 +99,6 @@ class ActivacionDeChips extends Component
        $this->reset(["imagenes"]);      
     }
 
-    
+        
 
 }

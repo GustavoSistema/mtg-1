@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Vehiculo;
 
 use App\Models\vehiculo;
 use Livewire\Component;
 
-class FormVehiculo extends Component
+class CreateVehiculo extends Component
 {
-
     public $nombreDelInvocador;
 
     //VARIABLES DEL VEHICULO
@@ -24,14 +23,13 @@ class FormVehiculo extends Component
         //$this->vehiculo=vehiculo::make();
     }
 
-    protected $rules=[
-        
-        "placa"=>"required|min:6|max:7",
+    protected $rules=[        
+        "placa"=>"nullable|min:6|max:10",
         "categoria"=>"nullable",
         "marca"=>"required|min:2",
         "modelo"=>"required|min:2",
         "version"=>"nullable", 
-        "anioFab"=>"nullable|numeric|min:1900",                  
+        "anioFab"=>"nullable|numeric|min:0",                  
         "numSerie"=>"nullable|min:2",
         "numMotor"=>"nullable|min:2",
         "cilindros"=>"nullable|numeric|min:1",
@@ -75,86 +73,87 @@ class FormVehiculo extends Component
 
     public function render()
     {
-        return view('livewire.form-vehiculo');
+        return view('livewire.vehiculo.create-vehiculo');
     }
 
     public function guardaVehiculo(){
-        $this->validate(
-            [
-                "placa"=>"required|min:6|max:7",
-                "categoria"=>"nullable",
-                "marca"=>"required|min:2",
-                "modelo"=>"required|min:2",
-                "version"=>"nullable", 
-                "anioFab"=>"nullable|numeric|min:1900",                  
-                "numSerie"=>"nullable|min:2",
-                "numMotor"=>"nullable|min:2",
-                "cilindros"=>"nullable|numeric|min:1",
-                "cilindrada"=>"nullable|numeric|min:1",
-                "combustible"=>"nullable|min:2", 
-                "ejes"=>"nullable|numeric|min:1",   
-                "ruedas"=>"nullable|numeric|min:1",    
-                "asientos"=>"nullable|numeric|min:1",      
-                "pasajeros"=>"nullable|numeric|min:1",   
-                "largo"=>"nullable|numeric",   
-                "ancho"=>"nullable|numeric",
-                "altura"=>"nullable|numeric",
-                "color"=>"nullable|min:2",
-                "pesoNeto"=>"nullable|numeric",
-                "pesoBruto"=>"nullable|numeric",
-                "cargaUtil"=>"nullable|numeric"
-            ]
-        );
+        
+        $rules=[
+            "placa"=>"nullable|min:6|max:10",
+            "categoria"=>"nullable",
+            "marca"=>"required|min:2",
+            "modelo"=>"required|min:2",
+            "version"=>"nullable", 
+            "anioFab"=>"nullable|numeric|min:0",                  
+            "numSerie"=>"nullable|min:2",
+            "numMotor"=>"nullable|min:2",
+            "cilindros"=>"nullable|numeric|min:1",
+            "cilindrada"=>"nullable|numeric|min:1",
+            "combustible"=>"nullable|min:2", 
+            "ejes"=>"nullable|numeric|min:1",   
+            "ruedas"=>"nullable|numeric|min:1",    
+            "asientos"=>"nullable|numeric|min:1",      
+            "pasajeros"=>"nullable|numeric|min:1",   
+            "largo"=>"nullable|numeric",   
+            "ancho"=>"nullable|numeric",
+            "altura"=>"nullable|numeric",
+            "color"=>"nullable|min:2",
+            "pesoNeto"=>"nullable|numeric",
+            "pesoBruto"=>"nullable|numeric",
+            "cargaUtil"=>"nullable|numeric"
+        ];
+        
+        
+        $this->validate($rules);
+        
+        $vehiculo=vehiculo::create([            
+            "placa"=>strtoupper($this->placa),
+            "categoria"=>strtoupper($this->categoria),
+            "marca"=>$this->retornaNE($this->marca),
+            "modelo"=>$this->retornaNE($this->modelo),
+            "version"=>$this->retornaSV($this->version),
 
-        if(
-        $vehiculo=vehiculo::create(
-            [            
-                                    "placa"=>strtoupper($this->placa),
-                                    "categoria"=>strtoupper($this->categoria),
-                                    "marca"=>$this->retornaNE($this->marca),
-                                    "modelo"=>$this->retornaNE($this->modelo),
-                                    "version"=>$this->retornaSV($this->version),
+            //considerar en el PDF
+            "anioFab"=>$this->retornaNulo($this->anioFab),
+            //considerar en el PDF
 
-                                    //considerar en el PDF
-                                    "anioFab"=>$this->retornaNulo($this->anioFab),
-                                    //considerar en el PDF
-
-                                    "numSerie"=>$this->retornaNE($this->numSerie),
-                                    "numMotor"=>$this->retornaNE($this->numMotor),
-
-
-                                    //considerar en el PDF
-                                    "cilindros"=>$this->retornaNulo($this->cilindros),
-                                    "cilindrada"=>$this->retornaNulo($this->cilindrada),
-                                    //considerar en el PDF
+            "numSerie"=>$this->retornaNE($this->numSerie),
+            "numMotor"=>$this->retornaNE($this->numMotor),
 
 
-                                    "combustible"=>$this->retornaNE($this->combustible),
-
-                                    //considerar en el PDF
-                                    "ejes"=>$this->retornaNulo($this->ejes),
-                                    "ruedas"=>$this->retornaNulo($this->ruedas),
-                                    "asientos"=>$this->retornaNulo($this->asientos),
-                                    "pasajeros"=>$this->retornaNulo($this->pasajeros),
-                                    //considerar en el PDF
+            //considerar en el PDF
+            "cilindros"=>$this->retornaNulo($this->cilindros),
+            "cilindrada"=>$this->retornaNulo($this->cilindrada),
+            //considerar en el PDF
 
 
-                                    //considerar en el PDF
-                                    "largo"=>$this->retornaNulo($this->largo),
-                                    "ancho"=>$this->retornaNulo($this->ancho),
-                                    "altura"=>$this->retornaNulo($this->altura),
-                                    //considerar en el PDF
+            "combustible"=>$this->retornaNE($this->combustible),
 
-                                    "color"=>$this->retornaNE($this->color),
+            //considerar en el PDF
+            "ejes"=>$this->retornaNulo($this->ejes),
+            "ruedas"=>$this->retornaNulo($this->ruedas),
+            "asientos"=>$this->retornaNulo($this->asientos),
+            "pasajeros"=>$this->retornaNulo($this->pasajeros),
+            //considerar en el PDF
 
-                                    //considerar en el PDF
-                                    "pesoNeto"=>$this->retornaNulo($this->pesoNeto),
-                                    "pesoBruto"=>$this->retornaNulo($this->pesoBruto),  
-                                    "cargaUtil"=>$this->retornaNulo($this->cargaUtil), 
-                                    //considerar en el PDF         
 
-                                    ]
-        )){
+            //considerar en el PDF
+            "largo"=>$this->retornaNulo($this->largo),
+            "ancho"=>$this->retornaNulo($this->ancho),
+            "altura"=>$this->retornaNulo($this->altura),
+            //considerar en el PDF
+
+            "color"=>$this->retornaNE($this->color),
+
+            //considerar en el PDF
+            "pesoNeto"=>$this->retornaNulo($this->pesoNeto),
+            "pesoBruto"=>$this->retornaNulo($this->pesoBruto),  
+            "cargaUtil"=>$this->retornaNulo($this->cargaUtil), 
+            //considerar en el PDF         
+
+        ]);
+        //dd($vehiculo);
+        if($vehiculo){
             $this->vehiculo=$vehiculo; 
             $this->estado='cargado';                      
             $this->emit("minAlert",["titulo"=>"¡BUEN TRABAJO!","mensaje"=>'El vehículo con placa '.$vehiculo->placa.' se registro correctamente.',"icono"=>"success"]);
@@ -304,4 +303,6 @@ class FormVehiculo extends Component
         $this->vehiculos=null;
         $this->busqueda=false;
     }
+    
+
 }

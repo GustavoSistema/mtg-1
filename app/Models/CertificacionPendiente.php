@@ -20,6 +20,7 @@ class CertificacionPendiente extends Model
     'idInspector',
     'estado',
     'idCertificacion',
+    "idExpediente",
     'pagado',    
     'created_at',
     'updated_at',        

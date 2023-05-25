@@ -584,7 +584,8 @@
             @break
 
             @case(12)
-                @livewire('form-vehiculo', ['tipoServicio' => $tipoServicio])
+                @livewire('vehiculo.create-vehiculo', ['tipoServicio' => $tipoServicio])
+                
             @break
 
             @default
