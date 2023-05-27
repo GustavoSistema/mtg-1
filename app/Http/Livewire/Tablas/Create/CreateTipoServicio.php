@@ -17,7 +17,7 @@ class CreateTipoServicio extends Component
 
     public function render()
     {
-        return view('livewire.tablas.create.create-tipo-servicio');
+        return view('livewire.Tablas.create.create-tipo-servicio');
     }
 
     public function updated($propertyName){
