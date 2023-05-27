@@ -32,7 +32,7 @@ class Tiposservicios extends Component
         ->orWhere("id",'like','%'.$this->search.'%')
         ->orderBy($this->sort,$this->direction)
         ->paginate($this->cant);
-        return view('livewire.tablas.tiposservicios',compact("tiposDeServicios"));
+        return view('livewire.Tablas.tiposservicios',compact("tiposDeServicios"));
     }
     public function order($sort)
     {

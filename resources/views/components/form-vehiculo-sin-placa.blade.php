@@ -8,7 +8,8 @@
         <div class="grid grid-cols-1 gap-8 sm:grid-cols-3">
             <div>
                 <x-jet-label value="Placa:" />
-                <x-jet-input list="vehiculos" type="text" class="w-full" wire:model="placa" maxlength="10" />
+                <x-jet-input list="vehiculos" type="text" class="w-full" wire:model="placa"
+                 maxlength="10" />
                 <x-jet-input-error for="placa" />
             </div>
             <div>
