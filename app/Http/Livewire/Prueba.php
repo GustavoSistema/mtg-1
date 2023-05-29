@@ -126,6 +126,9 @@ class Prueba extends Component
                 case 10:
                         $this->numSugerido = $this->obtieneFormato($formatoGnv);
                         break;
+                case 12:
+                        $this->numSugerido = $this->obtieneFormato($formatoGnv);
+                        break;
                 default:
                     $this->numSugerido = 0;
                     break;
@@ -183,7 +186,10 @@ class Prueba extends Component
                     $hoja = Material::where([['numSerie', $serie], ['idTipoMaterial', 1], ['estado', 3], ['idUsuario', Auth::id()]])->first();
                     return $hoja;
                     break;
-
+            case 12:
+                    $hoja = Material::where([['numSerie', $serie], ['idTipoMaterial', 1], ['estado', 3], ['idUsuario', Auth::id()]])->first();
+                    return $hoja;
+                    break;
             default:
                 return $hoja;
                 break;
@@ -276,6 +282,45 @@ class Prueba extends Component
                         $this->guardarFotos($expe);
                         guardarArchivosEnExpediente::dispatch($expe,$certi);                       
                         $certEx=CertifiacionExpediente::create(["idCertificacion"=>$certi->id,"idExpediente"=>$expe->id]);
+                        $this->emit("minAlert", ["titulo" => "¡EXCELENTE TRABAJO!", "mensaje" => "Tu certificado N°: " . $certi->Hoja->numSerie . " esta listo.", "icono" => "success"]);
+                    } else {
+                        $this->emit("minAlert", ["titulo" => "AVISO DEL SISTEMA", "mensaje" => "No fue posible certificar", "icono" => "warning"]);
+                    }
+                } else {
+                    $this->emit("minAlert", ["titulo" => "AVISO DEL SISTEMA", "mensaje" => "Debes completar los datos de los equipos para poder certificar", "icono" => "warning"]);
+                }
+            } else {
+                $this->emit("minAlert", ["titulo" => "AVISO DEL SISTEMA", "mensaje" => "Debes ingresar un vehículo valido para poder certificar", "icono" => "warning"]);
+            }
+        }
+    }
+
+    public function certificarPreconver()
+    {
+        $taller = Taller::findOrFail($this->taller);
+        $servicio = Servicio::findOrFail($this->servicio);
+        $hoja = $this->procesaFormato($this->numSugerido, $servicio->tipoServicio->id);
+
+        if ($hoja != null) {
+            if (isset($this->vehiculo)) {
+                if ($this->vehiculo->esCertificable) {
+                    $certi = Certificacion::certificarGnvPre($taller, $servicio, $hoja, $this->vehiculo, Auth::user());
+                    if ($certi) {
+                        $this->estado = "certificado";
+                        $this->certificacion = $certi;
+                        /*
+                        $expe=Expediente::create([
+                            "placa"=>"EN TRÁMITE",
+                            "certificado"=>$hoja->numSerie,
+                            "estado"=>1,
+                            "idTaller"=>$taller->id,
+                            'usuario_idusuario'=>Auth::id(),
+                            'servicio_idservicio'=>$servicio->id,
+                        ]);                        
+                        $this->guardarFotos($expe);
+                        guardarArchivosEnExpediente::dispatch($expe,$certi);                       
+                        $certEx=CertifiacionExpediente::create(["idCertificacion"=>$certi->id,"idExpediente"=>$expe->id]);
+                        */
                         $this->emit("minAlert", ["titulo" => "¡EXCELENTE TRABAJO!", "mensaje" => "Tu certificado N°: " . $certi->Hoja->numSerie . " esta listo.", "icono" => "success"]);
                     } else {
                         $this->emit("minAlert", ["titulo" => "AVISO DEL SISTEMA", "mensaje" => "No fue posible certificar", "icono" => "warning"]);

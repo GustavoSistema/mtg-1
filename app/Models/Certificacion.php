@@ -195,9 +195,13 @@ class Certificacion extends Model
                     $ruta=null;
                 }                 
             break; 
-            case 10: //tipo servicio = inicial gnv
+            case 10: //tipo servicio = inicial gnv + chip
                 $ruta= route('certificadoInicialGnv', ['id' => $this->attributes['id']]);                    
             break; 
+
+            case 12: //tipo servicio = Preconver
+                $ruta= route('generaPreGnvPdf', ['id' => $this->attributes['id']]);                    
+            break;
 
             default:
                 $ruta=null;
@@ -225,9 +229,13 @@ class Certificacion extends Model
                     $ruta=null;
                 }                 
             break;
-            case 10: //tipo servicio = inicial gnv
+            case 10: //tipo servicio = inicial gnv + chip
                 $ruta= route('descargarCertificadoInicialGnv', ['id' => $this->attributes['id']]);                    
             break; 
+
+            case 12: //tipo servicio = preconversion
+                $ruta= route('descargarPreGnvPdf', ['id' => $this->attributes['id']]);                    
+            break;
                        
             default:
                 $ruta=null;
@@ -326,7 +334,10 @@ class Certificacion extends Model
             break;   
             case 10:
                 $ruta= route('fichaTecnicaGnv', ['idCert' => $this->attributes['id']]);                    
-            break;              
+            break;  
+            case 12:
+                $ruta= route('fichaTecnicaGnv', ['idCert' => $this->attributes['id']]);                    
+            break;            
             default:
                 $ruta=null;
                 break;
@@ -344,9 +355,12 @@ class Certificacion extends Model
             case 2:
                 $ruta= route('descargarFichaTecnicaGnv', ['idCert' => $this->attributes['id']]);
             break;   
-            case 1:
+            case 10:
                 $ruta= route('descargarFichaTecnicaGnv', ['idCert' => $this->attributes['id']]);                    
-            break;              
+            break;   
+            case 12:
+                $ruta= route('descargarFichaTecnicaGnv', ['idCert' => $this->attributes['id']]);                    
+            break;           
             default:
                 $ruta=null;
                 break;
@@ -390,6 +404,31 @@ class Certificacion extends Model
             return null;
         }        
     }    
+
+    public static function certificarGnvPre(Taller $taller,Servicio $servicio,Material $hoja,vehiculo $vehiculo,User $inspector){
+        $cert=Certificacion::create([
+            "idVehiculo"=>$vehiculo->id,
+            "idTaller"=>$taller->id,
+            "idInspector"=>$inspector->id,
+            "idServicio"=>$servicio->id,
+            "estado"=>1,
+            "precio"=>$servicio->precio,
+            "pagado"=>0,
+        ]);
+        if($cert){
+            //cambia el estado de la hoja a consumido
+            $hoja->update(["estado"=>4,"ubicacion"=>"En poder del cliente"]);
+            //crea y guarda el servicio y material usado en esta certificacion 
+            $servM=ServicioMaterial::create([
+                "idMaterial"=>$hoja->id,
+                "idCertificacion"=>$cert->id
+            ]);
+            //retorna el certificado
+            return $cert;
+        }else{
+            return null;
+        }        
+    } 
     public static function certificarGnvPendiente(Taller $taller,Servicio $servicio,Material $hoja,vehiculo $vehiculo,User $inspector,$precio){
         $cert=Certificacion::create([
             "idVehiculo"=>$vehiculo->id,

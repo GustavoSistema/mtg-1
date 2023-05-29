@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class CreateVehiculo extends Component
 {
-    public $nombreDelInvocador;
+    public $nombreDelInvocador,$noPlaca;
 
     //VARIABLES DEL VEHICULO
     public $placa,$categoria,$marca,$modelo,$version,$anioFab,$numSerie,$numMotor,
@@ -20,7 +20,12 @@ class CreateVehiculo extends Component
 
     public function mount(){
         $this->estado="nuevo";
+        $this->noPlaca=1;
         //$this->vehiculo=vehiculo::make();
+    }
+
+    public function updatedNoPlaca(){
+        $this->placa=null;
     }
 
     protected $rules=[        
@@ -79,7 +84,7 @@ class CreateVehiculo extends Component
     public function guardaVehiculo(){
         
         $rules=[
-            "placa"=>"nullable|min:6|max:10",
+            "placa"=>"required|min:6|max:7",
             "categoria"=>"nullable",
             "marca"=>"required|min:2",
             "modelo"=>"required|min:2",
@@ -102,12 +107,16 @@ class CreateVehiculo extends Component
             "pesoBruto"=>"nullable|numeric",
             "cargaUtil"=>"nullable|numeric"
         ];
-        
-        
-        $this->validate($rules);
-        
+        if($this->noPlaca!=1){
+            $this->validate($rules);
+        }else{
+            if (array_key_exists("placa",$rules)){
+                $rules["placa"]="nullable";
+            }
+            $this->validate($rules);
+        }       
         $vehiculo=vehiculo::create([            
-            "placa"=>strtoupper($this->placa),
+            "placa"=>$this->placa==""?null:strtoupper($this->placa),
             "categoria"=>strtoupper($this->categoria),
             "marca"=>$this->retornaNE($this->marca),
             "modelo"=>$this->retornaNE($this->modelo),
@@ -172,8 +181,8 @@ class CreateVehiculo extends Component
     }
 
     public function actualizarVehiculo(){
-        $this->validate(
-            [
+        $rules=
+            [ 
                 "vehiculo.placa"=>"required|min:6|max:7",
                 "vehiculo.categoria"=>"nullable",
                 "vehiculo.marca"=>"required|min:2",
@@ -196,9 +205,16 @@ class CreateVehiculo extends Component
                 "vehiculo.pesoNeto"=>"nullable|numeric",
                 "vehiculo.pesoBruto"=>"nullable|numeric",
                 "vehiculo.cargaUtil"=>"nullable|numeric",
-            ]
-        );
-        
+            ];
+        //$this->validate();
+        if($this->noPlaca!=1){
+            $this->validate($rules);
+        }else{
+            if (array_key_exists("vehiculo.placa",$rules)){
+                $rules["vehiculo.placa"]="nullable";
+            }
+            $this->validate($rules);
+        } 
         if(
         $this->vehiculo
         ->update([

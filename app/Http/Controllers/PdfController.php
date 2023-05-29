@@ -279,6 +279,85 @@ class PdfController extends Controller
         }
     }
 
+
+    //Vista y descarga de PRE-CONVERSIONES
+
+    public function generaPdfPreGnv($id){
+        if(Certificacion::findOrFail($id)){
+            $certificacion=Certificacion::find($id);
+            if($certificacion->Servicio->tipoServicio->id){
+                if($certificacion->Servicio->tipoServicio->id==12){
+                    $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+                    $fechaCert=$certificacion->created_at;
+                    $fecha=$fechaCert->format('d').' días del mes de '.$meses[$fechaCert->format('m')-1].' del '.$fechaCert->format('Y').'.';              
+                    $chip=$certificacion->Vehiculo->Equipos->where("idTipoEquipo",1)->first();           
+                    $equipos=$certificacion->Vehiculo->Equipos->where("idTipoEquipo","!=",1)->sortBy("idTipoEquipo");                     
+                    //dd($chip); 
+                    $hoja=$certificacion->Materiales->where('idTipoMaterial',1)->first();
+                    $data=[
+                    "fecha"=>$fecha,
+                    "empresa"=>"MOTORGAS COMPANY S.A.",
+                    "carro"=>$certificacion->Vehiculo,
+                    "taller"=>$certificacion->Taller, 
+                    "hoja"=>$hoja, 
+                    "equipos"=>$equipos,
+                    "chip"=>$chip,
+                    "fechaCert"=>$fechaCert,
+                    "pesos"=>$certificacion->calculaPesos,
+                    "largo"=>$this->devuelveDatoParseado($certificacion->Vehiculo->largo),
+                    "ancho"=>$this->devuelveDatoParseado($certificacion->Vehiculo->ancho),
+                    "altura"=>$this->devuelveDatoParseado($certificacion->Vehiculo->altura),
+                    ];                 
+                    $pdf = App::make('dompdf.wrapper');
+                    $pdf->loadView('preConverGnv',$data);        
+                    //return $pdf->stream($id.'-'.date('d-m-Y').'-cargo.pdf');
+                    return  $pdf->stream('Pre-Conver'.$certificacion->Vehiculo->placa.'-'.$hoja->numSerie);
+                }
+                return abort(404);
+            }
+        }else{
+            return abort(404);
+        }
+    }
+
+    public function generaDescargaPreGnv($id){
+        if(Certificacion::findOrFail($id)){
+            $certificacion=Certificacion::find($id);
+            if($certificacion->Servicio->tipoServicio->id){
+                if($certificacion->Servicio->tipoServicio->id==12){
+                    $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+                    $fechaCert=$certificacion->created_at;
+                    $fecha=$fechaCert->format('d').' días del mes de '.$meses[$fechaCert->format('m')-1].' del '.$fechaCert->format('Y').'.';              
+                    $chip=$certificacion->Vehiculo->Equipos->where("idTipoEquipo",1)->first();           
+                    $equipos=$certificacion->Vehiculo->Equipos->where("idTipoEquipo","!=",1)->sortBy("idTipoEquipo");                     
+                    //dd($chip); 
+                    $hoja=$certificacion->Materiales->where('idTipoMaterial',1)->first();
+                    $data=[
+                    "fecha"=>$fecha,
+                    "empresa"=>"MOTORGAS COMPANY S.A.",
+                    "carro"=>$certificacion->Vehiculo,
+                    "taller"=>$certificacion->Taller, 
+                    "hoja"=>$hoja, 
+                    "equipos"=>$equipos,
+                    "chip"=>$chip,
+                    "fechaCert"=>$fechaCert,
+                    "pesos"=>$certificacion->calculaPesos,
+                    "largo"=>$this->devuelveDatoParseado($certificacion->Vehiculo->largo),
+                    "ancho"=>$this->devuelveDatoParseado($certificacion->Vehiculo->ancho),
+                    "altura"=>$this->devuelveDatoParseado($certificacion->Vehiculo->altura),
+                    ];                 
+                    $pdf = App::make('dompdf.wrapper');
+                    $pdf->loadView('preConverGnv',$data);        
+                    //return $pdf->stream($id.'-'.date('d-m-Y').'-cargo.pdf');
+                    return  $pdf->download('Pre-Conver'.$certificacion->Vehiculo->placa.'-'.$hoja->numSerie);
+                }
+                return abort(404);
+            }
+        }else{
+            return abort(404);
+        }
+    }
+
     //vista y descarga de DUPLICADOS ANUALES GNV
 
     public function generaDuplicadoAnualGnv($id){

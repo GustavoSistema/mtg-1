@@ -5,15 +5,15 @@
         @break
 
         @case('cargado')
-            <x-form-vehiculo-deshabilitado />
+            <x-form-vehiculo-sp-deshabilitado />
         @break
 
         @case('editando')
-            <x-form-vehiculo-actualizar />
+            <x-form-vehiculo-sp-actualizar />
         @break
 
         @default
-            <x-form-vehiculo-habilitado />
+            <x-form-vehiculo-sin-placa />
     @endswitch
 
     @if ($vehiculo)
