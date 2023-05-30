@@ -526,7 +526,7 @@
                                                 <i class="fas fa-download"></i>
                                                 <span>desc. Certificado</span>
                                                 </a>
-                                                @if ($certificacion->Servicio->tipoServicio->id == 1)
+                                                @if ($certificacion->Servicio->tipoServicio->id == 1||$certificacion->Servicio->tipoServicio->id == 10)
                                                     <a href="{{ route('preConversionGnv', [$certificacion->id]) }}" target="__blank"
                                                         rel="noopener noreferrer"
                                                         class="flex px-4 py-2 text-sm text-indigo-700 hover:bg-slate-600 hover:text-white justify-between items-center hover:cursor-pointer">
