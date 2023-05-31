@@ -588,16 +588,7 @@
                 @livewire('vehiculo.create-vehiculo', ['tipoServicio' => $tipoServicio])
                 @if ($estado)
                 @switch($estado)
-                    @case('esperando')
-                        <div class="max-w-5xl m-auto  bg-white rounded-lg shadow-md dark:bg-gray-300 p-4 mt-4">
-                            <x-jet-label value="Fotos reglamentarias:" class="font-bold text-xl py-4" />
-                            <x-file-pond name="imagenes" id="imagenes" wire:model="imagenes" acceptedFileTypes="['image/*',]"
-                                aceptaVarios="true">
-
-                            </x-file-pond>
-                            <x-jet-input-error for="imagenes" />
-                        </div>
-
+                    @case('esperando')                        
                         <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4 py-4">
                             <div class="my-2 flex flex-row justify-evenly items-center">
                                 <button wire:click="certificarPreconver" wire:loading.attr="disabled" wire.target="certificarPreconver"

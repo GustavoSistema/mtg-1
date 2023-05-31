@@ -110,8 +110,11 @@ class ListaCertificaciones extends Component
             return $hoja->numSerie;
         }else{
             return 0;    
-        }
-                
+        }               
+    }
 
+    public function finalizarPreconversion(Certificacion $certi){
+        $ruta=route('finalizarPreconver',["idCertificacion"=>$certi->id]);
+        return redirect()->to($ruta);
     }
 }

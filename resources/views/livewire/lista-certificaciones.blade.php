@@ -246,7 +246,7 @@
                                                                 clip-rule="evenodd" />
                                                             </svg>
                                                         </button>
-                                                        <div x-show="menus" x-on:click.away="menus = false" class="dropdown-content flex flex-col border bg-white shadow w-48 absolute z-30 right-0 mt-60 mr-48">
+                                                        <div x-show="menus" x-on:click.away="menus = false" class="dropdown-content flex flex-col border bg-white shadow-xl w-48 absolute z-30 right-0 mt-60 mr-48">
                                                             <a  href="{{$item->rutaVistaCertificado}}" target="__blank" rel="noopener noreferrer"
                                                                 class="focus:outline-none flex items-center space-x-4 focus:text-lime-400 text-xs w-full hover:bg-indigo-600 py-2 px-6 cursor-pointer hover:text-white">
                                                                 <i class="fas fa-eye"></i> 
@@ -306,6 +306,13 @@
                                                             <i class="fa-solid fa-ellipsis fa-xl"></i>
                                                         </button>
                                                         <div x-show="menu" x-on:click.away="menu = false" class="dropdown-content flex flex-col  border bg-white shadow w-48 absolute z-30 right-0 mt-24 mr-6">
+                                                            @if($item->Servicio->tipoServicio->id==12) 
+                                                                <button wire:click="finalizarPreconversion({{$item->id}})"
+                                                                    class="focus:outline-none flex items-center space-x-4 focus:text-lime-400 text-xs w-full hover:bg-indigo-600 py-2 px-6 cursor-pointer hover:text-white">
+                                                                    <i class="fa-solid fa-boxes-packing"></i>
+                                                                    <span>Finalizar conversión</span>
+                                                                </button> 
+                                                            @endif
                                                             <button 
                                                                 class="focus:outline-none flex items-center space-x-4 focus:text-lime-400 text-xs w-full hover:bg-indigo-600 py-2 px-6 cursor-pointer hover:text-white">
                                                                 <i class="fa-solid fa-file-circle-xmark"></i>

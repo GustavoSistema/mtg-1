@@ -21,6 +21,7 @@ use App\Http\Livewire\AdminPermisos;
 use App\Http\Livewire\AdminRoles;
 use App\Http\Livewire\Arreglando;
 use App\Http\Livewire\EditarTaller;
+use App\Http\Livewire\FinalizarPreConversion;
 use App\Http\Livewire\ListaCertificaciones;
 use App\Http\Livewire\ListaCertificacionesPendientes;
 use App\Http\Livewire\PrestamoMateriales;
@@ -84,6 +85,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     
     Route::get('/Inventario-revision',RevisionInventario::class)->middleware('can:inventario.revision')->name('inventario.revision');
 
+    Route::get('/finalizarPreConversion/{idCertificacion}',FinalizarPreConversion::class)->name('finalizarPreconver');
 
     Route::get('/Usuarios',Usuarios::class)->name('usuarios');
     Route::get('/Roles',AdminRoles::class)->name('usuarios.roles');

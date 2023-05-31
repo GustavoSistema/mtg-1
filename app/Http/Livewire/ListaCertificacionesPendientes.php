@@ -49,7 +49,7 @@ class ListaCertificacionesPendientes extends Component
             //Encuentra el expediente y cambia su estado
             $expe=Expediente::find($certi->idExpediente);
             if($expe){
-                $expe->update(["servicio_idservicio"=>$certif->idServicio,"certificado"=>$certif->Hoja->id]);
+                $expe->update(["servicio_idservicio"=>$certif->idServicio,"certificado"=>$certif->Hoja->numSerie]);
                 //Crea la relacion entre la nueva certificacion y el expediente previamente registrado
                 $certEx=CertifiacionExpediente::create(["idCertificacion"=>$certif->id,"idExpediente"=>$expe->id]);
             }                                  
