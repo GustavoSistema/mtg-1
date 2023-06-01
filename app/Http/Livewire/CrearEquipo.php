@@ -86,7 +86,7 @@ class CrearEquipo extends Component
     } 
 
     public function salvaTanque(){
-        $hoy=Carbon::now()->format('d/m/Y');   
+        $hoy=Carbon::now()->format('Y-m-d');   
         $rules= [
             "equipoSerie"=>"required|min:1",
             "equipoMarca"=>"required|min:1",

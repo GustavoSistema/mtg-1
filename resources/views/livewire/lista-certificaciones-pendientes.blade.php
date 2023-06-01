@@ -181,12 +181,12 @@
                                                             </button>
                                                             <div x-show="menu" x-on:click.away="menu = false" class="dropdown-content flex flex-col  bg-white shadow w-48 absolute z-30 right-0 mt-20 mr-6">
                                                                 @if ($item->estado == 1)                                                                  
-                                                                    <button wire:click="certificar({{$item->id}})"
+                                                                    <button wire:click="muestraModal({{$item->id}})"
                                                                         class="focus:outline-none flex items-center space-x-4 focus:text-lime-400 text-xs w-full hover:bg-indigo-600 py-2 px-6 cursor-pointer hover:text-white">
                                                                         <i class="fa-solid fa-file-signature"></i>
                                                                         <span>Certificar</span>
                                                                     </button>  
-                                                                    <button wire:click="certificar({{$item->id}})"
+                                                                    <button 
                                                                         class="focus:outline-none flex items-center space-x-4 focus:text-lime-400 text-xs w-full hover:bg-indigo-600 py-2 px-6 cursor-pointer hover:text-white">
                                                                         <i class="fas fa-trash"></i>
                                                                         <span>Eliminar</span>
@@ -248,4 +248,29 @@
         <div class="flex">
         </div>
     </div>  
+
+    <x-jet-dialog-modal wire:model="open" wire:loading.attr="disabled">
+        <x-slot name="title" class="font-bold">
+            <h1 class="text-xl font-bold"><i class="fa-solid fa-plus text-white"></i> &nbsp;Nueva Certificación</h1>
+        </x-slot>
+
+        <x-slot name="content">
+            <div class="mb-4">
+                <x-jet-label value="N° Formato:" />
+                <x-jet-input wire:model="numSugerido" type="text" class="w-full" />
+                <x-jet-input-error for="numSugerido" />
+            </div>               
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-jet-secondary-button wire:click="$set('open',false)" class="mx-2">
+                Cancelar
+            </x-jet-secondary-button>
+            <x-jet-button wire:click="certificar" wire:loading.attr="disabled" wire:target="certificar">
+                Certificar
+            </x-jet-button>
+
+        </x-slot>
+
+    </x-jet-dialog-modal>
 </div>

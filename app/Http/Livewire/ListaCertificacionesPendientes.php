@@ -17,12 +17,15 @@ class ListaCertificacionesPendientes extends Component
 
     use WithPagination;
 
-    public $sort,$direction,$cant,$search;
+    public $sort,$direction,$cant,$search,$numSugerido,$open=false,$pendiente;
+
+    protected $rules=["numSugerido"=>"required|min:1"];
 
     public function mount(){
         $this->direction='desc';
         $this->sort='id';       
         $this->cant=10;
+        //$this->numSugerido=50187;
     }
 
     public function render()
@@ -36,14 +39,16 @@ class ListaCertificacionesPendientes extends Component
         return view('livewire.lista-certificaciones-pendientes',compact("certis"));
     }
 
-    public function certificar(CertificacionPendiente $certi){
+    public function certificar(){
+        $certi=$this->pendiente;
+        //dd($certi);
         $precio=0;
         if($certi->pagado>0){
             $precio=$certi->precio;
         }
-        $hoja=$this->obtieneFormato();
+        $hoja=$this->procesaFormato($this->numSugerido,11);
         //dd($hoja);
-        if($hoja){
+        if($hoja!=null){
             //crea una certificacion
             $certif= Certificacion::certificarGnvPendiente($certi->Taller, $certi->Servicio, $hoja, $certi->Vehiculo, $certi->Inspector,$precio);
             //Encuentra el expediente y cambia su estado
@@ -61,25 +66,97 @@ class ListaCertificacionesPendientes extends Component
             guardarArchivosEnExpediente::dispatch($expe,$certif);
             //cambia el estado de la certificacion a realizado
             $this->cambiaEstado($certi);
+            $this->reset(["numSugerido","open"]);
             $this->emit("minAlert", ["titulo" => "¡EXCELENTE TRABAJO!", "mensaje" => "Tu certificado N°: " . $certif->Hoja->numSerie . " esta listo.", "icono" => "success"]);       
         }else{
             $this->emit("minAlert", ["titulo" => "AVISO DEL SISTEMA", "mensaje" => "No fue posible encontrar un formato para realizar la certificación", "icono" => "warning"]);
         }
     }
+
+    public function muestraModal(CertificacionPendiente $certi){       
+        $this->pendiente=$certi; 
+        $numero=$this->obtieneFormato(1)->numSerie;
+        $this->numSugerido=$numero;
+        $this->open=true;
+    }
+    
     
     public function cambiaEstado(CertificacionPendiente $certi){
         $certi->update(["estado"=>2]);
     }
 
-    public function obtieneFormato()
+    public function obtieneFormato($tipo)
     {
         $formato = Material::where([
-            ["idTipoMaterial", 1],
+            ["idTipoMaterial", $tipo],
             ['idUsuario', Auth::id()],
             ["estado", 3],
         ])->orderBy('numSerie', 'asc')
           ->first();        
         return $formato;
+    }
+
+    public function procesaFormato($numSerieFormato, $servicio)
+    {
+        if ($numSerieFormato) {
+            $hoja = $this->seleccionaHojaSegunServicio($numSerieFormato, $servicio);
+            if ($hoja != null) {
+                return $hoja;
+            } else {
+                $this->emit("CustomAlert", ["titulo" => "ERROR", "mensaje" => "El número de serie ingresado no corresponde con ningún formato en su poder", "icono" => "error"]);
+                return null;
+            }
+        } else {
+            $this->emit("CustomAlert", ["titulo" => "ERROR", "mensaje" => "Número de serie no válido.", "icono" => "error"]);
+            return null;
+        }
+    }   
+
+    public function seleccionaHojaSegunServicio($serie, $tipo)
+    {
+        $hoja = null;
+        switch ($tipo) {
+            case 1:
+                $hoja = Material::where([['numSerie', $serie], ['idTipoMaterial', 1], ['estado', 3], ['idUsuario', Auth::id()]])->first();
+                return $hoja;
+                break;
+
+            case 2:
+                $hoja = Material::where([['numSerie', $serie], ['idTipoMaterial', 1], ['estado', 3], ['idUsuario', Auth::id()]])->first();
+                return $hoja;
+                break;
+
+            case 3:
+                $hoja = Material::where([['numSerie', $serie], ['idTipoMaterial', 3], ['estado', 3], ['idUsuario', Auth::id()]])->first();
+                return $hoja;
+                break;
+
+            case 4:
+                $hoja = Material::where([['numSerie', $serie], ['idTipoMaterial', 3], ['estado', 3], ['idUsuario', Auth::id()]])->first();
+                return $hoja;
+                break;
+
+            case 8:
+                $hoja = Material::where([['numSerie', $serie], ['idTipoMaterial', 1], ['estado', 3], ['idUsuario', Auth::id()]])->first();
+                return $hoja;
+                break;
+
+            case 10:
+                    $hoja = Material::where([['numSerie', $serie], ['idTipoMaterial', 1], ['estado', 3], ['idUsuario', Auth::id()]])->first();
+                    return $hoja;
+                    break;
+            case 11:
+                    $hoja = Material::where([['numSerie', $serie], ['idTipoMaterial', 1], ['estado', 3], ['idUsuario', Auth::id()]])->first();
+                    return $hoja;
+                    break;
+            case 12:
+                    $hoja = Material::where([['numSerie', $serie], ['idTipoMaterial', 1], ['estado', 3], ['idUsuario', Auth::id()]])->first();
+                    return $hoja;
+                    break;
+            default:
+                return $hoja;
+                break;
+        }
     }
 
     public function order($sort)

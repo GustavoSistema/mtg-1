@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Jobs\guardarArchivosEnExpediente;
 use App\Models\CertifiacionExpediente;
 use App\Models\Certificacion;
+use App\Models\Equipo;
 use App\Models\Expediente;
 use App\Models\Imagen;
 use App\Models\Material;
@@ -17,13 +18,26 @@ class FinalizarPreConversion extends Component
 {
     use WithFileUploads;
 
-    public $placa,$idCertificacion,$certificacion,$conChip;
+    public $placa,$idCertificacion,$certificacion,$conChip,$vehiculo,$open=false,$equipo;
     public $imagenes=[];
 
-    protected $rules=["placa"=>"required|min:6|max:7"];
+
+   
+    protected $rules=[
+        "vehiculo.placa"=>"required|min:6|max:7",
+        "vehiculo.anioFab"=>"required|numeric",
+        "equipo.*"=>"required",
+        "equipo.numSerie"=>"required|min:3",
+        "equipo.marca"=>"required|min:2",
+        "equipo.modelo"=>"required|min:2",
+        "equipo.capacidad"=>"required|min:3",
+        "equipo.peso"=>"required|numeric|min:1",
+        ];
+
     public function mount(){
         $this->conChip=1;
         $this->certificacion=Certificacion::find($this->idCertificacion);
+        $this->vehiculo=vehiculo::find($this->certificacion->idVehiculo);
     }
 
     public function render()
@@ -32,16 +46,18 @@ class FinalizarPreConversion extends Component
 
     }
     public function completar(){
-        $this->validate();
-        $vehiculo=vehiculo::findOrFail($this->certificacion->Vehiculo->id);
-        //dd($vehiculo);
+        $rules=[
+            "vehiculo.placa"=>"required|min:6|max:7",
+            "vehiculo.anioFab"=>"required|numeric",];
+        $this->validate($rules);       
         $chip=Material::where([["idUsuario",Auth::id()],["estado",3],["idTipoMaterial",2]])->first();
         if($this->conChip==1){
             if($chip!=null){
-                if($vehiculo){
+               
+                if(isset($this->vehiculo)){
                     $chip->update(["estado"=>4,"ubicacion"=>"En poder del cliente","descripcion"=>"consumido"]);
-                    $vehiculo->update(["placa"=>$this->placa]);
-                    
+                    $this->vehiculo->save();
+                    $this->certificacion->update(["estado"=>1]);
                     $expe=Expediente::create([
                         "placa"=>$this->certificacion->Vehiculo->placa,
                         "certificado"=>$this->certificacion->Hoja->numSerie,
@@ -54,17 +70,19 @@ class FinalizarPreConversion extends Component
                     $this->guardarFotos($expe);
                     guardarArchivosEnExpediente::dispatch($expe,$this->certificacion);                       
                     $certEx=CertifiacionExpediente::create(["idCertificacion"=>$this->certificacion->id,"idExpediente"=>$expe->id]);
+                    
+                    return redirect()->to("/Listado-Certificaciones");
                 }
             }else{
                 $this->emit("minAlert", ["titulo" => "AVISO DEL SISTEMA", "mensaje" => "No se pudo seleccionar un chip para realizar el servicio", "icono" => "warning"]);
             }            
         }else{
-            if($vehiculo){
-                $chip->update(["estado"=>4,"ubicacion"=>"En poder del cliente","descripcion"=>"consumido"]);
-                $vehiculo->update(["placa"=>$this->placa]);
-                
+            
+            if(isset($this->vehiculo)){                               
+                $this->vehiculo->save();
+                $this->certificacion->update(["estado"=>1]);
                 $expe=Expediente::create([
-                    "placa"=>$this->certificacion->Vehiculo->placa,
+                    "placa"=>$this->placa,
                     "certificado"=>$this->certificacion->Hoja->numSerie,
                     "estado"=>1,
                     "idTaller"=>$this->certificacion->Taller->id,
@@ -75,6 +93,8 @@ class FinalizarPreConversion extends Component
                 $this->guardarFotos($expe);
                 guardarArchivosEnExpediente::dispatch($expe,$this->certificacion);                       
                 $certEx=CertifiacionExpediente::create(["idCertificacion"=>$this->certificacion->id,"idExpediente"=>$expe->id]);
+                $this->emit("minAlert", ["titulo" => "AVISO DEL SISTEMA", "mensaje" => "TODO OKo", "icono" => "success"]);
+                return redirect()->to("/Listado-Certificaciones");
             }
         }      
     }
@@ -94,4 +114,87 @@ class FinalizarPreConversion extends Component
         }
        $this->reset(["imagenes"]);      
     }
+
+    
+
+    public function edit(Equipo $eq){
+        $this->equipo=$eq;
+        $this->open=true;
+    }
+
+    public function actualizar(){
+
+        switch($this->equipo->idTipoEquipo){
+            case 1:
+                $this->salvaChip();
+                $this->vehiculo->refresh(); 
+                $this->emitTo('finalizar-pre-conversion','render'); 
+            break;
+
+            case 2:
+                $this->salvaReductor();
+                $this->vehiculo->refresh(); 
+                $this->emitTo('finalizar-pre-conversion','render');
+            break;
+
+            case 3:
+                $this->salvaTanque();
+                $this->vehiculo->refresh(); 
+                $this->emitTo('finalizar-pre-conversion','render');
+            break;
+        }
+        
+    }
+
+    public function salvaTanque(){
+        $this->validate([
+                        "equipo.numSerie"=>"required|min:1",
+                        "equipo.marca"=>"required|min:1",
+                        "equipo.capacidad"=>"required|numeric|min:1",
+                        "equipo.peso"=>"required|numeric|min:1",
+                        "equipo.fechaFab"=>"required|date"
+                        ]);
+       
+       
+        $this->equipo->numSerie=strtoupper($this->equipo->numSerie);
+        $this->equipo->marca=strtoupper($this->equipo->marca);        
+        $this->equipo->save();
+
+           
+        $this->open=false;
+        $this->emit("minAlert",["titulo"=>"BUEN TRABAJO!","mensaje"=>"El ".$this->equipo->tipo->nombre." con serie ".$this->equipo->numSerie." se añadio Correctamente","icono"=>"success"]);
+        
+        $this->reset(["equipo"]);   
+    }
+
+    public function salvaReductor(){
+        $this->validate([
+            "equipo.numSerie"=>"required|min:1",
+            "equipo.marca"=>"required|min:1",
+            "equipo.modelo"=>"required|min:1"
+            ]); 
+
+        $this->equipo->save();       
+        $this->open=false;
+        $this->emit("minAlert",["titulo"=>"BUEN TRABAJO!","mensaje"=>"El ".$this->equipo->tipo->nombre." con serie ".$this->equipo->numSerie." se añadio Correctamente","icono"=>"success"]);
+        $this->reset(["equipo"]);   
+    }
+
+    public function salvaChip(){
+        $this->validate([
+            "equipo.numSerie"=>"required|min:1",           
+            ]);      
+
+        $this->equipo->numSerie=strtoupper($this->equipo->numSerie);
+        $this->equipo->save();          
+                  
+        $this->open=false;        
+        $this->emit("minAlert",["titulo"=>"BUEN TRABAJO!","mensaje"=>"El ".$this->equipo->tipo->nombre." con serie ".$this->equipo->numSerie." se añadio Correctamente","icono"=>"success"]);
+        
+        $this->reset(["equipo"]);  
+
+        
+    }
+
+   
 }

@@ -411,7 +411,7 @@ class Certificacion extends Model
             "idTaller"=>$taller->id,
             "idInspector"=>$inspector->id,
             "idServicio"=>$servicio->id,
-            "estado"=>1,
+            "estado"=>3,
             "precio"=>$servicio->precio,
             "pagado"=>0,
         ]);

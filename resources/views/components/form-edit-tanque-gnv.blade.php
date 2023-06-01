@@ -21,7 +21,7 @@
     </div>  
     <div class="mb-4">
         <x-jet-label value="Peso:"/>
-        <x-jet-input type="number" class="w-full" wire:model="equipo.peso" inputmode="numeric" disabled/>
+        <x-jet-input type="number" class="w-full" wire:model="equipo.peso" inputmode="numeric"/>
         <x-jet-input-error for="equipo.peso"/>
     </div>  
 </div>

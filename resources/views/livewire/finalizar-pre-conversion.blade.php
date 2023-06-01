@@ -19,14 +19,116 @@
                 </div>                
             </div>
             <div class="w-full md:w-4/6 border bg-indigo-100 rounded-md h-auto p-4">
-                <div class="flex flex-row w-full justify-space-between">
-                    <div class="w-full md:w-3/6 flex items-center">
+
+                <h3 class="font-bold text-indigo-400 italic uppercase mt-2">Datos de equipos:</h3>
+                @if ($vehiculo->Equipos)           
+                        <div wire:model="equipos">
+                            @foreach ($vehiculo->Equipos as $e)
+                                @if (isset($e->idTipoEquipo))
+                                    @switch($e->idTipoEquipo)
+                                        @case(1)
+                                            <div class="block  w-full bg-white border p-2 rounded-lg shadow-md m-auto my-4">
+                                                <div class="flex flex-row w-full">
+                                                    <div class="block  w-5/6">
+                                                        <span
+                                                            class="bg-teal-200 text-teal-800 text-xs px-2 inline-block rounded-full  uppercase font-semibold tracking-wide">
+                                                            <i class="fas fa-microchip"></i>&nbsp;{{ $e->tipo->nombre }}
+                                                        </span>
+                                                        <p>Serie: <strong>{{ $e->numSerie }}</strong></p>
+                                                    </div>
+                                                    <div class="w-1/6 flex justify-end items-center space-x-2">
+                                                        <a class="bg-amber-300 p-4 rounded-xl hover:bg-amber-500 hover:cursor-pointer"
+                                                            wire:click="edit({{$e}})">
+                                                            <i class="fas fa-pen"></i>
+                                                        </a>                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @break
+
+                                        @case(2)
+                                            <div
+                                                class="block  w-full bg-white border p-2 rounded-lg shadow-md m-auto my-4">
+                                                <div class="flex flex-row w-full">
+                                                    <div class="block w-5/6">
+                                                        <span
+                                                            class="bg-sky-200 text-sky-800 text-xs px-2 inline-block rounded-full  uppercase font-semibold tracking-wide">
+                                                            <i class="fas fa-tenge"></i>&nbsp;{{ $e->tipo->nombre }}
+                                                        </span>
+                                                        <p>Serie: <strong>{{ $e->numSerie }}</strong></p>
+                                                        <p>Marca: <strong>{{ $e->marca }}</strong></p>
+                                                        <p>Modelo: <strong>{{ $e->modelo }}</strong></p>
+                                                    </div>
+                                                    <div class=" w-1/6 flex justify-end items-center space-x-2">
+                                                        <a class="bg-amber-300 p-4 rounded-xl hover:bg-amber-500 hover:cursor-pointer"
+                                                            wire:click="edit({{$e}})">
+                                                            <i class="fas fa-pen"></i>
+                                                        </a>
+                                                        {{--
+                                                        <a class="bg-red-300 p-4 rounded-xl hover:bg-red-500 hover:cursor-pointer"
+                                                            wire:click="delete({{ $e }})">
+                                                            <i class="fas fa-trash"></i>
+                                                        </a>
+                                                        --}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @break
+
+                                        @case(3)
+                                            <div
+                                                class="block  w-full bg-white border p-2 rounded-lg shadow-md m-auto my-4">
+                                                <div class="flex flex-row w-full">
+                                                    <div class="block bg w-5/6">
+                                                        <span
+                                                            class="bg-orange-400 text-white text-xs px-2 inline-block rounded-full  uppercase font-semibold tracking-wide">
+                                                            <i class="fas fa-battery-empty"></i>&nbsp;{{ $e->tipo->nombre }}
+                                                        </span>
+                                                        <p>Serie: <strong>{{ $e->numSerie }}</strong></p>
+                                                        <p>Marca: <strong>{{ $e->marca }}</strong></p>
+                                                        <p>Capacidad (L): <strong>{{ $e->capacidad }}</strong></p>
+                                                        <p>Fecha de Fabricación:
+                                                            <strong>{{ date('d/m/Y', strtotime($e->fechaFab)) }}</strong>
+                                                        </p>
+                                                        <p>Peso (KG): <strong>{{ $e['peso'] }}</strong></p>
+                                                    </div>
+                                                    <div class="bg w-1/6 flex justify-end items-center space-x-2">
+                                                        <a class="bg-amber-300 p-4 rounded-xl hover:bg-amber-500 hover:cursor-pointer"
+                                                            wire:click="edit({{$e}})">
+                                                            <i class="fas fa-pen"></i>
+                                                        </a>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @break
+
+                                        @default
+                                    @endswitch
+                                @endif
+                            @endforeach
+                        </div>
+                    
+                @else
+                    <p class="w-4/6 text-center p-2 text-sm text-gray-400 m-auto">No se encontraron Equipos
+                            registrados en este vehículo</p>
+                    
+                @endif
+
+
+                <h3 class="font-bold text-indigo-400 italic uppercase mb-2">Datos del Vehículo:</h3>
+                <div class="flex flex-row w-full justify-space-between space-x-2">
+                    
+                    <div class="w-full md:w-2/6 flex items-center">
                         <x-jet-label value="Placa:" />
-                        <x-jet-input type="text" class="w-full" wire:model="placa" maxlength="7" />
-                        
+                        <x-jet-input type="text" class="w-full" wire:model="vehiculo.placa" maxlength="7" />                        
+                    </div>
+                    <div class="w-full md:w-2/6 flex items-center">
+                        <x-jet-label value="Año de fabricación:" />
+                        <x-jet-input type="text" class="w-full" wire:model="vehiculo.anioFab" maxlength="7" inputmode="numeric"  pattern="[0-9]*"/>                        
                     </div>
                     
-                    <div class="w-full flex justify-center items-center">
+                    <div class="w-full md:w-2/6 flex justify-center items-center">
                         <input wire:model="conChip" id="checkbox1" type="checkbox" value="1" class="w-4 h-4 text-indigo-600 bg-white border-gray-300 rounded outline-none hover:cursor-pointer focus:ring-indigo-600  focus:ring-1 dark:bg-gray-600 dark:border-gray-500">
                         <label for="checkbox1" class="py-2 ml-2 text-sm font-medium text-gray-900 select-none hover:cursor-pointer ">
                             Incluye Chip
@@ -34,7 +136,10 @@
                     </div>
                     
                 </div>
-                <x-jet-input-error for="placa" />
+                <x-jet-input-error for="vehiculo.placa" />
+                <x-jet-input-error for="vehiculo.anioFab" />
+
+                
                 <div class="max-w-5xl m-auto  bg-white rounded-lg shadow-md dark:bg-gray-300  mt-4 p-2">
                     <x-jet-label value="Fotos reglamentarias:" class="font-bold text-lg" />
                     <x-file-pond name="imagenes" id="imagenes" wire:model="imagenes" acceptedFileTypes="['image/*',]"
@@ -74,4 +179,45 @@
         <div class="flex">
         </div>
     </div>
+
+    <x-jet-dialog-modal wire:model="open">
+        <x-slot name="title">
+            <h1 class="font-bold text-lg">EDITANDO EQUIPO</h1>
+        </x-slot>
+        <x-slot name="content">            
+            @if ($equipo)
+                @switch($equipo->idTipoEquipo)
+                    @case(1)
+                        <x-form-edit-chip-gnv/>
+                        
+                    @break
+
+                    @case(2)
+                        <x-form-edit-reductor-gnv/>
+                       
+                    @break
+
+                    @case(3)
+                        <x-form-edit-tanque-gnv/>
+                      
+                    @break
+
+                    @default
+                        <div class="p-4 bg-indigo-300 text-center rounded-xl">
+                            <p>SIN DATOS</p>
+                        </div>
+                @endswitch
+            @endif
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-jet-secondary-button wire:click="$set('open',false)" class="mx-2">
+                Cancelar
+            </x-jet-secondary-button>
+            <x-jet-button wire:click="actualizar" wire:loading.attr="disabled" wire:target="actualizar">
+                Guardar
+            </x-jet-button>
+        </x-slot>
+
+    </x-jet-dialog-modal>
 </div>

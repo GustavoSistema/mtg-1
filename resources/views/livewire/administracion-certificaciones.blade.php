@@ -171,6 +171,11 @@
                                                 Conversion a GNV + chip
                                             </p>
                                         @break
+                                        @case(12)
+                                            <p class="text-sm leading-none text-gray-600 ml-2 p-2 bg-green-200 rounded-full">
+                                                {{$certificacion->Servicio->tipoServicio->descripcion}}
+                                            </p>
+                                        @break
 
                                         @default
                                             <p class="text-sm leading-none text-gray-600 ml-2">
@@ -190,7 +195,7 @@
                             <td class="pl-2">
                                 <div class="flex items-center">
                                     <p class="text-sm font-bold  text-indigo-700 ml-2">
-                                        {{ $certificacion->placa }}</p>
+                                        {{ $certificacion->placa??'N/A' }}</p>
                                 </div>
                             </td>
                             @if(isset($certificacion->Hoja->numSerie))
