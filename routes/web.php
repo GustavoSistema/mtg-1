@@ -26,6 +26,7 @@ use App\Http\Livewire\ListaCertificaciones;
 use App\Http\Livewire\ListaCertificacionesPendientes;
 use App\Http\Livewire\PrestamoMateriales;
 use App\Http\Livewire\Prueba;
+use App\Http\Livewire\PruebaExcel;
 use App\Http\Livewire\RevisionInventario;
 use App\Http\Livewire\TallerRevision;
 use App\Http\Livewire\Tablas\Tiposservicios;
@@ -86,6 +87,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get('/Inventario-revision',RevisionInventario::class)->middleware('can:inventario.revision')->name('inventario.revision');
 
     Route::get('/finalizarPreConversion/{idCertificacion}',FinalizarPreConversion::class)->name('finalizarPreconver');
+
+    Route::get('/pruebaExcel',PruebaExcel::class)->name('probarExcel');
 
     Route::get('/Usuarios',Usuarios::class)->name('usuarios');
     Route::get('/Roles',AdminRoles::class)->name('usuarios.roles');
