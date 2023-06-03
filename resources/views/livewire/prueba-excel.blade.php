@@ -1,6 +1,6 @@
 <div>
     
-    <div class="max-w-5xl border shadow-md rounded-md bg-indigo-100 flex  justify-center pt-12 mx-auto">
+    <div class="max-w-5xl border shadow-md rounded-md bg-indigo-100 flex flex-col justify-center pt-12 mx-auto">
         <form wire:submit.prevent="import">
             <input type="file" wire:model="file">
             @error('file') <span class="error">{{ $message }}</span> @enderror
@@ -9,24 +9,17 @@
         </form>
         
         @if(isset($data))
-        <table>
-            <thead>
-                <tr>
-                    <th>Columna 1</th>
-                    <th>Columna 2</th>
-                    <!-- Agrega más columnas según la estructura de tu archivo Excel -->
-                </tr>
-            </thead>
-            <tbody>                
-                @foreach ($data as $row)
-                    <tr>
-                        <td>{{ $row[0] }}</td>
-                        <td>{{ $row[1] }}</td>
-                        <!-- Agrega más columnas según la estructura de tu archivo Excel -->
-                    </tr>
+        <div class="w-full bg-white border rounded-md py-4">
+            @foreach ($data as $key=>$item)        
+                
+                @foreach ($item as $id=>$row)
+                   <span class="text-indigo-500 font-bold">{{$key }}</span><p>{{var_export($row)}}</p><br>
+                    <p>{{$id.'---'.$row[2].' - '.$row[4].' - '.$row[7]}}</p>
                 @endforeach
-            </tbody>
-        </table>
+            @endforeach
+        </div>
+        
+        
         @endif
     </div>
    

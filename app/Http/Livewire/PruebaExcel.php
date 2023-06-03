@@ -12,7 +12,7 @@ class PruebaExcel extends Component
     use WithFileUploads;
 
     public $file;
-    //public $data;
+    public $data;
 
     public function render()
     {
@@ -28,11 +28,10 @@ class PruebaExcel extends Component
         
         $path = $this->file->getRealPath();
 
-        //$this->data = Excel::toArray([], $path);
+        $this->data = Excel::toArray([], $path);
 
-        Excel::import(new ServicesImport, $path);        
        
 
-        return redirect()->back()->with('success', 'Datos importados correctamente');
+        //return redirect()->back()->with('success', 'Datos importados correctamente');
     }
 }
