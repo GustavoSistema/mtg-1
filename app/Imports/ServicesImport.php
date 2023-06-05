@@ -14,12 +14,13 @@ class ServicesImport implements ToModel, WithHeadingRow
     * @return \Illuminate\Database\Eloquent\Model|null
     */
     public function model(array $row)
-    {
+    {       
         return new ServiciosImportados([
-            "placa"=>$row['Placa'],
-            "certificador"=>$row['Certificador'],
-            "taller"=>$row['Taller'],
-        ]);
+            "placa"=>$row['placa'],
+            "certificador"=>$row['certificador'],
+            "taller"=>$row['taller'],
+            "fecha"=>\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['fecha_revision']),            
+        ]);        
     }
 
     public function headingRow(): int

@@ -14,6 +14,7 @@ class ServiciosImportados extends Model
     protected $fillable=[
                     "placa",
                     "certificador",
-                    "taller",                        
+                    "taller", 
+                    "fecha",                       
                     ];
 }
