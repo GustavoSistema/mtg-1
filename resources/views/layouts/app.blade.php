@@ -114,7 +114,9 @@
             chart1.update();
         });
     </script>
-    
+<div class="text-xs text-slate-700 -mt-4 float-right">
+    Powered by ECRDEV ®
+</div>
 </body>
 
 </html>

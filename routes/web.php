@@ -44,7 +44,7 @@ use App\Http\Livewire\Usuarios;
 */
 
 Route::get('/', function () {
-    return view('login');
+    return redirect()->to('/login');
 });
 Route::get('phpmyinfo', function () {
     phpinfo(); 

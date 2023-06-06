@@ -12,7 +12,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('login') }}">
+        <form method="POST" action="{{ route('login') }}" id="formLogin">
             @csrf
 
             <div>
@@ -22,7 +22,7 @@
 
             <div class="mt-4">
                 <x-jet-label for="password" value="{{ __('Contraseña') }}" />
-                <x-jet-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="contraseñniaa" />
+                <x-jet-input id="password" class="block mt-1 w-full" type="password" name="password" required />
             </div>
 
             <div class="block mt-4">
@@ -39,11 +39,33 @@
                     </a>
                 @endif
 
-                <x-jet-button class="ml-4">
+                <x-jet-button class="ml-4"  id="loginButton"  >
                     {{ __('Ingresar') }}
                 </x-jet-button>
             </div>
         </form>
     </x-jet-authentication-card>   
- 
+   
+    @push("js")
+    <script >
+        
+        const login=document.querySelector("#loginButton");
+        const form=document.querySelector("#formLogin");
+        console.log(login);
+        /*
+         window.onload = function(){
+            login.disabled=false;
+        
+        }*/
+        
+        login.addEventListener("click", function(event) {
+            login.disabled=true;
+            form.submit();            
+        });
+        
+        
+       
+       
+    </script>
+    @endpush
 </x-guest-layout>

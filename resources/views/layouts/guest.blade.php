@@ -27,8 +27,10 @@
                 Powered by ECRDEV ®
             </div>
         </div>
+        @livewireStyles
         @livewireScripts
-        
+        @vite(['resources/css/app.css','resources/js/app.js'])
+        @stack('js')
     </body>
-    
+   
 </html>

@@ -1,5 +1,9 @@
 <div >
+    
     <div class="container block justify-center m-auto py-12">
+        <h1 class="text-2xl bold text-center text-indigo-500 font-semibold ">
+            CARGA DE SERVICIOS DE REVISION ANUAL
+        </h1>
         <div class="max-w-8xl border shadow-md rounded-md bg-indigo-100 flex flex-col justify-center pt-12 mx-auto">
             <div class="flex flex-row space-x-2 items-center m-auto">
                 <x-jet-label value="Servicios de revisión anual:" />
@@ -32,7 +36,7 @@
             
             <br>
             @if (!empty($data))        
-                <p class="text-center" >
+                <p class="text-center font-bold text-slate-700" >
                     Se encontraron:  {{ $cuenta }} registros
                 </p>            
             @endif
@@ -51,31 +55,37 @@
             </div>           
             @endif
             --}}
-
-            {{--
-                <table class="overflow-x-auto">
-                    <thead>
-                        <tr>
-                            @foreach ($headers as $header)
-                                <th class="font-bold text-indigo-500">{{ $header }}</th>
-                            @endforeach
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($data as $row)                        
-                            <tr>
-                                @foreach ($row as $key=>$value)
-                                    <td>{{ $key." - ".$value }}</td>
-                                @endforeach
-                            </tr>                        
-                        @endforeach
-                    </tbody>
-                </table>
-                --}}
-        
+             
+               
         </div>
     </div>
-    
+    @if(isset($data))
+            <div class="max-h-96 overflow-y-auto overflow-x-auto max-w-7xl mx-auto ">
+                
+                    <table class="">
+                        <thead class="bg-slate-700" >
+                            <tr>
+                                <th class="font-bold text-indigo-300">#</th>
+                                @foreach ($headers as $header)
+                                    <th class="font-bold text-indigo-300">{{ $header }}</th>
+                                @endforeach
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            @foreach ($data as $ids=>$row)                        
+                                <tr class="hover:bg-gray-200 divide-x">
+                                    <td class="text-center text-orange-400 font-bold">{{($ids+1)}}</td>
+                                    @foreach ($row as $key=>$value)
+                                        <td class="text-center">{{ $value }}</td>
+                                    @endforeach
+                                </tr>                        
+                            @endforeach
+                        </tbody>
+                    </table>
+                
+                
+            </div>
+        @endif 
    
 
 </div>

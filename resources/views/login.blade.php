@@ -39,13 +39,18 @@
                     </a>
                 @endif
 
-                <x-jet-button class="ml-4">
-                    {{ __('Ingresar') }}
+                <x-jet-button class="ml-4" wire:loading.attr="disabled" wire:loading.class="hidden"> 
+                    {{ __('LOGEARSE') }}
                 </x-jet-button>
             </div>
         </form>
         
     </x-jet-authentication-card>
+    @push("js")
+    <script >
+        this $("#login").one('click', function (event) { $(this).prop('disabled', true); }); 
+    </script>
+    @endpush
     
 </x-guest-layout>
 
