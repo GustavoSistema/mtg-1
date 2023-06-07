@@ -42,7 +42,25 @@ class PruebaExcel extends Component
     }
 
     public function cargarAnuales(){
-        $this->emit("minAlert", ["titulo" => "¡EXCELENTE TRABAJO!", "mensaje" => "Todo ok", "icono" => "success"]);        
+        $this->validate([
+            'file' => 'required|mimes:xls,xlsx',
+        ]);       
+        
+        $path = $this->file->getRealPath();        
+               
+        try {
+            $import=Excel::import(new ServicesImport,$path);
+            dd($import);
+           // $this->emit("minAlert", ["titulo" => "¡EXCELENTE TRABAJO!", "mensaje" => "Todo ok", "icono" => "success"]); 
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+             $failures = $e->failures();             
+             foreach ($failures as $failure) {
+                 $failure->row(); // row that went wrong
+                 $failure->attribute(); // either heading key (if using heading row concern) or column index
+                 $failure->errors(); // Actual error messages from Laravel validator
+                 $failure->values(); // The values of the row that has failed.
+             }
+        }
     }
 
     

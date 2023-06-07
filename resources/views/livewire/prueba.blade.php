@@ -741,9 +741,6 @@
                 <p class="text-xs text-slate-500 text-center">Selecciona una de estas certificaciones para duplicar
                     certificado.</p>
             @endif
-
-
-
         </x-slot>
 
         <x-slot name="footer">
@@ -751,7 +748,5 @@
                 Cancelar
             </x-jet-secondary-button>
         </x-slot>
-
     </x-jet-dialog-modal>
-
 </div>

@@ -152,7 +152,7 @@ class Prueba extends Component
         }
     }
 
-    //selecciona una hoja segun el tipo de servicio
+    //Selecciona una hoja segun el tipo de servicio
     public function seleccionaHojaSegunServicio($serie, $tipo)
     {
         $hoja = null;
@@ -196,7 +196,7 @@ class Prueba extends Component
         }
     }
 
-
+    //Buscar una certificacion
     public function buscarCertificacion()
     {
         $this->validate(['placa' => 'required|min:3|max:7']);
@@ -216,6 +216,7 @@ class Prueba extends Component
         }
     }
 
+    //Resetear busqueda de Certificado
     public function reseteaBusquedaCert()
     {
         $this->certificado = null;
