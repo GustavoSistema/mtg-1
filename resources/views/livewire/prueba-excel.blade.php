@@ -20,7 +20,7 @@
                     
                 </button>               
                @else
-                <button class="p-2 w-36 bg-indigo-400 my-2 rounded-md text-white hover:bg-indigo-600 disabled:bg-gray-200 disabled:text-indigo-400"  id="123"
+                <button class="p-2 w-36 bg-green-500 my-2 rounded-md text-white hover:bg-green-700 disabled:bg-gray-200 disabled:text-indigo-400"  id="123"
                     wire:loading.attr="disabled" wire:click="cargarAnuales" wire:target="file,cargarAnuales">
                         cargar datos 
                         <span wire:loading  wire:target="cargarAnuales">
@@ -35,10 +35,21 @@
             @enderror
             
             <br>
-            @if (!empty($data))        
+            @if (!empty($cuenta))        
                 <p class="text-center font-bold text-slate-700" >
-                    Se encontraron:  {{ $cuenta }} registros
+                    Se encontró: {{ $cuenta }} registros
                 </p>            
+            @endif
+            @if (!empty($coincidencias))  
+                @if($coincidencias>0 && $coincidencias < 2)      
+                    <p class="text-center text-sm font-bold text-red-500" >
+                        Del cual:  {{ $coincidencias }} Conincidencia con registros anteriores
+                    </p> 
+                @else
+                    <p class="text-center text-xs text-red-500" >
+                        De los cuales: {{ $coincidencias }} coinciden con registros anteriores
+                    </p> 
+                @endif           
             @endif
                 
         
@@ -59,7 +70,20 @@
                
         </div>
     </div>
-    @if(isset($data))
+        @if (session('msg'))      
+           {{--
+            <ul class="w-5-6 m-auto text-center my-4">
+            @foreach (session('msg') as $error)
+                    <li class="text-xs text-red-600">{{ $error }}</li>
+            @endforeach
+            </ul> 
+            --}}
+            {{var_export(session('msg'))}}         
+        @else
+
+
+        @endif
+        @if(isset($data))
             <div class="max-h-96 overflow-y-auto overflow-x-auto max-w-7xl mx-auto ">
                 
                     <table class="">
@@ -82,10 +106,11 @@
                             @endforeach
                         </tbody>
                     </table>
-                
+
+                    
                 
             </div>
         @endif 
-   
 
+       
 </div>

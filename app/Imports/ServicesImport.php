@@ -4,14 +4,23 @@ namespace App\Imports;
 
 use App\Models\Certificacion;
 use App\Models\ServiciosImportados;
+
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Concerns\Importable;
+use Maatwebsite\Excel\Concerns\SkipsErrors;
+use Maatwebsite\Excel\Concerns\SkipsFailures;
+use Maatwebsite\Excel\Concerns\SkipsOnError;
+use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithUpserts;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class ServicesImport implements ToModel, WithHeadingRow, WithUpserts, WithValidation
+
+class ServicesImport implements ToModel, WithHeadingRow, WithUpserts
+
 {
+    use Importable;
     
 
     public function uniqueBy()
@@ -19,25 +28,29 @@ class ServicesImport implements ToModel, WithHeadingRow, WithUpserts, WithValida
         return 'placa';
     }
 
+    /*
     public function rules(): array
     {
-        $data=Certificacion::pluck('placa')->all();
-        return [
-            'placa' => Rule::in($data),
+        $data = $this->listaPlacas();
 
-             // Above is alias for as it always validates in batches
-            '*.email' => Rule::in(['patrick@maatwebsite.nl']),
+        return [
+            '*.placa' => function($attribute, $value, $onFailure) use($data) {
+                if (in_array($value,$data)) {
+                     $onFailure('La placa '.$value.' ya existe.');
+                }
+            },           
         ];
     }
+    */
 
     public function model(array $row)
-    {       
+    {
         return new ServiciosImportados([
-            "placa"=>$row['placa'],
-            "certificador"=>$row['certificador'],
-            "taller"=>$row['taller'],
-            "fecha"=>\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['fecha_revision']),            
-        ]);        
+            "placa" => $row['placa'],
+            "certificador" => $row['certificador'],
+            "taller" => $row['taller'],
+            "fecha" => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['fecha_revision']),
+        ]);
     }
 
     public function headingRow(): int
@@ -45,10 +58,24 @@ class ServicesImport implements ToModel, WithHeadingRow, WithUpserts, WithValida
         return 6;
     }
 
-    public function customValidationMessages()
-{
-    return [
-        'placa.in' => 'La placa :attribute ya existe.',
-    ];
-}
+    
+
+
+    public function customValidationAttributes()
+    {
+        return ['2' => 'placa'];
+    }
+
+    
+    /*
+    public function listaPlacas()
+    {
+        $placas = [];
+        $data = ServiciosImportados::pluck('placa')->all();
+        if (!empty($data)) {
+            $placas = $data;
+        }
+        return $placas;
+    }
+    */
 }

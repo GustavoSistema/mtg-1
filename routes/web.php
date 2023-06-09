@@ -22,6 +22,7 @@ use App\Http\Livewire\AdminRoles;
 use App\Http\Livewire\Arreglando;
 use App\Http\Livewire\EditarTaller;
 use App\Http\Livewire\FinalizarPreConversion;
+use App\Http\Livewire\ImportarAnuales;
 use App\Http\Livewire\ListaCertificaciones;
 use App\Http\Livewire\ListaCertificacionesPendientes;
 use App\Http\Livewire\PrestamoMateriales;
@@ -88,7 +89,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
 
     Route::get('/finalizarPreConversion/{idCertificacion}',FinalizarPreConversion::class)->name('finalizarPreconver');
 
-    Route::get('/pruebaExcel',PruebaExcel::class)->name('probarExcel');
+
+    //Rutas para importacion de Servicios
+    Route::get('/ImportarAnuales',ImportarAnuales::class)->middleware('can:importar.anuales')->name('importar.anuales');
 
     Route::get('/Usuarios',Usuarios::class)->name('usuarios');
     Route::get('/Roles',AdminRoles::class)->name('usuarios.roles');

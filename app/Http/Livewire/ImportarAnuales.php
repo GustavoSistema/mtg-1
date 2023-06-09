@@ -4,33 +4,23 @@ namespace App\Http\Livewire;
 
 use App\Imports\ServicesImport;
 use App\Models\ServiciosImportados;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\ViewErrorBag;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Maatwebsite\Excel\Facades\Excel;
 
-
-
-class PruebaExcel extends Component
+class ImportarAnuales extends Component
 {
     use WithFileUploads;
 
     public $file;
     public $data,$headers,$estadoAnuales=false,$cuenta,$coincidencias;
-    public $errores=[];
-
     protected $listeners=["render"];
+
 
     public function render()
     {
-
-        return view('livewire.prueba-excel');
+        return view('livewire.importar-anuales');
     }
-
-
-    
-
     public function cargarAnuales(){
         $this->validate([
             'file' => 'required|mimes:xls,xlsx',
@@ -82,7 +72,4 @@ class PruebaExcel extends Component
         }        
         return $cuenta;
     }
-    
-
-    
 }
