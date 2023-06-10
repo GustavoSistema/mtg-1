@@ -44,7 +44,12 @@ class ResumenExpedientes extends Component
             $this->expedientes=Expediente::where('idTaller',Auth::user()->taller)->get();
             $this->expedientesFiltrados($this->expedientes);
             $this->total=$this->expedientes->count();
-        }           
+        } 
+        elseif($user->hasRole('Administrador del Sistema')){
+            $this->expedientes=Expediente::all();
+            $this->expedientesFiltrados($this->expedientes);
+            $this->total=Expediente::All()->count();                      
+        }          
           
     }
 

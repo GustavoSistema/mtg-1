@@ -15,6 +15,7 @@ class ServiciosImportados extends Model
                     "placa",
                     "certificador",
                     "taller", 
-                    "fecha",                       
+                    "fecha",  
+                    "tipoServicio",                     
                     ];
 }

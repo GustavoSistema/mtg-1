@@ -7,7 +7,7 @@
     </div>
     <div class="divide-y-2 divide-indigo-400">
         
-        @hasanyrole("administrador")
+        @hasanyrole("administrador|Administrador del Sistema")
         <div x-data="{ open: true }"
             class=" bg-white flex flex-col items-center justify-center relative overflow-hidden w-full border ">
             <div @click="open = ! open" class="bg-indigo-100 p-6 w-full flex justify-between items-center">
@@ -28,7 +28,7 @@
         </div>
         @endhasanyrole
         
-        @hasanyrole('Administrador taller|inspector')
+        @hasanyrole('Administrador taller|inspector|Administrador del Sistema')
         <div x-data="{ open: true }"
             class=" bg-white flex flex-col items-center justify-center relative overflow-hidden w-full">
             <div @click="open = ! open" class="bg-indigo-100 p-6 w-full flex justify-between items-center">
