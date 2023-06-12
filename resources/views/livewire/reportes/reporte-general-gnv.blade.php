@@ -3,17 +3,27 @@
         <x-custom-table>
             <x-slot name="titulo">
                 <h2 class="text-indigo-600 font-bold text-3xl">
-                    <i class="fa-solid fa-unlock-keyhole fa-xl"></i>
-                     &nbsp;Permisos                          
+                    <i class="fa-solid fa-square-poll-vertical fa-xl"></i>                    
+                     &nbsp;REPORTE GENERAL DE SERVICIOS GNV                       
                 </h2> 
             </x-slot>
 
-            <x-slot name="btnAgregar">
-                @livewire('create-permiso')
+            <x-slot name="btnAgregar">                
             </x-slot>
             
-            <x-slot name="contenido">
-                @if (count($permisos))
+            <x-slot name="contenido">    
+                <div class="flex items-center space-x-2">
+                    <div class="flex bg-gray-200 items-center p-2 w-48 rounded-md mb-4 ">
+                        <span>Desde: </span>
+                        <x-date-picker wire:model="fecIni" placeholder="Fecha de inicio" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full truncate"/>             
+                    </div>
+    
+                    <div class="flex bg-gray-200 items-center p-2 w-48 rounded-md mb-4 ">
+                        <span>Hasta: </span>
+                        <x-date-picker wire:model="fecFin" placeholder="Fecha de Fin" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full truncate"/>             
+                    </div>
+                </div>                   
+            @if ($importados->count())                
                 <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
                         <div class="overflow-x-auto">
@@ -34,9 +44,9 @@
                                             @endif
                                         </th>
                                         <th class="cursor-pointer hover:font-bold hover:text-indigo-500  px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                            wire:click="order('name')">
-                                            Nombre
-                                            @if ($sort == 'name')
+                                            wire:click="order('certificador')">
+                                            Inspector
+                                            @if ($sort == 'certificador')
                                                 @if ($direction == 'asc')
                                                     <i class="fas fa-sort-alpha-up-alt float-right mt-0.5"></i>
                                                 @else
@@ -47,9 +57,9 @@
                                             @endif
                                         </th>  
                                         <th class="cursor-pointer hover:font-bold hover:text-indigo-500  px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                            wire:click="order('descripcion')">
-                                            Descripcion
-                                            @if ($sort == 'descripcion')
+                                            wire:click="order('taller')">
+                                            Taller
+                                            @if ($sort == 'taller')
                                                 @if ($direction == 'asc')
                                                     <i class="fas fa-sort-alpha-up-alt float-right mt-0.5"></i>
                                                 @else
@@ -60,9 +70,9 @@
                                             @endif
                                         </th>  
                                         <th class="cursor-pointer hover:font-bold hover:text-indigo-500  px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                            wire:click="order('created_at')">
-                                            Fecha de creación
-                                            @if ($sort == 'created_at')
+                                            wire:click="order('tipoServicio')">
+                                            Tipo Servicio
+                                            @if ($sort == 'tipoServicio')
                                                 @if ($direction == 'asc')
                                                     <i class="fas fa-sort-numeric-up-alt float-right mt-0.5"></i>
                                                 @else
@@ -71,14 +81,42 @@
                                             @else
                                                 <i class="fas fa-sort float-right mt-0.5"></i>
                                             @endif
-                                        </th>                                     
+                                        </th> 
+                                        <th class="cursor-pointer hover:font-bold hover:text-indigo-500  px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                                            wire:click="order('placa')">
+                                            Placa
+                                            @if ($sort == 'placa')
+                                                @if ($direction == 'asc')
+                                                    <i class="fas fa-sort-numeric-up-alt float-right mt-0.5"></i>
+                                                @else
+                                                    <i class="fas fa-sort-numeric-down-alt float-right mt-0.5"></i>
+                                                @endif
+                                            @else
+                                                <i class="fas fa-sort float-right mt-0.5"></i>
+                                            @endif
+                                        </th>    
+                                        <th class="cursor-pointer hover:font-bold hover:text-indigo-500  px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                                            wire:click="order('fecha')">
+                                            Fecha
+                                            @if ($sort == 'fecha')
+                                                @if ($direction == 'asc')
+                                                    <i class="fas fa-sort-numeric-up-alt float-right mt-0.5"></i>
+                                                @else
+                                                    <i class="fas fa-sort-numeric-down-alt float-right mt-0.5"></i>
+                                                @endif
+                                            @else
+                                                <i class="fas fa-sort float-right mt-0.5"></i>
+                                            @endif
+                                        </th>        
+                                        {{--                           
                                         <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                             Acciones
                                         </th>
+                                        --}}
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($permisos as $item)
+                                    @foreach ($importados as $item)
                                         <tr>
                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 <div class="flex items-center">
@@ -91,7 +129,7 @@
                                                 <div class="flex items-center">
                                                     <p
                                                         class="text-slate-900 font-semibold whitespace-no-wrap">
-                                                        {{ $item->name }}
+                                                        {{ $item->certificador }}
                                                     </p>
                                                 </div>
                                             </td>    
@@ -99,7 +137,7 @@
                                                 <div class="flex items-center">
                                                     <p
                                                         class="whitespace-no-wrap">
-                                                        {{ $item->descripcion? $item->descripcion : "Sin datos" }}
+                                                        {{ $item->taller}}
                                                     </p>
                                                 </div>
                                             </td>  
@@ -107,10 +145,27 @@
                                                 <div class="flex items-center">
                                                     <p
                                                         class="whitespace-no-wrap uppercase">
-                                                        {{ $item->created_at->format("d-m-Y h:m:i a") }}
+                                                        {{ $item->TipoServicio->descripcion }}
                                                     </p>
                                                 </div>
-                                            </td>                                        
+                                            </td>    
+                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                <div class="flex items-center">
+                                                    <p
+                                                        class="whitespace-no-wrap uppercase">
+                                                        {{ $item->placa}}
+                                                    </p>
+                                                </div>
+                                            </td>      
+                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                <div class="flex items-center">
+                                                    <p
+                                                        class="whitespace-no-wrap uppercase">
+                                                        {{ $item->fecha }}
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            {{--                               
                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 <div class="flex items-center justify-center">
                                                     <p class="text-gray-900 whitespace-no-wrap">
@@ -121,6 +176,7 @@
                                                     </p>
                                                 </div>
                                             </td>
+                                            --}}
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -128,57 +184,23 @@
                         </div>
                     </div>
                 </div>
-
-                    @if ($permisos->hasPages())
+                    @if ($importados->hasPages())
                         <div>
                             <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-2 overflow-x-auto">
                                 <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
                                     <div class="px-5 py-5 bg-white border-t">
-                                        {{ $permisos->links() }}
+                                        {{ $importados->links() }}
                                     </div>
                                 </div>
                             </div>
                         </div>
                     @endif
-                @else
-                    <div class="px-6 py-4 text-center font-bold bg-indigo-200 rounded-md">
-                        No se encontro ningun registro.
-                    </div>
-                @endif
-            </x-slot>            
-       </x-custom-table>
+            @else
+                <div class="px-6 py-4 text-center font-bold bg-indigo-200 rounded-md">
+                    No se encontro ningun registro.
+                </div>
+            @endif
+            </x-slot> 
+        </x-custom-table>
     </div>
-   
-
-    {{-- MODAL PARA EDITAR ROL--}}
-    <x-jet-dialog-modal wire:model="editando" wire:loading.attr="disabled">
-        <x-slot name="title" class="font-bold">
-            <h1 class="text-xl font-bold"><i class="fa-solid fa-pen text-white"></i> &nbsp;Editar Permiso</h1>
-        </x-slot>
-
-        <x-slot name="content">
-            <div class="mb-4">
-                <x-jet-label value="Nombre:" />
-                <x-jet-input wire:model="permiso.name" type="text" class="w-full" />
-                <x-jet-input-error for="permiso.name" />
-            </div>    
-            <div class="mb-4">
-                <x-jet-label value="Descripcion:" />
-                <x-jet-input wire:model="permiso.descripcion" type="text" class="w-full" />
-                <x-jet-input-error for="permiso.descripcion" />
-            </div>        
-           
-        </x-slot>
-
-        <x-slot name="footer">
-            <x-jet-secondary-button wire:click="$set('editando',false)" class="mx-2">
-                Cancelar
-            </x-jet-secondary-button>
-            <x-jet-button wire:click="actualizar" wire:loading.attr="disabled" wire:target="actualizar">
-                Actualizar
-            </x-jet-button>
-
-        </x-slot>
-
-    </x-jet-dialog-modal>
 </div>

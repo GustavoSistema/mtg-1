@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class ServiciosImportados extends Model
 {
@@ -18,4 +19,18 @@ class ServiciosImportados extends Model
                     "fecha",  
                     "tipoServicio",                     
                     ];
+
+
+    public function TipoServicio(){
+        return $this->belongsTo(TipoServicio::class,'tipoServicio');
+    }
+
+    public function scopeRangoFecha(Builder $query, string $desde, string $hasta): void
+    {   
+        dd($desde);
+        if($desde && $hasta){
+            $query->whereBetween('created_at', [$desde,$hasta]);
+        }
+       
+    }
 }

@@ -308,7 +308,7 @@ class RevisionExpedientes extends Component
 
     public function updated($propertyName)
     {
-        $this->resetPage();
+        //$this->resetPage();
         $this->validateOnly($propertyName);
     }  
 

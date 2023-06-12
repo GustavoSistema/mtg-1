@@ -140,7 +140,7 @@
                 <td>{{(isset($carro->numSerie)? $carro->numSerie : 'NE')}}</td>
                 <td style="padding: 0 5px 0 5px; text-align:center;">15</td>
                 <td>Peso neto(kg)</td>
-                <td>{{(isset($carro->pesoNeto)? $carro->pesoNeto : '0.00')}}</td>
+                <td>{{(isset($carro->pesoNeto)? $carro->pesoNeto : '0')}}</td>
             </tr>
             <tr>
                 <td style="padding: 0 5px 0 5px; text-align:center;">8</td>
@@ -148,7 +148,7 @@
                 <td>{{(isset($carro->numMotor)? $carro->numMotor : 'NE')}}</td>
                 <td style="padding: 0 5px 0 5px; text-align:center;">16</td>
                 <td>Peso bruto(kg)</td>
-                <td>{{(isset($carro->pesoBruto)? $carro->pesoBruto : '0.00')}}</td>
+                <td>{{(isset($carro->pesoBruto)? $carro->pesoBruto : '0')}}</td>
             </tr>
         </table>
         <p>Habiendose verificado que:</p>

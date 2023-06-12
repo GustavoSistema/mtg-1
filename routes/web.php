@@ -29,6 +29,7 @@ use App\Http\Livewire\ListaCertificacionesPendientes;
 use App\Http\Livewire\PrestamoMateriales;
 use App\Http\Livewire\Prueba;
 use App\Http\Livewire\PruebaExcel;
+use App\Http\Livewire\Reportes\ReporteGeneralGnv;
 use App\Http\Livewire\RevisionInventario;
 use App\Http\Livewire\TallerRevision;
 use App\Http\Livewire\Tablas\Tiposservicios;
@@ -95,10 +96,16 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get('/ImportarAnuales',ImportarAnuales::class)->middleware('can:importar.anuales')->name('importar.anuales');
     Route::get('/ImportarConversiones',ImportarConversiones::class)->name('importar.conversiones');
 
+    //Rutas modulo de Usuarios y Roles
     Route::get('/Usuarios',Usuarios::class)->name('usuarios');
     Route::get('/Roles',AdminRoles::class)->name('usuarios.roles');
     Route::get('/Permisos',AdminPermisos::class)->name('usuarios.permisos');
-    Route::get('/Tablas/TiposDeServicios',Tiposservicios::class)->name('table.tiposServicio');
+
+    //Rutas modulo de reportes de GNV
+    Route::get('/Reporte-general-gnv',ReporteGeneralGnv::class)->name('reportes.reporteGeneralGnv');
+
+    //Ruta para adminsitracion de tablas
+    Route::get('/Tablas/TiposDeServicios',Tiposservicios::class)->name('table.tiposServicio');   
 
     
     
@@ -137,16 +144,15 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     });
     
 
+
+
     Route::get("expediente-fotos/{id}/download","App\Http\Controllers\ZipController@descargaFotosExpediente")->name("descargaFotosExp");
     Route::get("Notification/{idNoti}/{idSoli}","App\Http\Controllers\NotificationController@marcarUnaNotificación")->name("leerNotificacion");
-
-    Route::get('download/{path}', function($path) { return Illuminate\Support\Facades\Storage::download($path);})->where('path','.*');
-   
+    Route::get('download/{path}', function($path) { return Illuminate\Support\Facades\Storage::download($path);})->where('path','.*');   
     Route::get('/CargoPdf/{id}', function ($id) {
         $am= new AsignacionMateriales();
         return  $am->enviar($id);
-    })->name('cargoPdf');
-    
+    })->name('cargoPdf');    
     Route::get('/Certificado/{id}', function ($id) {
         $ser= new Servicio();
         return  $ser->generaPdfAnualGnv($id);

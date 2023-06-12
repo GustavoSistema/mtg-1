@@ -255,17 +255,24 @@
         </x-slot>
 
         <x-slot name="content">
-            <div class="mb-4">
-                <x-jet-label value="Combustible:" />
-                <x-jet-input type="text" class="w-full" wire:model="combustible" list="items"/>
-                <datalist id="items">
-                    <option value="GASOLINA">GASOLINA</option>                   
-                    <option value="BI-COMBUSTIBLE GNV">BI-COMBUSTIBLE GNV</option>
-                    <option value="BI-COMBUSTIBLE GLP">BI-COMBUSTIBLE GLP</option>
-                    <option value="GNV">GNV</option>
-                    <option value="GLP">GLP</option>
-                </datalist>
-                <x-jet-input-error for="combustible" />
+            <div class="mb-4 flex flex-row space-x-2 w-full">
+                <div class="w-1/2">
+                    <x-jet-label value="Combustible:" />
+                    <x-jet-input type="text" class="w-full" wire:model="combustible" list="items"/>
+                    <datalist id="items">
+                        <option value="GASOLINA">GASOLINA</option>                   
+                        <option value="BI-COMBUSTIBLE GNV">BI-COMBUSTIBLE GNV</option>
+                        <option value="BI-COMBUSTIBLE GLP">BI-COMBUSTIBLE GLP</option>
+                        <option value="GNV">GNV</option>
+                        <option value="GLP">GLP</option>
+                    </datalist>
+                    <x-jet-input-error for="combustible" />
+                </div >
+                <div class="w-1/2">
+                    <x-jet-label value="Nuevo peso neto:" />
+                    <x-jet-input wire:model="pesoNeto" class="w-full" type="number" inputmode="numeric"/>
+                    <x-jet-input-error for="pesoNeto" />
+                </div>                
             </div>
             <div class="mb-4">
                 <x-jet-label value="N° Formato:" />

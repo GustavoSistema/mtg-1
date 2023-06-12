@@ -17,9 +17,9 @@ class ListaCertificacionesPendientes extends Component
 
     use WithPagination;
 
-    public $sort,$direction,$cant,$search,$numSugerido,$open=false,$pendiente,$combustible;
+    public $sort,$direction,$cant,$search,$numSugerido,$open=false,$pendiente,$combustible,$pesoNeto;
 
-    protected $rules=["numSugerido"=>"required|min:1","combustible"=>"required|min:2"];
+    protected $rules=["numSugerido"=>"required|min:1","combustible"=>"required|min:2","pesoNeto"=>"required:numeric|min:1"];
 
     public function mount(){
         $this->direction='desc';
@@ -43,7 +43,7 @@ class ListaCertificacionesPendientes extends Component
         $this->validate();
         
         $certi=$this->pendiente;
-        $certi->Vehiculo->update(["combustible"=>$this->combustible]);
+        $certi->Vehiculo->update(["combustible"=>$this->combustible,"pesoNeto"=>$this->pesoNeto]);
         //dd($certi);
         $precio=0;
         if($certi->pagado>0){
