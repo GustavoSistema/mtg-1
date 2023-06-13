@@ -11,18 +11,44 @@
             <x-slot name="btnAgregar">                
             </x-slot>
             
-            <x-slot name="contenido">    
-                <div class="flex items-center space-x-2">
-                    <div class="flex bg-gray-200 items-center p-2 w-48 rounded-md mb-4 ">
-                        <span>Desde: </span>
-                        <x-date-picker wire:model="fecIni" placeholder="Fecha de inicio" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full truncate"/>             
+            <x-slot name="contenido"> 
+                <div class="md:flex md:flex-row md:space-x-2 w-full sm:justify-between items-center">
+                    <div class="flex bg-gray-50 items-center p-2 rounded-md md:mb-4 ">
+                        <span>Taller: </span>
+                        <select wire:model="taller"
+                            class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full truncate">
+                            <option value="">SELECCIONE</option>
+                            @isset($talleres)
+                                @foreach ($talleres as $taller)
+                                    <option class="" value="{{ $taller }}">{{ $taller }}</option>
+                                @endforeach
+                            @endisset
+                        </select>
+                    </div>   
+                    <div class="flex bg-white items-center p-2 rounded-md md:mb-4 ">
+                        <span>Inspector: </span>
+                        <select wire:model="ins" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full truncate">
+                            <option value="">SELECCIONE</option>
+                            @isset($inspectores)
+                            @foreach($inspectores as $inspector)
+                                <option value="{{$inspector}}">{{$inspector}}</option>
+                            @endforeach
+                            @endisset
+                        </select>               
                     </div>
-    
-                    <div class="flex bg-gray-200 items-center p-2 w-48 rounded-md mb-4 ">
-                        <span>Hasta: </span>
-                        <x-date-picker wire:model="fecFin" placeholder="Fecha de Fin" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full truncate"/>             
-                    </div>
-                </div>                   
+                    <div class="flex items-center w-full space-x-2">
+                        <div class="flex bg-white items-center p-2 w-1/2 md:w-48 rounded-md mb-4 ">
+                            <span>Desde: </span>
+                            <x-date-picker wire:model="fecIni" placeholder="Fecha de inicio" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full truncate"/>             
+                        </div>
+        
+                        <div class="flex bg-white items-center p-2 w-1/2 md:w-48 rounded-md mb-4 ">
+                            <span>Hasta: </span>
+                            <x-date-picker wire:model="fecFin" placeholder="Fecha de Fin" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full truncate"/>             
+                        </div>
+                    </div> 
+                </div>
+                                  
             @if ($importados->count())                
                 <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
@@ -144,7 +170,7 @@
                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 <div class="flex items-center">
                                                     <p
-                                                        class="whitespace-no-wrap uppercase">
+                                                        class="whitespace-no-wrap">
                                                         {{ $item->TipoServicio->descripcion }}
                                                     </p>
                                                 </div>
@@ -160,8 +186,8 @@
                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 <div class="flex items-center">
                                                     <p
-                                                        class="whitespace-no-wrap uppercase">
-                                                        {{ $item->fecha }}
+                                                        class="whitespace-no-wrap">
+                                                        {{Carbon\Carbon::parse($item->fecha)->format('d-m-Y h:m a')}}
                                                     </p>
                                                 </div>
                                             </td>

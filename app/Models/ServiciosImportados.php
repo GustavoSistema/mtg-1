@@ -27,10 +27,20 @@ class ServiciosImportados extends Model
 
     public function scopeRangoFecha(Builder $query, string $desde, string $hasta): void
     {   
-        dd($desde);
-        if($desde && $hasta){
-            $query->whereBetween('created_at', [$desde,$hasta]);
+        if($desde && $hasta){            
+            $query->whereBetween('fecha', [$desde.' 00:00:00',$hasta.' 23:59:59']);
+        }       
+    }
+    public function scopeCertificador(Builder $query, string $search): void{   
+        if($search){
+            $query->where('certificador', $search);
+        }       
+    }
+
+    public function scopeTaller($query,$search): void{
+        if($search){           
+            $query->where('taller', $search);              
         }
-       
+        
     }
 }

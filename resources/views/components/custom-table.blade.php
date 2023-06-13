@@ -14,7 +14,7 @@
                 </select>
                 <span>registros</span>
             </div>
-            <div class="flex bg-gray-50 items-center lg:w-3/6 p-2 rounded-md mb-4">                
+            <div class="flex bg-gray-50 items-center lg:w-3/6 p-2 rounded-md ">                
                 <i class="fas fa-search h-5 w-5 text-indigo-600" ></i>
                 <input class="bg-gray-50 outline-none block rounded-md border-indigo-500 w-full" type="text" wire:model.debounce.300ms="search"
                     placeholder="buscar..." >

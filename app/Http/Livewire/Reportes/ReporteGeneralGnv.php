@@ -10,7 +10,7 @@ class ReporteGeneralGnv extends Component
 {
     use WithPagination;
 
-    public $sort,$direction,$cant,$search,$permiso,$fecIni,$fecFin;
+    public $sort,$direction,$cant,$search,$permiso,$fecIni='',$fecFin='',$inspectores,$ins='',$taller,$talleres;
 
     public $editando=false;
     
@@ -20,7 +20,10 @@ class ReporteGeneralGnv extends Component
     public function mount(){
         $this->direction='desc';
         $this->sort='id';       
-        $this->cant=10;       
+        $this->cant=10;   
+        $this->inspectores=ServiciosImportados::groupBy('certificador')->pluck('certificador');
+        $this->talleres=ServiciosImportados::groupBy('taller')->pluck('taller');      
+        //dd($this->talleres); 
     }
 
     public function render()
@@ -29,9 +32,11 @@ class ReporteGeneralGnv extends Component
         where([           
             ['certificador','like','%'.$this->search.'%']
         ])
+        ->taller($this->taller)
+        ->certificador($this->ins)
         ->rangoFecha($this->fecIni,$this->fecFin)
         ->orderBy($this->sort,$this->direction)
-        ->paginate($this->cant);        
+        ->paginate($this->cant); 
         return view('livewire.reportes.reporte-general-gnv',compact('importados'));
     }
 
