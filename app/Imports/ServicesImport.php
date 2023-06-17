@@ -47,8 +47,8 @@ class ServicesImport implements ToModel, WithHeadingRow, WithUpserts
     {
         return new ServiciosImportados([
             "placa" => $row['placa'],
-            "certificador" => $row['certificador'],
-            "taller" => $row['taller'],
+            "certificador" => trim($row['certificador']),
+            "taller" => trim($row['taller']),
             "fecha" => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['fecha_revision']),
             "tipoServicio"=>2,
         ]);

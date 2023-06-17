@@ -1,232 +1,172 @@
 <div>
     <div class="sm:px-6 w-full pt-12 pb-4">
-        <x-custom-table>
-            <x-slot name="titulo">
-                <h2 class="text-indigo-600 font-bold text-3xl">
-                    <i class="fa-solid fa-square-poll-vertical fa-xl"></i>                    
-                     &nbsp;REPORTE GENERAL DE SERVICIOS GNV                       
-                </h2> 
-            </x-slot>
+        <div class="bg-gray-200  px-8 py-4 rounded-xl w-full ">
 
-            <x-slot name="btnAgregar">                
-            </x-slot>
-            
-            <x-slot name="contenido"> 
-                <div class="md:flex md:flex-row md:space-x-2 w-full sm:justify-between items-center">
-                    <div class="flex bg-gray-50 items-center p-2 rounded-md md:mb-4 ">
+            <div class=" items-center md:block sm:block">
+                <div class="p-2 w-64 my-4 md:w-full">
+                    <h2 class="text-indigo-600 font-bold text-3xl">
+                        <i class="fa-solid fa-square-poll-vertical fa-xl"></i>
+                        &nbsp;REPORTE GENERAL DE SERVICIOS GNV
+                    </h2>
+                </div>
+                <div class="w-full  items-center md:flex md:flex-row md:justify-between ">
+                    <div class="flex bg-gray-50 items-center p-2 rounded-md mb-4">
                         <span>Taller: </span>
                         <select wire:model="taller"
                             class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full truncate">
                             <option value="">SELECCIONE</option>
                             @isset($talleres)
                                 @foreach ($talleres as $taller)
-                                    <option class="" value="{{ $taller }}">{{ $taller }}</option>
+                                    <option  value="{{$taller}}">{{ $taller }}</option>
                                 @endforeach
                             @endisset
                         </select>
-                    </div>   
-                    <div class="flex bg-white items-center p-2 rounded-md md:mb-4 ">
+                        
+                    </div>
+                    <div class="flex bg-white items-center p-2 rounded-md mb-4">
                         <span>Inspector: </span>
-                        <select wire:model="ins" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full truncate">
+                        <select wire:model="ins"
+                            class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full truncate">
                             <option value="">SELECCIONE</option>
                             @isset($inspectores)
-                            @foreach($inspectores as $inspector)
-                                <option value="{{$inspector}}">{{$inspector}}</option>
-                            @endforeach
+                                @foreach ($inspectores as $inspector)
+                                    <option value="{{ $inspector }}">{{ $inspector }}</option>
+                                @endforeach
                             @endisset
-                        </select>               
+                        </select>
+                        
                     </div>
-                    <div class="flex items-center w-full space-x-2">
+                    <div class="flex items-center space-x-2">
                         <div class="flex bg-white items-center p-2 w-1/2 md:w-48 rounded-md mb-4 ">
                             <span>Desde: </span>
-                            <x-date-picker wire:model="fecIni" placeholder="Fecha de inicio" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full truncate"/>             
-                        </div>
-        
+                            <x-date-picker wire:model="fechaInicio" placeholder="Fecha de inicio" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full truncate" />
+                        </div>                        
                         <div class="flex bg-white items-center p-2 w-1/2 md:w-48 rounded-md mb-4 ">
                             <span>Hasta: </span>
-                            <x-date-picker wire:model="fecFin" placeholder="Fecha de Fin" class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full truncate"/>             
-                        </div>
-                    </div> 
-                </div>
-                                  
-            @if ($importados->count())                
-                <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                    <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full leading-normal rounded-md">
-                                <thead>
-                                    <tr>
-                                        <th class=" w-24 cursor-pointer hover:font-bold hover:text-indigo-500 px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                            wire:click="order('id')">
-                                            Id
-                                            @if ($sort == 'id')
-                                                @if ($direction == 'asc')
-                                                    <i class="fas fa-sort-numeric-up-alt float-right mt-0.5"></i>
-                                                @else
-                                                    <i class="fas fa-sort-numeric-down-alt float-right mt-0.5"></i>
-                                                @endif
-                                            @else
-                                                <i class="fas fa-sort float-right mt-0.5"></i>
-                                            @endif
-                                        </th>
-                                        <th class="cursor-pointer hover:font-bold hover:text-indigo-500  px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                            wire:click="order('certificador')">
-                                            Inspector
-                                            @if ($sort == 'certificador')
-                                                @if ($direction == 'asc')
-                                                    <i class="fas fa-sort-alpha-up-alt float-right mt-0.5"></i>
-                                                @else
-                                                    <i class="fas fa-sort-alpha-down-alt float-right mt-0.5"></i>
-                                                @endif
-                                            @else
-                                                <i class="fas fa-sort float-right mt-0.5"></i>
-                                            @endif
-                                        </th>  
-                                        <th class="cursor-pointer hover:font-bold hover:text-indigo-500  px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                            wire:click="order('taller')">
-                                            Taller
-                                            @if ($sort == 'taller')
-                                                @if ($direction == 'asc')
-                                                    <i class="fas fa-sort-alpha-up-alt float-right mt-0.5"></i>
-                                                @else
-                                                    <i class="fas fa-sort-alpha-down-alt float-right mt-0.5"></i>
-                                                @endif
-                                            @else
-                                                <i class="fas fa-sort float-right mt-0.5"></i>
-                                            @endif
-                                        </th>  
-                                        <th class="cursor-pointer hover:font-bold hover:text-indigo-500  px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                            wire:click="order('tipoServicio')">
-                                            Tipo Servicio
-                                            @if ($sort == 'tipoServicio')
-                                                @if ($direction == 'asc')
-                                                    <i class="fas fa-sort-numeric-up-alt float-right mt-0.5"></i>
-                                                @else
-                                                    <i class="fas fa-sort-numeric-down-alt float-right mt-0.5"></i>
-                                                @endif
-                                            @else
-                                                <i class="fas fa-sort float-right mt-0.5"></i>
-                                            @endif
-                                        </th> 
-                                        <th class="cursor-pointer hover:font-bold hover:text-indigo-500  px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                            wire:click="order('placa')">
-                                            Placa
-                                            @if ($sort == 'placa')
-                                                @if ($direction == 'asc')
-                                                    <i class="fas fa-sort-numeric-up-alt float-right mt-0.5"></i>
-                                                @else
-                                                    <i class="fas fa-sort-numeric-down-alt float-right mt-0.5"></i>
-                                                @endif
-                                            @else
-                                                <i class="fas fa-sort float-right mt-0.5"></i>
-                                            @endif
-                                        </th>    
-                                        <th class="cursor-pointer hover:font-bold hover:text-indigo-500  px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                                            wire:click="order('fecha')">
-                                            Fecha
-                                            @if ($sort == 'fecha')
-                                                @if ($direction == 'asc')
-                                                    <i class="fas fa-sort-numeric-up-alt float-right mt-0.5"></i>
-                                                @else
-                                                    <i class="fas fa-sort-numeric-down-alt float-right mt-0.5"></i>
-                                                @endif
-                                            @else
-                                                <i class="fas fa-sort float-right mt-0.5"></i>
-                                            @endif
-                                        </th>        
-                                        {{--                           
-                                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                            Acciones
-                                        </th>
-                                        --}}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($importados as $item)
-                                        <tr>
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                <div class="flex items-center">
-                                                    <p class="text-indigo-900 p-1 bg-indigo-200 rounded-md">
-                                                        {{ $item->id }}
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                <div class="flex items-center">
-                                                    <p
-                                                        class="text-slate-900 font-semibold whitespace-no-wrap">
-                                                        {{ $item->certificador }}
-                                                    </p>
-                                                </div>
-                                            </td>    
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                <div class="flex items-center">
-                                                    <p
-                                                        class="whitespace-no-wrap">
-                                                        {{ $item->taller}}
-                                                    </p>
-                                                </div>
-                                            </td>  
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                <div class="flex items-center">
-                                                    <p
-                                                        class="whitespace-no-wrap">
-                                                        {{ $item->TipoServicio->descripcion }}
-                                                    </p>
-                                                </div>
-                                            </td>    
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                <div class="flex items-center">
-                                                    <p
-                                                        class="whitespace-no-wrap uppercase">
-                                                        {{ $item->placa}}
-                                                    </p>
-                                                </div>
-                                            </td>      
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                <div class="flex items-center">
-                                                    <p
-                                                        class="whitespace-no-wrap">
-                                                        {{Carbon\Carbon::parse($item->fecha)->format('d-m-Y h:m a')}}
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            {{--                               
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                <div class="flex items-center justify-center">
-                                                    <p class="text-gray-900 whitespace-no-wrap">
-                                                        <button wire:click="editarPermiso({{$item->id}})"
-                                                            class="px-2 py-2 bg-indigo-600 rounded-md flex items-center justify-center">
-                                                            <i class="fas fa-pen text-white"></i>
-                                                        </button>
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            --}}
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                            <x-date-picker wire:model="fechaFin" placeholder="Fecha de Fin"
+                                class="bg-gray-50 mx-2 border-indigo-500 rounded-md outline-none ml-1 block w-full truncate" />
+                        </div>                        
                     </div>
+                    
+                    <button wire:click="generarReporte"
+                        class="bg-indigo-600 px-6 py-4 w-full md:w-auto rounded-md text-white font-semibold tracking-wide cursor-pointer mb-4">
+                        <p class="truncate"> Generar reporte </p>
+                    </button>
                 </div>
-                    @if ($importados->hasPages())
-                        <div>
-                            <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-2 overflow-x-auto">
-                                <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
-                                    <div class="px-5 py-5 bg-white border-t">
-                                        {{ $importados->links() }}
-                                    </div>
-                                </div>
+                <div class="w-auto my-4">
+                    <x-jet-input-error for="taller"/>
+                    <x-jet-input-error for="ins"/>
+                    <x-jet-input-error for="fechaInicio"/>
+                    <x-jet-input-error for="fechaFin"/>                    
+                </div>
+            </div>
+        </div>
+
+        @if (!empty($data))       
+        <div class="flex flex-row my-4 py-4 rounded-md bg-gray-200 space-x-2 px-4">
+           
+            <div class="flex text-white p-2 rounded-md bg-green-500">
+                 Total servicios: {{count($data)}} 
+            </div>
+        </div>   
+        <div class="">
+            <div class="overflow-x-auto sm:-mx-6 lg:-mx-8 mx-12">
+              <div class="inline-block min-w-full py-2 sm:px-6 ">
+                <div class="overflow-hidden">
+                  <table
+                    class="min-w-full border text-center text-sm font-light dark:border-neutral-500">
+                    <thead class="border-b font-medium dark:border-neutral-500">
+                      <tr class="bg-indigo-200">
+                        <th
+                          scope="col"
+                          class="border-r px-6 py-4 dark:border-neutral-500">
+                            Inspector
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-r px-6 py-4 dark:border-neutral-500">
+                            Taller
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-r px-6 py-4 dark:border-neutral-500">
+                            Placa
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-r px-6 py-4 dark:border-neutral-500">
+                            Servicio
+                        </th>
+                                                
+                        <th scope="col"
+                            class="border-r px-6 py-4 dark:border-neutral-500">
+                            Precio
+                        </th>
+
+                        <th
+                          scope="col"
+                          class="border-r px-6 py-4 dark:border-neutral-500">
+                            Realizado con sistema
+                        </th>
+                        <th
+                          scope="col"
+                          class="border-r px-6 py-4 dark:border-neutral-500">
+                            Data
+                        </th>
+                        
+                      </tr>
+                    </thead>
+
+                        {{--
+                        <div class="flex flex-row w-full py-4 my-4">
+                            <div class="w-1/2">
+                                {{($item["serv_mtg"])? "✔" : "No data" }}
                             </div>
-                        </div>
-                    @endif
-            @else
-                <div class="px-6 py-4 text-center font-bold bg-indigo-200 rounded-md">
-                    No se encontro ningun registro.
+                            <div class="w-1/2">
+                                {{($item["serv_gas"])?($item["serv_gas"]->placa) : "No data" }}
+                            </div>
+                        </div>                
+                        --}}
+                    <tbody>
+                      @foreach($data as $item)
+                      <tr class="border-b dark:border-neutral-500">
+                        <td
+                          class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">
+                          {{ isset($item["serv_mtg"]->inspector)? $item["serv_mtg"]->inspector : $item["serv_gas"]->certificador }}
+                        </td>
+                        <td
+                          class="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
+                          {{ isset($item["serv_mtg"]->taller)? $item["serv_mtg"]->taller : $item["serv_gas"]->taller }}
+                        </td>
+                        <td
+                          class="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
+                          {{ isset($item["serv_mtg"]->placa)? $item["serv_mtg"]->placa : $item["serv_gas"]->placa }}
+                        </td>
+                        <td class="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">                            
+                          {{ isset($item["serv_gas"]->TipoServicio->descripcion)? $item["serv_gas"]->TipoServicio->descripcion : "no data" }}
+                        </td>
+                        <td
+                          class="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
+                          {{ isset($item["serv_mtg"]->precio)? $item["serv_mtg"]->precio : 'No data' }}
+                        </td>
+                        <td
+                          class="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
+                          {{ isset($item["serv_mtg"])? "✔" : "❌" }}
+                        </td>
+                        <td
+                            class="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500 overflow-x-auto">
+                            {{ ($item["serv_gas"]->Precio()) }}
+                        </td>
+                      </tr>
+                      @endforeach 
+                    </tbody>                    
+                  </table>
                 </div>
-            @endif
-            </x-slot> 
-        </x-custom-table>
+              </div>
+            </div>
+          </div>
+            
+        @endif
     </div>
 </div>
+

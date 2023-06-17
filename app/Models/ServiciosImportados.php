@@ -25,6 +25,18 @@ class ServiciosImportados extends Model
         return $this->belongsTo(TipoServicio::class,'tipoServicio');
     }
 
+    public function Precio(){
+        $precio=0;
+        $taller=Taller::where("nombre",$this->attributes['taller'])->first();
+        if($taller!=null){
+            $servicio=Servicio::where([['taller_idtaller',$taller->id],["tipoServicio_idtipoServicio",$this->attributes["tipoServicio"]]])->first()->precio;  
+                   
+            $precio=var_export($servicio);
+        }
+        return $precio;
+    }
+
+
     public function scopeRangoFecha(Builder $query, string $desde, string $hasta): void
     {   
         if($desde && $hasta){            

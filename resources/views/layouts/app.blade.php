@@ -10,9 +10,12 @@
 
     <!-- Fonts 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Alexandria:wght@400;600;700&display=swap"> 
     -->
-    <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">   
-   
+    <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap"> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600&display=swap" rel="stylesheet">
     <!-- Styles -->
 
     {{--
@@ -34,7 +37,7 @@
    
 </head>
 
-<body class="font-sans antialiased">
+<body >
     <x-jet-banner />
 
     <div class="min-h-screen bg-gray-100">

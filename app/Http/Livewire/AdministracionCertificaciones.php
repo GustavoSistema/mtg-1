@@ -59,20 +59,16 @@ class AdministracionCertificaciones extends Component
 
     public function render()
     {
-       
-        $certificaciones=Certificacion::            
+       $certificaciones=Certificacion::            
             numFormato($this->search)
             ->placaVehiculo($this->search)
             ->idInspector($this->ins)
             ->tipoServicio($this->servicio)
             ->idTaller($this->ta)
             ->rangoFecha($this->fecIni,$this->fecFin)
-            //->where('created_at',$this->fechaFin)
-            //->where('nombre','hola')
             ->orderBy($this->sort,$this->direction)
             ->paginate($this->cant);    
         return view('livewire.administracion-certificaciones',compact('certificaciones'));       
-        
     }
 
 
@@ -130,6 +126,7 @@ class AdministracionCertificaciones extends Component
                 }          
            }
     }
+    
 
    
 

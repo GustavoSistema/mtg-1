@@ -39,6 +39,7 @@ class Talleres extends Component
     public $serviciosNuevos;
     public $serviciosDisponibles;
 
+    //protected $queryStrings=['search'=>['except'=>null]];
 
     public function mount(){
       $this->direction='desc';

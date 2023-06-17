@@ -186,7 +186,7 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                                     x-on:click="Open = !Open">
                                     <span class="inline-flex items-center space-x-6  text-sm text-white ">
                                         <i class="fa-solid fa-screwdriver-wrench font-thin"></i>
-                                        <span class="select-none font-semibold">Servicios</span>
+                                        <span class="select-none">Servicios</span>
                                     </span>
                                     <i class="fa-solid fa-caret-down ml-1  text-white w-4 h-4" x-show="!Open"></i>
 
@@ -253,7 +253,7 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                                     x-on:click="Open = !Open">
                                     <span class="inline-flex items-center space-x-6  text-sm  text-white ">
                                         <i class="fa-solid fa-file-shield"></i>
-                                        <span class="select-none font-semibold">Expedientes</span>
+                                        <span class="select-none">Expedientes</span>
                                     </span>
                                     <i class="fa-solid fa-caret-down ml-1  text-white w-4 h-4" x-show="!Open"></i>
 
@@ -303,7 +303,7 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                                     x-on:click="Open = !Open">
                                     <span class="inline-flex items-center space-x-6  text-sm  text-white ">
                                         <i class="fa-solid fa-warehouse font-thin"></i>
-                                        <span class="select-none font-semibold">Talleres</span>
+                                        <span class="select-none">Talleres</span>
                                     </span>
                                     <i class="fa-solid fa-caret-down ml-1  text-white w-4 h-4" x-show="!Open"></i>
 
@@ -347,7 +347,7 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                                     x-on:click="Open = !Open">
                                     <span class="inline-flex items-center space-x-6  text-sm  text-white ">
                                         <i class="fa-solid fa-cubes font-thin"></i>
-                                        <span class="select-none font-semibold">Materiales</span>
+                                        <span class="select-none">Materiales</span>
                                     </span>
                                     <i class="fa-solid fa-caret-down ml-1  text-white w-4 h-4" x-show="!Open"></i>
 
@@ -427,7 +427,7 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                                     x-on:click="Open = !Open">
                                     <span class="inline-flex items-center space-x-6  text-sm  text-white ">                                        
                                         <i class="fa-solid fa-chart-column font-thin"></i>
-                                        <span class="select-none font-semibold">Reportes GNV</span>
+                                        <span class="select-none">Reportes GNV</span>
                                     </span>
                                     <i class="fa-solid fa-caret-down ml-1  text-white w-4 h-4" x-show="!Open"></i>
 
@@ -464,7 +464,7 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                                     x-on:click="Open = !Open">
                                     <span class="inline-flex items-center space-x-6  text-sm  text-white ">
                                         <i class="fa-solid fa-upload"></i>
-                                        <span class="select-none font-semibold">Importacion de servicios</span>
+                                        <span class="select-none">Importacion de servicios</span>
                                     </span>
                                     <i class="fa-solid fa-caret-down ml-1  text-white w-4 h-4" x-show="!Open"></i>
 
@@ -505,7 +505,7 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                                     x-on:click="Open = !Open">
                                     <span class="inline-flex items-center space-x-6  text-sm  text-white ">
                                         <i class="fa-solid fa-user-shield font-thin"></i>
-                                        <span class="select-none font-semibold">Usuarios y roles</span>
+                                        <span class="select-none">Usuarios y roles</span>
                                     </span>
                                     <i class="fa-solid fa-caret-down ml-1  text-white w-4 h-4" x-show="!Open"></i>
 
@@ -552,7 +552,7 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                                     x-on:click="Open = !Open">
                                     <span class="inline-flex items-center space-x-6  text-sm  text-white ">
                                         <i class="fa-solid fa-table"></i>
-                                        <span class="select-none font-semibold">Mantenimiento de Tablas</span>
+                                        <span class="select-none font">Mantenimiento de Tablas</span>
                                     </span>
                                     <i class="fa-solid fa-caret-down ml-1  text-white w-4 h-4" x-show="!Open"></i>
 
