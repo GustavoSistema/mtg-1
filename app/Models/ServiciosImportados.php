@@ -36,6 +36,10 @@ class ServiciosImportados extends Model
         return $precio;
     }
 
+    public function conSistema(){
+        
+    }
+
 
     public function scopeRangoFecha(Builder $query, string $desde, string $hasta): void
     {   

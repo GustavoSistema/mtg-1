@@ -78,8 +78,15 @@ class ListaCertificacionesPendientes extends Component
 
     public function muestraModal(CertificacionPendiente $certi){       
         $this->pendiente=$certi; 
-        $numero=$this->obtieneFormato(1)->numSerie;
-        $this->numSugerido=$numero;
+        $formato=$this->obtieneFormato(1);
+        if(!empty($formato)){
+            $numero=$this->obtieneFormato(1)->numSerie;
+            $this->numSugerido=$numero;
+        }else{
+            $this->numSugerido=0;
+        }
+       
+        
         $this->open=true;
     }
     

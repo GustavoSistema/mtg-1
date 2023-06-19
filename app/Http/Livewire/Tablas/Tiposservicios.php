@@ -4,9 +4,12 @@ namespace App\Http\Livewire\Tablas;
 
 use App\Models\TipoServicio;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Tiposservicios extends Component
 {
+    use WithPagination;
+
     public $sort,$direction,$cant,$search,$tipoServicio;
     public $editando=false;
 

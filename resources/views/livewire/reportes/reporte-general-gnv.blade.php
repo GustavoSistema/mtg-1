@@ -63,14 +63,13 @@
         </div>
 
         @if (!empty($data))       
-        <div class="flex flex-row my-4 py-4 rounded-md bg-gray-200 space-x-2 px-4">
-           
-            <div class="flex text-white p-2 rounded-md bg-green-500">
+        <div class="flex flex-row my-4 py-4 rounded-md bg-gray-200 space-x-2 px-4">           
+            <div class="flex text-white p-2 rounded-md bg-green-600">
                  Total servicios: {{count($data)}} 
             </div>
         </div>   
-        <div class="">
-            <div class="overflow-x-auto sm:-mx-6 lg:-mx-8 mx-12">
+        <div class="flex flex-row my-4 py-4 rounded-md bg-white px-4 justify-center">
+            <div class="overflow-x-auto sm:-mx-6 lg:-mx-8 mx-12 w-full">
               <div class="inline-block min-w-full py-2 sm:px-6 ">
                 <div class="overflow-hidden">
                   <table
@@ -97,12 +96,16 @@
                           class="border-r px-6 py-4 dark:border-neutral-500">
                             Servicio
                         </th>
-                                                
+
+                        <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
+                            Fecha certificación Gasolution
+                        </th>                       
+                        {{--
                         <th scope="col"
                             class="border-r px-6 py-4 dark:border-neutral-500">
                             Precio
                         </th>
-
+                        --}}
                         <th
                           scope="col"
                           class="border-r px-6 py-4 dark:border-neutral-500">
@@ -111,7 +114,7 @@
                         <th
                           scope="col"
                           class="border-r px-6 py-4 dark:border-neutral-500">
-                            Data
+                            Precio
                         </th>
                         
                       </tr>
@@ -142,13 +145,20 @@
                           class="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
                           {{ isset($item["serv_mtg"]->placa)? $item["serv_mtg"]->placa : $item["serv_gas"]->placa }}
                         </td>
+                        
                         <td class="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">                            
                           {{ isset($item["serv_gas"]->TipoServicio->descripcion)? $item["serv_gas"]->TipoServicio->descripcion : "no data" }}
                         </td>
+
+                        <td class="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">                            
+                          {{ isset($item["serv_gas"]->fecha)? $item["serv_gas"]->fecha : "No Data" }}
+                        </td>      
+                        {{--
                         <td
                           class="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
                           {{ isset($item["serv_mtg"]->precio)? $item["serv_mtg"]->precio : 'No data' }}
                         </td>
+                        --}}
                         <td
                           class="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
                           {{ isset($item["serv_mtg"])? "✔" : "❌" }}
