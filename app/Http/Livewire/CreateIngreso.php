@@ -58,14 +58,12 @@ class CreateIngreso extends Component
                 case 1:
                     for($i = $this->numInicio; $i < ($this->numInicio+$this->cantidad); $i++){
                         $formato=Material::create([
-                            "estado"=>1,//ESTADO DE MATERIAL: EN STOCK 
-                            //"numSerie"=>((string)$this->prefijo.(string)$i),
+                            "estado"=>1,//ESTADO DE MATERIAL: EN STOCK                             
                             "numSerie"=>$i,
                             "añoActivo"=>$this->anioActivo,
                             "grupo"=>$this->numguia,                
                             "idTipoMaterial"=>$this->tipoMat,
                             "ubicacion"=>'MOTORGAS COMPANY S.A.', 
-                            "idUsuario"=>Auth::id(),               
                         ]);
                        // $this->mensaje=$i;                        
                         array_push($aux,$formato->id);           
@@ -86,8 +84,7 @@ class CreateIngreso extends Component
                             "estado"=>1,//ESTADO DE MATERIAL: EN STOCK                        
                             "grupo"=>$this->numguia,                
                             "idTipoMaterial"=>$this->tipoMat,
-                            "ubicacion"=>'MOTORGAS COMPANY S.A.', 
-                            "idUsuario"=>Auth::id(),               
+                            "ubicacion"=>'MOTORGAS COMPANY S.A.',                                         
                         ]);
                         array_push($aux,$formato->id);           
                     }

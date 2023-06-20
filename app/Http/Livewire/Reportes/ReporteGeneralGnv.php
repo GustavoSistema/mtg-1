@@ -13,7 +13,7 @@ class ReporteGeneralGnv extends Component
 {
     use WithPagination;
 
-    public $sort,$direction,$cant,$search,$permiso,$fechaInicio='',$fechaFin='',$inspectores,$ins='',$taller,$talleres,$data=[];
+    public $sort,$direction,$cant,$search,$permiso,$fechaInicio='',$fechaFin='',$inspectores,$ins='',$taller,$talleres,$data=[],$total;
 
     public $editando=false;
 
@@ -54,18 +54,20 @@ class ReporteGeneralGnv extends Component
     }
 
     public function generarReporte(){
+        $total=0;
         $encontrados= new Collection();
         $this->validate();    
         $ser_mtg=$this->listaServiciosMtg($this->fechaInicio,$this->fechaFin,$this->taller,$this->ins);   
         $serv_gas =$this->listaServiciosGasolution($this->fechaInicio,$this->fechaFin,$this->taller,$this->ins);
         foreach($serv_gas as $servicio){
             //dd($ser_mtg->first());
+            $total+=$servicio->precio;
             $servicio_mtg=$ser_mtg->where("placa",$servicio->placa);
             if(!empty($servicio)){                
                 $encontrados->push(["serv_mtg"=>$servicio_mtg->first(),"serv_gas"=>$servicio]);
             }
         }
-        
+        $this->total=$total;
         $this->data=$encontrados;
     }
 

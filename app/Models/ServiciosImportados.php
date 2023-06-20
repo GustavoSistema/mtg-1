@@ -16,6 +16,7 @@ class ServiciosImportados extends Model
                     "placa",
                     "certificador",
                     "taller", 
+                    "precio",
                     "fecha",  
                     "tipoServicio",                     
                     ];
@@ -30,7 +31,6 @@ class ServiciosImportados extends Model
         $taller=Taller::where("nombre",$this->attributes['taller'])->first();
         if($taller!=null){
             $servicio=Servicio::where([['taller_idtaller',$taller->id],["tipoServicio_idtipoServicio",$this->attributes["tipoServicio"]]])->first()->precio;  
-                   
             $precio=var_export($servicio);
         }
         return $precio;

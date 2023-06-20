@@ -84,8 +84,7 @@ class ListaCertificacionesPendientes extends Component
             $this->numSugerido=$numero;
         }else{
             $this->numSugerido=0;
-        }
-       
+        }       
         
         $this->open=true;
     }

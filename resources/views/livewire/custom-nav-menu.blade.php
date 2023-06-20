@@ -445,7 +445,13 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                                         @can('reportes.reporteGeneralGnv')
                                             <x-jet-responsive-nav-link class="text-sm" href="{{ route('reportes.reporteGeneralGnv') }}"
                                                 :active="request()->routeIs('reportes.reporteGeneralGnv')">
-                                                Reporte General GNV
+                                                Reporte general GNV
+                                            </x-jet-responsive-nav-link>
+                                        @endcan
+                                        @can('reportes.reporteMateriales')
+                                            <x-jet-responsive-nav-link class="text-sm" href="{{ route('reportes.reporteMateriales') }}"
+                                                :active="request()->routeIs('reportes.reporteMateriales')">
+                                                Reporte de formatos GNV
                                             </x-jet-responsive-nav-link>
                                         @endcan
                                         

@@ -28,21 +28,6 @@ class ServicesImport implements ToModel, WithHeadingRow, WithUpserts
         return 'placa';
     }
 
-    /*
-    public function rules(): array
-    {
-        $data = $this->listaPlacas();
-
-        return [
-            '*.placa' => function($attribute, $value, $onFailure) use($data) {
-                if (in_array($value,$data)) {
-                     $onFailure('La placa '.$value.' ya existe.');
-                }
-            },           
-        ];
-    }
-    */
-
     public function model(array $row)
     {
         return new ServiciosImportados([
@@ -50,6 +35,7 @@ class ServicesImport implements ToModel, WithHeadingRow, WithUpserts
             "certificador" => trim($row['certificador']),
             "taller" => trim($row['taller']),
             "fecha" => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['fecha_revision']),
+            "precio"=>null,
             "tipoServicio"=>2,
         ]);
     }
@@ -68,15 +54,5 @@ class ServicesImport implements ToModel, WithHeadingRow, WithUpserts
     }
 
     
-    /*
-    public function listaPlacas()
-    {
-        $placas = [];
-        $data = ServiciosImportados::pluck('placa')->all();
-        if (!empty($data)) {
-            $placas = $data;
-        }
-        return $placas;
-    }
-    */
+    
 }

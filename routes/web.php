@@ -30,6 +30,7 @@ use App\Http\Livewire\PrestamoMateriales;
 use App\Http\Livewire\Prueba;
 use App\Http\Livewire\PruebaExcel;
 use App\Http\Livewire\Reportes\ReporteGeneralGnv;
+use App\Http\Livewire\Reportes\ReporteMateriales;
 use App\Http\Livewire\RevisionInventario;
 use App\Http\Livewire\TallerRevision;
 use App\Http\Livewire\Tablas\Tiposservicios;
@@ -103,6 +104,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
 
     //Rutas modulo de reportes de GNV
     Route::get('/Reporte-general-gnv',ReporteGeneralGnv::class)->name('reportes.reporteGeneralGnv');
+    Route::get('/Reporte-de-materiales',ReporteMateriales::class)->name('reportes.reporteMateriales');
 
     //Ruta para adminsitracion de tablas
     Route::get('/Tablas/TiposDeServicios',Tiposservicios::class)->name('table.tiposServicio');   

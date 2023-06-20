@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+
 
 class Material extends Model
 {
@@ -31,6 +33,14 @@ class Material extends Model
     public function tipo(){
         return $this->belongsTo(TipoMaterial::class,'idTipoMaterial');
     }
+
+    
+
+    public function Inspector(){
+        return $this->belongsTo(User::class,'idUsuario');
+    }
+
+   
 
     public static function formatosGnvEnStock($tipo){
         $res=new Collection();
