@@ -454,6 +454,12 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                                                 Reporte de formatos GNV
                                             </x-jet-responsive-nav-link>
                                         @endcan
+                                        @can('reportes.reporteServiciosPorInspector')
+                                            <x-jet-responsive-nav-link class="text-sm truncate" href="{{ route('reportes.reporteServiciosPorInspector') }}"
+                                                :active="request()->routeIs('reportes.reporteServiciosPorInspector')">
+                                                Reporte de Servicios por inspector
+                                            </x-jet-responsive-nav-link>
+                                        @endcan
                                         
                                     </ul>
 

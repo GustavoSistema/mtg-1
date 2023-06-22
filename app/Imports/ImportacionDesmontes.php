@@ -8,16 +8,15 @@ use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithUpserts;
+use Maatwebsite\Excel\HeadingRowImport;
+use Maatwebsite\Excel\Imports\HeadingRowFormatter;
 
-class ImportacionDesmontes implements ToModel,WithHeadingRow,WithUpserts
-{
-    public function uniqueBy()
-    {
-        return 'placa';
-    }  
-
+class ImportacionDesmontes implements ToModel,WithHeadingRow
+{    
+    
     public function model(array $row)
     {             
+        HeadingRowFormatter::default('none');        
         return new ServiciosImportados([
             "placa" => $row['PlacaVehiculo'],
             "certificador" => $row['Certificador'],
@@ -32,6 +31,6 @@ class ImportacionDesmontes implements ToModel,WithHeadingRow,WithUpserts
 
     public function headingRow(): int
     {
-        return 1;
+        return 0;
     }
 }

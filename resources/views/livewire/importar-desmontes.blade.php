@@ -52,5 +52,30 @@
              
                
         </div>
+        
     </div>
+    @if (isset($data))
+            <div class="max-h-96 overflow-y-auto overflow-x-auto max-w-7xl mx-auto ">
+                <table class="">
+                    <thead class="bg-slate-700">
+                        <tr class="py-4">
+                            <th class="font-bold text-indigo-300">#</th>
+                            @foreach ($headers as $header)
+                                <th class="font-bold text-indigo-300">{{ $header }}</th>
+                            @endforeach
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y">
+                        @foreach ($data as $ids => $row)
+                            <tr class="hover:bg-gray-200 divide-x">
+                                <td class="text-center text-orange-400 font-bold">{{ $ids + 1 }}</td>
+                                @foreach ($row as $key => $value)
+                                    <td class="text-center">{{ $value }}</td>
+                                @endforeach
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
 </div>

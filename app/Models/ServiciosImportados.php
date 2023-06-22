@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use Doctrine\DBAL\Query;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use PhpParser\Node\Stmt\Return_;
 
 class ServiciosImportados extends Model
 {
@@ -20,7 +23,7 @@ class ServiciosImportados extends Model
                     "fecha",  
                     "tipoServicio",    
                     "estado",
-                    "precio"                 
+                    "pagado"                 
                     ];
 
 
@@ -38,8 +41,17 @@ class ServiciosImportados extends Model
         return $precio;
     }
 
-    public function conSistema(){
-        
+    public function conSistema(){        
+        $estado=0;
+        $fecha=date('Y-m-d',strtotime($this->attributes['fecha']));
+        $placa=$this->attributes['placa'];           
+        $encontrado=Certificacion::whereHas('Vehiculo',function ($query) use ($placa){
+            $query->where('placa',$placa);
+        })->whereBetween('created_at',[$fecha.' 00:00',$fecha.' 23:59']);
+        if($encontrado->count()){
+            $estado=1;
+        }
+        return $estado;
     }
 
 

@@ -34,7 +34,8 @@ class ImportarDesmontes extends Component
         ]);        
         
         $path = $this->file->getRealPath();        
-        $data = Excel::toArray([], $path)[0];        
+        $data = Excel::toArray([], $path)[0]; 
+        //dd($data);      
         if(!empty($data)){
             $this->estadoDesmontes=true;                        
             $this->headers = isset($data[0]) ?  array_column($data[0],null): [];           
