@@ -29,6 +29,8 @@ class ImportacionDeConversiones implements ToModel,WithHeadingRow, WithUpserts
             "fecha" => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['fecha_conversion']),
             "precio"=>null,
             "tipoServicio"=>1,
+            "estado"=>1,
+            "pagado"=>false,
         ]);
     }
 

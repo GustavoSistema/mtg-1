@@ -4,6 +4,7 @@
 /public/storage
 /storage/*.key
 /vendor
+/app/config/app.php
 .env
 .env.backup
 .env.production

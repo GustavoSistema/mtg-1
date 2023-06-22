@@ -6,10 +6,9 @@
         </h1>
         <div class="max-w-8xl border shadow-md rounded-md bg-indigo-100 flex flex-col justify-center pt-12 mx-auto">
             <div class="flex flex-row space-x-2 items-center m-auto">
-                <x-jet-label value="Servicios de revisión anual:" />
+                <x-jet-label value="Servicios de Conversión a GNV:" />
                 <input  class="relative m-0 block w-full min-w-0 flex-auto rounded border  shadow-sm bg-indigo-300  bg-clip-padding px-3 py-2 text-base font-normal text-white transition duration-300 ease-in-out file:-mx-3 file:-my-2 file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-indigo-500 file:px-3 file:py-2 file:text-white file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-indigo-700 focus:border-primary focus:text-white focus:shadow-te-primary focus:outline-none "
-                        type="file" wire:model="file" accept=".xlsx," />
-                
+                        type="file" wire:model="file" accept=".xlsx," />                
                 @if(!$estadoConversiones)        
                 <button class="p-2 w-36 bg-indigo-400 my-2 rounded-md text-white hover:bg-indigo-600 disabled:bg-gray-200 disabled:text-indigo-400"  id="5484"
                 wire:loading.attr="disabled" wire:click="procesarConversiones" wire:target="file,procesarConversiones">

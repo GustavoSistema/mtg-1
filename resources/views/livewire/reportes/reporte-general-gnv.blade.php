@@ -68,8 +68,8 @@
                 <div class="flex text-white p-2 rounded-md bg-green-600">
                     Total servicios: {{ count($data) }}
                 </div>
-                <div class="flex text-white p-2 rounded-md bg-blue-600">
-                    Total servicios: {{ count($data) }}
+                <div class="flex text-white p-2 rounded-md bg-sky-600">
+                    Total a pagar: {{ $total }}
                 </div>
             </div>
             <div class="flex flex-row my-4 py-4 rounded-md bg-white px-4 justify-center">
@@ -95,12 +95,7 @@
                                         <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
                                             Fecha certificación Gasolution
                                         </th>
-                                        {{--
-                        <th scope="col"
-                            class="border-r px-6 py-4 dark:border-neutral-500">
-                            Precio
-                        </th>
-                        --}}
+                                        
                                         <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
                                             Realizado con sistema
                                         </th>
@@ -109,18 +104,7 @@
                                         </th>
 
                                     </tr>
-                                </thead>
-
-                                {{--
-                        <div class="flex flex-row w-full py-4 my-4">
-                            <div class="w-1/2">
-                                {{($item["serv_mtg"])? "✔" : "No data" }}
-                            </div>
-                            <div class="w-1/2">
-                                {{($item["serv_gas"])?($item["serv_gas"]->placa) : "No data" }}
-                            </div>
-                        </div>                
-                        --}}
+                                </thead>                                
                                 <tbody>
                                     @foreach ($data as $item)
                                         <tr class="border-b dark:border-neutral-500">

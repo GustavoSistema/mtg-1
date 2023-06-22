@@ -37,6 +37,8 @@ class ServicesImport implements ToModel, WithHeadingRow, WithUpserts
             "fecha" => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['fecha_revision']),
             "precio"=>null,
             "tipoServicio"=>2,
+            "estado"=>1,
+            "pagado"=>false,
         ]);
     }
 

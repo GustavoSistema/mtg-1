@@ -494,7 +494,12 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                                             <x-jet-responsive-nav-link class="text-sm" href="{{ route('importar.conversiones') }}"
                                                 :active="request()->routeIs('importar.conversiones')">
                                                 Conversiones a GNV
-                                            </x-jet-responsive-nav-link>                                  
+                                            </x-jet-responsive-nav-link>   
+                                            
+                                            <x-jet-responsive-nav-link class="text-sm" href="{{ route('importar.desmontes') }}"
+                                                :active="request()->routeIs('importar.desmontes')">
+                                                Desmontes GNV
+                                            </x-jet-responsive-nav-link> 
                                             
                                     </ul>
 

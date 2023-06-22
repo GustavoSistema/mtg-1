@@ -1,14 +1,14 @@
 <div>
     
-    <div class="mx-12 pt-24 w-full bg-indigo-100">
+    <div class="pt-24 w-full bg-indigo-100 mx-auto">
         <div class="bg-white p-4 ">
             <button class="p-2 bg-green-600 text-white rounded-md" wire:click="exportarExcel">
-                Exportar Excel
+                <i class="fa-solid fa-file-excel"></i>  Exportar Excel
             </button>
         </div>
         @if (count($materiales))
-    <div class="flex flex-row my-4 py-4 rounded-md bg-white px-4 justify-center">
-        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8 mx-12 w-full">
+    <div class="flex flex-row rounded-md bg-white justify-center ">
+        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8 -mx-12 ">
             <div class="inline-block min-w-full py-2 sm:px-6 ">
                 <div class="overflow-hidden">
                     <table class="min-w-full border text-center text-sm font-light dark:border-neutral-500">

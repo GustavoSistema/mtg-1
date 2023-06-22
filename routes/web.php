@@ -24,6 +24,7 @@ use App\Http\Livewire\EditarTaller;
 use App\Http\Livewire\FinalizarPreConversion;
 use App\Http\Livewire\ImportarAnuales;
 use App\Http\Livewire\ImportarConversiones;
+use App\Http\Livewire\ImportarDesmontes;
 use App\Http\Livewire\ListaCertificaciones;
 use App\Http\Livewire\ListaCertificacionesPendientes;
 use App\Http\Livewire\PrestamoMateriales;
@@ -94,8 +95,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
 
 
     //Rutas para importacion de Servicios
-    Route::get('/ImportarAnuales',ImportarAnuales::class)->middleware('can:importar.anuales')->name('importar.anuales');
-    Route::get('/ImportarConversiones',ImportarConversiones::class)->name('importar.conversiones');
+    Route::get('/Importar-anuales',ImportarAnuales::class)->middleware('can:importar.anuales')->name('importar.anuales');
+    Route::get('/Importar-conversiones',ImportarConversiones::class)->name('importar.conversiones');
+    Route::get('/Importar-desmontes',ImportarDesmontes::class)->name('importar.desmontes');
 
     //Rutas modulo de Usuarios y Roles
     Route::get('/Usuarios',Usuarios::class)->name('usuarios');

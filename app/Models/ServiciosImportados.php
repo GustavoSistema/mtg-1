@@ -18,7 +18,9 @@ class ServiciosImportados extends Model
                     "taller", 
                     "precio",
                     "fecha",  
-                    "tipoServicio",                     
+                    "tipoServicio",    
+                    "estado",
+                    "precio"                 
                     ];
 
 
