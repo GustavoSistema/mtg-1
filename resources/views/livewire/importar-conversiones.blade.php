@@ -49,77 +49,39 @@
                         De los cuales: {{ $coincidencias }} coinciden con registros anteriores
                     </p> 
                 @endif           
-            @endif
-                
-        
-            @if (isset($data))
-                <div class="max-h-96 overflow-y-auto overflow-x-auto max-w-7xl mx-auto ">
-                    <table class="">
-                        <thead class="bg-slate-700">
-                            <tr>
-                                <th class="font-bold text-indigo-300">#</th>
-                                @foreach ($headers as $header)
-                                    <th class="font-bold text-indigo-300">{{ $header }}</th>
-                                @endforeach
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y">
-                            @foreach ($data as $ids => $row)
-                                <tr class="hover:bg-gray-200 divide-x">
-                                    <td class="text-center text-orange-400 font-bold">{{ $ids + 1 }}</td>
-                                    @foreach ($row as $key => $value)
-                                        <td class="text-center">{{ $value }}</td>
-                                    @endforeach
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            @endif
-               
+            @endif              
         </div>
     </div>
-        @if (session('msg'))      
-           {{--
-            <ul class="w-5-6 m-auto text-center my-4">
-            @foreach (session('msg') as $error)
-                    <li class="text-xs text-red-600">{{ $error }}</li>
-            @endforeach
-            </ul> 
-            --}}
-            {{var_export(session('msg'))}}         
-        @else
-
-
-        @endif
-        @if(isset($data))
-            <div class="max-h-96 overflow-y-auto overflow-x-auto max-w-7xl mx-auto ">
-                
-                    <table class="">
-                        <thead class="bg-slate-700" >
-                            <tr>
-                                <th class="font-bold text-indigo-300">#</th>
-                                @foreach ($headers as $header)
-                                    <th class="font-bold text-indigo-300">{{ $header }}</th>
-                                @endforeach
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y">
-                            @foreach ($data as $ids=>$row)                        
-                                <tr class="hover:bg-gray-200 divide-x">
-                                    <td class="text-center text-orange-400 font-bold">{{($ids+1)}}</td>
-                                    @foreach ($row as $key=>$value)
-                                        <td class="text-center">{{ $value }}</td>
-                                    @endforeach
-                                </tr>                        
+    @if(isset($data))
+    <div class="max-h-96 overflow-y-auto overflow-x-auto max-w-7xl mx-auto ">
+        
+            <table class="">
+                <thead class="bg-slate-700" >
+                    <tr>
+                        <th class="font-bold text-indigo-300">#</th>
+                        @foreach ($headers as $header)
+                            <th class="font-bold text-indigo-300">{{ $header }}</th>
+                        @endforeach
+                    </tr>
+                </thead>
+                <tbody class="divide-y">
+                    @foreach ($data as $ids=>$row)                        
+                        <tr class="hover:bg-gray-200 divide-x">
+                            <td class="text-center text-orange-400 font-bold">{{($ids+1)}}</td>
+                            @foreach ($row as $key=>$value)
+                                <td class="text-center">{{ $value }}</td>
                             @endforeach
-                        </tbody>
-                    </table>
+                        </tr>                        
+                    @endforeach
+                </tbody>
+            </table>
 
-                    
-                
-            </div>
-        @endif 
+            
+        
+    </div>
+@endif 
+        
+       
 
        
 </div>
