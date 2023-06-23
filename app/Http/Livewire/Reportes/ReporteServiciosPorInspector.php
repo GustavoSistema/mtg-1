@@ -9,21 +9,26 @@ use Livewire\Component;
 
 class ReporteServiciosPorInspector extends Component
 {   
-    public $desde,$hasta;
+    public $fechaInicio,$fechaFin,$services;
 
-    public function mount(){
-        $this->desde='2023-06-01 00:00';
-        $this->hasta='2023-06-05 23:59';
-    }
-    
+    protected $rules=[
+                        "fechaInicio"=>'required|date',
+                        "fechaFin"=>'required|date',
+                     ];
     public function render()
     {
-       $services = DB::table('servicios_importados')                 
+          
+               
+        return view('livewire.reportes.reporte-servicios-por-inspector');
+    }
+
+    public function generarReporte(){
+        $this->validate();
+        $services = DB::table('servicios_importados')                 
                 ->select('servicios_importados.certificador', DB::raw('count(placa) as serviciosGasolution'),DB::raw('SUM(if(estado = 2, 1, 0)) AS serviciosMtg'))                        
                 ->groupBy('certificador')      
-                ->whereBetween('fecha',[$this->desde,$this->hasta])              
-                ->get();    
-               //dd($services);
-        return view('livewire.reportes.reporte-servicios-por-inspector',compact('services'));
+                ->whereBetween('fecha',[$this->fechaInicio.' 00:00',$this->fechaFin.' 23:59'])              
+        ->get(); 
+        $this->services=$services;
     }
 }
