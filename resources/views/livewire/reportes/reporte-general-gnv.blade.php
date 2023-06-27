@@ -65,12 +65,13 @@
 
         @if (!empty($data))
             <div class="flex flex-row my-4 py-4 rounded-md bg-gray-200 space-x-2 px-4">
-                <div class="flex text-white p-2 rounded-md bg-green-600">
-                    Total servicios: {{ count($data) }}
+                <div class="flex text-white p-2 rounded-md bg-sky-500 hover:shadow-lg hover:shadow-sky-300 hover:cursor-pointer">                     
+                    <p class="text-sm">Servicios: <span class="text-xl font-bold">{{ count($data) }}</span></p>
                 </div>
-                <div class="flex text-white p-2 rounded-md bg-sky-600">
-                    Total a pagar: {{ $total }}
+                <div class="flex text-white p-2 rounded-md bg-green-600 hover:shadow-lg hover:shadow-green-300 hover:cursor-pointer items-center">
+                    <p class="text-sm">Total a pagar: <span class="text-xl font-bold">{{'S/ '.$total}}</span></p>                    
                 </div>
+                
             </div>
             <div class="flex flex-row my-4 py-4 rounded-md bg-white px-4 justify-center">
                 <div class="overflow-x-auto sm:-mx-6 lg:-mx-8 mx-12 w-full">

@@ -29,6 +29,15 @@ class ReporteServiciosPorInspector extends Component
                 ->groupBy('certificador')      
                 ->whereBetween('fecha',[$this->fechaInicio.' 00:00',$this->fechaFin.' 23:59'])              
         ->get(); 
+        
         $this->services=$services;
+    }
+
+    public function calculaPorcentaje($total,$tiene){
+        $resultado=0;
+        if($tiene!=0){
+            $resultado=($tiene*100)/$total;
+        }
+        return round($resultado,1);
     }
 }

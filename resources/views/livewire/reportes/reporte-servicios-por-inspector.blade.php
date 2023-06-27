@@ -2,8 +2,8 @@
     <div class="w-full pt-3">
        
         <div class="-mx-12 w-full pt-2  mt-2 bg-indigo-100 px-4 text-center mx-auto">
-            <h1 class="text-2xl text-indigo-500 font-bold italic text-center py-4">REPORTE DE SERVICIOS POR INSPECTOR</h1>
-            <div class="w-full  items-center md:flex md:flex-row md:justify-center space-x-2">             
+            <h1 class="text-2xl text-indigo-500 font-bold italic text-center py-8"><span class="text-none">📊</span> REPORTE DE SERVICIOS POR INSPECTOR</h1>
+            <div class="w-full  items-center md:flex md:flex-row md:justify-center md:space-x-2">             
                 <div class="flex items-center space-x-2">
                     <div class="flex bg-white items-center p-2 w-1/2 md:w-48 rounded-md mb-4 ">
                         <span>Desde: </span>
@@ -47,7 +47,10 @@
                                                 </th>
                                                 <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500">
                                                     Servicios en Sistema
-                                                </th>                                       
+                                                </th>         
+                                                <th scope="col" class="border-r px-6 py-4 dark:border-neutral-500 ">
+                                                    Cumplimiento
+                                                </th>                                
                                             </tr>
                                         </thead>                                
                                         <tbody>
@@ -65,7 +68,10 @@
                                                     </td>
                                                     <td class="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
                                                         {{ $item->serviciosMtg }}
-                                                    </td>                                                    
+                                                    </td>    
+                                                    <td class="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500 font-semibold">
+                                                        {{ $this->calculaPorcentaje($item->serviciosGasolution,$item->serviciosMtg).' %'}}
+                                                    </td>                                                
                                                 </tr>
                                                 @else
                                                 <tr class="border-b dark:border-neutral-500">
@@ -80,6 +86,9 @@
                                                     </td>
                                                     <td class="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
                                                         {{ $item->serviciosMtg }}
+                                                    </td> 
+                                                    <td class="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500 font-semibold">
+                                                        {{ $this->calculaPorcentaje($item->serviciosGasolution,$item->serviciosMtg).' %' }}
                                                     </td>                                                    
                                                 </tr>                                                    
                                                 @endif

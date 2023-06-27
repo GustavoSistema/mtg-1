@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Models\ServiciosImportados;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -26,7 +27,8 @@ class ImportacionDeConversiones implements ToModel,WithHeadingRow, WithUpserts
             "placa" => $row['placa'],
             "certificador" => $row['certificador'],
             "taller" => $row['taller'],
-            "fecha" => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['fecha_conversion']),
+            "fecha" => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['fecha_conversion'])->format('Y-m-d H:i:s'),
+            //"fecha" =>Carbon::parse($row['fecha_conversion'])->format('Y-m-d H:i:s'),
             "precio"=>null,
             "tipoServicio"=>1,
             "estado"=>1,
