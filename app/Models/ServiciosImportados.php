@@ -17,6 +17,7 @@ class ServiciosImportados extends Model
 
     protected $fillable=[
                     "placa",
+                    "serie",
                     "certificador",
                     "taller", 
                     "precio",
@@ -61,6 +62,7 @@ class ServiciosImportados extends Model
             $query->whereBetween('fecha', [$desde.' 00:00:00',$hasta.' 23:59:59']);
         }       
     }
+
     public function scopeCertificador(Builder $query, string $search): void{   
         if($search){
             $query->where('certificador', $search);

@@ -1,5 +1,6 @@
 <div class="bg-gray-200  px-8 py-4 rounded-xl w-full">
     <div class=" items-center md:block sm:block">
+         <!-- TITULO DE LA TABLA -->
         <div class="p-2 w-64 my-4 md:w-full">                  
             {{$titulo}}    
         </div>
@@ -14,16 +15,14 @@
                 </select>
                 <span>registros</span>
             </div>
-            <div class="flex bg-gray-50 items-center lg:w-3/6 p-2 rounded-md ">                
+            <div class="flex bg-gray-50 items-center lg:w-3/6 p-2 rounded-md mb-4 ">                
                 <i class="fas fa-search h-5 w-5 text-indigo-600" ></i>
                 <input class="bg-gray-50 outline-none block rounded-md border-indigo-500 w-full" type="text" wire:model.debounce.300ms="search"
                     placeholder="buscar..." >
             </div>
             
-            <!-- boton agregar -->            
-           
-            <div class="flex mb-4">
-                {{-- BOTON PARA AGREGAR --}}
+            <!-- BOTON PRINCIPAL -->          
+           <div class="flex mb-4">                
                 {{$btnAgregar}}
             </div>
            

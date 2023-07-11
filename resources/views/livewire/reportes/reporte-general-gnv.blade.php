@@ -21,7 +21,6 @@
                                 @endforeach
                             @endisset
                         </select>
-
                     </div>
                     <div class="flex bg-white items-center p-2 rounded-md mb-4">
                         <span>Inspector: </span>
@@ -34,7 +33,6 @@
                                 @endforeach
                             @endisset
                         </select>
-
                     </div>
                     <div class="flex items-center space-x-2">
                         <div class="flex bg-white items-center p-2 w-1/2 md:w-48 rounded-md mb-4 ">

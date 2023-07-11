@@ -30,6 +30,7 @@ use App\Http\Livewire\ListaCertificacionesPendientes;
 use App\Http\Livewire\PrestamoMateriales;
 use App\Http\Livewire\Prueba;
 use App\Http\Livewire\PruebaExcel;
+use App\Http\Livewire\Reportes\AdministracionDeServiciosImportados;
 use App\Http\Livewire\Reportes\ReporteGeneralGnv;
 use App\Http\Livewire\Reportes\ReporteMateriales;
 use App\Http\Livewire\Reportes\ReporteServiciosPorInspector;
@@ -106,6 +107,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get('/Permisos',AdminPermisos::class)->name('usuarios.permisos');
 
     //Rutas modulo de reportes de GNV
+    Route::get('/Admin-servicios-importados',AdministracionDeServiciosImportados::class)->name('reportes.adminServiciosImportados');
     Route::get('/Reporte-general-gnv',ReporteGeneralGnv::class)->name('reportes.reporteGeneralGnv');
     Route::get('/Reporte-de-materiales',ReporteMateriales::class)->name('reportes.reporteMateriales');
     Route::get('/Reporte-de-servicios-por-inspector',ReporteServiciosPorInspector::class)->name('reportes.reporteServiciosPorInspector');

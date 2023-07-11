@@ -158,7 +158,7 @@
                                     <tbody>
                                         @foreach ($expedientes as $item)
                                             <tr>
-                                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm truncate">
                                                     <div class="flex items-center">
                                                         <p class="text-gray-900 ">
                                                             {{ $item->nombre }}

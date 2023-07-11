@@ -17,7 +17,7 @@ class ImportacionDeConversiones implements ToModel,WithHeadingRow, WithUpserts
     */
     public function uniqueBy()
     {
-        return 'placa';
+        return 'placa_serie';
     }  
 
     public function model(array $row)
@@ -25,9 +25,10 @@ class ImportacionDeConversiones implements ToModel,WithHeadingRow, WithUpserts
         //dd($row);        
         return new ServiciosImportados([
             "placa" => $row['placa'],
+            "serie"=>\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['fecha_conversion'])->format('Y'),
             "certificador" => $row['certificador'],
             "taller" => $row['taller'],
-            "fecha" => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['fecha_conversion'])->format('Y-m-d H:i:s'),
+            "fecha" => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['fecha_conversion']),
             //"fecha" =>Carbon::parse($row['fecha_conversion'])->format('Y-m-d H:i:s'),
             "precio"=>null,
             "tipoServicio"=>1,

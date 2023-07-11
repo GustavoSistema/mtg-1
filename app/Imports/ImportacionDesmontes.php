@@ -8,20 +8,24 @@ use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithUpserts;
-use Maatwebsite\Excel\HeadingRowImport;
 use Maatwebsite\Excel\Imports\HeadingRowFormatter;
 
-class ImportacionDesmontes implements ToModel,WithHeadingRow
+class ImportacionDesmontes implements ToModel,WithHeadingRow,WithUpserts
 {    
-    
+    public function uniqueBy()
+    {
+        return 'placa_serie';    
+    }
+
     public function model(array $row)
     {             
-        HeadingRowFormatter::default('none');        
+        //dd($row);        
         return new ServiciosImportados([
-            "placa" => $row['PlacaVehiculo'],
-            "certificador" => $row['Certificador'],
-            "taller" => $row['NombreTaller'],
-            "fecha" => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['FechaDesmonte']),
+            "placa" => $row['placavehiculo'],
+            "serie"=>$row['seriecilindro'],
+            "certificador" => $row['certificador'],
+            "taller" => $row['nombretaller'],
+            "fecha" => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['fechadesmonte']),
             "precio"=>null,
             "tipoServicio"=>6,
             "estado"=>1,
@@ -31,6 +35,6 @@ class ImportacionDesmontes implements ToModel,WithHeadingRow
 
     public function headingRow(): int
     {
-        return 0;
+        return 1;
     }
 }

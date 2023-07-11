@@ -25,13 +25,14 @@ class ServicesImport implements ToModel, WithHeadingRow, WithUpserts
 
     public function uniqueBy()
     {
-        return 'placa';
+        return 'placa_serie';
     }
 
     public function model(array $row)
     {
         return new ServiciosImportados([
             "placa" => $row['placa'],
+            "serie"=> \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['fecha_revision'])->format('Y'),
             "certificador" => trim($row['certificador']),
             "taller" => trim($row['taller']),
             "fecha" => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['fecha_revision']),
