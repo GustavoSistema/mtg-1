@@ -37,7 +37,7 @@ class ReporteGeneralGnv extends Component
     }
 
     public function updated($propertyName){
-            $this->validateOnly($propertyName);
+        $this->validateOnly($propertyName);
     }
 
     public function render()
@@ -123,13 +123,9 @@ class ReporteGeneralGnv extends Component
         ->join('taller as t','t.id','=','c.idTaller')
         ->where('c.estado',1)      
         ->get();
-        //dd($imports);
-        //$servicios_internos=Certificacion::where('estado',1)->get();
-        $imports=ServiciosImportados::all();
         
-        //$this->data=$servicios_mtg->whereBetween('created_at',[$this->fecIni,$this->fecFin]);    
-       
-
+        $imports=ServiciosImportados::all();   
+           
         foreach($imports as $servicio){
             $servicio_mtg=$servicios_mtg->where("placa",$servicio->placa);
             if($servicio_mtg != null){

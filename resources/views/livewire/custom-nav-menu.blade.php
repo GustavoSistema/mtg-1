@@ -326,10 +326,12 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                                         @endcan
 
                                         @can('editar-taller')
+                                            @if(Auth::user()->taller)
                                             <x-jet-responsive-nav-link class="text-sm"
-                                                href="{{ route('editar-taller', Auth::user()->taller) }}" :active="request()->routeIs('edtiar-taller')">
+                                                href="{{ route('editar-taller', Auth::user()->taller) }}" :active="request()->routeIs('editar-taller')">
                                                 Datos de taller
                                             </x-jet-responsive-nav-link>
+                                            @endif
                                         @endcan
 
                                     </ul>

@@ -6,6 +6,7 @@ use App\Models\Expediente;
 use App\Models\TipoServicio;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -20,8 +21,8 @@ class TallerRevision extends Component
         $this->tipos=TipoServicio::all();
         $this->cant=10;
         $this->sort="id";
-        $this->direction="desc"; 
-        $this->search='';        
+        $this->direction="desc";
+        $this->search='';
         $this->es="";
         $this->fecIni="";
         $this->fecFin="";
@@ -30,22 +31,27 @@ class TallerRevision extends Component
 
     public function render()
     {
-        
-        $us=User::find(Auth::id());     
 
-       // $expedientes=null;
+        $us=User::find(Auth::id());
 
-        if($us->role(["Administrador taller"])){
+
+
+        if($us->role(["Administrador taller"]) && $us->taller!=null ){
             $expedientes=Expediente::
             idTaller($us->taller)
-            ->placaOcertificado($this->search)            
+            ->placaOcertificado($this->search)
             ->estado($this->es)
             ->tipoServicio($this->servicio)
             ->rangoFecha($this->fecIni,$this->fecFin)
             ->orderBy($this->sort,$this->direction)
             ->paginate($this->cant);
+        }else{
+            $expedientes=Expediente::
+            idTaller(-1)
+            ->orderBy($this->sort,$this->direction)
+            ->paginate($this->cant);
         }
-        
+
         return view('livewire.taller-revision',compact("expedientes"));
     }
 
@@ -61,7 +67,7 @@ class TallerRevision extends Component
         }else{
             $this->sort=$sort;
             $this->direction='asc';
-        }        
+        }
     }
 
     public function revisar(Expediente $expediente){
@@ -69,8 +75,8 @@ class TallerRevision extends Component
         $this->revisando=true;
     }
 
-    public function download($ruta){   
-        //emit an event with the path        
+    public function download($ruta){
+        //emit an event with the path
         $this->emit('startDownload',$ruta);
     }
 }
