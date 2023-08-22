@@ -8,19 +8,23 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use App\Models\User;
+use App\Models\Taller;
 
 class CustomMail extends Mailable
 {
     use Queueable, SerializesModels;
+    public $user,$documentos;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(User $user)
     {
-        //
+        $this->user=$user;
+        $this->documentos=Taller::find($user->taller)->documentos->where('estadoDocumento',1);
     }
 
     /**
@@ -31,7 +35,7 @@ class CustomMail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Custom Mail',
+            subject: 'Email de prueba',
         );
     }
 
@@ -43,7 +47,7 @@ class CustomMail extends Mailable
     public function content()
     {
         return new Content(
-            view: 'view.name',
+            view: 'mails.customMail',
         );
     }
 

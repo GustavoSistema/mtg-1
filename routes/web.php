@@ -54,12 +54,12 @@ Route::get('/', function () {
     return redirect()->to('/login');
 });
 Route::get('phpmyinfo', function () {
-    phpinfo(); 
+    phpinfo();
 })->name('phpmyinfo');
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
 ->group(function () {
-        
+
     Route::get('/Expedientes',Expedientes::class)->middleware('can:expedientes')->name('expedientes');
     //Route::get('/Servicio',Servicio::class)->middleware('can:servicio')->name('servicio');
     Route::get('/Talleres',Talleres::class)->middleware('can:talleres')->name('talleres');
@@ -74,27 +74,32 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get('/Recepcion-de-materiales',RecepcionMateriales::class)->middleware('can:recepcion')->name('recepcion');
     Route::get('/Solicitud-de-materiales',Solicitud::class)->middleware('can:solicitud')->name('solicitud');
     Route::get('/Crear-solicitud',CreateSolicitud::class)->middleware('can:nuevaSolicitud')->name('nuevaSolicitud');
-    Route::get('/RevisionExpedientes',RevisionExpedientes::class)->middleware('can:revisionExpedientes')->name('revisionExpedientes');  
+    Route::get('/RevisionExpedientes',RevisionExpedientes::class)->middleware('can:revisionExpedientes')->name('revisionExpedientes');
     Route::get('/dashboard', function (){return view('dashboard');})->name('dashboard');
     Route::get('/Listado-Certificaciones',ListaCertificaciones::class)->middleware('can:certificaciones')->name('certificaciones');
     Route::get('/Administracion-de-certificaciones',AdministracionCertificaciones::class)->middleware('can:admin.certificaciones')->name('admin.certificaciones');
-    
+
     Route::get('/certificados-pendientes',ListaCertificacionesPendientes::class)->middleware('can:certificaciones.pendientes')->name('certificaciones.pendientes');
-   
+
     Route::get('/Solicitud/{soliId}',VistaSolicitud::class)->name('vistaSolicitud');
-   
+
     Route::get('/Servicio',Prueba::class)->middleware('can:servicio')->name('servicio');
-    
+
     Route::get('/Solucion',Arreglando::class)->name('solucion');
     Route::get('/TalleresRevision',TallerRevision::class)->name('talleres.revision');
-    Route::get('/Taller/edit/{idTaller}',EditarTaller::class)->name('editar-taller');   
+    Route::get('/Taller/edit/{idTaller}',EditarTaller::class)->name('editar-taller');
     Route::post('/Solucion/upload-images',[uploadController::class,'uploadImagesExpediente'])->name('expediente.upload-images');
     Route::get('/Taller/Documents/{id}/download',[DocumentosController::class,'downloadDocumentoTaller'])->name('download_doctaller');
-    
+
     Route::get('/Inventario-revision',RevisionInventario::class)->middleware('can:inventario.revision')->name('inventario.revision');
 
     Route::get('/finalizarPreConversion/{idCertificacion}',FinalizarPreConversion::class)->name('finalizarPreconver');
 
+    Route::get('/mailable', function () {
+        $invoice = App\Models\User::find(150);
+
+        return new App\Mail\CustomMail($invoice);
+    });
 
     //Rutas para importacion de Servicios
     Route::get('/Importar-anuales',ImportarAnuales::class)->middleware('can:importar.anuales')->name('importar.anuales');
@@ -113,10 +118,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get('/Reporte-de-servicios-por-inspector',ReporteServiciosPorInspector::class)->name('reportes.reporteServiciosPorInspector');
 
     //Ruta para adminsitracion de tablas
-    Route::get('/Tablas/TiposDeServicios',Tiposservicios::class)->name('table.tiposServicio');   
+    Route::get('/Tablas/TiposDeServicios',Tiposservicios::class)->name('table.tiposServicio');
 
-    
-    
+
+
 
 
     //RUTAS PARA STREAM Y DESCARGA DE PDFS
@@ -125,12 +130,12 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
         Route::get('/duplicado-anual/{id}', 'generaDuplicadoAnualGnv')->name("duplicadoAnualGnv");
         Route::get('/duplicado-anual-ex/{id}', 'generaDuplicadoExternoAnualGnv')->name("duplicadoExternoAnualGnv");
 
-        Route::get('/certificado-anual/{id}/descargar', 'descargarPdfAnualGnv')->name("descargarCertificadoAnualGnv"); 
-        Route::get('/duplicado-anual/{id}/descargar', 'descargarDuplicadoAnualGnv')->name("descargarDuplicadoAnualGnv"); 
-        Route::get('/duplicado-anual-ex/{id}/descargar', 'descargarDuplicadoExternoAnualGnv')->name("descargarDuplicadoExternoAnualGnv"); 
+        Route::get('/certificado-anual/{id}/descargar', 'descargarPdfAnualGnv')->name("descargarCertificadoAnualGnv");
+        Route::get('/duplicado-anual/{id}/descargar', 'descargarDuplicadoAnualGnv')->name("descargarDuplicadoAnualGnv");
+        Route::get('/duplicado-anual-ex/{id}/descargar', 'descargarDuplicadoExternoAnualGnv')->name("descargarDuplicadoExternoAnualGnv");
 
-       
-        Route::get('/certificado-inicial/{id}', 'generaPdfInicialGnv')->name("certificadoInicialGnv"); 
+
+        Route::get('/certificado-inicial/{id}', 'generaPdfInicialGnv')->name("certificadoInicialGnv");
         Route::get('/duplicado-inicial/{id}', 'generaDuplicadoInicialGnv')->name("duplicadoInicialGnv");
         Route::get('/duplicado-inicial-ex/{id}', 'generaDuplicadoExternoInicialGnv')->name("duplicadoExternoInicialGnv");
 
@@ -146,21 +151,21 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
         Route::get('/fichaTecnicaGnv/{idCert}/download', 'descargarFichaTecnica')->name("descargarFichaTecnicaGnv");
         Route::get('/preConversionGnv/{idCert}', 'generarPreConversionGnv')->name("preConversionGnv");
         Route::get('/checkListArriba/{idCert}', 'generarCheckListArribaGnv')->name("checkListArribaGnv");
-        Route::get('/checkListAbajo/{idCert}', 'generarCheckListAbajoGnv')->name("checkListAbajoGnv");    
-        
-        Route::get('/boletoAnalizadorDeGases/{id}', 'generaBoletoDeAnalizador')->name("analizadorGnv"); 
+        Route::get('/checkListAbajo/{idCert}', 'generarCheckListAbajoGnv')->name("checkListAbajoGnv");
+
+        Route::get('/boletoAnalizadorDeGases/{id}', 'generaBoletoDeAnalizador')->name("analizadorGnv");
     });
-    
+
 
 
 
     Route::get("expediente-fotos/{id}/download","App\Http\Controllers\ZipController@descargaFotosExpediente")->name("descargaFotosExp");
     Route::get("Notification/{idNoti}/{idSoli}","App\Http\Controllers\NotificationController@marcarUnaNotificación")->name("leerNotificacion");
-    Route::get('download/{path}', function($path) { return Illuminate\Support\Facades\Storage::download($path);})->where('path','.*');   
+    Route::get('download/{path}', function($path) { return Illuminate\Support\Facades\Storage::download($path);})->where('path','.*');
     Route::get('/CargoPdf/{id}', function ($id) {
         $am= new AsignacionMateriales();
         return  $am->enviar($id);
-    })->name('cargoPdf');    
+    })->name('cargoPdf');
     Route::get('/Certificado/{id}', function ($id) {
         $ser= new Servicio();
         return  $ser->generaPdfAnualGnv($id);
@@ -172,10 +177,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
     Route::get('/CertificadoInicial/{id}', function ($id) {
         $ser= new Servicio();
         return  $ser->generaPdfInicialGnv($id);
-    })->name('certificadoInicial');  
+    })->name('certificadoInicial');
     Route::get('/CertificadoInicial/{id}/download', function ($id) {
         $ser= new Servicio();
         return  $ser->descargaPdfInicialGnv($id);
-    })->name('descargarInicial'); 
-    
+    })->name('descargarInicial');
+
 });
