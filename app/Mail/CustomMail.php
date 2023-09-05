@@ -14,7 +14,7 @@ use App\Models\Taller;
 class CustomMail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $user,$documentos;
+    public $user,$documentos,$taller;
 
     /**
      * Create a new message instance.
@@ -24,7 +24,9 @@ class CustomMail extends Mailable
     public function __construct(User $user)
     {
         $this->user=$user;
+        $this->taller=Taller::find($user->taller);
         $this->documentos=Taller::find($user->taller)->documentos->where('estadoDocumento',1);
+
     }
 
     /**

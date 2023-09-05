@@ -13,8 +13,8 @@ class FormEquipos extends Component
     public $nombreDelInvocador;
     public $equipo;
     public $open=false;
-    
-    public $cantEquipos;    
+
+    public $cantEquipos;
     public $vehiculo;
     public $tipoServicio;
     protected $rules=
@@ -24,34 +24,34 @@ class FormEquipos extends Component
         "equipo.marca"=>"required|min:2",
         "equipo.modelo"=>"required|min:2",
         "equipo.capacidad"=>"required|min:3",
-    
+        "equipo.fechaFab"=>"required|date",
     ];
 
     protected $listeners=['render','delete'];
-    
+
 
     public function mount(vehiculo $vehiculo,TipoServicio $tipoServicio){
-        $this->vehiculo=$vehiculo;  
-        $this->tipoServicio=$tipoServicio;             
+        $this->vehiculo=$vehiculo;
+        $this->tipoServicio=$tipoServicio;
     }
 
-    public function render(){        
-        $this->cantEquipos=$this->cuentaEquipos();         
-        $equipos=$this->vehiculo->Equipos;               
+    public function render(){
+        $this->cantEquipos=$this->cuentaEquipos();
+        $equipos=$this->vehiculo->Equipos;
         return view('livewire.form-equipos',compact('equipos'));
-    }    
+    }
 
-    public function delete(Equipo $eq){        
-        $eq->delete();       
-        $this->emitTo('form-equipos','mount'); 
+    public function delete(Equipo $eq){
+        $eq->delete();
+        $this->emitTo('form-equipos','mount');
         $this->emitTo('form-equipos','render');
         if($this->nombreDelInvocador!=null){
-            $this->emitTo($this->nombreDelInvocador,'refrescaVehiculo');  
+            $this->emitTo($this->nombreDelInvocador,'refrescaVehiculo');
         }else{
-            $this->emitTo('prueba','refrescaVehiculo');  
-        }       
-       
-        $this->emit("minAlert",["titulo"=>"BUEN TRABAJO!","mensaje"=>"Eliminaste un item de tu lista de equipos","icono"=>"success",]); 
+            $this->emitTo('prueba','refrescaVehiculo');
+        }
+
+        $this->emit("minAlert",["titulo"=>"BUEN TRABAJO!","mensaje"=>"Eliminaste un item de tu lista de equipos","icono"=>"success",]);
     }
 
     public function edit(Equipo $eq){
@@ -64,23 +64,23 @@ class FormEquipos extends Component
         switch($this->equipo->idTipoEquipo){
             case 1:
                 $this->salvaChip();
-                $this->emitTo('form-equipos','mount'); 
-                $this->emitTo('form-equipos','render'); 
+                $this->emitTo('form-equipos','mount');
+                $this->emitTo('form-equipos','render');
             break;
 
             case 2:
                 $this->salvaReductor();
-                $this->emitTo('form-equipos','mount'); 
-                $this->emitTo('form-equipos','render'); 
+                $this->emitTo('form-equipos','mount');
+                $this->emitTo('form-equipos','render');
             break;
 
             case 3:
                 $this->salvaTanque();
-                $this->emitTo('form-equipos','mount'); 
-                $this->emitTo('form-equipos','render'); 
+                $this->emitTo('form-equipos','mount');
+                $this->emitTo('form-equipos','render');
             break;
         }
-        
+
     }
 
     public function salvaTanque(){
@@ -91,17 +91,17 @@ class FormEquipos extends Component
                         "equipo.peso"=>"required|numeric|min:1",
                         "equipo.fechaFab"=>"required|date"
                         ]);
-       
-       
+
+
         $this->equipo->numSerie=strtoupper($this->equipo->numSerie);
-        $this->equipo->marca=strtoupper($this->equipo->marca);        
+        $this->equipo->marca=strtoupper($this->equipo->marca);
         $this->equipo->save();
 
-           
+
         $this->open=false;
         $this->emit("minAlert",["titulo"=>"BUEN TRABAJO!","mensaje"=>"El ".$this->equipo->tipo->nombre." con serie ".$this->equipo->numSerie." se añadio Correctamente","icono"=>"success"]);
-        
-        $this->reset(["equipo"]);   
+
+        $this->reset(["equipo"]);
     }
 
     public function salvaReductor(){
@@ -109,28 +109,28 @@ class FormEquipos extends Component
             "equipo.numSerie"=>"required|min:1",
             "equipo.marca"=>"required|min:1",
             "equipo.modelo"=>"required|min:1"
-            ]); 
+            ]);
 
-        $this->equipo->save();       
+        $this->equipo->save();
         $this->open=false;
         $this->emit("minAlert",["titulo"=>"BUEN TRABAJO!","mensaje"=>"El ".$this->equipo->tipo->nombre." con serie ".$this->equipo->numSerie." se añadio Correctamente","icono"=>"success"]);
-        $this->reset(["equipo"]);   
+        $this->reset(["equipo"]);
     }
 
     public function salvaChip(){
         $this->validate([
-            "equipo.numSerie"=>"required|min:1",           
-            ]);      
+            "equipo.numSerie"=>"required|min:1",
+            ]);
 
         $this->equipo->numSerie=strtoupper($this->equipo->numSerie);
-        $this->equipo->save();          
-                  
-        $this->open=false;        
-        $this->emit("minAlert",["titulo"=>"BUEN TRABAJO!","mensaje"=>"El ".$this->equipo->tipo->nombre." con serie ".$this->equipo->numSerie." se añadio Correctamente","icono"=>"success"]);
-        
-        $this->reset(["equipo"]);  
+        $this->equipo->save();
 
-        
+        $this->open=false;
+        $this->emit("minAlert",["titulo"=>"BUEN TRABAJO!","mensaje"=>"El ".$this->equipo->tipo->nombre." con serie ".$this->equipo->numSerie." se añadio Correctamente","icono"=>"success"]);
+
+        $this->reset(["equipo"]);
+
+
     }
 
     public function cuentaDis($tipo){
@@ -152,14 +152,14 @@ class FormEquipos extends Component
     public function cuentaEquipos(){
         $estado=false;
         $chips=$this->cuentaDis(1);
-        $reg=$this->cuentaDis(2);       
+        $reg=$this->cuentaDis(2);
         $cil=$this->cuentaDis(3);
             if($chips>0 && $reg>0 && $cil >0){
                 //$this->validaVehiculo();
-                $estado=true;                
+                $estado=true;
             }
         return $estado;
     }
-    
-    
+
+
 }

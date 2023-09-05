@@ -14,7 +14,7 @@
     <header class="w-full flex justify-between items-center bg-gray-200 px-4 py-6 rounded-md">
         <img src="{{ asset('images/logo.png') }}" class="w-24">
         <div class="w-full">
-            <p class="font-bold text-2xl w-full text-end">
+            <p class="font-bold text-2xl w-full text-end italic">
                 SISTEMA MOTORGAS
             </p>
         </div>
@@ -25,27 +25,69 @@
             AVISO DEL SISTEMA:
         </h3>
         <p>
-            Estimado {{ $user->name }} el presente correo es para informarte que los suguientes documentos
-            se encuentran próximos a vencer:
+            Estimado {{ $user->name }}, el presente correo es para informarle que su taller {{$taller->nombre}}
+            tiene los siguiente documentos próximos a vencer:
         </p>
         <br>
         <div class="block justify-center w-full">
-            <ul>
-                @foreach ($documentos as $doc)
-                    <li>{{ $doc->TipoDocumento->nombreTipo }}
-                        <span
-                            class="px-1 rounded-lg bg-red-500 text-white">{{ $doc->fechaExpiracion }}
-                        </span>
-                    </li>
-                @endforeach
+            <div class="flex flex-col m-auto">
+                <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                  <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                    <div class="overflow-hidden">
+                      <table class="min-w-full text-center text-sm font-light border-2 rounded-lg">
+                        <thead
+                          class=" border-b bg-indigo-300/25  font-medium  dark:border-neutral-500 dark:bg-neutral-900">
+                          <tr class="border-b divide-x divide-gray-400/25">
+                            <th scope="col" class=" px-6 py-4">#</th>
+                            <th scope="col" class=" px-6 py-4">Documento</th>
+                            <th scope="col" class=" px-6 py-4">Fecha de Expiración</th>
+                            <th scope="col" class=" px-6 py-4">Tiempo restante</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($documentos as $doc)
+                                <tr class="border-b dark:border-neutral-500 divide-x divide-gray-400/25">
+                                    <td class="whitespace-nowrap  px-6 py-4 font-medium">{{ $doc->id }}</td>
+                                    <td class="whitespace-nowrap  px-6 py-4">{{ $doc->TipoDocumento->nombreTipo }}</td>
+                                    <td class="whitespace-nowrap  px-6 py-4">{{ $doc->fechaExpiracion }}</td>
+                                    <td class="whitespace-nowrap  px-6 py-4">{{ date_create_from_format('d-m-Y',$doc->fechaExpiracion) }}</td>
+                                </tr>
+                            @endforeach
 
-            </ul>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
         </div>
+        <br>
+        <p>
+            Es de suma importancia actualizar y/o renovar dichos documentos y adjuntarlos en el sistema, de lo contrario el
+             taller podría recibir sanciones por parte de Sutran o las entidades reguladoras, si necesita ayuda o tiene consultas respecto a lo
+             mencionado anteriormente comuníquese con el administrador del sistema.
+        </p>
+        <br>
+        <p>
+            Saludos cordiales.
+        </p>
+        <br>
+        <p class="text-xs text-gray-300">
+            Si ya subsano los documentos mencionados anteriormente, por favor omita este correo.
+        </p>
     </main>
 
-    <footer>
-        <div class="text-xs text-slate-700 -mt-4 float-right">
-            Powered by ECRDEV ®
+    <footer class="flex flex-row w-full bg-gray-200 p-2 m-auto">
+        <div class="w-1/2">
+            <p class="text-xs text-start">Motorgas Company S.A.C © - {{now()->format('Y')}}</p>
+        </div>
+        <div class="w-1/2">
+            <p class="text-xs text-end text-gray-400">
+                Powered by
+                <a href="https://www.ecrdev.com" class="cursor-pointer hover:underline">
+                    ECRDEV ®
+                </a>
+            </p>
         </div>
     </footer>
     @vite(['resources/css/app.css', 'resources/js/app.js'])

@@ -19,12 +19,12 @@ class Arreglando extends Component
 {
     use WithFileUploads;
     use WithPagination;
-    
+
     public $idExpediente;
     public $formatos,$recortados,$rec;
-  
 
-    public $certificaciones;
+
+    //public $certificaciones;
 
 
 
@@ -38,20 +38,20 @@ class Arreglando extends Component
 
     protected $listernes=["addImg"];
 
-    public function mount(){  
-        $this->certificaciones=Certificacion::all();       
+    public function mount(){
+       // $this->certificaciones=Certificacion::where('id','>',0)->paginate();
     }
 
-   
+
 
     public function render()
     {
-        
-        return view('livewire.arreglando');
+        $certificaciones=Certificacion::where('id','>',0)->paginate(15);
+        return view('livewire.arreglando',compact('certificaciones'));
     }
 
     public function cambiar(){
-        foreach($this->certificaciones as $certi){            
+        foreach($this->certificaciones as $certi){
             $ubicacion="En poder del cliente";
             $usuario=$certi->Inspector->id;
             $certi->Hoja->update(["idUsuario"=>$usuario,"ubicacion"=>$ubicacion,"estado"=>4]);
@@ -60,18 +60,18 @@ class Arreglando extends Component
     }
 
 
-    
-    public function seleccionaFormatos(){                      
+
+    public function seleccionaFormatos(){
         $nuevos=Material::where([
             ["idTipoMaterial",1],
             ["estado",1]
         ])
         ->orderBy('numSerie','asc')
-        ->Paginate(50); 
+        ->Paginate(50);
 
-        $this->recortados=$nuevos->all(); 
+        $this->recortados=$nuevos->all();
 
-        $this->emitTo("arreglando","render");        
+        $this->emitTo("arreglando","render");
 
     }
 
@@ -90,27 +90,27 @@ class Arreglando extends Component
                 }else{
                     array_push($nuevos,["inicio"=>$inicio,"final"=>$final]);
                     $inicio=$this->recortados[$key+1]["numSerie"];
-                    $final=$this->recortados[$key+1]["numSerie"];                    
+                    $final=$this->recortados[$key+1]["numSerie"];
                 }
             }else{
                 $final=$this->recortados[$key]["numSerie"];
                 array_push($nuevos,["inicio"=>$inicio,"final"=>$final]);
             }
         }
-        $this->rec=$nuevos;        
+        $this->rec=$nuevos;
     }
 
     public function upload(){
-        $this->emit("minAlert",["titulo"=>"ERROR","mensaje"=>"Debe completar los datos de equipos para poder certificar","icono"=>"error"]); 
+        $this->emit("minAlert",["titulo"=>"ERROR","mensaje"=>"Debe completar los datos de equipos para poder certificar","icono"=>"error"]);
     }
 
-    
+
 
     public function guardar(){
         $this->validate();
-        foreach($this->imagenes as $key => $file){          
+        foreach($this->imagenes as $key => $file){
             $nombre="Prueba";
-            $file_save=Imagen::create([                
+            $file_save=Imagen::create([
                 'nombre'=>$nombre,
                 'ruta'=>$file->storeAs('public/expedientes',$nombre.$key.'.'.$file->extension()),
                 'extension'=>$file->extension(),
@@ -120,10 +120,10 @@ class Arreglando extends Component
         }
 
        $this->emit("minAlert",["titulo"=>"BUEN TRABAJO!","mensaje"=>"Todo bien","icono"=>"success"]);
-      
+
     }
 
-    
 
-      
+
+
 }

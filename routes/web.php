@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DocumentosController;
 use App\Http\Livewire\AsignacionMateriales;
+use App\Http\Livewire\PruebaDocumentosTaller;
 use App\Http\Livewire\CreateSolicitud;
 use App\Http\Livewire\Expedientes;
 use App\Http\Livewire\Ingresos;
@@ -119,6 +120,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
 
     //Ruta para adminsitracion de tablas
     Route::get('/Tablas/TiposDeServicios',Tiposservicios::class)->name('table.tiposServicio');
+
+    Route::get('/documentosTaller',PruebaDocumentosTaller::class)->name('documentosTaller');
 
 
 
