@@ -94,8 +94,8 @@ class Prueba extends Component
         } else {
             $this->tipoServicio = null;
         }
-        
-        
+
+
     }
 
 
@@ -279,9 +279,9 @@ class Prueba extends Component
                             "idTaller"=>$taller->id,
                             'usuario_idusuario'=>Auth::id(),
                             'servicio_idservicio'=>$servicio->id,
-                        ]);                        
+                        ]);
                         $this->guardarFotos($expe);
-                        guardarArchivosEnExpediente::dispatch($expe,$certi);                       
+                        guardarArchivosEnExpediente::dispatch($expe,$certi);
                         $certEx=CertifiacionExpediente::create(["idCertificacion"=>$certi->id,"idExpediente"=>$expe->id]);
                         $this->emit("minAlert", ["titulo" => "¡EXCELENTE TRABAJO!", "mensaje" => "Tu certificado N°: " . $certi->Hoja->numSerie . " esta listo.", "icono" => "success"]);
                     } else {
@@ -308,7 +308,7 @@ class Prueba extends Component
                     $certi = Certificacion::certificarGnvPre($taller, $servicio, $hoja, $this->vehiculo, Auth::user());
                     if ($certi) {
                         $this->estado = "certificado";
-                        $this->certificacion = $certi;                        
+                        $this->certificacion = $certi;
                         $this->emit("minAlert", ["titulo" => "¡EXCELENTE TRABAJO!", "mensaje" => "Tu certificado N°: " . $certi->Hoja->numSerie . " esta listo.", "icono" => "success"]);
                     } else {
                         $this->emit("minAlert", ["titulo" => "AVISO DEL SISTEMA", "mensaje" => "No fue posible certificar", "icono" => "warning"]);
@@ -324,7 +324,7 @@ class Prueba extends Component
 
 
     public function obtieneChip(){
-        $chip=Material::where([["idUsuario",Auth::id()],["estado",3],["idTipoMaterial",2]])->first();        
+        $chip=Material::where([["idUsuario",Auth::id()],["estado",3],["idTipoMaterial",2]])->first();
         return $chip;
     }
 
@@ -350,10 +350,10 @@ class Prueba extends Component
                                 "idTaller"=>$taller->id,
                                 'usuario_idusuario'=>Auth::id(),
                                 'servicio_idservicio'=>$servicio->id,
-                            ]);                        
+                            ]);
                             $this->guardarFotos($expe);
-                            guardarArchivosEnExpediente::dispatch($expe,$certi);                       
-                            $certEx=CertifiacionExpediente::create(["idCertificacion"=>$certi->id,"idExpediente"=>$expe->id]);                            
+                            guardarArchivosEnExpediente::dispatch($expe,$certi);
+                            $certEx=CertifiacionExpediente::create(["idCertificacion"=>$certi->id,"idExpediente"=>$expe->id]);
                             $this->emit("minAlert", ["titulo" => "¡EXCELENTE TRABAJO!", "mensaje" => "Tu certificado N°: " . $certi->Hoja->numSerie . " esta listo.", "icono" => "success"]);
                         } else {
                             $this->emit("minAlert", ["titulo" => "AVISO DEL SISTEMA", "mensaje" => "No fue posible certificar", "icono" => "warning"]);
@@ -369,27 +369,26 @@ class Prueba extends Component
             }
         }
     }
-    
+
 
     public function guardarFotos(Expediente $expe){
         $this->validate(["imagenes"=>"nullable|array","imagenes.*"=>"image"]);
         if(count($this->imagenes)){
-            foreach($this->imagenes as $key => $file){          
+            foreach($this->imagenes as $key => $file){
                 $nombre=$expe->placa.'-foto'.($key+1).'-'.$expe->certificado;
-                $file_save=Imagen::create([                
+                $file_save=Imagen::create([
                     'nombre'=>$nombre,
                     'ruta'=>$file->storeAs('public/expedientes',$nombre.'.'.$file->extension()),
                     'extension'=>$file->extension(),
                     'Expediente_idExpediente'=>$expe->id,
-                ]);            
+                ]);
             }
         }
-       $this->reset(["imagenes"]);      
+       $this->reset(["imagenes"]);
     }
 
 
     public function guardaDocumentos(){
-        
     }
 
     public function refrescaVe()
@@ -397,37 +396,9 @@ class Prueba extends Component
         $this->vehiculo->refresh();
     }
 
-    public function duplicarCertificado()
-    {
-        /*
-        $servicio=Servicio::find($this->servicio);
-        if(Certificacion::findOrFail($this->certificado->id)){
-            $hoja=$this->procesaFormato($this->numSugerido,$this->tipoServicio->id);
-            $cert=Certificacion::create([
-                "idVehiculo"=>$this->vehiculo->id,
-                "idTaller"=>$this->taller,
-                "idInspector"=>Auth::id(),
-                "idServicio"=>$this->servicio,
-                "estado"=>1,
-                "precio"=>$servicio->precio,
-                "pagado"=>0,
-            ]);
-           // $this->servicioCertificado=$cert;           
-            $hoja->update(["estado"=>4]);
-            $servM=ServicioMaterial::create([
-                                            "idMaterial"=>$hoja->id,
-                                            "idCertificacion"=>$cert->id
-                                            ]);
-            $this->duplicado=$cert;            
-            $this->emit("minAlert",["titulo"=>"¡BUEN TRABAJO!","mensaje"=>"Tu certificado esta listo!","icono"=>"success",]);
-        }else{
-            $this->emit("minAlert",["titulo"=>"AVISO DEL SISTEMA","mensaje"=>"No se pudo realizar la certificación","icono"=>"warning"]);
-        }
-        */
-        $this->duplicar();
-    }
 
-    public function duplicar()
+
+    public function duplicarCertificado()
     {
         $taller = Taller::findOrFail($this->taller);
         $servicio = Servicio::find($this->servicio);
@@ -453,7 +424,7 @@ class Prueba extends Component
                 }
             } else {
 
-                if ($this->certificado && $servicio) {                    
+                if ($this->certificado && $servicio) {
                     $dupli = $this->creaDuplicado($this->certificado);
                     $certi = Certificacion::duplicarCertificadoGnv($dupli,$taller,Auth::user(),$servicio,$hoja);
                     $this->estado = "certificado";

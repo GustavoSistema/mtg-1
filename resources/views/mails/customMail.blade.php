@@ -41,7 +41,7 @@
                             <th scope="col" class=" px-6 py-4">#</th>
                             <th scope="col" class=" px-6 py-4">Documento</th>
                             <th scope="col" class=" px-6 py-4">Fecha de Expiración</th>
-                            <th scope="col" class=" px-6 py-4">Tiempo restante</th>
+                            <th scope="col" class=" px-6 py-4">Estado</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -49,11 +49,21 @@
                                 <tr class="border-b dark:border-neutral-500 divide-x divide-gray-400/25">
                                     <td class="whitespace-nowrap  px-6 py-4 font-medium">{{ $doc->id }}</td>
                                     <td class="whitespace-nowrap  px-6 py-4">{{ $doc->TipoDocumento->nombreTipo }}</td>
-                                    <td class="whitespace-nowrap  px-6 py-4">{{ $doc->fechaExpiracion }}</td>
-                                    <td class="whitespace-nowrap  px-6 py-4">{{ date_create_from_format('d-m-Y',$doc->fechaExpiracion) }}</td>
+                                    <td class="whitespace-nowrap  px-6 py-4">{{ $doc->fechaExpiracion->format('d-m-Y') }}</td>
+
+                                    @if ($doc->Dias==0)
+                                    {{dd($doc->Dias)}}
+                                        <td class="whitespace-nowrap  px-6 py-4"> Vence hoy </td>
+                                    @else
+                                        @if ($doc->Dias>0)
+                                            <td class="whitespace-nowrap  px-6 py-4"> Vence en {{$doc->Tiempo}} </td>
+                                        @endif
+                                        @if($doc->Dias<0)
+                                            <td class="whitespace-nowrap  px-6 py-4"> Venció hace {{$doc->Tiempo}} </td>
+                                        @endif
+                                    @endif
                                 </tr>
                             @endforeach
-
                         </tbody>
                       </table>
                     </div>
@@ -72,7 +82,7 @@
             Saludos cordiales.
         </p>
         <br>
-        <p class="text-xs text-gray-300">
+        <p class="text-xs text-gray-400">
             Si ya subsano los documentos mencionados anteriormente, por favor omita este correo.
         </p>
     </main>
@@ -87,6 +97,7 @@
                 <a href="https://www.ecrdev.com" class="cursor-pointer hover:underline">
                     ECRDEV ®
                 </a>
+
             </p>
         </div>
     </footer>

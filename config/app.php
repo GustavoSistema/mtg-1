@@ -69,7 +69,7 @@ return [
     |
     */
 
-    'timezone' => 'Etc/GMT0',
+    'timezone' => 'America/Lima',
 
     /*
     |--------------------------------------------------------------------------
@@ -199,7 +199,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        
+
 
     ],
 

@@ -98,7 +98,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified'])
 
     Route::get('/mailable', function () {
         $invoice = App\Models\User::find(150);
-
         return new App\Mail\CustomMail($invoice);
     });
 
