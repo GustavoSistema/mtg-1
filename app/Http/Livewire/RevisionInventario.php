@@ -11,7 +11,7 @@ use Livewire\Component;
 class RevisionInventario extends Component
 {
 
-    public $inspector,$inspectores;
+    public $inspector,$inspectores,$tipoMaterial;
     public $resultado;
 
     protected $rules=["inspector"=>"required|numeric|min:1"];
@@ -21,17 +21,26 @@ class RevisionInventario extends Component
         return view('livewire.revision-inventario');
     }
 
-    public function mount(){                
+    public function mount(){
         $this->inspectores=User::role(['inspector','supervisor'])
         ->where('id','!=',Auth::id())
         ->orderBy('name')->get();
-        $this->resultado= new Collection();
+        //$this->resultado= new Collection();
     }
 
     public function consultar(){
         $this->validate();
-        $this->resultado=Material::where("idUsuario",$this->inspector)->get();
+        $this->resultado=Material::where("idUsuario",$this->inspector)
+        ->TipoMaterialInvetariado($this->tipoMaterial)
+        ->get();
     }
 
-    
+    public function updated($nameProperty){
+        $this->validateOnly($nameProperty);
+        if($nameProperty){
+            $this->reset(["resultado"]);
+        }
+    }
+
+
 }
