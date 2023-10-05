@@ -13,6 +13,7 @@
                         <span class="p-1 rounded-md bg-red-300"> Venció hace {{$doc->Tiempo}} </span>
                     @endif
                 @endif
+                {{$doc->estadoDocumento==1 ? '✔' : '❌'}}
             </p>
             <br>
         @endforeach

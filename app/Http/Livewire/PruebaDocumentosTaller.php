@@ -15,7 +15,7 @@ class PruebaDocumentosTaller extends Component
 
     public function render()
     {
-        $docs=$this->listaDocumentosProximosVencer();
+        $docs=$this->listaDocumentos();
         return view('livewire.prueba-documentos-taller',compact('docs'));
     }
 

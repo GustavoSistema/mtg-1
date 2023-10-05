@@ -15,16 +15,16 @@ use Illuminate\Support\Facades\Storage;
 trait docTallerTrait
 {
     public function listaDocumentos(){
-        return Documento::where('estadoDocumento',2)->get();
+        //return Documento::where('estadoDocumento',2)->get();
+       return Documento::all();
     }
 
     public function listaDocumentosProximosVencer(){
         $prox=now()->addMonth();
         $docs=Documento::
         whereBetween('fechaExpiracion', [now()->format('Y-m-d'), $prox->format('Y-m-d')])
-        //->where('estadoDocumento',1)
         ->get();
-
+        //dd($docs);
         return $docs;
     }
 
@@ -43,6 +43,16 @@ trait docTallerTrait
         whereDate('fechaExpiracion', '<=', now()->format('Y-m-d'))
         ->where('estadoDocumento',1)
         ->update(['estadoDocumento'=>2]);
+    }
+
+    public function cambiaDiasDeDocumentos(){
+
+    }
+
+    public function cambiaEstadoDocumentosProximosAvencer(EloquentCollection $docs){
+        foreach($docs as $doc){
+            $doc->update(['estadoDocumento'=>2]);
+        }
     }
 
 
