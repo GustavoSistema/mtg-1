@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
-<head>    
+<head>
     <title>DUPLICADO DE CONVERSIÓN DEL VEHÍCULO A GNV</title>
-    <style>        
+    <style>
         @page {
             margin: 0cm 0cm;
             font-family: sans-serif;
@@ -11,32 +11,32 @@
         body {
             margin:1cm 2cm 2cm;
             display: block;
-        } 
+        }
         header {
             position: fixed;
             top: 0cm;
             left: 0cm;
             right: 0cm;
-            height: 3.5cm;            
+            height: 3.5cm;
             color: black;
-            font-weight: bold;      
-            text-align: center; 
-            
+            font-weight: bold;
+            text-align: center;
+
         }
-        
-       
+
+
 
         footer {
             position: fixed;
             bottom: 0cm;
             left: 0cm;
             right: 0cm;
-            height: 2cm;         
+            height: 2cm;
             color: black;
             text-align: center;
             line-height: 35px;
-            
-        } 
+
+        }
 
         p{
             font-size:10px;
@@ -47,15 +47,15 @@
         }
         h3{
             margin-top: 3cm;
-            color: black; 
+            color: black;
             text-align: center;
-        } 
+        }
         h4{
             font-size: 14px;
             text-align: center;
-        }  
+        }
         h5{
-            text-align: right;            
+            text-align: right;
         }
         h6{
             margin-bottom: -10px;
@@ -79,14 +79,14 @@
 </head>
 <body>
     <header>
-       
-    </header>  
-    <main>        
+
+    </header>
+    <main>
         <h3>CERTIFICADO DE CONFORMIDAD DE CONVERSIÓN A GNV</h3>
         <h5>{{ "Certificado N° ".$hoja->numSerie." - ".date("Y") }}</h5>
-        <h4> {{"LA ENTIDAD CERTIFICADORA ".$empresa." CERTIFICA:"}}</h4>     
-        <p>Haber efectuado la evaluación de las condiciones de seguridad respecto de la conversión del sistema de combustión a 
-            Gas Natural Vehicular – GNV efectuada  por  el taller de  Conversión  Autorizado: {{$taller}}</p>        
+        <h4> {{"LA ENTIDAD CERTIFICADORA ".$empresa." CERTIFICA:"}}</h4>
+        <p>Haber efectuado la evaluación de las condiciones de seguridad respecto de la conversión del sistema de combustión a
+            Gas Natural Vehicular – GNV efectuada  por  el taller de  Conversión  Autorizado: {{$taller}}</p>
         <!-- DATOS VEHICULO -->
         <table>
             <tr>
@@ -163,55 +163,55 @@
                     <td style="text-align:center;">Marca</td>
                     <td style="text-align:center;">N°Serie</td>
                     <td style="text-align:center;">Modelo</td>
-                    <td style="text-align:center;">Capacidad</td>                    
+                    <td style="text-align:center;">Capacidad</td>
                 </tr>
                 @foreach ($equipos as $key=>$item)
                     @switch($item->idTipoEquipo)
                         @case(2)
-                            <tr>                        
+                            <tr>
                                 <td style="text-align:center;">{{$item->tipo->nombre}}</td>
                                 <td style="text-align:center;">{{$item->marca}}</td>
                                 <td style="text-align:center;">{{$item->numSerie}}</td>
                                 <td style="text-align:center;">{{$item->modelo}}</td>
-                                <td style="text-align:center;">N/A</td>                    
+                                <td style="text-align:center;">N/A</td>
                             </tr>
                         @break
                         @case(3)
-                            <tr>                        
+                            <tr>
                                 <td style="text-align:center;">{{$item->tipo->nombre}}</td>
                                 <td style="text-align:center;">{{$item->marca}}</td>
                                 <td style="text-align:center;">{{$item->numSerie}}</td>
                                 <td style="text-align:center;">N/A</td>
-                                <td style="text-align:center;">{{$item->capacidad}}</td>                    
+                                <td style="text-align:center;">{{$item->capacidad}}</td>
                             </tr>
                         @break
-                        @default                            
-                    @endswitch               
-                @endforeach                
+                        @default
+                    @endswitch
+                @endforeach
             </table>
         <p>
-            Como consecuencia de la conversion del sistema de combustion a Gas Natural Vehicular - GNV, las caracteristicas originales del vehiculo 
+            Como consecuencia de la conversion del sistema de combustion a Gas Natural Vehicular - GNV, las caracteristicas originales del vehiculo
             se han modificado de la siguiente manera:
         </p>
             <table>
                 <tr>
                     <td style="text-align:center;">17</td>
                     <td style="text-align:center;">Combustible</td>
-                    <td style="text-align:center;">BI COMBUSTIBLE GNV</td>                   
+                    <td style="text-align:center;">BI COMBUSTIBLE GNV</td>
                 </tr>
                 <tr>
                     <td style="text-align:center;">18</td>
                     <td style="text-align:center;">Peso neto(kg)</td>
-                    <td style="text-align:center;">{{$carro->pesoNeto+$pesos}}</td>                   
+                    <td style="text-align:center;">{{$carro->pesoNeto+$pesos}}</td>
                 </tr>
             </table>
         <p>Consiste por el presente documento que el sistema de combustible  a Gas Natural Vehicular GNV, del vehículo antes referido, no afectaran negativamente la seguridad
              del mismo(**), el tránsito terrestre, el medio ambiente o incumplen con las condiciones técnicas establecidas en la normativa vigente en la materia(***),según el
-              expediente técnico   N° {{$hoja->numSerie}} - 2023,  habilitándose al mismo para cargar  Gas  Natural  vehicular-GNV,  hasta  el: {{$fechaAntiguo->format("d/m/").($fechaAntiguo->format("Y")+1)}} 
+              expediente técnico   N° {{$hoja->numSerie}} - 2023,  habilitándose al mismo para cargar  Gas  Natural  vehicular-GNV,  hasta  el: {{$fechaAntiguo->format("d/m/").($fechaAntiguo->format("Y")+1)}}
         </p>
         <h6>OBSERVACIONES</h6>
             <ul>
-                <li>(*) Los datos de los numerales 1 al 18, provienen de la tarjeta de propiedad del vehículo y/o han sido suministrados por el cliente, por tal motivo deberán 
+                <li>(*) Los datos de los numerales 1 al 18, provienen de la tarjeta de propiedad del vehículo y/o han sido suministrados por el cliente, por tal motivo deberán
                     ser verificados por el cliente antes de iniciar cualquier trámite con este certificado.
                 </li>
                 <li>
@@ -222,13 +222,13 @@
                 <li>Las abreviaturas: S/V significa “Sin Versión”, NE significa “No Especificado en los documentos presentes” </li>
                 <li>Este certificado es <strong>DUPLICADO</strong> a pedido del cliente porque se le perdió y es <strong>COPIA FIEL DEL ORIGINAL</strong>. </li>
                 <li>De acuerdo a la normatividad vigente, el resultado de la prueba de emisiones contaminantes del vehiculó es aprobatorio.</li>
-            </ul>       
+            </ul>
         <p>Se expide el presente en la ciudad de Lima, a los {{$fecha}}</p>
-        
+
     </main>
-    
+
     <footer>
-        
-    </footer>    
+
+    </footer>
 </body>
 </html>
