@@ -34,14 +34,14 @@
                 </button>
             </div>
         </div>
-        <div class="w-full p-4 bg-indigo-400 text-white text-center my-4" wire:loading>
+        <div class="w-full text-center font-semibold text-gray-100 p-4 mb-4 border rounded-md bg-indigo-400 shadow-lg" wire:loading>
             CARGANDO  <i class="fa-solid fa-spinner animate-spin"></i>
         </div>
 
         @if(isset($resultado))
 
             @if ($resultado->count())
-                <div class="w-full border bg-white rounded-md shadow-md" >
+                <div class="w-full border bg-white rounded-md shadow-md" wire:loading.class="hidden">
                     <div class="w-5/6 my-4 m-auto text-center">
                         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-x-6 lg:gap-x-0 items-center">
                             <div class="mb-12 lg:mb-0 relative">
@@ -78,19 +78,22 @@
                     <div class="max-h-96 overflow-y-auto">
                         <table class="w-5/6 m-auto my-6 text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead
-                                class="text-xs text-gray-700 uppercase bg-indigo-300 rounded-t-lg dark:bg-gray-700 dark:text-gray-400">
+                                class="text-xs text-gray-700 uppercase rounded-t-lg dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3">
+                                    <th scope="col" class="px-6 py-3 bg-indigo-300 sticky top-0 z-10">
                                         Material
                                     </th>
-                                    <th scope="col" class="px-6 py-3">
+                                    <th scope="col" class="px-6 py-3 bg-indigo-300 sticky top-0 z-10">
                                         # Serie
                                     </th>
-                                    <th scope="col" class="px-6 py-3">
+                                    <th scope="col" class="px-6 py-3 bg-indigo-300 sticky top-0 z-10">
                                         Estado
                                     </th>
-                                    <th scope="col" class="px-6 py-3">
+                                    <th scope="col" class="px-6 py-3 bg-indigo-300 sticky top-0 z-10">
                                         Ubicación
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 bg-indigo-300 sticky top-0 z-10">
+                                        Ultima act.
                                     </th>
                                 </tr>
                             </thead>
@@ -140,6 +143,9 @@
                                         <td class="px-6 py-4 ">
                                             {{ $item->ubicacion }}
                                         </td>
+                                        <td class="px-6 py-4 ">
+                                            {{ $item->updated_at->format('d-m-Y H:i:s a')}}
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -147,8 +153,8 @@
                     </div>
                 </div>
             @else
-                <div class="p-4 border rounded-md bg-indigo-300 shadow-lg" >
-                    <p class="text-center text-gray-200 font-semibold">
+                <div class="p-4 border rounded-md bg-indigo-400 shadow-lg mb-4" wire:loading.class="hidden">
+                    <p class="text-center text-gray-100 font-semibold">
                         No se encontraron resultados
                     </p>
                 </div>

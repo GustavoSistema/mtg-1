@@ -19,8 +19,26 @@ trait docTallerTrait
        return Documento::all();
     }
 
-    public function listaDocumentosProximosVencer(){
+    public function listaDocumentosProximosVencerMes(){
         $prox=now()->addMonth();
+        $docs=Documento::
+        whereBetween('fechaExpiracion', [now()->format('Y-m-d'), $prox->format('Y-m-d')])
+        ->get();
+        //dd($docs);
+        return $docs;
+    }
+
+    public function listaDocumentosProximosVencerSemana(){
+        $prox=now()->addWeek();
+        $docs=Documento::
+        whereBetween('fechaExpiracion', [now()->format('Y-m-d'), $prox->format('Y-m-d')])
+        ->get();
+        //dd($docs);
+        return $docs;
+    }
+
+    public function listaDocumentosProximosVencerDias(){
+        $prox=now()->addDays(2);
         $docs=Documento::
         whereBetween('fechaExpiracion', [now()->format('Y-m-d'), $prox->format('Y-m-d')])
         ->get();
@@ -49,9 +67,9 @@ trait docTallerTrait
 
     }
 
-    public function cambiaEstadoDocumentosProximosAvencer(EloquentCollection $docs){
+    public function cambiaEstadoDocumentosProximosAvencer(EloquentCollection $docs,$estado){
         foreach($docs as $doc){
-            $doc->update(['estadoDocumento'=>2]);
+            $doc->update(['estadoDocumento'=>$estado]);
         }
     }
 
