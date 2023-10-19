@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Material;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection as SupportCollection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -14,7 +15,9 @@ class RevisionInventario extends Component
     public $inspector,$inspectores,$tipoMaterial;
     public $resultado;
 
-    protected $rules=["inspector"=>"required|numeric|min:1"];
+    protected $rules=[
+        "inspector"=>"required|numeric|min:1"
+];
 
     public function render()
     {
@@ -41,6 +44,8 @@ class RevisionInventario extends Component
             $this->reset(["resultado"]);
         }
     }
+
+
 
 
 }

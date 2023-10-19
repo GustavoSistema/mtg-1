@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Traits\docTallerTrait;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -11,7 +12,7 @@ use Illuminate\Queue\SerializesModels;
 
 class CambiarEstadoDeDocumentosTaller implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels,docTallerTrait;
 
     /**
      * Create a new job instance.
