@@ -38,7 +38,7 @@ class CustomMail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Email de prueba',
+            subject: 'Aviso de vencimiento de documentos',
         );
     }
 

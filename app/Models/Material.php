@@ -27,30 +27,30 @@ class Material extends Model
     'idTipoMaterial',
     'añoActivo',
     'created_at',
-    'updated_at',        
-    ];   
+    'updated_at',
+    ];
 
     public function tipo(){
         return $this->belongsTo(TipoMaterial::class,'idTipoMaterial');
     }
 
-    
+
 
     public function Inspector(){
         return $this->belongsTo(User::class,'idUsuario');
     }
 
-   
+
 
     public static function formatosGnvEnStock($tipo){
         $res=new Collection();
         $aux=DB::table('material')
-            ->select('material.idTipoMaterial','tipomaterial.descripcion')            
+            ->select('material.idTipoMaterial','tipomaterial.descripcion')
             ->join('tipomaterial','material.idTipoMaterial',"=",'tipomaterial.id')
             ->where([
-                ['material.idTipoMaterial',$tipo],   
-                ['material.estado',1],             
-            ])            
+                ['material.idTipoMaterial',$tipo],
+                ['material.estado',1],
+            ])
             ->get();
         $res=$aux;
         return $res->count();
@@ -87,16 +87,30 @@ class Material extends Model
                     ['estado',1],
                     ['idTipoMaterial',1],
                     ['grupo',$grupo],
-                    ])                
-                ->get();              
-                
+                    ])
+                ->get();
+
         return $grupo;
     }
-    
+
     public function scopeSearchSerieFormmato($query,$search){
         if($search){
            return $query->where([['idTipoMaterial', 1],['numSerie','like','%'.$search.'%']]);
         }
-       
+
     }
+
+    public function scopeInspector($query,$search){
+        if($search){
+           return $query->where([['idUsuario', $search]]);
+        }
+
+    }
+
+    public function scopeTipoMaterialInvetariado($query,$search){
+        if($search){
+           return $query->where([['idTipoMaterial', $search]]);
+        }
+    }
+
 }

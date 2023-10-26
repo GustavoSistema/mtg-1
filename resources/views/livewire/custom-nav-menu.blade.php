@@ -162,13 +162,13 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
     <div id="containerSidebar" class="z-40">
         <div class="navbar-menu relative z-40">
             <nav id="sidebar"
-                class="fixed left-0 bottom-0 flex w-3/4 -translate-x-full flex-col overflow-y-auto bg-gray-700 pt-6 pb-8 sm:max-w-xs lg:w-80">
+                class="fixed left-0 bottom-0 flex w-3/4 -translate-x-full flex-col bg-gray-700 pt-2  sm:max-w-xs lg:w-80">
                 <!-- one category / navigation group -->
-                <div class="px-4">
+                <div class="px-4 overflow-y-auto">
                     <h3 class="mb-2 text-xs font-medium uppercase text-gray-500">
                         Menu principal
                     </h3>
-                    <ul class="mb-8 text-sm font-medium">
+                    <ul class="text-sm font-medium">
                         <li>
                             <a class="flex items-center rounded py-3 pl-3 pr-4  space-x-6 text-gray-50 hover:bg-gray-600"
                                 href="{{ route('dashboard') }}">
@@ -420,14 +420,14 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                                 </div>
                             </li>
                         @endcan
-                        
+
                         {{--           OPCIONES PARA REPORTES          --}}
                         @can('opciones.reportesGnv')
                             <li class="text-gray-50 py-3 pl-3 pr-4 hover:bg-gray-600 focus:bg-gray-600 rounded"
                                 x-data="{ Open: false }">
                                 <div class="inline-flex  items-center justify-between w-full  transition-colors duration-150 text-gray-500  cursor-pointer"
                                     x-on:click="Open = !Open">
-                                    <span class="inline-flex items-center space-x-6  text-sm  text-white ">                                        
+                                    <span class="inline-flex items-center space-x-6  text-sm  text-white ">
                                         <i class="fa-solid fa-chart-column font-thin"></i>
                                         <span class="select-none">Reportes GNV</span>
                                     </span>
@@ -462,14 +462,14 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                                                 Reporte de Servicios por inspector
                                             </x-jet-responsive-nav-link>
                                         @endcan
-                                        
+
                                     </ul>
 
                                 </div>
                             </li>
                         @endcan
 
-                        
+
                         {{--                     OPCIONES PARA IMPORTACION DE SERVICIOS                  --}}
                         @can('opciones.cargaDatos')
                             <li class="text-gray-50 py-3 pl-3 pr-4 hover:bg-gray-600 focus:bg-gray-600 rounded"
@@ -492,23 +492,23 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                                         x-transition:leave-start="opacity-100 max-h-xl"
                                         x-transition:leave-end="opacity-0 max-h-0"
                                         class="mt-2 divide-y-2 divide-gray-600 overflow-hidden text-sm font-medium bg-gray-600 text-white shadow-inner"
-                                        aria-label="submenu">          
+                                        aria-label="submenu">
 
                                             <x-jet-responsive-nav-link class="text-sm" href="{{ route('importar.anuales') }}"
                                                 :active="request()->routeIs('importar.anuales')">
                                                 Revisiones Anuales GNV
-                                            </x-jet-responsive-nav-link>     
-                                            
+                                            </x-jet-responsive-nav-link>
+
                                             <x-jet-responsive-nav-link class="text-sm" href="{{ route('importar.conversiones') }}"
                                                 :active="request()->routeIs('importar.conversiones')">
                                                 Conversiones a GNV
-                                            </x-jet-responsive-nav-link>   
-                                            
+                                            </x-jet-responsive-nav-link>
+
                                             <x-jet-responsive-nav-link class="text-sm" href="{{ route('importar.desmontes') }}"
                                                 :active="request()->routeIs('importar.desmontes')">
                                                 Desmontes GNV
-                                            </x-jet-responsive-nav-link> 
-                                            
+                                            </x-jet-responsive-nav-link>
+
                                     </ul>
 
                                 </div>
@@ -585,12 +585,12 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                                         x-transition:leave-start="opacity-100 max-h-xl"
                                         x-transition:leave-end="opacity-0 max-h-0"
                                         class="mt-2 divide-y-2 divide-gray-600 overflow-hidden text-sm font-medium bg-gray-600 text-white shadow-inner"
-                                        aria-label="submenu">                                       
+                                        aria-label="submenu">
                                             <x-jet-responsive-nav-link class="text-sm" href="{{ route('table.tiposServicio') }}"
                                                 :active="request()->routeIs('table.tiposServicio')">
                                                 Tipos de servicio
-                                            </x-jet-responsive-nav-link>                                       
-                                        
+                                            </x-jet-responsive-nav-link>
+
                                     </ul>
 
                                 </div>
@@ -602,12 +602,12 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
 
                 <!-- navigation group end-->
 
-                <!-- example copies start -->
-                <div class="md:hidden block fixed bottom-0 left-0 px-4 w-full">
-                    <h3 class="mb-2 text-xs font-medium uppercase text-gray-500">
+                <!-- opciones de cuenta de usuario -->
+                <div class="md:hidden block bg-gray-700 bottom-0 left-0 px-4 w-full z-10 mt-2">
+                    <h3 class="my-2 text-xs font-medium uppercase text-gray-500">
                         Opciones de la cuenta
                     </h3>
-                    <ul class="mb-8 text-sm font-medium ">
+                    <ul class="mb-2 text-sm font-medium ">
                         <li>
                             <a class="flex items-center rounded py-3 pl-3 pr-4  space-x-6 text-gray-50 hover:bg-gray-600 "
                                 href="{{ route('profile.show') }}">
@@ -629,7 +629,7 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                         </li>
                     </ul>
                 </div>
-                <!-- example copies end -->
+                <!-- fin -->
             </nav>
         </div>
 

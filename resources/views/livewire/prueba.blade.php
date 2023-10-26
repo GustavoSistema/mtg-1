@@ -33,7 +33,7 @@
 
         </div>
     </div>
-    
+
     @if ($servicio)
         @switch($tipoServicio->id)
             @case(1)
@@ -290,9 +290,9 @@
                 </div>
             @break
 
-            @case(7)            
+            @case(7)
             @livewire('activacion-de-chips', ['tipoServicio' => $tipoServicio,'idTaller'=>$this->taller])
-                
+
             @break
 
             @case(8)
@@ -315,15 +315,15 @@
                                 <div class="md:pt-2 w-full">
                                     <x-jet-input-error for="placa" />
                                 </div>
-                                
+
                             @endif
                             <div class="flex items-center">
                                 <input id="checkbox-2" wire:model="externo" type="checkbox"
                                     class="accent-pink-300 border-indigo-300 focus:ring-3 focus:ring-indigo-300 h-4 w-4 rounded"/>
                                 <label for="checkbox-2" class="text-sm ml-3 font-medium text-gray-900">Externo</label>
-                            </div>                            
-                        </div>                       
-                    </div>                    
+                            </div>
+                        </div>
+                    </div>
                 @endif
 
                 @if ($externo)
@@ -412,13 +412,13 @@
                             </div>
                         </div>
                     @endif
-                @endif               
+                @endif
                 @if ($estado)
                     @switch($estado)
                         @case('esperando')
                             <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4 py-4">
                                 <div class="my-2 flex flex-row justify-evenly items-center">
-                                    <a wire:click="duplicar"
+                                    <a wire:click="duplicarCertificado"
                                         class="hover:cursor-pointer border border-indigo-500 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-indigo-400 hover:bg-indigo-500 focus:outline-none rounded">
                                         <p class="text-sm font-medium leading-none text-white"><i class="far fa-copy"></i>
                                             &nbsp;Duplicar</p>
@@ -588,7 +588,7 @@
                 @livewire('vehiculo.create-vehiculo', ['tipoServicio' => $tipoServicio])
                 @if ($estado)
                 @switch($estado)
-                    @case('esperando')                        
+                    @case('esperando')
                         <div class="max-w-5xl m-auto bg-white rounded-lg shadow-md my-4 py-4">
                             <div class="my-2 flex flex-row justify-evenly items-center">
                                 <button wire:click="certificarPreconver" wire:loading.attr="disabled" wire.target="certificarPreconver"
@@ -687,7 +687,7 @@
                     @default
                 @endswitch
             @endif
-                
+
             @break
 
             @default

@@ -15,18 +15,33 @@ use Illuminate\Support\Facades\Storage;
 trait docTallerTrait
 {
     public function listaDocumentos(){
-        $docs=Documento::all();
-        
-        return $docs;
+        return Documento::where('estadoDocumento',2)->get();
     }
 
-    public function listaDocumentosProximosVencer(){
+    public function listaDocumentosProximosVencerMes(){
         $prox=now()->addMonth();
         $docs=Documento::
         whereBetween('fechaExpiracion', [now()->format('Y-m-d'), $prox->format('Y-m-d')])
-        //->where('estadoDocumento',1)
         ->get();
+        //dd($docs);
+        return $docs;
+    }
 
+    public function listaDocumentosProximosVencerSemana(){
+        $prox=now()->addWeek();
+        $docs=Documento::
+        whereBetween('fechaExpiracion', [now()->format('Y-m-d'), $prox->format('Y-m-d')])
+        ->get();
+        //dd($docs);
+        return $docs;
+    }
+
+    public function listaDocumentosProximosVencerDias(){
+        $prox=now()->addDays(2);
+        $docs=Documento::
+        whereBetween('fechaExpiracion', [now()->format('Y-m-d'), $prox->format('Y-m-d')])
+        ->get();
+        //dd($docs);
         return $docs;
     }
 
@@ -45,6 +60,16 @@ trait docTallerTrait
         whereDate('fechaExpiracion', '<=', now()->format('Y-m-d'))
         ->where('estadoDocumento',1)
         ->update(['estadoDocumento'=>2]);
+    }
+
+    public function cambiaDiasDeDocumentos(){
+
+    }
+
+    public function cambiaEstadoDocumentosProximosAvencer(EloquentCollection $docs,$estado){
+        foreach($docs as $doc){
+            $doc->update(['estadoDocumento'=>$estado]);
+        }
     }
 
 
