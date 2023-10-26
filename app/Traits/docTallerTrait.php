@@ -15,7 +15,9 @@ use Illuminate\Support\Facades\Storage;
 trait docTallerTrait
 {
     public function listaDocumentos(){
-        return Documento::where('estadoDocumento',2)->get();
+        $docs=Documento::all();
+        
+        return $docs;
     }
 
     public function listaDocumentosProximosVencer(){

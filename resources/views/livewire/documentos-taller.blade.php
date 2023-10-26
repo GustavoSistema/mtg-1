@@ -1,4 +1,5 @@
 <div class="space-y-4">
+    {{$JUAN}}
     @if ($taller->Documentos->count())
         @foreach ($taller->Documentos as $doc)
             <div

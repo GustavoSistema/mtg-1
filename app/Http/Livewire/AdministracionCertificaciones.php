@@ -87,6 +87,8 @@ class AdministracionCertificaciones extends Component
     }
 
     public function anular(Certificacion $certificacion){
+        
+        $this->cambiaEstadoDeMateriales($certificacion->Materiales,$certificacion->Inspector);
         $certificacion->Hoja->update(['estado'=>5]); // estado anulado en MATERIAL
         $certificacion->update(['estado'=>2]); //estado anulado en CERTIFICACION
         $this->emitTo('administracion-certificaciones','render');

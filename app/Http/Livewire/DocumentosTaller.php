@@ -29,7 +29,7 @@ class DocumentosTaller extends Component
     protected $listeners=["eliminar"=>"delete","resetTaller"=>"refrescaTaller"];
 
     public function mount(){
-        $this->taller=Taller::find($this->idTaller);
+       $this->taller=Taller::find($this->idTaller);        
     }
 
     public function render()
